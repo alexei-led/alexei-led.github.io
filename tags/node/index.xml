@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Node on Terra Nullius</title>
+    <link>http://blog.terranillius.com/tags/node/</link>
+    <description>Recent content in Node on Terra Nullius</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>This work is licensed under a Creative Commons Attribution 4.0 International License</copyright>
+    <lastBuildDate>Sat, 03 Jun 2017 18:00:00 +0200</lastBuildDate>
+    
+	<atom:link href="http://blog.terranillius.com/tags/node/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Debugging remote Node.js application running in a Docker container</title>
+      <link>http://blog.terranillius.com/post/debug_node_in_docker/</link>
+      <pubDate>Sat, 03 Jun 2017 18:00:00 +0200</pubDate>
+      
+      <guid>http://blog.terranillius.com/post/debug_node_in_docker/</guid>
+      <description>Teaser Suppose you want to debug a Node.js application already running on a remote machine inside Docker container. And would like to do it without modifying command arguments (enabling debug mode) and opening remote Node.js debugger agent port to the whole world.
+I bet you didn&amp;rsquo;t know that it&amp;rsquo;s possible and also have no idea how to do it.
+I encourage you to continue reading this post if you are eager to learn some new cool stuff.</description>
+    </item>
+    
+    <item>
+      <title>Create lean Node.js image with Docker multi-stage build</title>
+      <link>http://blog.terranillius.com/post/node_docker_multistage/</link>
+      <pubDate>Tue, 25 Apr 2017 18:00:00 +0200</pubDate>
+      
+      <guid>http://blog.terranillius.com/post/node_docker_multistage/</guid>
+      <description>TL;DR Starting from Docker 17.05+, you can create a single Dockerfile that can build multiple helper images with compilers, tools, and tests and use files from above images to produce the final Docker image.
+The &amp;ldquo;core principle&amp;rdquo; of Dockerfile Docker can build images by reading the instructions from a Dockerfile. A Dockerfile is a text file that contains a list of all the commands needed to build a new Docker image.</description>
+    </item>
+    
+  </channel>
+</rss>

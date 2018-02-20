@@ -1,0 +1,864 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Docker &middot; Terra Nullius</title>
+
+    <meta name="description" content="The Programming Blog">
+
+    <meta name="generator" content="Hugo 0.36.1" />
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="alexeiled" />
+    <meta name="twitter:title" content="Docker &middot; Terra Nullius">
+    <meta name="twitter:description" content="The Programming Blog">
+
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Docker &middot; Terra Nullius">
+    <meta property="og:description" content="The Programming Blog">
+
+    <link href='//fonts.googleapis.com/css?family=Source+Sans+Pro:400,700|Oxygen:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/pure-min.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/grids-responsive-min.css">
+
+    <link rel="stylesheet" href="http://blog.terranillius.com/css/all.min.css">
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+
+    <link rel="alternate" type="application/rss+xml" title="Terra Nullius" href="http://blog.terranillius.com/index.xml" />
+    <link rel="canonical" href="">
+</head>
+<body>
+
+
+<div id="layout" class="pure-g">
+    <div class="sidebar pure-u-1 pure-u-md-1-4">
+    <div class="header">
+        <hgroup>
+            <h1 class="brand-title"><a href="http://blog.terranillius.com">Terra Nullius</a></h1>
+            <h2 class="brand-tagline"> The Programming Blog </h2>
+        </hgroup>
+
+        <nav class="nav">
+            <ul class="nav-list">
+                
+                <li class="nav-item">
+                    <a class="pure-button" href="https://twitter.com/alexeiled"><i class="fa fa-twitter"></i> Twitter</a>
+                </li>
+                
+                
+                <li class="nav-item">
+                    <a class="pure-button" href="https://github.com/alexei-led "><i class="fa fa-github-alt"></i> github</a>
+                </li>
+                
+                <li class="nav-item">
+                    <a class="pure-button" href="http://blog.terranillius.com/index.xml"><i class="fa fa-rss"></i> rss</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</div>
+
+
+    <div class="content pure-u-1 pure-u-md-3-4">
+        <div>
+            
+            <div class="posts">
+                
+                <h1 class="content-subhead">16 Apr 2016, 20:00</h1>
+                <section class="post">
+                    <header class="post-header">
+
+                        <a href="http://blog.terranillius.com/post/pumba_docker_chaos_testing/" class="post-title">Pumba - Chaos Testing for Docker</a>
+
+                        <p class="post-meta">
+                            
+                            
+                                under 
+                                
+                                <a class="post-category post-category-Development" href="http://blog.terranillius.com/categories/development">Development</a>
+                            
+                        </p>
+                    </header>
+
+                    <div class="post-description">
+                        
+
+<p><strong>Update (27-07-27):</strong> Updated post to latest <code>v0.2.0</code> Pumba version change.</p>
+
+<h2 id="introduction">Introduction</h2>
+
+<p>The best defense against unexpected failures is to build resilient services. Testing for resiliency enables the teams to learn where their apps fail before the customer does. By intentionally causing failures as part of resiliency testing, you can enforce your policy for building resilient systems.
+Resilience of the system can be defined as its ability to continue functioning even if some components of the system are failing - <a href="https://en.wikipedia.org/wiki/Ephemerality">ephemerality</a>. Growing popularity of distributed and microservice architecture makes resilience testing critical for applications that now require 24x7x365 operation.
+Resilience testing is an approach where you intentionally inject different types of failures at the infrastructure level (VM, network, containers, and processes) and let the system try to recover from these unexpected failures that can happen in production. Simulating realistic failures at any time is the best way to enforce highly available and resilient systems.</p>
+
+<h2 id="what-is-pumba">What is Pumba?</h2>
+
+<p><img src="http://blog.terranillius.com/img/pumba_docker.png" alt="Pumba" /></p>
+
+<p>First of all, <a href="https://en.wikipedia.org/wiki/Timon_and_Pumbaa">Pumba</a> (or Pumbaa) is a supporting character from Disney&rsquo;s animated film <em>The Lion King</em>. In Swahili, <em>pumbaa</em> means &ldquo;to be foolish, silly, weak-minded, careless, negligent&rdquo;. This reflects the unexpected behavior of the application.</p>
+
+<p>Pumba is inspired by highly popular <a href="https://github.com/Netflix/SimianArmy/wiki/Chaos-Monkey">Netfix Chaos Monkey</a> resilience testing tool for AWS cloud. Pumba takes a similar approach but applies it at the container level. It connects to the Docker daemon running on some machine (local or remote) and brings a level of chaos to it: &ldquo;randomly&rdquo; killing, stopping, and removing running containers.</p>
+
+<p>If your system is designed to be resilient, it should be able to recover from such failures. &ldquo;Failed&rdquo; services should be restarted and lost connections should be recovered. This is not as trivial as it sounds. You need to design your services differently. Be aware that a service can fail (for whatever reason) or service it depends on can disappear at any point of time (but can reappear later). Expect the unexpected!</p>
+
+<h2 id="why-run-pumba">Why run Pumba?</h2>
+
+<p>Failures happen and they inevitably happen when least desired. If your application cannot recover from system failures, you are going to face angry customers and maybe even loose them. If you want to be sure that your system is able to recover from unexpected failures, it would be better to take charge of them and inject failures yourself instead of waiting till they happen. This is not a one time effort. In age of Continuous Delivery, you need to be sure that every change to any one of system services, does not compromise system availability. That&rsquo;s why you should practice <strong>continuous resilience testing</strong>.
+With Docker gaining popularity as people are deploying and running clusters of containers in production. Using a container orchestration network (e.g. Kubernetes, Swarm, CoreOS fleet), it&rsquo;s possible to restart a &ldquo;failed&rdquo; container automatically. How can you be sure that restarted services and other system services can properly recover from failures? If you are not using container orchestration frameworks, life is even harder: you will need to handle container restarts by yourself.</p>
+
+<p>This is where Pumba shines. You can run it on every Docker host, in your cluster, and Pumba will &ldquo;randomly&rdquo; stop running containers - matching specified name/s or name patterns. You can even specify the <em>signal</em> that will be sent to &ldquo;kill&rdquo; the container.</p>
+
+<h2 id="what-pumba-can-do">What Pumba can do?</h2>
+
+<p>Pumba can create different failures for your running Docker containers. Pumba can kill, stop or remove running containers. It can also pause all processes withing running container for specified period of time.
+Pumba can also do network emulation, simulating different network failures, like: delay, packet loss/corruption/reorder, bandwidth limits and more.
+<em>Disclaimer:</em> <code>netem</code> command is under development and only <code>delay</code> command is supported in Pumba <code>v0.2.0</code>.</p>
+
+<p>You can pass list of containers to Pumba or just write a regular expression to select matching containers. If you will not specify containers, Pumba will try to disturb all running containers. Use <code>--random</code> option, to randomly select only one target container from provided list.</p>
+
+<h2 id="how-to-run-pumba">How to run Pumba?</h2>
+
+<p>There are two ways to run Pumba.</p>
+
+<p>First, you can download Pumba application (single binary file) for your OS from project <a href="https://github.com/gaia-adm/pumba/releases">release page</a> and run <code>pumba help</code> to see list of supported commands and options.</p>
+
+<pre><code>$ pumba help
+
+Pumba version v0.2.0
+NAME:
+   Pumba - Pumba is a resilience testing tool, that helps applications tolerate random Docker container failures: process, network and performance.
+
+USAGE:
+   pumba [global options] command [command options] containers (name, list of names, RE2 regex)
+
+VERSION:
+   v0.2.0
+
+COMMANDS:
+     kill     kill specified containers
+     netem    emulate the properties of wide area networks
+     pause    pause all processes
+     stop     stop containers
+     rm       remove containers
+     help, h  Shows a list of commands or help for one command
+
+GLOBAL OPTIONS:
+   --host value, -H value      daemon socket to connect to (default: &quot;unix:///var/run/docker.sock&quot;) [$DOCKER_HOST]
+   --tls                       use TLS; implied by --tlsverify
+   --tlsverify                 use TLS and verify the remote [$DOCKER_TLS_VERIFY]
+   --tlscacert value           trust certs signed only by this CA (default: &quot;/etc/ssl/docker/ca.pem&quot;)
+   --tlscert value             client certificate for TLS authentication (default: &quot;/etc/ssl/docker/cert.pem&quot;)
+   --tlskey value              client key for TLS authentication (default: &quot;/etc/ssl/docker/key.pem&quot;)
+   --debug                     enable debug mode with verbose logging
+   --json                      produce log in JSON format: Logstash and Splunk friendly
+   --slackhook value           web hook url; send Pumba log events to Slack
+   --slackchannel value        Slack channel (default #pumba) (default: &quot;#pumba&quot;)
+   --interval value, -i value  recurrent interval for chaos command; use with optional unit suffix: 'ms/s/m/h'
+   --random, -r                randomly select single matching container from list of target containers
+   --dry                       dry runl does not create chaos, only logs planned chaos commands
+   --help, -h                  show help
+   --version, -v               print the version
+</code></pre>
+
+<h3 id="kill-container-command">Kill Container command</h3>
+
+<pre><code>$ pumba kill -h
+
+NAME:
+   pumba kill - kill specified containers
+
+USAGE:
+   pumba kill [command options] containers (name, list of names, RE2 regex)
+
+DESCRIPTION:
+   send termination signal to the main process inside target container(s)
+
+OPTIONS:
+   --signal value, -s value  termination signal, that will be sent by Pumba to the main process inside target container(s) (default: &quot;SIGKILL&quot;)
+</code></pre>
+
+<h3 id="pause-container-command">Pause Container command</h3>
+
+<pre><code>$ pumba pause -h
+
+NAME:
+   pumba pause - pause all processes
+
+USAGE:
+   pumba pause [command options] containers (name, list of names, RE2 regex)
+
+DESCRIPTION:
+   pause all running processes within target containers
+
+OPTIONS:
+   --duration value, -d value  pause duration: should be smaller than recurrent interval; use with optional unit suffix: 'ms/s/m/h'
+</code></pre>
+
+<h3 id="stop-container-command">Stop Container command</h3>
+
+<pre><code>$ pumba stop -h
+NAME:
+   pumba stop - stop containers
+
+USAGE:
+   pumba stop [command options] containers (name, list of names, RE2 regex)
+
+DESCRIPTION:
+   stop the main process inside target containers, sending  SIGTERM, and then SIGKILL after a grace period
+
+OPTIONS:
+   --time value, -t value  seconds to wait for stop before killing container (default 10) (default: 10)
+</code></pre>
+
+<h3 id="remove-rm-container-command">Remove (rm) Container command</h3>
+
+<pre><code>$ pumba rm -h
+
+NAME:
+   pumba rm - remove containers
+
+USAGE:
+   pumba rm [command options] containers (name, list of names, RE2 regex)
+
+DESCRIPTION:
+   remove target containers, with links and voluems
+
+OPTIONS:
+   --force, -f    force the removal of a running container (with SIGKILL)
+   --links, -l    remove container links
+   --volumes, -v  remove volumes associated with the container
+</code></pre>
+
+<h3 id="network-emulation-netem-command">Network Emulation (netem) command</h3>
+
+<pre><code>$ pumba netem -h
+
+NAME:
+   Pumba netem - delay, loss, duplicate and re-order (run 'netem') packets, to emulate different network problems
+
+USAGE:
+   Pumba netem command [command options] [arguments...]
+
+COMMANDS:
+     delay      dealy egress traffic
+     loss
+     duplicate
+     corrupt
+
+OPTIONS:
+   --duration value, -d value   network emulation duration; should be smaller than recurrent interval; use with optional unit suffix: 'ms/s/m/h'
+   --interface value, -i value  network interface to apply delay on (default: &quot;eth0&quot;)
+   --target value, -t value     target IP filter; netem will impact only on traffic to target IP
+   --help, -h                   show help
+
+NAME:
+   Pumba netem - delay, loss, duplicate and re-order (run 'netem') packets, to emulate different network problems
+
+USAGE:
+   Pumba netem command [command options] [arguments...]
+
+COMMANDS:
+     delay      dealy egress traffic
+     loss       TODO: planned to implement ...
+     duplicate  TODO: planned to implement ...
+     corrupt    TODO: planned to implement ...
+
+OPTIONS:
+   --duration value, -d value   network emulation duration; should be smaller than recurrent interval; use with optional unit suffix: 'ms/s/m/h'
+   --interface value, -i value  network interface to apply delay on (default: &quot;eth0&quot;)
+   --target value, -t value     target IP filter; netem will impact only on traffic to target IP
+   --help, -h                   show help
+</code></pre>
+
+<h4 id="network-emulation-delay-sub-command">Network Emulation Delay sub-command</h4>
+
+<pre><code>$ pumba netem delay -h
+
+NAME:
+   Pumba netem delay - dealy egress traffic
+
+USAGE:
+   Pumba netem delay [command options] containers (name, list of names, RE2 regex)
+
+DESCRIPTION:
+   dealy egress traffic for specified containers; networks show variability so it is possible to add random variation; delay variation isn't purely random, so to emulate that there is a correlation
+
+OPTIONS:
+   --amount value, -a value       delay amount; in milliseconds (default: 100)
+   --variation value, -v value    random delay variation; in milliseconds; example: 100ms ± 10ms (default: 10)
+   --correlation value, -c value  delay correlation; in percents (default: 20)
+</code></pre>
+
+<h4 id="examples">Examples</h4>
+
+<pre><code># stop random container once in a 10 minutes
+$ ./pumba --random --interval 10m kill --signal SIGSTOP
+</code></pre>
+
+<pre><code># every 15 minutes kill `mysql` container and every hour remove containers starting with &quot;hp&quot;
+$ ./pumba --interval 15m kill --signal SIGTERM mysql &amp;
+$ ./pumba --interval 1h rm re2:^hp &amp;
+</code></pre>
+
+<pre><code># every 30 seconds kill &quot;worker1&quot; and &quot;worker2&quot; containers and every 3 minutes stop &quot;queue&quot; container
+$ ./pumba --interval 30s kill --signal SIGKILL worker1 worker2 &amp;
+$ ./pumba --interval 3m stop queue &amp;
+</code></pre>
+
+<pre><code># Once in 5 minutes, Pumba will delay for 2 seconds (2000ms) egress traffic for some (randomly chosen) container,
+# named `result...` (matching `^result` regexp) on `eth2` network interface.
+# Pumba will restore normal connectivity after 2 minutes. Print debug trace to STDOUT too.
+$ ./pumba --debug --interval 5m --random netem --duration 2m --interface eth2 delay --amount 2000 re2:^result
+</code></pre>
+
+<h3 id="running-pumba-in-docker-container">Running Pumba in Docker Container</h3>
+
+<p>The second approach to run it in a Docker container.</p>
+
+<p>In order to give Pumba access to Docker daemon on host machine, you will need to mount <code>var/run/docker.sock</code> unix socket.</p>
+
+<pre><code># run latest stable Pumba docker image (from master repository)
+$ docker run -d -v /var/run/docker.sock:/var/run/docker.sock gaiaadm/pumba:master pumba kill --interval 10s --signal SIGTERM ^hp
+</code></pre>
+
+<p>Pumba will not kill its own container.</p>
+
+<p>Note: For Mac OSX - before you run Pumba, you may want to do the following after downloading the <a href="https://github.com/gaia-adm/pumba/releases">pumba_darwin_amd64</a> binary:</p>
+
+<pre><code>chmod +x pumba_darwin_amd64
+mv pumba_darwin_amd64 /usr/local/bin/pumba
+pumba
+</code></pre>
+
+<h3 id="next">Next</h3>
+
+<p>The Pumba project is available for you to try out. We will gladly accept ideas, pull requests, issues, and contributions to the project.</p>
+
+<p><a href="https://github.com/gaia-adm/pumba">Pumba GitHub Repository</a></p>
+
+                    </div>
+                </section>
+                
+                <h1 class="content-subhead">07 Mar 2016, 16:39</h1>
+                <section class="post">
+                    <header class="post-header">
+
+                        <a href="http://blog.terranillius.com/post/docker_testing/" class="post-title">Testing Strategies for Docker Containers</a>
+
+                        <p class="post-meta">
+                            
+                            
+                                under 
+                                
+                                <a class="post-category post-category-Development" href="http://blog.terranillius.com/categories/development">Development</a>
+                            
+                        </p>
+                    </header>
+
+                    <div class="post-description">
+                        
+
+<p>Congratulations! You know how to build a Docker image and are able to compose multiple containers into a meaningful application. Hopefully, you&rsquo;ve already created a Continuous Delivery pipeline and know how to push your newly created image into production or testing environment.</p>
+
+<blockquote>
+<p>Now, the question is - <em>How do we test our Docker containers?</em></p>
+</blockquote>
+
+<p>There are multiple testing strategies we can apply. In this post, I&rsquo;ll highlight them presenting benefits and drawbacks for each.</p>
+
+<h2 id="the-naive-approach">The &ldquo;Naive&rdquo; approach</h2>
+
+<p>This is the default approach for most people. It relies on a CI server to do the job. When taking this approach, the developer is using Docker as a package manager, a better option than the <strong>jar/rpm/deb</strong> approach.
+The CI server compiles the application code and executes tests (unit, service, functional, and others). The build artifacts are reused in Docker <strong>build</strong> to produce a new image. This becomes a core deployment artifact. The produced image contains not only application &ldquo;binaries&rdquo;, but also a required runtime including all dependencies and application configuration.</p>
+
+<p>We are getting application portability, however, we are loosing the development and testing portability. We&rsquo;re not able to reproduce exactly the same development and testing environment outside the CI. To create a new test environment we&rsquo;ll need to setup the testing tools (correct versions and plugins), configure runtime and OS settings, and get the same versions of test scripts as well as perhaps, the test data.</p>
+
+<p><img src="http://blog.terranillius.com/img/naive.png" alt="The Naive Testing Strategy" /></p>
+
+<p>To resolve these problems leads us to the next one.</p>
+
+<h2 id="app-test-container-approach">App &amp; Test Container approach</h2>
+
+<p>Here, we try to create a single bundle with the application &ldquo;binaries&rdquo; including required packages, testing tools (specific versions), test tools plugins, test scripts, test environment with all required packages.</p>
+
+<p>The benefits of this approach:</p>
+
+<ul>
+<li>We have a repeatable test environment - we can run exactly the same tests using the same testing tools - in our CI, development, staging, or production environment</li>
+<li>We capture test scripts at a specific point in time so we can always reproduce them in any environment</li>
+<li>We do not need to setup and configure our testing tools - they are part of our image</li>
+</ul>
+
+<p>This approach has significant drawbacks:</p>
+
+<ul>
+<li>Increases the image size - because it contains testing tools, required packages, test scripts, and perhaps even test data</li>
+<li>Pollutes image runtime environment with test specific configuration and may even introduce an unneeded dependency (required by integration testing)</li>
+<li>We also need to decide what to do with the test results and logs; how and where to export them</li>
+</ul>
+
+<p>Here&rsquo;s a simplified <code>Dockerfile</code>. It illustrates this approach.</p>
+
+<pre><code class="language-dockerfile">FROM &quot;&lt;bases image&gt;&quot;:&quot;&lt;version&gt;&quot;
+
+WORKDIR &quot;&lt;path&gt;&quot;
+
+# install packages required to run app and tests
+RUN apt-get update &amp;&amp; apt-get install -y \
+    &quot;&lt;app runtime&gt; and &lt;dependencies&gt;&quot; \  # add app runtime and required packages
+    &quot;&lt;test tools&gt; and &lt;dependencies&gt;&quot; \     # add testing tools and required packages
+    &amp;&amp; rm -rf /var/lib/apt/lists/*
+
+# copy app files
+COPY app app
+COPY run.sh run.sh
+
+# copy test scripts
+COPY tests tests
+
+# copy &quot;main&quot; test command
+COPY test.sh test.sh
+
+# ... EXPOSE, RUN, ADD ... for app and test environment
+
+# main app command
+CMD [run.sh, &quot;&lt;app arguments&gt;&quot;]
+
+# it's not possible to have multiple CMD commands, but this is the &quot;main&quot; test command
+# CMD [/test.sh, &quot;&lt;test arguments&gt;&quot;]
+</code></pre>
+
+<p><a href="https://gist.github.com/alexei-led/cbb3d46fcf422a24aacd">Dockerfile</a></p>
+
+<p><img src="http://blog.terranillius.com/img/app_test.png" alt="App &amp; Test Container" /></p>
+
+<p>There has to be a better way for in-container testing and there is.</p>
+
+<h2 id="test-aware-container-approach">Test Aware Container Approach</h2>
+
+<p>Today, Docker&rsquo;s promise is <strong>&ldquo;Build -&gt; Ship -&gt; Run&rdquo;</strong> - build the image, ship it to some registry, and run it anywhere. IMHO there&rsquo;s a critical missing step - <strong>Test</strong>. The right and complete sequence should be <strong>:Build -&gt; Test -&gt; Ship -&gt; Run</strong>.</p>
+
+<p>Let&rsquo;s look at a &ldquo;test-friendly&rdquo; Dockerfile syntax and extensions to Docker commands. This important step could be supported natively. It&rsquo;s not a real syntax, but bear with me. I&rsquo;ll define the &ldquo;ideal&rdquo; version and show how to implement something that&rsquo;s very close.</p>
+
+<pre><code>ONTEST [INSTRUCTION]
+</code></pre>
+
+<p>Let&rsquo;s define a special <code>ONTEST</code> instruction, similar to existing <a href="https://docs.docker.com/engine/reference/builder/#onbuild"><code>ONBUILD</code></a> instruction. The <code>ONTEST</code> instruction adds a trigger instruction to the image to be executed at a later time when the image is tested. Any build instruction can be registered as a trigger.</p>
+
+<p>The <code>ONTEST</code> instruction should be recognized by a new <code>docker test</code> command.</p>
+
+<pre><code>docker test [OPTIONS] IMAGE [COMMAND] [ARG...]
+</code></pre>
+
+<p>The <code>docker test</code> command syntax will be similar to <code>docker run</code> command, with one significant difference: a new &ldquo;testable&rdquo; image will be automatically generated and even tagged with <code>&lt;image name&gt;:&lt;image tag&gt;-test</code> tag (&ldquo;test&rdquo; postfix added to the original image tag). This &ldquo;testable&rdquo; image will generated <code>FROM</code> the application image, executing all build instructions, defined after <code>ONTEST</code> command and executing <code>ONTEST CMD</code> (or <code>ONTEST ENTRYPOINT</code>).
+The <code>docker test</code> command should return a non-zero code if any tests fail. The test results should be written into an automatically generated <code>VOLUME</code> that points to <code>/var/tests/results</code> folder.</p>
+
+<p>Let&rsquo;s look at a modified <code>Dockerfile</code> below - it includes the new proposed <code>ONTEST</code> instruction.</p>
+
+<pre><code class="language-dockerfile">FROM &quot;&lt;base image&gt;&quot;:&quot;&lt;version&gt;&quot;
+
+WORKDIR &quot;&lt;path&gt;&quot;
+
+# install packages required to run app
+RUN apt-get update &amp;&amp; apt-get install -y \
+    &quot;&lt;app runtime&gt; and &lt;dependencies&gt;&quot; \  # add app runtime and required packages
+    &amp;&amp; rm -rf /var/lib/apt/lists/*
+
+# install packages required to run tests   
+ONTEST RUN apt-get update &amp;&amp; apt-get install -y \
+           &quot;&lt;test tools&gt; and &lt;dependencies&gt;&quot;    \     # add testing tools and required packages
+           &amp;&amp; rm -rf /var/lib/apt/lists/*
+
+# copy app files
+COPY app app
+COPY run.sh run.sh
+
+# copy test scripts
+ONTEST COPY tests tests
+
+# copy &quot;main&quot; test command
+ONTEST COPY test.sh test.sh
+
+# auto-generated volume for test results
+# ONTEST VOLUME &quot;/var/tests/results&quot;
+
+# ... EXPOSE, RUN, ADD ... for app and test environment
+
+# main app command
+CMD [run.sh, &quot;&lt;app arguments&gt;&quot;]
+
+# main test command
+ONTEST CMD [/test.sh, &quot;&lt;test arguments&gt;&quot;]
+</code></pre>
+
+<p><a href="https://gist.github.com/alexei-led/4f39cca8a03b1503978a">Dockerfile</a></p>
+
+<p><img src="http://blog.terranillius.com/img/test_aware.png" alt="Test Aware Container" /></p>
+
+<h3 id="making-test-aware-container-real">Making &ldquo;Test Aware Container&rdquo; Real</h3>
+
+<p>We believe Docker should make <code>docker-test</code> part of the container management lifecycle. There is a need to have a simple working solution today and I&rsquo;ll describe one that&rsquo;s very close to the ideal state.</p>
+
+<p>As mentioned before, Docker has a very useful <code>ONBUILD</code> instruction. This instruction allows us to trigger another build instruction on succeeding builds. The basic idea is to use <code>ONBUILD</code> instruction when running <code>docker-test</code> command.</p>
+
+<p>The flow executed by <code>docker-test</code> command:</p>
+
+<ol>
+<li><code>docker-test</code> will search for <code>ONBUILD</code> instructions in application <code>Dockerfile</code> and will &hellip;</li>
+<li>generate a temporary <code>Dockerfile.test</code> from original <code>Dockerfile</code></li>
+<li>execute <code>docker build -f Dockerfile.test [OPTIONS] PATH</code> with additional options supported by <code>docker build</code> command: <code>-test</code> that will be automatically appended to <code>tag</code> option</li>
+<li>If build is successful, execute <code>docker run -v ./tests/results:/var/tests/results [OPTIONS] IMAGE:TAG-test [COMMAND] [ARG...]</code></li>
+<li>Remove <code>Dockerfile.test</code> file</li>
+</ol>
+
+<p>Why not create a new <code>Dockerfile.test</code> without requiring the <code>ONBUILD</code> instruction?</p>
+
+<p>Because in order to test right image (and tag) we&rsquo;ll need to keep <code>FROM</code> always updated to <strong>image:tag</strong> that we want to test. This is not trivial.</p>
+
+<p>There is a limitation in the described approach - it&rsquo;s not suitable for &ldquo;onbuild&rdquo; images (images used to automatically build your app), like <a href="https://hub.docker.com/_/maven/">Maven:onbuild</a></p>
+
+<p>Let&rsquo;s look at a simple implementation of <code>docker-test</code> command. It highlights the concept: the <code>docker-test</code> command should be able to handle <code>build</code> and <code>run</code> command options and be able to handle errors properly.</p>
+
+<pre><code class="language-sh">#!/bin/bash
+image=&quot;app&quot;
+tag=&quot;latest&quot;
+
+echo &quot;FROM ${image}:${tag}&quot; &gt; Dockerfile.test &amp;&amp;
+docker build -t &quot;${image}:${tag}-test&quot; -f Dockerfile.test . &amp;&amp;
+docker run -it --rm -v $(pwd)/tests/results:/var/tests/results &quot;${image}:${tag}-test&quot; &amp;&amp;
+rm Dockerfile.test
+</code></pre>
+
+<p>Let&rsquo;s focus on the most interesting and relevant part.</p>
+
+<h2 id="integration-test-container">Integration Test Container</h2>
+
+<p>Let&rsquo;s say we have an application built from tens or hundreds of microservices. Let&rsquo;s say we have an automated CI/CD pipeline, where each microservice is built and tested by our CI and deployed into some environment (testing, staging or production) after the build and tests pass. Pretty cool, eh?
+Our CI tests are capable of testing each microservice in isolation - running unit and service tests (or API contract tests). Maybe even micro-integration tests - tests run on subsystem are created in ad-hoc manner (for example with <code>docker compose</code> help).</p>
+
+<p>This leads to some issues that we need to address:</p>
+
+<ul>
+<li>What about real integration tests or long running tests (like performance and stress)?</li>
+<li>What about resilience tests (&ldquo;chaos monkey&rdquo; like tests)?</li>
+<li>Security scans?</li>
+<li>What about test and scan activities that take time and should be run on a fully operational system?</li>
+</ul>
+
+<p>There should be a better way than just dropping a new microservice version into production and tightly monitoring it for a while.</p>
+
+<p>There should be a special <strong>Integration Test Container</strong>. These containers will contain only testing tools and test artifacts: test scripts, test data, test environment configuration, etc. To simplify orchestration and automation of such containers, we should define and follow some conventions and use metadata labels (Dockerfile <code>LABEL</code> instruction).</p>
+
+<h3 id="integration-test-labels">Integration Test Labels</h3>
+
+<ul>
+<li><strong>test.type</strong> - test type; default <code>integration</code>; can be one of: <code>integration</code>, <code>performance</code>, <code>security</code>, <code>chaos</code> or any text; presence of this label states that this is an <strong>Integration Test Container</strong></li>
+<li><strong>test.results</strong> - <code>VOLUME</code> for test results; default <code>/var/tests/results</code></li>
+<li><strong>test.XXX</strong> - any other test related metadata; just use <strong>test.</strong> prefix for label name</li>
+</ul>
+
+<h3 id="integration-test-container-1">Integration Test Container</h3>
+
+<p>The <strong>Integration Test Container</strong> is just a regular Docker container. Tt does not contain any application logic and code. Its sole purpose is to create repeatable and portable testing. Recommended content of the <strong>Integration Test Container</strong>:</p>
+
+<ul>
+<li><em>The Testing Tool</em> - Phantom.js, Selenium, Chakram, Gatling, &hellip;</li>
+<li><em>Testing Tool Runtime</em> - Node.js, JVM, Python, Ruby, &hellip;</li>
+<li><em>Test Environment Configuration</em> - environment variables, config files, bootstrap scripts, &hellip;</li>
+<li><em>Tests</em> - as compiled packages or script files</li>
+<li><em>Test Data</em> - any kind of data files, used by tests: json, csv, txt, xml, &hellip;</li>
+<li><em>Test Startup Script</em> - some &ldquo;main&rdquo; startup script to run tests; just create <code>test.sh</code> and launch the testing tool from it.</li>
+</ul>
+
+<p><strong>Integration Test Containers</strong> should run in an operational environment where all microservices are deployed: testing, staging or production. These containers can be deployed exactly as all other services. They use same network layer and thus can access multiple services; using selected service discovery method (usually DNS). Accessing multiple services is required for real integration testing - we need to simulate and validate how our system is working in multiple places. Keeping integration tests inside some application service container not only increases the container footprint but also creates an unneeded dependency between multiple services. We keep all these dependencies at the level of the <strong>Integration Test Container</strong>. Once our tests (and testing tools) are packaged inside the container, we can always rerun the same tests on any environment including the developer machine. You can always go back in time and rerun a specific version of <strong>Integration Test Container</strong>.</p>
+
+<p><img src="http://blog.terranillius.com/img/int_test.png" alt="Integration Test Container" /></p>
+
+<p>WDYT? Your feedback, particularly on standardizing the <code>docker-test</code> command, is greatly appreciated.</p>
+
+                    </div>
+                </section>
+                
+                <h1 class="content-subhead">14 Jan 2016, 16:14</h1>
+                <section class="post">
+                    <header class="post-header">
+
+                        <a href="http://blog.terranillius.com/post/docker_builder_pattern/" class="post-title">Docker Pattern: The Build Container</a>
+
+                        <p class="post-meta">
+                            
+                            
+                                under 
+                                
+                                <a class="post-category post-category-Development" href="http://blog.terranillius.com/categories/development">Development</a>
+                            
+                        </p>
+                    </header>
+
+                    <div class="post-description">
+                        
+
+<p>Let&rsquo;s say that you&rsquo;re developing a microservice in a compiled language or an interpreted language that requires some additional “build” steps to package and lint your application code. This is a useful docker pattern for the &ldquo;build&rdquo; container.</p>
+
+<p>In our project, we&rsquo;re using Docker as our main deployment package: every microservice is delivered as a Docker image. Each microservice also has it’s own code repository (GitHub), and its own CI build job.</p>
+
+<p>Some of our services are written in Java. Java code requires additional tooling and processes before you get working code. This tooling and all associated packages are depended from and not required when a compiled program is running.</p>
+
+<p>We have been trying to develop a repeatable process and uniform environment for deploying our services. We believe it’s good to package Java tools and packages into containers too. It allows us to build a Java-based microservice on any machine, including CI, without any specific environment requirements: JDK version, profiling and testing tools, OS, Maven, environment variables, etc.</p>
+
+<p>For every service, we have two(2) Dockerfiles: one for service runtime and the second packed with tools required to build the service. We usually name these files as <code>Dockerfile</code> and <code>Dockerfile.build</code>. We are using <code>-f, --file=&quot;&quot;</code> flag to specify Dockerfile file name for <code>docker build</code> command.</p>
+
+<p>Here is our <code>Dockerfile.build</code> file:</p>
+
+<pre><code class="language-sh">FROM maven:3.3.3-jdk-8
+
+ENV GAIA_HOME=/usr/local/gaia/
+
+RUN mkdir -p $GAIA_HOME
+WORKDIR $GAIA_HOME
+
+# speed up maven build, read https://keyholesoftware.com/2015/01/05/caching-for-maven-docker-builds/
+# selectively add the POM file
+ADD pom.xml $GAIA_HOME
+
+# get all the downloads out of the way
+RUN [&quot;mvn&quot;,&quot;verify&quot;,&quot;clean&quot;,&quot;--fail-never&quot;]
+
+# add source
+ADD . $GAIA_HOME
+
+# run maven verify
+RUN [&quot;mvn&quot;,&quot;verify&quot;]
+</code></pre>
+
+<p>As you can see, it’s a simple file with one little trick to speed up our Maven build.</p>
+
+<p>Now, we have all the tools required to compile our service. We can run this Docker container on any machine without requiring to have JDK installed. We can run the same Docker container on a developer&rsquo;s laptop and on our CI server.</p>
+
+<p>This trick greatly simplifies our CI process - we no longer require our CI to support any specific compiler, version, or tool. All we need is the Docker engine. Everything else, we bring ourselves.</p>
+
+<blockquote>
+<p>BYOT - Bring Your Own Tooling! :-)</p>
+</blockquote>
+
+<p>In order to compile the service code, we need to build and run the <strong>builder</strong> container.</p>
+
+<pre><code class="language-sh">docker build -t build-img -f Dockerfile.build
+docker create --name build-cont build-img
+</code></pre>
+
+<p>Once we’ve built the image and created a new container from this image, we have our service compiled inside the container. The only remaining task is to extract build artifacts from the container. We could use Docker volumes - this is one possible option. Actually, we like that the image we’ve created, contains all the tools and build artifacts inside it. It allows us to get any build artifacts from this image at anytime, just by creating a new container from it.</p>
+
+<p>To extract our build artifacts, we are using <code>docker cp</code> command. This command copies files from the container to the local file system.</p>
+
+<p>Here is how we are using this command:</p>
+
+<pre><code class="language-sh">docker cp build-cont:/usr/local/gaia/target/mgs.war ./target/mgs.war
+</code></pre>
+
+<p>As a result, we have a compiled service code, packaged into single WAR file. We get exactly the same WAR file on any machine just by running our <strong>builder</strong> container, or by rebuilding the <strong>builder</strong> container against the same code commit (using Git tag or specific commit ID) on any machine.</p>
+
+<p>We can now create a Docker image with our service and required runtime, which is usually some version of JRE and servlet container.</p>
+
+<p>Here is our <code>Dockerfile</code> for the service. It&rsquo;s an image with Jetty JRE8 and our service WAR file.</p>
+
+<pre><code class="language-sh">FROM jetty:9.3.0-jre8
+
+RUN mkdir -p /home/jetty &amp;&amp; chown jetty:jetty /home/jetty
+
+COPY ./target/*.war $JETTY_BASE/webapps/
+</code></pre>
+
+<p>By running <code>docker build .</code>, we have a new image with our newly “built” service.</p>
+
+<h2 id="the-recipe">The Recipe:</h2>
+
+<ul>
+<li>Have one <code>Dockerfile</code> with all tools and packages required to build your service. Name it <code>Dockerfile.build</code> or give it a name you like.</li>
+<li>Have another <code>Dockerfile</code> with all packages required to run your service.</li>
+<li>Keep both files with your service code.</li>
+<li>Build a new <strong>builder</strong> image, create a container from it and extract build artifacts, using volumes or <code>docker cp</code> command.</li>
+<li>Build the service image.</li>
+<li>That&rsquo;s all folks!</li>
+</ul>
+
+<h2 id="summary">Summary</h2>
+
+<p>In our case, Java-based service, the difference between <strong>builder</strong> container and service container is huge. Java JDK is much bigger package than JRE: it also requires all X Window packages installed inside your container. For the runtime, you can have a slim image with your service code, JRE, and some basic Linux packages, or even start from <code>scratch</code>.</p>
+
+                    </div>
+                </section>
+                
+                <h1 class="content-subhead">30 Dec 2015, 11:09</h1>
+                <section class="post">
+                    <header class="post-header">
+
+                        <a href="http://blog.terranillius.com/post/docker_cd_cluster/" class="post-title">Docker Pattern: Deploy and update dockerized application on cluster</a>
+
+                        <p class="post-meta">
+                            
+                            
+                                under 
+                                
+                                <a class="post-category post-category-Development" href="http://blog.terranillius.com/categories/development">Development</a>
+                            
+                        </p>
+                    </header>
+
+                    <div class="post-description">
+                        
+
+<p>Docker is great technology that simplifies development and deployment of distributed applications.</p>
+
+<p>While Docker serves as a core technology, many issues remain to be solved. We find ourselves struggling with some of these issues. For example:</p>
+
+<ul>
+<li>How to create an elastic Docker cluster?</li>
+<li>How to deploy and connect multiple containers together?</li>
+<li>How to build CI/CD process?</li>
+<li>How to register and discover system services and more?</li>
+</ul>
+
+<p>For most, there are open source projects, or services available from the community as well as commercially, including from Docker, Inc.</p>
+
+<p>In this post, I would like to address one such problem:</p>
+
+<h3 id="how-to-automate-continuous-delivery-for-a-docker-cluster">How to automate Continuous Delivery for a Docker cluster?</h3>
+
+<p>In our application, every service is packaged as a Docker image. Docker image is our basic deployment unit. In a runtime environment (production, testing and others), we may have multiple containers, created from this image. For each service, we have a separate Git repository and one or more Dockerfile(s). We use this for building, testing, and packaging - will explain our project structure in the next blog post.</p>
+
+<p>We&rsquo;ve setup an automated Continuous Integration(CI) process. We use CircleCI. For every push to some branch for the service in a Git repository, the CI service triggers a new Docker build process and creates a new Docker image for the service. As part of the build process, if everything compiles and all unit and component tests pass, we push a newly created Docker image to our DockerHub repository.</p>
+
+<p>At the end of CI process, we have a newly tested and ‘kosher’ Docker image in our DockerHub repository. Very nice indeed! However, we are left with several questions:</p>
+
+<ul>
+<li>How to perform a rolling update of a modified service?</li>
+<li>What is the target environment (i.e. some Docker cluster)?</li>
+<li>How to find the ip of a dynamically created CoreOS host (we use AWS auto-scale groups)?</li>
+<li>How to connect to it in a secure way without the need to expose the SSH keys or cloud credentials (we use AWS for infrastructure)?</li>
+</ul>
+
+<p>Our application runs on a CoreOS cluster. We have automation scripts that creates the CoreOS cluster on multiple environments: developer machine, AWS, or some VM infrustructure. When we have a new service version (i.e. Docker image), we need to find a way to deploy this service to the cluster. CoreOS uses <strong>fleet</strong> for cluster orchestration. <strong>Fleetctl</strong> is a command line client that can talk with the <strong>fleet</strong> backend and allows you to manage the CoreOS cluster. However, this only works in a local environment (machine or network). For some commands, <strong>fleetctl</strong> uses HTTP API and for others an SSH connection. The HTTP API is not protected so it makes no sense to expose it from your cloud environment. The SSH connection does not work when your architecture assumes there is no direct SSH connection to the cluster. Connecting through some SSH bastion machine, requiring the use of multiple SSH keys, and creating SSH configuration files, are not supported by the <strong>fleetctl</strong> program. I have no desire to store SSH keys or my cloud credentials for my production environment on any CI server due to security concerns.</p>
+
+<h3 id="so-what-do-we-do">So, what do we do?</h3>
+
+<p>First, we want to deploy a new service or update some service when there is a new Docker image or image version available. We also want to be selective and pick images created from code in a specific branch or even specific build.</p>
+
+<p>The basic idea is to create a Docker image that captures the system configuration. This image stores the configuration of all services at a specific point in time and from specific branches. The container created from this image should be run from within the target cluster. Besides captured configuration, we also have the deployment tool (<strong>fleetctl</strong> in our case), plus some code that detects services which need to be updated, deleted, or installed as a new service.</p>
+
+<p>This idea leads to another question:</p>
+
+<h3 id="how-do-you-define-and-capture-system-configuration">How do you define and capture system configuration?</h3>
+
+<p>In CoreOS, every service can be described in <strong>systemd unit</strong> files. This is a plain text file that describes how and when to launch your service. I’m not going to explain how to write such files. There is a lot of info online. What&rsquo;s important in our case, the service systemd unit file contains a <code>docker run</code> command with parameters and image name that needs to be downloaded and executed. We keep the service systemd unit file in the same repository as the service code.</p>
+
+<p>The image name: usually defined as a <code>repository/image_name:tag</code> string. <strong>Tag</strong> is the most important thing in our solution. As explained above, our CI server automatically builds a new Docker image on every push of the service to the GitHub repository. The CI job also tags the newly created image with 2 tags:
+1. <code>branch</code> tag — taken from GitHub branch that triggered the build (<code>master</code>, <code>develop</code>, <code>feature-*</code> braches in our case)
+2. <code>build_num-branch</code> tag — where we add a running build number prefix, just before branch name
+As a result, in DockerHub, we have images for the latest build in any branch and also for every image we can identify the build job number and the branch it was created from.</p>
+
+<p>As I said before, we keep service systemd unit file in the same repository as code. This file <strong>does not</strong> contain an image tag, only the repository and image name. See example below:</p>
+
+<pre><code>ExecStart=/usr/bin/docker run —name myservice -p 3000:3000 myrepo/myservice
+</code></pre>
+
+<p>Our CI service build job generates a new service <strong>systemd</strong> unit file for every successful build, replacing the above service invocation command with one that also contains a new tag. Using <code>build_num-branch</code> pattern (<code>develop</code> branch in our example), we use two simple utilities for this job: <code>cat</code> and <code>sed</code>. It’s possible to use a more advanced template engine.</p>
+
+<pre><code>ExecStart=/usr/bin/docker run — name myservice -p 3000:3000 myrepo/myservice:58-develop
+</code></pre>
+
+<p>As a last step, the CI build job “deploys” this new unit file to the system configuration Git repository.</p>
+
+<pre><code>git commit -am “Updating myservice tag to ‘58-develop’” myservice.service
+git push origin develop
+</code></pre>
+
+<p>Another CI job that monitors changes in the system configuration repository will trigger a build and create a new Docker image that captures updated system configuration.</p>
+
+<p>All we need to do now is to execute this Docker image on the Docker cluster. Something like this:</p>
+
+<pre><code>docker run -it —-rm=true myrepo/mysysconfig:develop
+</code></pre>
+
+<p>Our <strong>system configuration</strong> Dockerfile:</p>
+
+<pre><code>FROM alpine:3.2
+MAINTAINER Alexei Ledenev &lt;alexei.led@gmail.com&gt;
+
+ENV FLEET_VERSION 0.11.5
+
+ENV gaia /home/gaia
+RUN mkdir -p ${gaia}
+
+WORKDIR ${gaia}
+COPY *.service ./
+COPY deploy.sh ./
+RUN chmod +x deploy.sh
+
+# install packages and fleetctl client
+RUN apk update &amp;&amp; \
+ apk add curl openssl bash &amp;&amp; \
+ rm -rf /var/cache/apk/* &amp;&amp; \
+ curl -L “https://github.com/coreos/fleet/releases/download/v${FLEET_VERSION}/fleet-v${FLEET_VERSION}-linux-amd64.tar.gz&quot; | tar xz &amp;&amp; \
+ mv fleet-v${FLEET_VERSION}-linux-amd64/fleetctl /usr/local/bin/ &amp;&amp; \
+ rm -rf fleet-v${FLEET_VERSION}-linux-amd64
+
+CMD [“/bin/bash”, “deploy.sh”]
+</code></pre>
+
+<p><code>deploy.sh</code> is a shell script for every service check. If it needs to be updated, created, or deleted, it executes the corresponding <strong>fleetctl</strong> command.</p>
+
+<p>The final step:</p>
+
+<h3 id="how-do-you-run-this-system-configuration-container">How do you run this “system configuration” container?</h3>
+
+<p>Currently, in our environment, we do this manually (from SSH shell) for development clusters and use systemd timers for CoreOS clusters on AWS. Systemd timer allows us to define a cron like job at the CoreOS cluster level.</p>
+
+<p>We have plans to define a WebHook endpoint that will allow us to trigger deployment/update based on a WebHook event from the CI service.</p>
+
+<p>Hope you find this post useful. I look forward to your comments and any questions you have.</p>
+
+                    </div>
+                </section>
+                
+            </div>
+            
+<div class="pagination">
+  <nav role="pagination" class="post-list-pagination">
+      
+      <a href="http://blog.terranillius.com/tags/docker/" class="post-list-pagination-item pure-button post-list-pagination-item-prev">
+        <i class="fa fa-angle-double-left"></i>&nbsp;Newer
+      </a>
+      
+    <span class="post-list-pagination-item post-list-pagination-item-current">Page 2 of 2</span>
+    
+  </nav>
+</div>
+
+
+            <div class="footer">
+    <div class="pure-menu pure-menu-horizontal pure-menu-open">
+        <ul>
+            <li>Powered by <a class="hugo" href="https://gohugo.io/" target="_blank">hugo</a></li>
+        </ul>
+    </div>
+</div>
+<script src="http://blog.terranillius.com/js/all.min.js"></script>
+
+        </div>
+    </div>
+</div>
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-71802462-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+
+</body>
+</html>

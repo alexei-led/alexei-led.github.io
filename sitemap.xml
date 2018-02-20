@@ -1,0 +1,367 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  
+  <url>
+    <loc>http://blog.terranillius.com/post/cd_helm_kubernetes/</loc>
+    <lastmod>2017-10-11T18:00:00+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://blog.terranillius.com/post/pumba_containercamp/</loc>
+    <lastmod>2017-10-04T18:00:00+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://blog.terranillius.com/post/debug_node_in_docker/</loc>
+    <lastmod>2017-06-03T18:00:00+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://blog.terranillius.com/post/node_docker_multistage/</loc>
+    <lastmod>2017-04-25T18:00:00+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://blog.terranillius.com/post/perfect_docker_java/</loc>
+    <lastmod>2017-03-07T18:00:00+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://blog.terranillius.com/post/everyday_hacks/</loc>
+    <lastmod>2017-01-02T18:00:00+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://blog.terranillius.com/post/composev3_swarm/</loc>
+    <lastmod>2016-12-18T14:00:00+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://blog.terranillius.com/post/donot_ignore_dockerignore/</loc>
+    <lastmod>2016-11-26T16:00:00+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://blog.terranillius.com/post/swarm_dind/</loc>
+    <lastmod>2016-10-06T16:00:00+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://blog.terranillius.com/post/pumba_docker_netem/</loc>
+    <lastmod>2016-08-01T20:00:00+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://blog.terranillius.com/post/pumba_docker_chaos_testing/</loc>
+    <lastmod>2016-04-16T20:00:00+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://blog.terranillius.com/post/docker_testing/</loc>
+    <lastmod>2016-03-07T16:39:00+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://blog.terranillius.com/post/docker_builder_pattern/</loc>
+    <lastmod>2016-01-14T16:14:47+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://blog.terranillius.com/post/docker_cd_cluster/</loc>
+    <lastmod>2015-12-30T11:09:47+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://blog.terranillius.com/about/</loc>
+    <lastmod>2015-12-30T11:09:47+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://blog.terranillius.com/tags/1.12/</loc>
+    <lastmod>2016-10-06T16:00:00+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://blog.terranillius.com/tags/build/</loc>
+    <lastmod>2016-11-26T16:00:00+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://blog.terranillius.com/categories/</loc>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://blog.terranillius.com/tags/cd/</loc>
+    <lastmod>2017-10-11T18:00:00+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://blog.terranillius.com/tags/chaos/</loc>
+    <lastmod>2017-10-04T18:00:00+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://blog.terranillius.com/tags/chaos-engineering/</loc>
+    <lastmod>2017-10-04T18:00:00+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://blog.terranillius.com/tags/chaos-monkey/</loc>
+    <lastmod>2017-10-04T18:00:00+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://blog.terranillius.com/tags/chaos-testing/</loc>
+    <lastmod>2017-10-04T18:00:00+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://blog.terranillius.com/categories/chaos-testing/</loc>
+    <lastmod>2017-10-04T18:00:00+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://blog.terranillius.com/tags/ci/</loc>
+    <lastmod>2017-10-11T18:00:00+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://blog.terranillius.com/tags/cluster/</loc>
+    <lastmod>2016-12-18T14:00:00+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://blog.terranillius.com/tags/compose/</loc>
+    <lastmod>2016-12-18T14:00:00+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://blog.terranillius.com/tags/continuous-delivery/</loc>
+    <lastmod>2017-10-11T18:00:00+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://blog.terranillius.com/tags/continuous-deployment/</loc>
+    <lastmod>2017-10-11T18:00:00+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://blog.terranillius.com/tags/coreos/</loc>
+    <lastmod>2015-12-30T11:09:47+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://blog.terranillius.com/tags/debug/</loc>
+    <lastmod>2017-06-03T18:00:00+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://blog.terranillius.com/categories/development/</loc>
+    <lastmod>2016-11-26T16:00:00+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://blog.terranillius.com/tags/devops/</loc>
+    <lastmod>2017-10-11T18:00:00+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://blog.terranillius.com/categories/devops/</loc>
+    <lastmod>2017-03-07T18:00:00+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://blog.terranillius.com/tags/docker/</loc>
+    <lastmod>2017-10-11T18:00:00+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://blog.terranillius.com/categories/docker/</loc>
+    <lastmod>2017-06-03T18:00:00+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://blog.terranillius.com/tags/docker-compose/</loc>
+    <lastmod>2016-12-18T14:00:00+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://blog.terranillius.com/tags/dockerfile/</loc>
+    <lastmod>2017-06-03T18:00:00+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://blog.terranillius.com/tags/dockerignore/</loc>
+    <lastmod>2016-11-26T16:00:00+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://blog.terranillius.com/tags/fleet/</loc>
+    <lastmod>2015-12-30T11:09:47+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://blog.terranillius.com/tags/hacks/</loc>
+    <lastmod>2017-06-03T18:00:00+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://blog.terranillius.com/tags/helm/</loc>
+    <lastmod>2017-10-11T18:00:00+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://blog.terranillius.com/tags/integration-test/</loc>
+    <lastmod>2016-03-07T16:39:00+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://blog.terranillius.com/tags/java/</loc>
+    <lastmod>2017-03-07T18:00:00+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://blog.terranillius.com/tags/kubernetes/</loc>
+    <lastmod>2017-10-11T18:00:00+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://blog.terranillius.com/categories/kubernetes/</loc>
+    <lastmod>2017-10-11T18:00:00+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://blog.terranillius.com/tags/masos/</loc>
+    <lastmod>2016-10-06T16:00:00+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://blog.terranillius.com/tags/maven/</loc>
+    <lastmod>2017-03-07T18:00:00+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://blog.terranillius.com/tags/microservice/</loc>
+    <lastmod>2017-10-11T18:00:00+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://blog.terranillius.com/tags/multistage/</loc>
+    <lastmod>2017-04-25T18:00:00+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://blog.terranillius.com/tags/netem/</loc>
+    <lastmod>2017-10-04T18:00:00+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://blog.terranillius.com/tags/network/</loc>
+    <lastmod>2016-08-01T20:00:00+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://blog.terranillius.com/tags/network-emulation/</loc>
+    <lastmod>2017-10-04T18:00:00+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://blog.terranillius.com/tags/node/</loc>
+    <lastmod>2017-06-03T18:00:00+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://blog.terranillius.com/tags/node.js/</loc>
+    <lastmod>2017-06-03T18:00:00+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://blog.terranillius.com/tags/pattern/</loc>
+    <lastmod>2016-01-14T16:14:47+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://blog.terranillius.com/post/</loc>
+    <lastmod>2017-10-11T18:00:00+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://blog.terranillius.com/tags/resilience/</loc>
+    <lastmod>2016-04-16T20:00:00+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://blog.terranillius.com/tags/swarm/</loc>
+    <lastmod>2016-12-18T14:00:00+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://blog.terranillius.com/tags/</loc>
+    <lastmod>2016-10-06T16:00:00+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://blog.terranillius.com/</loc>
+    <lastmod>2017-10-11T18:00:00+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://blog.terranillius.com/tags/testing/</loc>
+    <lastmod>2017-10-04T18:00:00+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://blog.terranillius.com/tags/tutorial/</loc>
+    <lastmod>2017-10-11T18:00:00+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+</urlset>

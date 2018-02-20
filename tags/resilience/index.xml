@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Resilience on Terra Nullius</title>
+    <link>http://blog.terranillius.com/tags/resilience/</link>
+    <description>Recent content in Resilience on Terra Nullius</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>This work is licensed under a Creative Commons Attribution 4.0 International License</copyright>
+    <lastBuildDate>Sat, 16 Apr 2016 20:00:00 +0200</lastBuildDate>
+    
+	<atom:link href="http://blog.terranillius.com/tags/resilience/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Pumba - Chaos Testing for Docker</title>
+      <link>http://blog.terranillius.com/post/pumba_docker_chaos_testing/</link>
+      <pubDate>Sat, 16 Apr 2016 20:00:00 +0200</pubDate>
+      
+      <guid>http://blog.terranillius.com/post/pumba_docker_chaos_testing/</guid>
+      <description>Update (27-07-27): Updated post to latest v0.2.0 Pumba version change.
+Introduction The best defense against unexpected failures is to build resilient services. Testing for resiliency enables the teams to learn where their apps fail before the customer does. By intentionally causing failures as part of resiliency testing, you can enforce your policy for building resilient systems. Resilience of the system can be defined as its ability to continue functioning even if some components of the system are failing - ephemerality.</description>
+    </item>
+    
+  </channel>
+</rss>

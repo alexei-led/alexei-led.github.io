@@ -1,0 +1,315 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multistage &middot; Terra Nullius</title>
+
+    <meta name="description" content="The Programming Blog">
+
+    <meta name="generator" content="Hugo 0.36.1" />
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="alexeiled" />
+    <meta name="twitter:title" content="Multistage &middot; Terra Nullius">
+    <meta name="twitter:description" content="The Programming Blog">
+
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Multistage &middot; Terra Nullius">
+    <meta property="og:description" content="The Programming Blog">
+
+    <link href='//fonts.googleapis.com/css?family=Source+Sans+Pro:400,700|Oxygen:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/pure-min.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/grids-responsive-min.css">
+
+    <link rel="stylesheet" href="http://blog.terranillius.com/css/all.min.css">
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+
+    <link rel="alternate" type="application/rss+xml" title="Terra Nullius" href="http://blog.terranillius.com/index.xml" />
+    <link rel="canonical" href="">
+</head>
+<body>
+
+
+<div id="layout" class="pure-g">
+    <div class="sidebar pure-u-1 pure-u-md-1-4">
+    <div class="header">
+        <hgroup>
+            <h1 class="brand-title"><a href="http://blog.terranillius.com">Terra Nullius</a></h1>
+            <h2 class="brand-tagline"> The Programming Blog </h2>
+        </hgroup>
+
+        <nav class="nav">
+            <ul class="nav-list">
+                
+                <li class="nav-item">
+                    <a class="pure-button" href="https://twitter.com/alexeiled"><i class="fa fa-twitter"></i> Twitter</a>
+                </li>
+                
+                
+                <li class="nav-item">
+                    <a class="pure-button" href="https://github.com/alexei-led "><i class="fa fa-github-alt"></i> github</a>
+                </li>
+                
+                <li class="nav-item">
+                    <a class="pure-button" href="http://blog.terranillius.com/index.xml"><i class="fa fa-rss"></i> rss</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</div>
+
+
+    <div class="content pure-u-1 pure-u-md-3-4">
+        <div>
+            
+            <div class="posts">
+                
+                <h1 class="content-subhead">25 Apr 2017, 18:00</h1>
+                <section class="post">
+                    <header class="post-header">
+
+                        <a href="http://blog.terranillius.com/post/node_docker_multistage/" class="post-title">Create lean Node.js image with Docker multi-stage build</a>
+
+                        <p class="post-meta">
+                            
+                            
+                                under 
+                                
+                                <a class="post-category post-category-Docker" href="http://blog.terranillius.com/categories/docker">Docker</a>
+                            
+                        </p>
+                    </header>
+
+                    <div class="post-description">
+                        
+
+<h2 id="tl-dr">TL;DR</h2>
+
+<p>Starting from Docker 17.05+, you can create a single <code>Dockerfile</code> that can build multiple helper images with compilers, tools, and tests and use files from above images to produce the <strong>final</strong> Docker image.</p>
+
+<p><img src="http://blog.terranillius.com/img/multi_stage_build.png" alt="Multi-stage Docker Build" /></p>
+
+<h2 id="the-core-principle-of-dockerfile">The &ldquo;core principle&rdquo; of Dockerfile</h2>
+
+<p>Docker can build images by reading the instructions from a <code>Dockerfile</code>. A <code>Dockerfile</code> is a text file that contains a list of all the commands needed to build a new Docker image. The syntax of <code>Dockerfile</code> is pretty simple and the Docker team tries to keep it intact between Docker engine releases.</p>
+
+<p>The core principle is very simple: <code>1 Dockerfile -&gt; 1 Docker Image</code>.</p>
+
+<p>This principle works just fine for basic use cases, where you just need to demonstrate Docker capabilities or put some &ldquo;static&rdquo; content into a Docker image.</p>
+
+<p>Once you advance with Docker and would like to create secure and lean Docker images, singe <code>Dockerfile</code> is not enough.</p>
+
+<p>People who insist on following the above principle find themselves with slow Docker builds, huge Docker images (several GB size images), slow deployment time and lots of CVE violations embedded into these images.</p>
+
+<h2 id="the-docker-build-container-pattern">The Docker Build Container pattern</h2>
+
+<p><a href="https://medium.com/@alexeiled/docker-pattern-the-build-container-b0d0e86ad601">Docker Pattern: The Build Container</a></p>
+
+<p>The basic idea behind <strong>Build Container</strong> pattern is simple:</p>
+
+<blockquote>
+<p>Create additional Docker images with required tools (compilers, linters, testing tools) and use these images to produce lean, secure and production ready Docker image.</p>
+</blockquote>
+
+<p>=============</p>
+
+<p>An example of the <strong>Build Container</strong> pattern for typical Node.js application:</p>
+
+<ol>
+<li>Derive <code>FROM</code> a Node base image (for example <code>node:6.10-alpine</code>) <code>node</code> and <code>npm</code> installed (<code>Dockerfile.build</code>)</li>
+<li>Add <code>package.json</code></li>
+<li>Install all node modules from <code>dependency</code> and <code>devDependency</code></li>
+<li>Copy application code</li>
+<li>Run compilers, code coverage, linters, code analysis and testing tools</li>
+<li>Create the <strong>production</strong> Docker image; derive <code>FROM</code> same or other Node base image</li>
+<li>install node modules required for runtime (<code>npm install --only=production</code>)</li>
+<li>expose <code>PORT</code> and define default <code>CMD</code> (command to run your application)</li>
+<li>Push the <strong>production</strong> image to some Docker registry</li>
+</ol>
+
+<p>This flow assumes that you are using two or more separate <code>Dockerfile</code>s and a shell script or flow tool to orchestrate all steps above.</p>
+
+<h3 id="example">Example</h3>
+
+<p>I use a fork of <a href="https://github.com/sdelements/lets-chat">Let&rsquo;s Chat</a> node.js application.</p>
+
+<h4 id="builder-docker-image-with-eslint-mocha-and-gulp">Builder Docker image with eslint, mocha and gulp</h4>
+
+<pre><code class="language-Dockerfile">FROM alpine:3.5
+# install node 
+RUN apk add --no-cache nodejs
+# set working directory
+WORKDIR /root/chat
+# copy project file
+COPY package.json .
+# install node packages
+RUN npm set progress=false &amp;&amp; \
+    npm config set depth 0 &amp;&amp; \
+    npm install
+# copy app files
+COPY . .
+# run linter, setup and tests
+CMD npm run lint &amp;&amp; npm run setup &amp;&amp; npm run test
+</code></pre>
+
+<h4 id="production-docker-image-with-production-node-modules-only">Production Docker image with &lsquo;production&rsquo; node modules only</h4>
+
+<pre><code class="language-Dockerfile">FROM alpine:3.5
+# install node
+RUN apk add --no-cache nodejs tini
+# set working directory
+WORKDIR /root/chat
+# copy project file
+COPY package.json .
+# install node packages
+RUN npm set progress=false &amp;&amp; \
+    npm config set depth 0 &amp;&amp; \
+    npm install --only=production &amp;&amp; \
+    npm cache clean
+# copy app files
+COPY . .
+# Set tini as entrypoint
+ENTRYPOINT [&quot;/sbin/tini&quot;, &quot;--&quot;]
+# application server port
+EXPOSE 5000
+# default run command
+CMD npm run start
+</code></pre>
+
+<h2 id="what-is-docker-multi-stage-build">What is Docker multi-stage build?</h2>
+
+<p>Docker 17.0.5 extends <code>Dockerfile</code> syntax to support new <strong>multi-stage</strong> build, by extending two commands: <code>FROM</code> and <code>COPY</code>.</p>
+
+<p>The <strong>multi-stage</strong> build allows using multiple <code>FROM</code> commands in the same Dockerfile. The last <code>FROM</code> command produces the final Docker image, all other images are intermediate images (no final Docker image is produced, but <em>all layers are cached</em>).</p>
+
+<p>The <code>FROM</code> syntax also supports <code>AS</code> keyword. Use <code>AS</code> keyword to give the current image a logical name and reference to it later by this name.</p>
+
+<p>To copy files from intermediate images use <code>COPY --from=&lt;image_AS_name|image_number&gt;</code>, where number starts from <code>0</code> (but better to use logical name through <code>AS</code> keyword).</p>
+
+<h2 id="creating-a-multi-stage-dockerfile-for-node-js-application">Creating a multi-stage Dockerfile for Node.js application</h2>
+
+<p>The <code>Dockerfile</code> below makes the <strong>Build Container</strong> pattern obsolete, allowing to achieve the same result with the single file.</p>
+
+<pre><code class="language-Dockerfile">#
+# ---- Base Node ----
+FROM alpine:3.5 AS base
+# install node
+RUN apk add --no-cache nodejs-npm tini
+# set working directory
+WORKDIR /root/chat
+# Set tini as entrypoint
+ENTRYPOINT [&quot;/sbin/tini&quot;, &quot;--&quot;]
+# copy project file
+COPY package.json .
+
+#
+# ---- Dependencies ----
+FROM base AS dependencies
+# install node packages
+RUN npm set progress=false &amp;&amp; npm config set depth 0
+RUN npm install --only=production 
+# copy production node_modules aside
+RUN cp -R node_modules prod_node_modules
+# install ALL node_modules, including 'devDependencies'
+RUN npm install
+
+#
+# ---- Test ----
+# run linters, setup and tests
+FROM dependencies AS test
+COPY . .
+RUN  npm run lint &amp;&amp; npm run setup &amp;&amp; npm run test
+
+#
+# ---- Release ----
+FROM base AS release
+# copy production node_modules
+COPY --from=dependencies /root/chat/prod_node_modules ./node_modules
+# copy app sources
+COPY . .
+# expose port and define CMD
+EXPOSE 5000
+CMD npm run start
+</code></pre>
+
+<p>The above <code>Dockerfile</code> creates 3 intermediate Docker images and single <strong>release</strong> Docker image (the final <code>FROM</code>).</p>
+
+<ol>
+<li>First image <code>FROM alpine:3.5 AS bas</code> - is a base Node image with: <code>node</code>, <code>npm</code>, <code>tini</code> (init app) and <code>package.json</code></li>
+<li>Second image <code>FROM base AS dependencies</code> - contains all node modules from <code>dependencies</code> and <code>devDependencies</code> with additional copy of <code>dependencies</code> required for final image only</li>
+<li>Third image <code>FROM dependencies AS test</code> - runs linters, setup and tests (with <code>mocha</code>); if this run command fail not final image is produced</li>
+<li>The final image <code>FROM base AS release</code> - is a base Node image with application code and all node modules from <code>dependencies</code></li>
+</ol>
+
+<h2 id="try-docker-multi-stage-build-today">Try Docker multi-stage build today</h2>
+
+<p>In order to try Docker <strong>multi-stage</strong> build, you need to get Docker 17.0.5, which is going to be released in May and currently available on the <em>beta</em> channel.</p>
+
+<p>So, you have two options:</p>
+
+<ol>
+<li>Use <em>beta</em> channel to get Docker 17.0.5</li>
+<li>Run <em>dind</em> container (docker-in-docker)</li>
+</ol>
+
+<h3 id="running-docker-in-docker-17-0-5-beta">Running Docker-in-Docker 17.0.5 (beta)</h3>
+
+<p>Running Docker 17.0.5 (beta) in docker container (<code>--privileged</code> is required):</p>
+
+<pre><code>$ docker run -d --rm --privileged -p 23751:2375 --name dind docker:17.05.0-ce-dind --storage-driver overlay2
+</code></pre>
+
+<p>Try <strong>mult-stage</strong> build. Add <code>--host=:23751</code> to every Docker command, or set <code>DOCKER_HOST</code> environment variable.</p>
+
+<pre><code>$ # using --host
+$ docker --host=:23751 build -t local/chat:multi-stage .
+
+$ # OR: setting DOCKER_HOST
+$ export DOCKER_HOST=localhost:23751
+$ docker build -t local/chat:multi-stage .
+</code></pre>
+
+<h2 id="summary">Summary</h2>
+
+<p>With Docker <strong>multi-stage</strong> build feature, it&rsquo;s possible to implement an advanced Docker image build pipeline using a single <code>Dockerfile</code>. Kudos to Docker team!</p>
+
+<hr />
+
+<p>Hope, you find this post useful. I look forward to your comments and any questions you have.</p>
+
+<hr />
+
+<p>_This is a <strong>working draft</strong> version. The final post version is published at <a href="https://codefresh.io/blog/node_docker_multistage/">Codefresh Blog</a> on April 24, 2017._</p>
+
+                    </div>
+                </section>
+                
+            </div>
+            
+
+            <div class="footer">
+    <div class="pure-menu pure-menu-horizontal pure-menu-open">
+        <ul>
+            <li>Powered by <a class="hugo" href="https://gohugo.io/" target="_blank">hugo</a></li>
+        </ul>
+    </div>
+</div>
+<script src="http://blog.terranillius.com/js/all.min.js"></script>
+
+        </div>
+    </div>
+</div>
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-71802462-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+
+</body>
+</html>

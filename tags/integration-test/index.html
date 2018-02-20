@@ -1,0 +1,335 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Integration Test &middot; Terra Nullius</title>
+
+    <meta name="description" content="The Programming Blog">
+
+    <meta name="generator" content="Hugo 0.36.1" />
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="alexeiled" />
+    <meta name="twitter:title" content="Integration Test &middot; Terra Nullius">
+    <meta name="twitter:description" content="The Programming Blog">
+
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Integration Test &middot; Terra Nullius">
+    <meta property="og:description" content="The Programming Blog">
+
+    <link href='//fonts.googleapis.com/css?family=Source+Sans+Pro:400,700|Oxygen:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/pure-min.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/grids-responsive-min.css">
+
+    <link rel="stylesheet" href="http://blog.terranillius.com/css/all.min.css">
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+
+    <link rel="alternate" type="application/rss+xml" title="Terra Nullius" href="http://blog.terranillius.com/index.xml" />
+    <link rel="canonical" href="">
+</head>
+<body>
+
+
+<div id="layout" class="pure-g">
+    <div class="sidebar pure-u-1 pure-u-md-1-4">
+    <div class="header">
+        <hgroup>
+            <h1 class="brand-title"><a href="http://blog.terranillius.com">Terra Nullius</a></h1>
+            <h2 class="brand-tagline"> The Programming Blog </h2>
+        </hgroup>
+
+        <nav class="nav">
+            <ul class="nav-list">
+                
+                <li class="nav-item">
+                    <a class="pure-button" href="https://twitter.com/alexeiled"><i class="fa fa-twitter"></i> Twitter</a>
+                </li>
+                
+                
+                <li class="nav-item">
+                    <a class="pure-button" href="https://github.com/alexei-led "><i class="fa fa-github-alt"></i> github</a>
+                </li>
+                
+                <li class="nav-item">
+                    <a class="pure-button" href="http://blog.terranillius.com/index.xml"><i class="fa fa-rss"></i> rss</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</div>
+
+
+    <div class="content pure-u-1 pure-u-md-3-4">
+        <div>
+            
+            <div class="posts">
+                
+                <h1 class="content-subhead">07 Mar 2016, 16:39</h1>
+                <section class="post">
+                    <header class="post-header">
+
+                        <a href="http://blog.terranillius.com/post/docker_testing/" class="post-title">Testing Strategies for Docker Containers</a>
+
+                        <p class="post-meta">
+                            
+                            
+                                under 
+                                
+                                <a class="post-category post-category-Development" href="http://blog.terranillius.com/categories/development">Development</a>
+                            
+                        </p>
+                    </header>
+
+                    <div class="post-description">
+                        
+
+<p>Congratulations! You know how to build a Docker image and are able to compose multiple containers into a meaningful application. Hopefully, you&rsquo;ve already created a Continuous Delivery pipeline and know how to push your newly created image into production or testing environment.</p>
+
+<blockquote>
+<p>Now, the question is - <em>How do we test our Docker containers?</em></p>
+</blockquote>
+
+<p>There are multiple testing strategies we can apply. In this post, I&rsquo;ll highlight them presenting benefits and drawbacks for each.</p>
+
+<h2 id="the-naive-approach">The &ldquo;Naive&rdquo; approach</h2>
+
+<p>This is the default approach for most people. It relies on a CI server to do the job. When taking this approach, the developer is using Docker as a package manager, a better option than the <strong>jar/rpm/deb</strong> approach.
+The CI server compiles the application code and executes tests (unit, service, functional, and others). The build artifacts are reused in Docker <strong>build</strong> to produce a new image. This becomes a core deployment artifact. The produced image contains not only application &ldquo;binaries&rdquo;, but also a required runtime including all dependencies and application configuration.</p>
+
+<p>We are getting application portability, however, we are loosing the development and testing portability. We&rsquo;re not able to reproduce exactly the same development and testing environment outside the CI. To create a new test environment we&rsquo;ll need to setup the testing tools (correct versions and plugins), configure runtime and OS settings, and get the same versions of test scripts as well as perhaps, the test data.</p>
+
+<p><img src="http://blog.terranillius.com/img/naive.png" alt="The Naive Testing Strategy" /></p>
+
+<p>To resolve these problems leads us to the next one.</p>
+
+<h2 id="app-test-container-approach">App &amp; Test Container approach</h2>
+
+<p>Here, we try to create a single bundle with the application &ldquo;binaries&rdquo; including required packages, testing tools (specific versions), test tools plugins, test scripts, test environment with all required packages.</p>
+
+<p>The benefits of this approach:</p>
+
+<ul>
+<li>We have a repeatable test environment - we can run exactly the same tests using the same testing tools - in our CI, development, staging, or production environment</li>
+<li>We capture test scripts at a specific point in time so we can always reproduce them in any environment</li>
+<li>We do not need to setup and configure our testing tools - they are part of our image</li>
+</ul>
+
+<p>This approach has significant drawbacks:</p>
+
+<ul>
+<li>Increases the image size - because it contains testing tools, required packages, test scripts, and perhaps even test data</li>
+<li>Pollutes image runtime environment with test specific configuration and may even introduce an unneeded dependency (required by integration testing)</li>
+<li>We also need to decide what to do with the test results and logs; how and where to export them</li>
+</ul>
+
+<p>Here&rsquo;s a simplified <code>Dockerfile</code>. It illustrates this approach.</p>
+
+<pre><code class="language-dockerfile">FROM &quot;&lt;bases image&gt;&quot;:&quot;&lt;version&gt;&quot;
+
+WORKDIR &quot;&lt;path&gt;&quot;
+
+# install packages required to run app and tests
+RUN apt-get update &amp;&amp; apt-get install -y \
+    &quot;&lt;app runtime&gt; and &lt;dependencies&gt;&quot; \  # add app runtime and required packages
+    &quot;&lt;test tools&gt; and &lt;dependencies&gt;&quot; \     # add testing tools and required packages
+    &amp;&amp; rm -rf /var/lib/apt/lists/*
+
+# copy app files
+COPY app app
+COPY run.sh run.sh
+
+# copy test scripts
+COPY tests tests
+
+# copy &quot;main&quot; test command
+COPY test.sh test.sh
+
+# ... EXPOSE, RUN, ADD ... for app and test environment
+
+# main app command
+CMD [run.sh, &quot;&lt;app arguments&gt;&quot;]
+
+# it's not possible to have multiple CMD commands, but this is the &quot;main&quot; test command
+# CMD [/test.sh, &quot;&lt;test arguments&gt;&quot;]
+</code></pre>
+
+<p><a href="https://gist.github.com/alexei-led/cbb3d46fcf422a24aacd">Dockerfile</a></p>
+
+<p><img src="http://blog.terranillius.com/img/app_test.png" alt="App &amp; Test Container" /></p>
+
+<p>There has to be a better way for in-container testing and there is.</p>
+
+<h2 id="test-aware-container-approach">Test Aware Container Approach</h2>
+
+<p>Today, Docker&rsquo;s promise is <strong>&ldquo;Build -&gt; Ship -&gt; Run&rdquo;</strong> - build the image, ship it to some registry, and run it anywhere. IMHO there&rsquo;s a critical missing step - <strong>Test</strong>. The right and complete sequence should be <strong>:Build -&gt; Test -&gt; Ship -&gt; Run</strong>.</p>
+
+<p>Let&rsquo;s look at a &ldquo;test-friendly&rdquo; Dockerfile syntax and extensions to Docker commands. This important step could be supported natively. It&rsquo;s not a real syntax, but bear with me. I&rsquo;ll define the &ldquo;ideal&rdquo; version and show how to implement something that&rsquo;s very close.</p>
+
+<pre><code>ONTEST [INSTRUCTION]
+</code></pre>
+
+<p>Let&rsquo;s define a special <code>ONTEST</code> instruction, similar to existing <a href="https://docs.docker.com/engine/reference/builder/#onbuild"><code>ONBUILD</code></a> instruction. The <code>ONTEST</code> instruction adds a trigger instruction to the image to be executed at a later time when the image is tested. Any build instruction can be registered as a trigger.</p>
+
+<p>The <code>ONTEST</code> instruction should be recognized by a new <code>docker test</code> command.</p>
+
+<pre><code>docker test [OPTIONS] IMAGE [COMMAND] [ARG...]
+</code></pre>
+
+<p>The <code>docker test</code> command syntax will be similar to <code>docker run</code> command, with one significant difference: a new &ldquo;testable&rdquo; image will be automatically generated and even tagged with <code>&lt;image name&gt;:&lt;image tag&gt;-test</code> tag (&ldquo;test&rdquo; postfix added to the original image tag). This &ldquo;testable&rdquo; image will generated <code>FROM</code> the application image, executing all build instructions, defined after <code>ONTEST</code> command and executing <code>ONTEST CMD</code> (or <code>ONTEST ENTRYPOINT</code>).
+The <code>docker test</code> command should return a non-zero code if any tests fail. The test results should be written into an automatically generated <code>VOLUME</code> that points to <code>/var/tests/results</code> folder.</p>
+
+<p>Let&rsquo;s look at a modified <code>Dockerfile</code> below - it includes the new proposed <code>ONTEST</code> instruction.</p>
+
+<pre><code class="language-dockerfile">FROM &quot;&lt;base image&gt;&quot;:&quot;&lt;version&gt;&quot;
+
+WORKDIR &quot;&lt;path&gt;&quot;
+
+# install packages required to run app
+RUN apt-get update &amp;&amp; apt-get install -y \
+    &quot;&lt;app runtime&gt; and &lt;dependencies&gt;&quot; \  # add app runtime and required packages
+    &amp;&amp; rm -rf /var/lib/apt/lists/*
+
+# install packages required to run tests   
+ONTEST RUN apt-get update &amp;&amp; apt-get install -y \
+           &quot;&lt;test tools&gt; and &lt;dependencies&gt;&quot;    \     # add testing tools and required packages
+           &amp;&amp; rm -rf /var/lib/apt/lists/*
+
+# copy app files
+COPY app app
+COPY run.sh run.sh
+
+# copy test scripts
+ONTEST COPY tests tests
+
+# copy &quot;main&quot; test command
+ONTEST COPY test.sh test.sh
+
+# auto-generated volume for test results
+# ONTEST VOLUME &quot;/var/tests/results&quot;
+
+# ... EXPOSE, RUN, ADD ... for app and test environment
+
+# main app command
+CMD [run.sh, &quot;&lt;app arguments&gt;&quot;]
+
+# main test command
+ONTEST CMD [/test.sh, &quot;&lt;test arguments&gt;&quot;]
+</code></pre>
+
+<p><a href="https://gist.github.com/alexei-led/4f39cca8a03b1503978a">Dockerfile</a></p>
+
+<p><img src="http://blog.terranillius.com/img/test_aware.png" alt="Test Aware Container" /></p>
+
+<h3 id="making-test-aware-container-real">Making &ldquo;Test Aware Container&rdquo; Real</h3>
+
+<p>We believe Docker should make <code>docker-test</code> part of the container management lifecycle. There is a need to have a simple working solution today and I&rsquo;ll describe one that&rsquo;s very close to the ideal state.</p>
+
+<p>As mentioned before, Docker has a very useful <code>ONBUILD</code> instruction. This instruction allows us to trigger another build instruction on succeeding builds. The basic idea is to use <code>ONBUILD</code> instruction when running <code>docker-test</code> command.</p>
+
+<p>The flow executed by <code>docker-test</code> command:</p>
+
+<ol>
+<li><code>docker-test</code> will search for <code>ONBUILD</code> instructions in application <code>Dockerfile</code> and will &hellip;</li>
+<li>generate a temporary <code>Dockerfile.test</code> from original <code>Dockerfile</code></li>
+<li>execute <code>docker build -f Dockerfile.test [OPTIONS] PATH</code> with additional options supported by <code>docker build</code> command: <code>-test</code> that will be automatically appended to <code>tag</code> option</li>
+<li>If build is successful, execute <code>docker run -v ./tests/results:/var/tests/results [OPTIONS] IMAGE:TAG-test [COMMAND] [ARG...]</code></li>
+<li>Remove <code>Dockerfile.test</code> file</li>
+</ol>
+
+<p>Why not create a new <code>Dockerfile.test</code> without requiring the <code>ONBUILD</code> instruction?</p>
+
+<p>Because in order to test right image (and tag) we&rsquo;ll need to keep <code>FROM</code> always updated to <strong>image:tag</strong> that we want to test. This is not trivial.</p>
+
+<p>There is a limitation in the described approach - it&rsquo;s not suitable for &ldquo;onbuild&rdquo; images (images used to automatically build your app), like <a href="https://hub.docker.com/_/maven/">Maven:onbuild</a></p>
+
+<p>Let&rsquo;s look at a simple implementation of <code>docker-test</code> command. It highlights the concept: the <code>docker-test</code> command should be able to handle <code>build</code> and <code>run</code> command options and be able to handle errors properly.</p>
+
+<pre><code class="language-sh">#!/bin/bash
+image=&quot;app&quot;
+tag=&quot;latest&quot;
+
+echo &quot;FROM ${image}:${tag}&quot; &gt; Dockerfile.test &amp;&amp;
+docker build -t &quot;${image}:${tag}-test&quot; -f Dockerfile.test . &amp;&amp;
+docker run -it --rm -v $(pwd)/tests/results:/var/tests/results &quot;${image}:${tag}-test&quot; &amp;&amp;
+rm Dockerfile.test
+</code></pre>
+
+<p>Let&rsquo;s focus on the most interesting and relevant part.</p>
+
+<h2 id="integration-test-container">Integration Test Container</h2>
+
+<p>Let&rsquo;s say we have an application built from tens or hundreds of microservices. Let&rsquo;s say we have an automated CI/CD pipeline, where each microservice is built and tested by our CI and deployed into some environment (testing, staging or production) after the build and tests pass. Pretty cool, eh?
+Our CI tests are capable of testing each microservice in isolation - running unit and service tests (or API contract tests). Maybe even micro-integration tests - tests run on subsystem are created in ad-hoc manner (for example with <code>docker compose</code> help).</p>
+
+<p>This leads to some issues that we need to address:</p>
+
+<ul>
+<li>What about real integration tests or long running tests (like performance and stress)?</li>
+<li>What about resilience tests (&ldquo;chaos monkey&rdquo; like tests)?</li>
+<li>Security scans?</li>
+<li>What about test and scan activities that take time and should be run on a fully operational system?</li>
+</ul>
+
+<p>There should be a better way than just dropping a new microservice version into production and tightly monitoring it for a while.</p>
+
+<p>There should be a special <strong>Integration Test Container</strong>. These containers will contain only testing tools and test artifacts: test scripts, test data, test environment configuration, etc. To simplify orchestration and automation of such containers, we should define and follow some conventions and use metadata labels (Dockerfile <code>LABEL</code> instruction).</p>
+
+<h3 id="integration-test-labels">Integration Test Labels</h3>
+
+<ul>
+<li><strong>test.type</strong> - test type; default <code>integration</code>; can be one of: <code>integration</code>, <code>performance</code>, <code>security</code>, <code>chaos</code> or any text; presence of this label states that this is an <strong>Integration Test Container</strong></li>
+<li><strong>test.results</strong> - <code>VOLUME</code> for test results; default <code>/var/tests/results</code></li>
+<li><strong>test.XXX</strong> - any other test related metadata; just use <strong>test.</strong> prefix for label name</li>
+</ul>
+
+<h3 id="integration-test-container-1">Integration Test Container</h3>
+
+<p>The <strong>Integration Test Container</strong> is just a regular Docker container. Tt does not contain any application logic and code. Its sole purpose is to create repeatable and portable testing. Recommended content of the <strong>Integration Test Container</strong>:</p>
+
+<ul>
+<li><em>The Testing Tool</em> - Phantom.js, Selenium, Chakram, Gatling, &hellip;</li>
+<li><em>Testing Tool Runtime</em> - Node.js, JVM, Python, Ruby, &hellip;</li>
+<li><em>Test Environment Configuration</em> - environment variables, config files, bootstrap scripts, &hellip;</li>
+<li><em>Tests</em> - as compiled packages or script files</li>
+<li><em>Test Data</em> - any kind of data files, used by tests: json, csv, txt, xml, &hellip;</li>
+<li><em>Test Startup Script</em> - some &ldquo;main&rdquo; startup script to run tests; just create <code>test.sh</code> and launch the testing tool from it.</li>
+</ul>
+
+<p><strong>Integration Test Containers</strong> should run in an operational environment where all microservices are deployed: testing, staging or production. These containers can be deployed exactly as all other services. They use same network layer and thus can access multiple services; using selected service discovery method (usually DNS). Accessing multiple services is required for real integration testing - we need to simulate and validate how our system is working in multiple places. Keeping integration tests inside some application service container not only increases the container footprint but also creates an unneeded dependency between multiple services. We keep all these dependencies at the level of the <strong>Integration Test Container</strong>. Once our tests (and testing tools) are packaged inside the container, we can always rerun the same tests on any environment including the developer machine. You can always go back in time and rerun a specific version of <strong>Integration Test Container</strong>.</p>
+
+<p><img src="http://blog.terranillius.com/img/int_test.png" alt="Integration Test Container" /></p>
+
+<p>WDYT? Your feedback, particularly on standardizing the <code>docker-test</code> command, is greatly appreciated.</p>
+
+                    </div>
+                </section>
+                
+            </div>
+            
+
+            <div class="footer">
+    <div class="pure-menu pure-menu-horizontal pure-menu-open">
+        <ul>
+            <li>Powered by <a class="hugo" href="https://gohugo.io/" target="_blank">hugo</a></li>
+        </ul>
+    </div>
+</div>
+<script src="http://blog.terranillius.com/js/all.min.js"></script>
+
+        </div>
+    </div>
+</div>
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-71802462-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+
+</body>
+</html>
