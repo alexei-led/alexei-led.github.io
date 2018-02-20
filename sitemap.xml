@@ -119,13 +119,13 @@
   </url>
   
   <url>
-    <loc>http://blog.terranillius.com/tags/chaos-testing/</loc>
+    <loc>http://blog.terranillius.com/categories/chaos-testing/</loc>
     <lastmod>2017-10-04T18:00:00+02:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://blog.terranillius.com/categories/chaos-testing/</loc>
+    <loc>http://blog.terranillius.com/tags/chaos-testing/</loc>
     <lastmod>2017-10-04T18:00:00+02:00</lastmod>
     <priority>0</priority>
   </url>
@@ -179,19 +179,13 @@
   </url>
   
   <url>
-    <loc>http://blog.terranillius.com/tags/devops/</loc>
-    <lastmod>2017-10-11T18:00:00+02:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
     <loc>http://blog.terranillius.com/categories/devops/</loc>
     <lastmod>2017-03-07T18:00:00+02:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://blog.terranillius.com/tags/docker/</loc>
+    <loc>http://blog.terranillius.com/tags/devops/</loc>
     <lastmod>2017-10-11T18:00:00+02:00</lastmod>
     <priority>0</priority>
   </url>
@@ -199,6 +193,12 @@
   <url>
     <loc>http://blog.terranillius.com/categories/docker/</loc>
     <lastmod>2017-06-03T18:00:00+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://blog.terranillius.com/tags/docker/</loc>
+    <lastmod>2017-10-11T18:00:00+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -251,13 +251,13 @@
   </url>
   
   <url>
-    <loc>http://blog.terranillius.com/tags/kubernetes/</loc>
+    <loc>http://blog.terranillius.com/categories/kubernetes/</loc>
     <lastmod>2017-10-11T18:00:00+02:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://blog.terranillius.com/categories/kubernetes/</loc>
+    <loc>http://blog.terranillius.com/tags/kubernetes/</loc>
     <lastmod>2017-10-11T18:00:00+02:00</lastmod>
     <priority>0</priority>
   </url>
