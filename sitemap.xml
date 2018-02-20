@@ -3,363 +3,363 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>http://blog.terranillius.com/post/cd_helm_kubernetes/</loc>
+    <loc>https://alexei-led.github.io/post/cd_helm_kubernetes/</loc>
     <lastmod>2017-10-11T18:00:00+02:00</lastmod>
   </url>
   
   <url>
-    <loc>http://blog.terranillius.com/post/pumba_containercamp/</loc>
+    <loc>https://alexei-led.github.io/post/pumba_containercamp/</loc>
     <lastmod>2017-10-04T18:00:00+02:00</lastmod>
   </url>
   
   <url>
-    <loc>http://blog.terranillius.com/post/debug_node_in_docker/</loc>
+    <loc>https://alexei-led.github.io/post/debug_node_in_docker/</loc>
     <lastmod>2017-06-03T18:00:00+02:00</lastmod>
   </url>
   
   <url>
-    <loc>http://blog.terranillius.com/post/node_docker_multistage/</loc>
+    <loc>https://alexei-led.github.io/post/node_docker_multistage/</loc>
     <lastmod>2017-04-25T18:00:00+02:00</lastmod>
   </url>
   
   <url>
-    <loc>http://blog.terranillius.com/post/perfect_docker_java/</loc>
+    <loc>https://alexei-led.github.io/post/perfect_docker_java/</loc>
     <lastmod>2017-03-07T18:00:00+02:00</lastmod>
   </url>
   
   <url>
-    <loc>http://blog.terranillius.com/post/everyday_hacks/</loc>
+    <loc>https://alexei-led.github.io/post/everyday_hacks/</loc>
     <lastmod>2017-01-02T18:00:00+02:00</lastmod>
   </url>
   
   <url>
-    <loc>http://blog.terranillius.com/post/composev3_swarm/</loc>
+    <loc>https://alexei-led.github.io/post/composev3_swarm/</loc>
     <lastmod>2016-12-18T14:00:00+02:00</lastmod>
   </url>
   
   <url>
-    <loc>http://blog.terranillius.com/post/donot_ignore_dockerignore/</loc>
+    <loc>https://alexei-led.github.io/post/donot_ignore_dockerignore/</loc>
     <lastmod>2016-11-26T16:00:00+02:00</lastmod>
   </url>
   
   <url>
-    <loc>http://blog.terranillius.com/post/swarm_dind/</loc>
+    <loc>https://alexei-led.github.io/post/swarm_dind/</loc>
     <lastmod>2016-10-06T16:00:00+02:00</lastmod>
   </url>
   
   <url>
-    <loc>http://blog.terranillius.com/post/pumba_docker_netem/</loc>
+    <loc>https://alexei-led.github.io/post/pumba_docker_netem/</loc>
     <lastmod>2016-08-01T20:00:00+02:00</lastmod>
   </url>
   
   <url>
-    <loc>http://blog.terranillius.com/post/pumba_docker_chaos_testing/</loc>
+    <loc>https://alexei-led.github.io/post/pumba_docker_chaos_testing/</loc>
     <lastmod>2016-04-16T20:00:00+02:00</lastmod>
   </url>
   
   <url>
-    <loc>http://blog.terranillius.com/post/docker_testing/</loc>
+    <loc>https://alexei-led.github.io/post/docker_testing/</loc>
     <lastmod>2016-03-07T16:39:00+02:00</lastmod>
   </url>
   
   <url>
-    <loc>http://blog.terranillius.com/post/docker_builder_pattern/</loc>
+    <loc>https://alexei-led.github.io/post/docker_builder_pattern/</loc>
     <lastmod>2016-01-14T16:14:47+02:00</lastmod>
   </url>
   
   <url>
-    <loc>http://blog.terranillius.com/post/docker_cd_cluster/</loc>
+    <loc>https://alexei-led.github.io/post/docker_cd_cluster/</loc>
     <lastmod>2015-12-30T11:09:47+02:00</lastmod>
   </url>
   
   <url>
-    <loc>http://blog.terranillius.com/about/</loc>
+    <loc>https://alexei-led.github.io/about/</loc>
     <lastmod>2015-12-30T11:09:47+02:00</lastmod>
   </url>
   
   <url>
-    <loc>http://blog.terranillius.com/tags/1.12/</loc>
+    <loc>https://alexei-led.github.io/tags/1.12/</loc>
     <lastmod>2016-10-06T16:00:00+02:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://blog.terranillius.com/tags/build/</loc>
+    <loc>https://alexei-led.github.io/tags/build/</loc>
     <lastmod>2016-11-26T16:00:00+02:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://blog.terranillius.com/categories/</loc>
+    <loc>https://alexei-led.github.io/categories/</loc>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://blog.terranillius.com/tags/cd/</loc>
+    <loc>https://alexei-led.github.io/tags/cd/</loc>
     <lastmod>2017-10-11T18:00:00+02:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://blog.terranillius.com/tags/chaos/</loc>
+    <loc>https://alexei-led.github.io/tags/chaos/</loc>
     <lastmod>2017-10-04T18:00:00+02:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://blog.terranillius.com/tags/chaos-engineering/</loc>
+    <loc>https://alexei-led.github.io/tags/chaos-engineering/</loc>
     <lastmod>2017-10-04T18:00:00+02:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://blog.terranillius.com/tags/chaos-monkey/</loc>
+    <loc>https://alexei-led.github.io/tags/chaos-monkey/</loc>
     <lastmod>2017-10-04T18:00:00+02:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://blog.terranillius.com/categories/chaos-testing/</loc>
+    <loc>https://alexei-led.github.io/tags/chaos-testing/</loc>
     <lastmod>2017-10-04T18:00:00+02:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://blog.terranillius.com/tags/chaos-testing/</loc>
+    <loc>https://alexei-led.github.io/categories/chaos-testing/</loc>
     <lastmod>2017-10-04T18:00:00+02:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://blog.terranillius.com/tags/ci/</loc>
+    <loc>https://alexei-led.github.io/tags/ci/</loc>
     <lastmod>2017-10-11T18:00:00+02:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://blog.terranillius.com/tags/cluster/</loc>
+    <loc>https://alexei-led.github.io/tags/cluster/</loc>
     <lastmod>2016-12-18T14:00:00+02:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://blog.terranillius.com/tags/compose/</loc>
+    <loc>https://alexei-led.github.io/tags/compose/</loc>
     <lastmod>2016-12-18T14:00:00+02:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://blog.terranillius.com/tags/continuous-delivery/</loc>
+    <loc>https://alexei-led.github.io/tags/continuous-delivery/</loc>
     <lastmod>2017-10-11T18:00:00+02:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://blog.terranillius.com/tags/continuous-deployment/</loc>
+    <loc>https://alexei-led.github.io/tags/continuous-deployment/</loc>
     <lastmod>2017-10-11T18:00:00+02:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://blog.terranillius.com/tags/coreos/</loc>
+    <loc>https://alexei-led.github.io/tags/coreos/</loc>
     <lastmod>2015-12-30T11:09:47+02:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://blog.terranillius.com/tags/debug/</loc>
+    <loc>https://alexei-led.github.io/tags/debug/</loc>
     <lastmod>2017-06-03T18:00:00+02:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://blog.terranillius.com/categories/development/</loc>
+    <loc>https://alexei-led.github.io/categories/development/</loc>
     <lastmod>2016-11-26T16:00:00+02:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://blog.terranillius.com/categories/devops/</loc>
+    <loc>https://alexei-led.github.io/tags/devops/</loc>
+    <lastmod>2017-10-11T18:00:00+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://alexei-led.github.io/categories/devops/</loc>
     <lastmod>2017-03-07T18:00:00+02:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://blog.terranillius.com/tags/devops/</loc>
+    <loc>https://alexei-led.github.io/tags/docker/</loc>
     <lastmod>2017-10-11T18:00:00+02:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://blog.terranillius.com/categories/docker/</loc>
+    <loc>https://alexei-led.github.io/categories/docker/</loc>
     <lastmod>2017-06-03T18:00:00+02:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://blog.terranillius.com/tags/docker/</loc>
-    <lastmod>2017-10-11T18:00:00+02:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>http://blog.terranillius.com/tags/docker-compose/</loc>
+    <loc>https://alexei-led.github.io/tags/docker-compose/</loc>
     <lastmod>2016-12-18T14:00:00+02:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://blog.terranillius.com/tags/dockerfile/</loc>
+    <loc>https://alexei-led.github.io/tags/dockerfile/</loc>
     <lastmod>2017-06-03T18:00:00+02:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://blog.terranillius.com/tags/dockerignore/</loc>
+    <loc>https://alexei-led.github.io/tags/dockerignore/</loc>
     <lastmod>2016-11-26T16:00:00+02:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://blog.terranillius.com/tags/fleet/</loc>
+    <loc>https://alexei-led.github.io/tags/fleet/</loc>
     <lastmod>2015-12-30T11:09:47+02:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://blog.terranillius.com/tags/hacks/</loc>
+    <loc>https://alexei-led.github.io/tags/hacks/</loc>
     <lastmod>2017-06-03T18:00:00+02:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://blog.terranillius.com/tags/helm/</loc>
+    <loc>https://alexei-led.github.io/tags/helm/</loc>
     <lastmod>2017-10-11T18:00:00+02:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://blog.terranillius.com/tags/integration-test/</loc>
+    <loc>https://alexei-led.github.io/tags/integration-test/</loc>
     <lastmod>2016-03-07T16:39:00+02:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://blog.terranillius.com/tags/java/</loc>
+    <loc>https://alexei-led.github.io/tags/java/</loc>
     <lastmod>2017-03-07T18:00:00+02:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://blog.terranillius.com/categories/kubernetes/</loc>
+    <loc>https://alexei-led.github.io/tags/kubernetes/</loc>
     <lastmod>2017-10-11T18:00:00+02:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://blog.terranillius.com/tags/kubernetes/</loc>
+    <loc>https://alexei-led.github.io/categories/kubernetes/</loc>
     <lastmod>2017-10-11T18:00:00+02:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://blog.terranillius.com/tags/masos/</loc>
+    <loc>https://alexei-led.github.io/tags/masos/</loc>
     <lastmod>2016-10-06T16:00:00+02:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://blog.terranillius.com/tags/maven/</loc>
+    <loc>https://alexei-led.github.io/tags/maven/</loc>
     <lastmod>2017-03-07T18:00:00+02:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://blog.terranillius.com/tags/microservice/</loc>
+    <loc>https://alexei-led.github.io/tags/microservice/</loc>
     <lastmod>2017-10-11T18:00:00+02:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://blog.terranillius.com/tags/multistage/</loc>
+    <loc>https://alexei-led.github.io/tags/multistage/</loc>
     <lastmod>2017-04-25T18:00:00+02:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://blog.terranillius.com/tags/netem/</loc>
+    <loc>https://alexei-led.github.io/tags/netem/</loc>
     <lastmod>2017-10-04T18:00:00+02:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://blog.terranillius.com/tags/network/</loc>
+    <loc>https://alexei-led.github.io/tags/network/</loc>
     <lastmod>2016-08-01T20:00:00+02:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://blog.terranillius.com/tags/network-emulation/</loc>
+    <loc>https://alexei-led.github.io/tags/network-emulation/</loc>
     <lastmod>2017-10-04T18:00:00+02:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://blog.terranillius.com/tags/node/</loc>
+    <loc>https://alexei-led.github.io/tags/node/</loc>
     <lastmod>2017-06-03T18:00:00+02:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://blog.terranillius.com/tags/node.js/</loc>
+    <loc>https://alexei-led.github.io/tags/node.js/</loc>
     <lastmod>2017-06-03T18:00:00+02:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://blog.terranillius.com/tags/pattern/</loc>
+    <loc>https://alexei-led.github.io/tags/pattern/</loc>
     <lastmod>2016-01-14T16:14:47+02:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://blog.terranillius.com/post/</loc>
+    <loc>https://alexei-led.github.io/post/</loc>
     <lastmod>2017-10-11T18:00:00+02:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://blog.terranillius.com/tags/resilience/</loc>
+    <loc>https://alexei-led.github.io/tags/resilience/</loc>
     <lastmod>2016-04-16T20:00:00+02:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://blog.terranillius.com/tags/swarm/</loc>
+    <loc>https://alexei-led.github.io/tags/swarm/</loc>
     <lastmod>2016-12-18T14:00:00+02:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://blog.terranillius.com/tags/</loc>
+    <loc>https://alexei-led.github.io/tags/</loc>
     <lastmod>2016-10-06T16:00:00+02:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://blog.terranillius.com/</loc>
+    <loc>https://alexei-led.github.io/</loc>
     <lastmod>2017-10-11T18:00:00+02:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://blog.terranillius.com/tags/testing/</loc>
+    <loc>https://alexei-led.github.io/tags/testing/</loc>
     <lastmod>2017-10-04T18:00:00+02:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://blog.terranillius.com/tags/tutorial/</loc>
+    <loc>https://alexei-led.github.io/tags/tutorial/</loc>
     <lastmod>2017-10-11T18:00:00+02:00</lastmod>
     <priority>0</priority>
   </url>

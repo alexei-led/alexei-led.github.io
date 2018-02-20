@@ -2,22 +2,22 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Devops on Terra Nullius</title>
-    <link>http://blog.terranillius.com/categories/devops/</link>
+    <link>https://alexei-led.github.io/categories/devops/</link>
     <description>Recent content in Devops on Terra Nullius</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>This work is licensed under a Creative Commons Attribution 4.0 International License</copyright>
     <lastBuildDate>Tue, 07 Mar 2017 18:00:00 +0200</lastBuildDate>
     
-	<atom:link href="http://blog.terranillius.com/categories/devops/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://alexei-led.github.io/categories/devops/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Crafting perfect Java Docker build flow</title>
-      <link>http://blog.terranillius.com/post/perfect_docker_java/</link>
+      <link>https://alexei-led.github.io/post/perfect_docker_java/</link>
       <pubDate>Tue, 07 Mar 2017 18:00:00 +0200</pubDate>
       
-      <guid>http://blog.terranillius.com/post/perfect_docker_java/</guid>
+      <guid>https://alexei-led.github.io/post/perfect_docker_java/</guid>
       <description>TL;DR  What is the bare minimum you need to build, test and run my Java application in Docker container?
 The recipe: Create a separate Docker image for each step and optimize the way you are running it.
  Introduction I started working with Java in 1998, and for a long time, it was my main programming language. It was a long love–hate relationship.
@@ -26,20 +26,20 @@ DDuring my work career, I wrote a lot of code in Java.</description>
     
     <item>
       <title>Everyday hacks for Docker</title>
-      <link>http://blog.terranillius.com/post/everyday_hacks/</link>
+      <link>https://alexei-led.github.io/post/everyday_hacks/</link>
       <pubDate>Mon, 02 Jan 2017 18:00:00 +0200</pubDate>
       
-      <guid>http://blog.terranillius.com/post/everyday_hacks/</guid>
+      <guid>https://alexei-led.github.io/post/everyday_hacks/</guid>
       <description>In this post, I&amp;rsquo;ve decided to share with you some useful commands and tools, I&amp;rsquo;m frequently using, working with amazing Docker technology. There is no particular order or &amp;ldquo;coolness level&amp;rdquo; for every &amp;ldquo;hack&amp;rdquo;. I will try to present the use case and how does specific command or tool help me with my work.
 Cleaning up Working with Docker for some time, you start to accumulate development junk: unused volumes, networks, exited containers and unused images.</description>
     </item>
     
     <item>
       <title>Deploy Docker Compose (v3) to Swarm (mode) Cluster</title>
-      <link>http://blog.terranillius.com/post/composev3_swarm/</link>
+      <link>https://alexei-led.github.io/post/composev3_swarm/</link>
       <pubDate>Sun, 18 Dec 2016 14:00:00 +0200</pubDate>
       
-      <guid>http://blog.terranillius.com/post/composev3_swarm/</guid>
+      <guid>https://alexei-led.github.io/post/composev3_swarm/</guid>
       <description>Disclaimer: all code snippets bellow are working only with Docker 1.13+
  TL;DR Docker 1.13 simplifies deployment of composed application to a swarm (mode) cluster. And you can do it without creating a new dab (Distribution Application Bundle) file, but just using familiar and well-known docker-compose.yml syntax (with some additions) and --compose-file option.
 Swarm cluster Docker Engine 1.12 introduced a new swarm mode for natively managing a cluster of Docker Engines called a swarm.</description>

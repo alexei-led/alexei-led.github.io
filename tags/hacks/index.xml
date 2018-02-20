@@ -2,22 +2,22 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Hacks on Terra Nullius</title>
-    <link>http://blog.terranillius.com/tags/hacks/</link>
+    <link>https://alexei-led.github.io/tags/hacks/</link>
     <description>Recent content in Hacks on Terra Nullius</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>This work is licensed under a Creative Commons Attribution 4.0 International License</copyright>
     <lastBuildDate>Sat, 03 Jun 2017 18:00:00 +0200</lastBuildDate>
     
-	<atom:link href="http://blog.terranillius.com/tags/hacks/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://alexei-led.github.io/tags/hacks/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Debugging remote Node.js application running in a Docker container</title>
-      <link>http://blog.terranillius.com/post/debug_node_in_docker/</link>
+      <link>https://alexei-led.github.io/post/debug_node_in_docker/</link>
       <pubDate>Sat, 03 Jun 2017 18:00:00 +0200</pubDate>
       
-      <guid>http://blog.terranillius.com/post/debug_node_in_docker/</guid>
+      <guid>https://alexei-led.github.io/post/debug_node_in_docker/</guid>
       <description>Teaser Suppose you want to debug a Node.js application already running on a remote machine inside Docker container. And would like to do it without modifying command arguments (enabling debug mode) and opening remote Node.js debugger agent port to the whole world.
 I bet you didn&amp;rsquo;t know that it&amp;rsquo;s possible and also have no idea how to do it.
 I encourage you to continue reading this post if you are eager to learn some new cool stuff.</description>
@@ -25,20 +25,20 @@ I encourage you to continue reading this post if you are eager to learn some new
     
     <item>
       <title>Create lean Node.js image with Docker multi-stage build</title>
-      <link>http://blog.terranillius.com/post/node_docker_multistage/</link>
+      <link>https://alexei-led.github.io/post/node_docker_multistage/</link>
       <pubDate>Tue, 25 Apr 2017 18:00:00 +0200</pubDate>
       
-      <guid>http://blog.terranillius.com/post/node_docker_multistage/</guid>
+      <guid>https://alexei-led.github.io/post/node_docker_multistage/</guid>
       <description>TL;DR Starting from Docker 17.05+, you can create a single Dockerfile that can build multiple helper images with compilers, tools, and tests and use files from above images to produce the final Docker image.
 The &amp;ldquo;core principle&amp;rdquo; of Dockerfile Docker can build images by reading the instructions from a Dockerfile. A Dockerfile is a text file that contains a list of all the commands needed to build a new Docker image.</description>
     </item>
     
     <item>
       <title>Crafting perfect Java Docker build flow</title>
-      <link>http://blog.terranillius.com/post/perfect_docker_java/</link>
+      <link>https://alexei-led.github.io/post/perfect_docker_java/</link>
       <pubDate>Tue, 07 Mar 2017 18:00:00 +0200</pubDate>
       
-      <guid>http://blog.terranillius.com/post/perfect_docker_java/</guid>
+      <guid>https://alexei-led.github.io/post/perfect_docker_java/</guid>
       <description>TL;DR  What is the bare minimum you need to build, test and run my Java application in Docker container?
 The recipe: Create a separate Docker image for each step and optimize the way you are running it.
  Introduction I started working with Java in 1998, and for a long time, it was my main programming language. It was a long love–hate relationship.
@@ -47,10 +47,10 @@ DDuring my work career, I wrote a lot of code in Java.</description>
     
     <item>
       <title>Everyday hacks for Docker</title>
-      <link>http://blog.terranillius.com/post/everyday_hacks/</link>
+      <link>https://alexei-led.github.io/post/everyday_hacks/</link>
       <pubDate>Mon, 02 Jan 2017 18:00:00 +0200</pubDate>
       
-      <guid>http://blog.terranillius.com/post/everyday_hacks/</guid>
+      <guid>https://alexei-led.github.io/post/everyday_hacks/</guid>
       <description>In this post, I&amp;rsquo;ve decided to share with you some useful commands and tools, I&amp;rsquo;m frequently using, working with amazing Docker technology. There is no particular order or &amp;ldquo;coolness level&amp;rdquo; for every &amp;ldquo;hack&amp;rdquo;. I will try to present the use case and how does specific command or tool help me with my work.
 Cleaning up Working with Docker for some time, you start to accumulate development junk: unused volumes, networks, exited containers and unused images.</description>
     </item>
