@@ -100,6 +100,8 @@
 
 <p>This post shows how to run a GPU workload on Kubernetes cluster in cost effective way, using <a href="https://aws.amazon.com/eks/">AWS EKS</a> cluster, <a href="https://aws.amazon.com/autoscaling/">AWS Auto Scaling</a>, <a href="https://aws.amazon.com/ec2/spot/">Amazon EC2 Spot Instances</a> and some Kubernetes resources and configurations.</p>
 
+<p><img src="https://alexei-led.github.io/img/k8s_gpu.png" alt="Kubernetes with GPU Mixed ASG" /></p>
+
 <h2 id="eks-cluster-plan">EKS Cluster Plan</h2>
 
 <p>First we need to create a Kubernetes cluster that consists from mixed nodes, non-GPU nodes for management and generic Kubernetes workload and more expensive GPU nodes to run GPU intensive tasks, like machine learning, medical analysis, seismic exploration, video transcoding and others.</p>
