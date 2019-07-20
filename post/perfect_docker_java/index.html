@@ -7,7 +7,7 @@
 
     <meta name="description" content="">
 
-    <meta name="generator" content="Hugo 0.36.1" />
+    <meta name="generator" content="Hugo 0.55.6" />
     <meta name="twitter:card" content="summary">
     <meta name="twitter:site" content="alexeiled" />
     <meta name="twitter:title" content="Crafting perfect Java Docker build flow &middot; Terra Nullius">
@@ -25,7 +25,7 @@
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
 
     <link rel="alternate" type="application/rss+xml" title="Terra Nullius" href="https://alexei-led.github.io/index.xml" />
-    <link rel="canonical" href="https://codefresh.io/blog/java_docker_pipeline/">
+    <link rel="canonical" href="">
 </head>
 <body>
 
@@ -234,8 +234,8 @@ CMD [&quot;/usr/bin/java&quot;, &quot;-jar&quot;, &quot;-Dspring.profiles.active
 <ul>
 <li>4.8MB Alpine Linux Layer</li>
 <li>103MB OpenJDK JRE Layer</li>
-<li>61.8MB Application WAR file</li>
-</ul>
+
+<li><p>61.8MB Application WAR file</p>
 
 <pre><code>$ docker history blog/sbdemo:latest
 
@@ -250,7 +250,8 @@ d85b17c6762e        2 months ago        /bin/sh -c set -x  &amp;&amp; apk add --
 &lt;missing&gt;           2 months ago        /bin/sh -c {   echo '#!/bin/sh';   echo 's...   87 B                
 &lt;missing&gt;           2 months ago        /bin/sh -c #(nop)  ENV LANG=C.UTF-8             0 B                 
 &lt;missing&gt;           2 months ago        /bin/sh -c #(nop) ADD file:eeed5f514a35d18...   4.8 MB              
-</code></pre>
+</code></pre></li>
+</ul>
 
 <h3 id="running-the-java-application-docker-container">Running the Java Application Docker container</h3>
 
@@ -627,7 +628,7 @@ steps:
 
                     </div>
                     <div id="disqus_thread"></div>
-<script>
+<script type="application/javascript">
     var disqus_config = function () {
     
     

@@ -7,7 +7,7 @@
 
     <meta name="description" content="">
 
-    <meta name="generator" content="Hugo 0.36.1" />
+    <meta name="generator" content="Hugo 0.55.6" />
     <meta name="twitter:card" content="summary">
     <meta name="twitter:site" content="alexeiled" />
     <meta name="twitter:title" content="Deploy Docker Compose (v3) to Swarm (mode) Cluster &middot; Terra Nullius">
@@ -25,7 +25,7 @@
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
 
     <link rel="alternate" type="application/rss+xml" title="Terra Nullius" href="https://alexei-led.github.io/index.xml" />
-    <link rel="canonical" href="https://codefresh.io/blog/deploy-docker-compose-v3-swarm-mode-cluster/">
+    <link rel="canonical" href="">
 </head>
 <body>
 
@@ -124,7 +124,7 @@
 
 <p>The script initialize docker engine as a <strong>swarm master</strong>, then starts 3 new docker-in-docker containers and join them to the <strong>swarm</strong> cluster as worker nodes. All worker nodes run with <code>--registry-mirror</code> option.</p>
 
-<script src="//gist.github.com/alexei-led/a4d31ee446a0fbcab845b93fe4a9b09d.js?file=create_swarm_cluster.sh"></script>
+<script type="application/javascript" src="//gist.github.com/alexei-led/a4d31ee446a0fbcab845b93fe4a9b09d.js?file=create_swarm_cluster.sh"></script>
 
 <h2 id="deploy-multi-container-application-the-old-way">Deploy multi-container application - the &ldquo;old&rdquo; way</h2>
 
@@ -188,19 +188,15 @@ Now you can specify all options supported by <code>docker service create/update<
 
 <p>Run the <code>docker deploy --compose-file docker-compose.yml</code> command to deploy my version of &ldquo;Cats vs. Dogs&rdquo; application on a swarm cluster.</p>
 
-<script src="//gist.github.com/alexei-led/a4d31ee446a0fbcab845b93fe4a9b09d.js?file=docker-compose.yml"></script>
+<script type="application/javascript" src="//gist.github.com/alexei-led/a4d31ee446a0fbcab845b93fe4a9b09d.js?file=docker-compose.yml"></script>
 
 <hr />
 
 <p>Hope you find this post useful. I look forward to your comments and any questions you have.</p>
 
-<hr />
-
-<p><em>This is a <strong>working draft</strong> version. The final post version is published at <a href="https://codefresh.io/blog/deploy-docker-compose-v3-swarm-mode-cluster/">Codefresh Blog</a> on December 25, 2016.</em></p>
-
                     </div>
                     <div id="disqus_thread"></div>
-<script>
+<script type="application/javascript">
     var disqus_config = function () {
     
     

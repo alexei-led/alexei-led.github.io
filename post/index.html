@@ -7,7 +7,7 @@
 
     <meta name="description" content="The Programming Blog">
 
-    <meta name="generator" content="Hugo 0.36.1" />
+    <meta name="generator" content="Hugo 0.55.6" />
     <meta name="twitter:card" content="summary">
     <meta name="twitter:site" content="alexeiled" />
     <meta name="twitter:title" content="Posts &middot; Terra Nullius">
@@ -173,11 +173,11 @@ hack/
 Dockerfile
 # Codefresh CI/CD pipeline
 codefresh.yaml
-</code></pre></li>
+</code></pre>
 
-<li><p>We keep our application <em>chart</em> in a separate <code>git</code> repository. The application <em>chart</em> does not contain templates, but only list of third party charts it needs (<code>requirements.yaml</code> file) and values files for different runtime environments (<code>testing</code>, <code>staging</code> and <code>production</code>)</p></li>
-
-<li><p>All <em>secrets</em> in values files are encrypted with <a href="https://github.com/mozilla/sops">sops</a> tool and we defined a <code>.gitignore</code> file and setup a <code>git pre-commit hook</code> to avoid unintentional commit of decrypted secrets.</p></li>
+<ol>
+<li>We keep our application <em>chart</em> in a separate <code>git</code> repository. The application <em>chart</em> does not contain templates, but only list of third party charts it needs (<code>requirements.yaml</code> file) and values files for different runtime environments (<code>testing</code>, <code>staging</code> and <code>production</code>)</li>
+<li>All <em>secrets</em> in values files are encrypted with <a href="https://github.com/mozilla/sops">sops</a> tool and we defined a <code>.gitignore</code> file and setup a <code>git pre-commit hook</code> to avoid unintentional commit of decrypted secrets.</li>
 </ol>
 
 <h2 id="docker-continuous-integration">Docker Continuous Integration</h2>
@@ -250,7 +250,8 @@ COPY . .
 # expose port and define CMD
 EXPOSE 5000
 CMD npm run start
-</code></pre>
+</code></pre></li>
+</ol>
 
 <h2 id="kubernetes-continuous-delivery-cd">Kubernetes Continuous Delivery (CD)</h2>
 
@@ -567,20 +568,16 @@ sh$ iperf -c server -u
 <h2 id="session-and-slides">Session and slides</h2>
 
 
-<div style="position: relative; padding-bottom: 56.25%; padding-top: 30px; height: 0; overflow: hidden;">
-  <iframe src="//www.youtube.com/embed/68ZepHa5UVg" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" allowfullscreen frameborder="0" title="YouTube Video"></iframe>
- </div>
+<div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
+  <iframe src="//www.youtube.com/embed/68ZepHa5UVg" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" allowfullscreen title="YouTube Video"></iframe>
+</div>
 
 
-<script async class='speakerdeck-embed' data-id='c4a0beb3a4ba4391be0aaa273c8de8de' data-ratio='1.33333333333333' src='//speakerdeck.com/assets/embed.js'></script>
+<p><a href="https://speakerdeck.com/alexeiled/chaos-testing-for-docker-containers">Slides</a></p>
 
 <hr />
 
 <p>Hope, you find this post useful. I look forward to your comments and any questions you have.</p>
-
-<hr />
-
-<p>*This is a <strong>working draft</strong> version. The final post version is published at <a href="https://codefresh.io/blog/chaos_testing_docker/">Codefresh Blog</a> on October 4, 2017.*</p>
 
                     </div>
                 </section>
@@ -872,18 +869,14 @@ $ git checkout $GIT_COMMIT
 <p>I&rsquo;ve recorded a short movie, just to demonstrate all steps and prove that things are working fluently, exactly as I&rsquo;ve described in this post.</p>
 
 
-<div style="position: relative; padding-bottom: 56.25%; padding-top: 30px; height: 0; overflow: hidden;">
-  <iframe src="//www.youtube.com/embed/WYOfNTJmE_4" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" allowfullscreen frameborder="0" title="YouTube Video"></iframe>
- </div>
+<div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
+  <iframe src="//www.youtube.com/embed/WYOfNTJmE_4" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" allowfullscreen title="YouTube Video"></iframe>
+</div>
 
 
 <hr />
 
 <p>Hope, you find this post useful. I look forward to your comments and any questions you have.</p>
-
-<hr />
-
-<p>*This is a <strong>working draft</strong> version. The final post version is published at <a href="https://codefresh.io/blog/debug_node_in_docker/">Codefresh Blog</a> on June 6, 2017.*</p>
 
                     </div>
                 </section>
@@ -1101,10 +1094,6 @@ $ docker build -t local/chat:multi-stage .
 
 <p>Hope, you find this post useful. I look forward to your comments and any questions you have.</p>
 
-<hr />
-
-<p>_This is a <strong>working draft</strong> version. The final post version is published at <a href="https://codefresh.io/blog/node_docker_multistage/">Codefresh Blog</a> on April 24, 2017._</p>
-
                     </div>
                 </section>
                 
@@ -1267,8 +1256,8 @@ CMD [&quot;/usr/bin/java&quot;, &quot;-jar&quot;, &quot;-Dspring.profiles.active
 <ul>
 <li>4.8MB Alpine Linux Layer</li>
 <li>103MB OpenJDK JRE Layer</li>
-<li>61.8MB Application WAR file</li>
-</ul>
+
+<li><p>61.8MB Application WAR file</p>
 
 <pre><code>$ docker history blog/sbdemo:latest
 
@@ -1283,7 +1272,8 @@ d85b17c6762e        2 months ago        /bin/sh -c set -x  &amp;&amp; apk add --
 &lt;missing&gt;           2 months ago        /bin/sh -c {   echo '#!/bin/sh';   echo 's...   87 B                
 &lt;missing&gt;           2 months ago        /bin/sh -c #(nop)  ENV LANG=C.UTF-8             0 B                 
 &lt;missing&gt;           2 months ago        /bin/sh -c #(nop) ADD file:eeed5f514a35d18...   4.8 MB              
-</code></pre>
+</code></pre></li>
+</ul>
 
 <h3 id="running-the-java-application-docker-container">Running the Java Application Docker container</h3>
 
@@ -1859,10 +1849,6 @@ $ docker network create --driver overlay --attachable mynet
 $ docker run -it --rm --net=mynet net-tools sh
 </code></pre>
 
-<hr />
-
-<p><em>This is a <strong>working draft</strong> version. The final post version is published at <a href="https://codefresh.io/blog/everyday-hacks-docker/">Codefresh Blog</a> on January 5, 2017.</em></p>
-
                     </div>
                 </section>
                 
@@ -1915,7 +1901,7 @@ $ docker run -it --rm --net=mynet net-tools sh
 
 <p>The script initialize docker engine as a <strong>swarm master</strong>, then starts 3 new docker-in-docker containers and join them to the <strong>swarm</strong> cluster as worker nodes. All worker nodes run with <code>--registry-mirror</code> option.</p>
 
-<script src="//gist.github.com/alexei-led/a4d31ee446a0fbcab845b93fe4a9b09d.js?file=create_swarm_cluster.sh"></script>
+<script type="application/javascript" src="//gist.github.com/alexei-led/a4d31ee446a0fbcab845b93fe4a9b09d.js?file=create_swarm_cluster.sh"></script>
 
 <h2 id="deploy-multi-container-application-the-old-way">Deploy multi-container application - the &ldquo;old&rdquo; way</h2>
 
@@ -1979,15 +1965,11 @@ Now you can specify all options supported by <code>docker service create/update<
 
 <p>Run the <code>docker deploy --compose-file docker-compose.yml</code> command to deploy my version of &ldquo;Cats vs. Dogs&rdquo; application on a swarm cluster.</p>
 
-<script src="//gist.github.com/alexei-led/a4d31ee446a0fbcab845b93fe4a9b09d.js?file=docker-compose.yml"></script>
+<script type="application/javascript" src="//gist.github.com/alexei-led/a4d31ee446a0fbcab845b93fe4a9b09d.js?file=docker-compose.yml"></script>
 
 <hr />
 
 <p>Hope you find this post useful. I look forward to your comments and any questions you have.</p>
-
-<hr />
-
-<p><em>This is a <strong>working draft</strong> version. The final post version is published at <a href="https://codefresh.io/blog/deploy-docker-compose-v3-swarm-mode-cluster/">Codefresh Blog</a> on December 25, 2016.</em></p>
 
                     </div>
                 </section>
@@ -2142,10 +2124,6 @@ README-secret.md
 <hr />
 
 <p>Hope you find this post useful. I look forward to your comments and any questions you have.</p>
-
-<hr />
-
-<p><em>This is a <strong>working draft</strong> version. The final post version is published at <a href="https://codefresh.io/blog/not-ignore-dockerignore/">Codefresh Blog</a> on December 8, 2016.</em></p>
 
                     </div>
                 </section>

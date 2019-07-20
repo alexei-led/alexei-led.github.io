@@ -3,18 +3,18 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kubernetes &middot; Terra Nullius</title>
+    <title>kubernetes &middot; Terra Nullius</title>
 
     <meta name="description" content="The Programming Blog">
 
-    <meta name="generator" content="Hugo 0.36.1" />
+    <meta name="generator" content="Hugo 0.55.6" />
     <meta name="twitter:card" content="summary">
     <meta name="twitter:site" content="alexeiled" />
-    <meta name="twitter:title" content="Kubernetes &middot; Terra Nullius">
+    <meta name="twitter:title" content="kubernetes &middot; Terra Nullius">
     <meta name="twitter:description" content="The Programming Blog">
 
     <meta property="og:type" content="article">
-    <meta property="og:title" content="Kubernetes &middot; Terra Nullius">
+    <meta property="og:title" content="kubernetes &middot; Terra Nullius">
     <meta property="og:description" content="The Programming Blog">
 
     <link href='//fonts.googleapis.com/css?family=Source+Sans+Pro:400,700|Oxygen:400,700' rel='stylesheet' type='text/css'>
@@ -173,11 +173,11 @@ hack/
 Dockerfile
 # Codefresh CI/CD pipeline
 codefresh.yaml
-</code></pre></li>
+</code></pre>
 
-<li><p>We keep our application <em>chart</em> in a separate <code>git</code> repository. The application <em>chart</em> does not contain templates, but only list of third party charts it needs (<code>requirements.yaml</code> file) and values files for different runtime environments (<code>testing</code>, <code>staging</code> and <code>production</code>)</p></li>
-
-<li><p>All <em>secrets</em> in values files are encrypted with <a href="https://github.com/mozilla/sops">sops</a> tool and we defined a <code>.gitignore</code> file and setup a <code>git pre-commit hook</code> to avoid unintentional commit of decrypted secrets.</p></li>
+<ol>
+<li>We keep our application <em>chart</em> in a separate <code>git</code> repository. The application <em>chart</em> does not contain templates, but only list of third party charts it needs (<code>requirements.yaml</code> file) and values files for different runtime environments (<code>testing</code>, <code>staging</code> and <code>production</code>)</li>
+<li>All <em>secrets</em> in values files are encrypted with <a href="https://github.com/mozilla/sops">sops</a> tool and we defined a <code>.gitignore</code> file and setup a <code>git pre-commit hook</code> to avoid unintentional commit of decrypted secrets.</li>
 </ol>
 
 <h2 id="docker-continuous-integration">Docker Continuous Integration</h2>
@@ -250,7 +250,8 @@ COPY . .
 # expose port and define CMD
 EXPOSE 5000
 CMD npm run start
-</code></pre>
+</code></pre></li>
+</ol>
 
 <h2 id="kubernetes-continuous-delivery-cd">Kubernetes Continuous Delivery (CD)</h2>
 

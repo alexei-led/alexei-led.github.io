@@ -3,18 +3,18 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tutorial &middot; Terra Nullius</title>
+    <title>tutorial &middot; Terra Nullius</title>
 
     <meta name="description" content="The Programming Blog">
 
-    <meta name="generator" content="Hugo 0.36.1" />
+    <meta name="generator" content="Hugo 0.55.6" />
     <meta name="twitter:card" content="summary">
     <meta name="twitter:site" content="alexeiled" />
-    <meta name="twitter:title" content="Tutorial &middot; Terra Nullius">
+    <meta name="twitter:title" content="tutorial &middot; Terra Nullius">
     <meta name="twitter:description" content="The Programming Blog">
 
     <meta property="og:type" content="article">
-    <meta property="og:title" content="Tutorial &middot; Terra Nullius">
+    <meta property="og:title" content="tutorial &middot; Terra Nullius">
     <meta property="og:description" content="The Programming Blog">
 
     <link href='//fonts.googleapis.com/css?family=Source+Sans+Pro:400,700|Oxygen:400,700' rel='stylesheet' type='text/css'>
@@ -173,11 +173,11 @@ hack/
 Dockerfile
 # Codefresh CI/CD pipeline
 codefresh.yaml
-</code></pre></li>
+</code></pre>
 
-<li><p>We keep our application <em>chart</em> in a separate <code>git</code> repository. The application <em>chart</em> does not contain templates, but only list of third party charts it needs (<code>requirements.yaml</code> file) and values files for different runtime environments (<code>testing</code>, <code>staging</code> and <code>production</code>)</p></li>
-
-<li><p>All <em>secrets</em> in values files are encrypted with <a href="https://github.com/mozilla/sops">sops</a> tool and we defined a <code>.gitignore</code> file and setup a <code>git pre-commit hook</code> to avoid unintentional commit of decrypted secrets.</p></li>
+<ol>
+<li>We keep our application <em>chart</em> in a separate <code>git</code> repository. The application <em>chart</em> does not contain templates, but only list of third party charts it needs (<code>requirements.yaml</code> file) and values files for different runtime environments (<code>testing</code>, <code>staging</code> and <code>production</code>)</li>
+<li>All <em>secrets</em> in values files are encrypted with <a href="https://github.com/mozilla/sops">sops</a> tool and we defined a <code>.gitignore</code> file and setup a <code>git pre-commit hook</code> to avoid unintentional commit of decrypted secrets.</li>
 </ol>
 
 <h2 id="docker-continuous-integration">Docker Continuous Integration</h2>
@@ -250,7 +250,8 @@ COPY . .
 # expose port and define CMD
 EXPOSE 5000
 CMD npm run start
-</code></pre>
+</code></pre></li>
+</ol>
 
 <h2 id="kubernetes-continuous-delivery-cd">Kubernetes Continuous Delivery (CD)</h2>
 
@@ -644,18 +645,14 @@ $ git checkout $GIT_COMMIT
 <p>I&rsquo;ve recorded a short movie, just to demonstrate all steps and prove that things are working fluently, exactly as I&rsquo;ve described in this post.</p>
 
 
-<div style="position: relative; padding-bottom: 56.25%; padding-top: 30px; height: 0; overflow: hidden;">
-  <iframe src="//www.youtube.com/embed/WYOfNTJmE_4" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" allowfullscreen frameborder="0" title="YouTube Video"></iframe>
- </div>
+<div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
+  <iframe src="//www.youtube.com/embed/WYOfNTJmE_4" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" allowfullscreen title="YouTube Video"></iframe>
+</div>
 
 
 <hr />
 
 <p>Hope, you find this post useful. I look forward to your comments and any questions you have.</p>
-
-<hr />
-
-<p>*This is a <strong>working draft</strong> version. The final post version is published at <a href="https://codefresh.io/blog/debug_node_in_docker/">Codefresh Blog</a> on June 6, 2017.*</p>
 
                     </div>
                 </section>
@@ -873,10 +870,6 @@ $ docker build -t local/chat:multi-stage .
 
 <p>Hope, you find this post useful. I look forward to your comments and any questions you have.</p>
 
-<hr />
-
-<p>_This is a <strong>working draft</strong> version. The final post version is published at <a href="https://codefresh.io/blog/node_docker_multistage/">Codefresh Blog</a> on April 24, 2017._</p>
-
                     </div>
                 </section>
                 
@@ -1039,8 +1032,8 @@ CMD [&quot;/usr/bin/java&quot;, &quot;-jar&quot;, &quot;-Dspring.profiles.active
 <ul>
 <li>4.8MB Alpine Linux Layer</li>
 <li>103MB OpenJDK JRE Layer</li>
-<li>61.8MB Application WAR file</li>
-</ul>
+
+<li><p>61.8MB Application WAR file</p>
 
 <pre><code>$ docker history blog/sbdemo:latest
 
@@ -1055,7 +1048,8 @@ d85b17c6762e        2 months ago        /bin/sh -c set -x  &amp;&amp; apk add --
 &lt;missing&gt;           2 months ago        /bin/sh -c {   echo '#!/bin/sh';   echo 's...   87 B                
 &lt;missing&gt;           2 months ago        /bin/sh -c #(nop)  ENV LANG=C.UTF-8             0 B                 
 &lt;missing&gt;           2 months ago        /bin/sh -c #(nop) ADD file:eeed5f514a35d18...   4.8 MB              
-</code></pre>
+</code></pre></li>
+</ul>
 
 <h3 id="running-the-java-application-docker-container">Running the Java Application Docker container</h3>
 
@@ -1630,10 +1624,6 @@ $ docker network create --driver overlay --attachable mynet
 # create net-tools container and attach it to mynet overlay network
 $ docker run -it --rm --net=mynet net-tools sh
 </code></pre>
-
-<hr />
-
-<p><em>This is a <strong>working draft</strong> version. The final post version is published at <a href="https://codefresh.io/blog/everyday-hacks-docker/">Codefresh Blog</a> on January 5, 2017.</em></p>
 
                     </div>
                 </section>

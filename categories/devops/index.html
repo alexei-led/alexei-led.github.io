@@ -3,18 +3,18 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Devops &middot; Terra Nullius</title>
+    <title>DevOps &middot; Terra Nullius</title>
 
     <meta name="description" content="The Programming Blog">
 
-    <meta name="generator" content="Hugo 0.36.1" />
+    <meta name="generator" content="Hugo 0.55.6" />
     <meta name="twitter:card" content="summary">
     <meta name="twitter:site" content="alexeiled" />
-    <meta name="twitter:title" content="Devops &middot; Terra Nullius">
+    <meta name="twitter:title" content="DevOps &middot; Terra Nullius">
     <meta name="twitter:description" content="The Programming Blog">
 
     <meta property="og:type" content="article">
-    <meta property="og:title" content="Devops &middot; Terra Nullius">
+    <meta property="og:title" content="DevOps &middot; Terra Nullius">
     <meta property="og:description" content="The Programming Blog">
 
     <link href='//fonts.googleapis.com/css?family=Source+Sans+Pro:400,700|Oxygen:400,700' rel='stylesheet' type='text/css'>
@@ -223,8 +223,8 @@ CMD [&quot;/usr/bin/java&quot;, &quot;-jar&quot;, &quot;-Dspring.profiles.active
 <ul>
 <li>4.8MB Alpine Linux Layer</li>
 <li>103MB OpenJDK JRE Layer</li>
-<li>61.8MB Application WAR file</li>
-</ul>
+
+<li><p>61.8MB Application WAR file</p>
 
 <pre><code>$ docker history blog/sbdemo:latest
 
@@ -239,7 +239,8 @@ d85b17c6762e        2 months ago        /bin/sh -c set -x  &amp;&amp; apk add --
 &lt;missing&gt;           2 months ago        /bin/sh -c {   echo '#!/bin/sh';   echo 's...   87 B                
 &lt;missing&gt;           2 months ago        /bin/sh -c #(nop)  ENV LANG=C.UTF-8             0 B                 
 &lt;missing&gt;           2 months ago        /bin/sh -c #(nop) ADD file:eeed5f514a35d18...   4.8 MB              
-</code></pre>
+</code></pre></li>
+</ul>
 
 <h3 id="running-the-java-application-docker-container">Running the Java Application Docker container</h3>
 
@@ -815,10 +816,6 @@ $ docker network create --driver overlay --attachable mynet
 $ docker run -it --rm --net=mynet net-tools sh
 </code></pre>
 
-<hr />
-
-<p><em>This is a <strong>working draft</strong> version. The final post version is published at <a href="https://codefresh.io/blog/everyday-hacks-docker/">Codefresh Blog</a> on January 5, 2017.</em></p>
-
                     </div>
                 </section>
                 
@@ -871,7 +868,7 @@ $ docker run -it --rm --net=mynet net-tools sh
 
 <p>The script initialize docker engine as a <strong>swarm master</strong>, then starts 3 new docker-in-docker containers and join them to the <strong>swarm</strong> cluster as worker nodes. All worker nodes run with <code>--registry-mirror</code> option.</p>
 
-<script src="//gist.github.com/alexei-led/a4d31ee446a0fbcab845b93fe4a9b09d.js?file=create_swarm_cluster.sh"></script>
+<script type="application/javascript" src="//gist.github.com/alexei-led/a4d31ee446a0fbcab845b93fe4a9b09d.js?file=create_swarm_cluster.sh"></script>
 
 <h2 id="deploy-multi-container-application-the-old-way">Deploy multi-container application - the &ldquo;old&rdquo; way</h2>
 
@@ -935,15 +932,11 @@ Now you can specify all options supported by <code>docker service create/update<
 
 <p>Run the <code>docker deploy --compose-file docker-compose.yml</code> command to deploy my version of &ldquo;Cats vs. Dogs&rdquo; application on a swarm cluster.</p>
 
-<script src="//gist.github.com/alexei-led/a4d31ee446a0fbcab845b93fe4a9b09d.js?file=docker-compose.yml"></script>
+<script type="application/javascript" src="//gist.github.com/alexei-led/a4d31ee446a0fbcab845b93fe4a9b09d.js?file=docker-compose.yml"></script>
 
 <hr />
 
 <p>Hope you find this post useful. I look forward to your comments and any questions you have.</p>
-
-<hr />
-
-<p><em>This is a <strong>working draft</strong> version. The final post version is published at <a href="https://codefresh.io/blog/deploy-docker-compose-v3-swarm-mode-cluster/">Codefresh Blog</a> on December 25, 2016.</em></p>
 
                     </div>
                 </section>

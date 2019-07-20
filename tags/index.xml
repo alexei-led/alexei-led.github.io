@@ -7,145 +7,10 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>This work is licensed under a Creative Commons Attribution 4.0 International License</copyright>
-    <lastBuildDate>Thu, 06 Oct 2016 16:00:00 +0200</lastBuildDate>
+    <lastBuildDate>Wed, 11 Oct 2017 18:00:00 +0200</lastBuildDate>
     
 	<atom:link href="https://alexei-led.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     
-    
-    <item>
-      <title>1.12</title>
-      <link>https://alexei-led.github.io/tags/1.12/</link>
-      <pubDate>Thu, 06 Oct 2016 16:00:00 +0200</pubDate>
-      
-      <guid>https://alexei-led.github.io/tags/1.12/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Build</title>
-      <link>https://alexei-led.github.io/tags/build/</link>
-      <pubDate>Sat, 26 Nov 2016 16:00:00 +0200</pubDate>
-      
-      <guid>https://alexei-led.github.io/tags/build/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Cd</title>
-      <link>https://alexei-led.github.io/tags/cd/</link>
-      <pubDate>Wed, 11 Oct 2017 18:00:00 +0200</pubDate>
-      
-      <guid>https://alexei-led.github.io/tags/cd/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Chaos</title>
-      <link>https://alexei-led.github.io/tags/chaos/</link>
-      <pubDate>Wed, 04 Oct 2017 18:00:00 +0200</pubDate>
-      
-      <guid>https://alexei-led.github.io/tags/chaos/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Chaos Engineering</title>
-      <link>https://alexei-led.github.io/tags/chaos-engineering/</link>
-      <pubDate>Wed, 04 Oct 2017 18:00:00 +0200</pubDate>
-      
-      <guid>https://alexei-led.github.io/tags/chaos-engineering/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Chaos Monkey</title>
-      <link>https://alexei-led.github.io/tags/chaos-monkey/</link>
-      <pubDate>Wed, 04 Oct 2017 18:00:00 +0200</pubDate>
-      
-      <guid>https://alexei-led.github.io/tags/chaos-monkey/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Chaos Testing</title>
-      <link>https://alexei-led.github.io/tags/chaos-testing/</link>
-      <pubDate>Wed, 04 Oct 2017 18:00:00 +0200</pubDate>
-      
-      <guid>https://alexei-led.github.io/tags/chaos-testing/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Ci</title>
-      <link>https://alexei-led.github.io/tags/ci/</link>
-      <pubDate>Wed, 11 Oct 2017 18:00:00 +0200</pubDate>
-      
-      <guid>https://alexei-led.github.io/tags/ci/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Cluster</title>
-      <link>https://alexei-led.github.io/tags/cluster/</link>
-      <pubDate>Sun, 18 Dec 2016 14:00:00 +0200</pubDate>
-      
-      <guid>https://alexei-led.github.io/tags/cluster/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Compose</title>
-      <link>https://alexei-led.github.io/tags/compose/</link>
-      <pubDate>Sun, 18 Dec 2016 14:00:00 +0200</pubDate>
-      
-      <guid>https://alexei-led.github.io/tags/compose/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Continuous Delivery</title>
-      <link>https://alexei-led.github.io/tags/continuous-delivery/</link>
-      <pubDate>Wed, 11 Oct 2017 18:00:00 +0200</pubDate>
-      
-      <guid>https://alexei-led.github.io/tags/continuous-delivery/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Continuous Deployment</title>
-      <link>https://alexei-led.github.io/tags/continuous-deployment/</link>
-      <pubDate>Wed, 11 Oct 2017 18:00:00 +0200</pubDate>
-      
-      <guid>https://alexei-led.github.io/tags/continuous-deployment/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Coreos</title>
-      <link>https://alexei-led.github.io/tags/coreos/</link>
-      <pubDate>Wed, 30 Dec 2015 11:09:47 +0200</pubDate>
-      
-      <guid>https://alexei-led.github.io/tags/coreos/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Debug</title>
-      <link>https://alexei-led.github.io/tags/debug/</link>
-      <pubDate>Sat, 03 Jun 2017 18:00:00 +0200</pubDate>
-      
-      <guid>https://alexei-led.github.io/tags/debug/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Devops</title>
-      <link>https://alexei-led.github.io/tags/devops/</link>
-      <pubDate>Wed, 11 Oct 2017 18:00:00 +0200</pubDate>
-      
-      <guid>https://alexei-led.github.io/tags/devops/</guid>
-      <description></description>
-    </item>
     
     <item>
       <title>Docker</title>
@@ -157,11 +22,146 @@
     </item>
     
     <item>
-      <title>Docker Compose</title>
-      <link>https://alexei-led.github.io/tags/docker-compose/</link>
-      <pubDate>Sun, 18 Dec 2016 14:00:00 +0200</pubDate>
+      <title>cd</title>
+      <link>https://alexei-led.github.io/tags/cd/</link>
+      <pubDate>Wed, 11 Oct 2017 18:00:00 +0200</pubDate>
       
-      <guid>https://alexei-led.github.io/tags/docker-compose/</guid>
+      <guid>https://alexei-led.github.io/tags/cd/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>ci</title>
+      <link>https://alexei-led.github.io/tags/ci/</link>
+      <pubDate>Wed, 11 Oct 2017 18:00:00 +0200</pubDate>
+      
+      <guid>https://alexei-led.github.io/tags/ci/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>continuous delivery</title>
+      <link>https://alexei-led.github.io/tags/continuous-delivery/</link>
+      <pubDate>Wed, 11 Oct 2017 18:00:00 +0200</pubDate>
+      
+      <guid>https://alexei-led.github.io/tags/continuous-delivery/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>continuous deployment</title>
+      <link>https://alexei-led.github.io/tags/continuous-deployment/</link>
+      <pubDate>Wed, 11 Oct 2017 18:00:00 +0200</pubDate>
+      
+      <guid>https://alexei-led.github.io/tags/continuous-deployment/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>devops</title>
+      <link>https://alexei-led.github.io/tags/devops/</link>
+      <pubDate>Wed, 11 Oct 2017 18:00:00 +0200</pubDate>
+      
+      <guid>https://alexei-led.github.io/tags/devops/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>helm</title>
+      <link>https://alexei-led.github.io/tags/helm/</link>
+      <pubDate>Wed, 11 Oct 2017 18:00:00 +0200</pubDate>
+      
+      <guid>https://alexei-led.github.io/tags/helm/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>kubernetes</title>
+      <link>https://alexei-led.github.io/tags/kubernetes/</link>
+      <pubDate>Wed, 11 Oct 2017 18:00:00 +0200</pubDate>
+      
+      <guid>https://alexei-led.github.io/tags/kubernetes/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>microservice</title>
+      <link>https://alexei-led.github.io/tags/microservice/</link>
+      <pubDate>Wed, 11 Oct 2017 18:00:00 +0200</pubDate>
+      
+      <guid>https://alexei-led.github.io/tags/microservice/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>tutorial</title>
+      <link>https://alexei-led.github.io/tags/tutorial/</link>
+      <pubDate>Wed, 11 Oct 2017 18:00:00 +0200</pubDate>
+      
+      <guid>https://alexei-led.github.io/tags/tutorial/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>chaos</title>
+      <link>https://alexei-led.github.io/tags/chaos/</link>
+      <pubDate>Wed, 04 Oct 2017 18:00:00 +0200</pubDate>
+      
+      <guid>https://alexei-led.github.io/tags/chaos/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>chaos engineering</title>
+      <link>https://alexei-led.github.io/tags/chaos-engineering/</link>
+      <pubDate>Wed, 04 Oct 2017 18:00:00 +0200</pubDate>
+      
+      <guid>https://alexei-led.github.io/tags/chaos-engineering/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>chaos monkey</title>
+      <link>https://alexei-led.github.io/tags/chaos-monkey/</link>
+      <pubDate>Wed, 04 Oct 2017 18:00:00 +0200</pubDate>
+      
+      <guid>https://alexei-led.github.io/tags/chaos-monkey/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>chaos testing</title>
+      <link>https://alexei-led.github.io/tags/chaos-testing/</link>
+      <pubDate>Wed, 04 Oct 2017 18:00:00 +0200</pubDate>
+      
+      <guid>https://alexei-led.github.io/tags/chaos-testing/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>netem</title>
+      <link>https://alexei-led.github.io/tags/netem/</link>
+      <pubDate>Wed, 04 Oct 2017 18:00:00 +0200</pubDate>
+      
+      <guid>https://alexei-led.github.io/tags/netem/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>network emulation</title>
+      <link>https://alexei-led.github.io/tags/network-emulation/</link>
+      <pubDate>Wed, 04 Oct 2017 18:00:00 +0200</pubDate>
+      
+      <guid>https://alexei-led.github.io/tags/network-emulation/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>testing</title>
+      <link>https://alexei-led.github.io/tags/testing/</link>
+      <pubDate>Wed, 04 Oct 2017 18:00:00 +0200</pubDate>
+      
+      <guid>https://alexei-led.github.io/tags/testing/</guid>
       <description></description>
     </item>
     
@@ -175,25 +175,16 @@
     </item>
     
     <item>
-      <title>Dockerignore</title>
-      <link>https://alexei-led.github.io/tags/dockerignore/</link>
-      <pubDate>Sat, 26 Nov 2016 16:00:00 +0200</pubDate>
+      <title>debug</title>
+      <link>https://alexei-led.github.io/tags/debug/</link>
+      <pubDate>Sat, 03 Jun 2017 18:00:00 +0200</pubDate>
       
-      <guid>https://alexei-led.github.io/tags/dockerignore/</guid>
+      <guid>https://alexei-led.github.io/tags/debug/</guid>
       <description></description>
     </item>
     
     <item>
-      <title>Fleet</title>
-      <link>https://alexei-led.github.io/tags/fleet/</link>
-      <pubDate>Wed, 30 Dec 2015 11:09:47 +0200</pubDate>
-      
-      <guid>https://alexei-led.github.io/tags/fleet/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Hacks</title>
+      <title>hacks</title>
       <link>https://alexei-led.github.io/tags/hacks/</link>
       <pubDate>Sat, 03 Jun 2017 18:00:00 +0200</pubDate>
       
@@ -202,106 +193,7 @@
     </item>
     
     <item>
-      <title>Helm</title>
-      <link>https://alexei-led.github.io/tags/helm/</link>
-      <pubDate>Wed, 11 Oct 2017 18:00:00 +0200</pubDate>
-      
-      <guid>https://alexei-led.github.io/tags/helm/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Integration Test</title>
-      <link>https://alexei-led.github.io/tags/integration-test/</link>
-      <pubDate>Mon, 07 Mar 2016 16:39:00 +0200</pubDate>
-      
-      <guid>https://alexei-led.github.io/tags/integration-test/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Java</title>
-      <link>https://alexei-led.github.io/tags/java/</link>
-      <pubDate>Tue, 07 Mar 2017 18:00:00 +0200</pubDate>
-      
-      <guid>https://alexei-led.github.io/tags/java/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Kubernetes</title>
-      <link>https://alexei-led.github.io/tags/kubernetes/</link>
-      <pubDate>Wed, 11 Oct 2017 18:00:00 +0200</pubDate>
-      
-      <guid>https://alexei-led.github.io/tags/kubernetes/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Masos</title>
-      <link>https://alexei-led.github.io/tags/masos/</link>
-      <pubDate>Thu, 06 Oct 2016 16:00:00 +0200</pubDate>
-      
-      <guid>https://alexei-led.github.io/tags/masos/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Maven</title>
-      <link>https://alexei-led.github.io/tags/maven/</link>
-      <pubDate>Tue, 07 Mar 2017 18:00:00 +0200</pubDate>
-      
-      <guid>https://alexei-led.github.io/tags/maven/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Microservice</title>
-      <link>https://alexei-led.github.io/tags/microservice/</link>
-      <pubDate>Wed, 11 Oct 2017 18:00:00 +0200</pubDate>
-      
-      <guid>https://alexei-led.github.io/tags/microservice/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Multistage</title>
-      <link>https://alexei-led.github.io/tags/multistage/</link>
-      <pubDate>Tue, 25 Apr 2017 18:00:00 +0200</pubDate>
-      
-      <guid>https://alexei-led.github.io/tags/multistage/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Netem</title>
-      <link>https://alexei-led.github.io/tags/netem/</link>
-      <pubDate>Wed, 04 Oct 2017 18:00:00 +0200</pubDate>
-      
-      <guid>https://alexei-led.github.io/tags/netem/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Network</title>
-      <link>https://alexei-led.github.io/tags/network/</link>
-      <pubDate>Mon, 01 Aug 2016 20:00:00 +0200</pubDate>
-      
-      <guid>https://alexei-led.github.io/tags/network/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Network Emulation</title>
-      <link>https://alexei-led.github.io/tags/network-emulation/</link>
-      <pubDate>Wed, 04 Oct 2017 18:00:00 +0200</pubDate>
-      
-      <guid>https://alexei-led.github.io/tags/network-emulation/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Node</title>
+      <title>node</title>
       <link>https://alexei-led.github.io/tags/node/</link>
       <pubDate>Sat, 03 Jun 2017 18:00:00 +0200</pubDate>
       
@@ -310,7 +202,7 @@
     </item>
     
     <item>
-      <title>Node.js</title>
+      <title>node.js</title>
       <link>https://alexei-led.github.io/tags/node.js/</link>
       <pubDate>Sat, 03 Jun 2017 18:00:00 +0200</pubDate>
       
@@ -319,20 +211,29 @@
     </item>
     
     <item>
-      <title>Pattern</title>
-      <link>https://alexei-led.github.io/tags/pattern/</link>
-      <pubDate>Thu, 14 Jan 2016 16:14:47 +0200</pubDate>
+      <title>multistage</title>
+      <link>https://alexei-led.github.io/tags/multistage/</link>
+      <pubDate>Tue, 25 Apr 2017 18:00:00 +0200</pubDate>
       
-      <guid>https://alexei-led.github.io/tags/pattern/</guid>
+      <guid>https://alexei-led.github.io/tags/multistage/</guid>
       <description></description>
     </item>
     
     <item>
-      <title>Resilience</title>
-      <link>https://alexei-led.github.io/tags/resilience/</link>
-      <pubDate>Sat, 16 Apr 2016 20:00:00 +0200</pubDate>
+      <title>java</title>
+      <link>https://alexei-led.github.io/tags/java/</link>
+      <pubDate>Tue, 07 Mar 2017 18:00:00 +0200</pubDate>
       
-      <guid>https://alexei-led.github.io/tags/resilience/</guid>
+      <guid>https://alexei-led.github.io/tags/java/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>maven</title>
+      <link>https://alexei-led.github.io/tags/maven/</link>
+      <pubDate>Tue, 07 Mar 2017 18:00:00 +0200</pubDate>
+      
+      <guid>https://alexei-led.github.io/tags/maven/</guid>
       <description></description>
     </item>
     
@@ -346,20 +247,119 @@
     </item>
     
     <item>
-      <title>Testing</title>
-      <link>https://alexei-led.github.io/tags/testing/</link>
-      <pubDate>Wed, 04 Oct 2017 18:00:00 +0200</pubDate>
+      <title>cluster</title>
+      <link>https://alexei-led.github.io/tags/cluster/</link>
+      <pubDate>Sun, 18 Dec 2016 14:00:00 +0200</pubDate>
       
-      <guid>https://alexei-led.github.io/tags/testing/</guid>
+      <guid>https://alexei-led.github.io/tags/cluster/</guid>
       <description></description>
     </item>
     
     <item>
-      <title>Tutorial</title>
-      <link>https://alexei-led.github.io/tags/tutorial/</link>
-      <pubDate>Wed, 11 Oct 2017 18:00:00 +0200</pubDate>
+      <title>compose</title>
+      <link>https://alexei-led.github.io/tags/compose/</link>
+      <pubDate>Sun, 18 Dec 2016 14:00:00 +0200</pubDate>
       
-      <guid>https://alexei-led.github.io/tags/tutorial/</guid>
+      <guid>https://alexei-led.github.io/tags/compose/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>docker-compose</title>
+      <link>https://alexei-led.github.io/tags/docker-compose/</link>
+      <pubDate>Sun, 18 Dec 2016 14:00:00 +0200</pubDate>
+      
+      <guid>https://alexei-led.github.io/tags/docker-compose/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>build</title>
+      <link>https://alexei-led.github.io/tags/build/</link>
+      <pubDate>Sat, 26 Nov 2016 16:00:00 +0200</pubDate>
+      
+      <guid>https://alexei-led.github.io/tags/build/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>dockerignore</title>
+      <link>https://alexei-led.github.io/tags/dockerignore/</link>
+      <pubDate>Sat, 26 Nov 2016 16:00:00 +0200</pubDate>
+      
+      <guid>https://alexei-led.github.io/tags/dockerignore/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>1.12</title>
+      <link>https://alexei-led.github.io/tags/1.12/</link>
+      <pubDate>Thu, 06 Oct 2016 16:00:00 +0200</pubDate>
+      
+      <guid>https://alexei-led.github.io/tags/1.12/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>MasOS</title>
+      <link>https://alexei-led.github.io/tags/masos/</link>
+      <pubDate>Thu, 06 Oct 2016 16:00:00 +0200</pubDate>
+      
+      <guid>https://alexei-led.github.io/tags/masos/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>network</title>
+      <link>https://alexei-led.github.io/tags/network/</link>
+      <pubDate>Mon, 01 Aug 2016 20:00:00 +0200</pubDate>
+      
+      <guid>https://alexei-led.github.io/tags/network/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>resilience</title>
+      <link>https://alexei-led.github.io/tags/resilience/</link>
+      <pubDate>Sat, 16 Apr 2016 20:00:00 +0200</pubDate>
+      
+      <guid>https://alexei-led.github.io/tags/resilience/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>integration test</title>
+      <link>https://alexei-led.github.io/tags/integration-test/</link>
+      <pubDate>Mon, 07 Mar 2016 16:39:00 +0200</pubDate>
+      
+      <guid>https://alexei-led.github.io/tags/integration-test/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>pattern</title>
+      <link>https://alexei-led.github.io/tags/pattern/</link>
+      <pubDate>Thu, 14 Jan 2016 16:14:47 +0200</pubDate>
+      
+      <guid>https://alexei-led.github.io/tags/pattern/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>CoreOS</title>
+      <link>https://alexei-led.github.io/tags/coreos/</link>
+      <pubDate>Wed, 30 Dec 2015 11:09:47 +0200</pubDate>
+      
+      <guid>https://alexei-led.github.io/tags/coreos/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>fleet</title>
+      <link>https://alexei-led.github.io/tags/fleet/</link>
+      <pubDate>Wed, 30 Dec 2015 11:09:47 +0200</pubDate>
+      
+      <guid>https://alexei-led.github.io/tags/fleet/</guid>
       <description></description>
     </item>
     

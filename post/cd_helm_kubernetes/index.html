@@ -7,7 +7,7 @@
 
     <meta name="description" content="">
 
-    <meta name="generator" content="Hugo 0.36.1" />
+    <meta name="generator" content="Hugo 0.55.6" />
     <meta name="twitter:card" content="summary">
     <meta name="twitter:site" content="alexeiled" />
     <meta name="twitter:title" content="Continuous Delivery and Continuous Deployment for Kubernetes microservices &middot; Terra Nullius">
@@ -25,7 +25,7 @@
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
 
     <link rel="alternate" type="application/rss+xml" title="Terra Nullius" href="https://alexei-led.github.io/index.xml" />
-    <link rel="canonical" href="https://codefresh.io/blog/cd_helm_kubernetes_microservices_1/">
+    <link rel="canonical" href="">
 </head>
 <body>
 
@@ -184,11 +184,11 @@ hack/
 Dockerfile
 # Codefresh CI/CD pipeline
 codefresh.yaml
-</code></pre></li>
+</code></pre>
 
-<li><p>We keep our application <em>chart</em> in a separate <code>git</code> repository. The application <em>chart</em> does not contain templates, but only list of third party charts it needs (<code>requirements.yaml</code> file) and values files for different runtime environments (<code>testing</code>, <code>staging</code> and <code>production</code>)</p></li>
-
-<li><p>All <em>secrets</em> in values files are encrypted with <a href="https://github.com/mozilla/sops">sops</a> tool and we defined a <code>.gitignore</code> file and setup a <code>git pre-commit hook</code> to avoid unintentional commit of decrypted secrets.</p></li>
+<ol>
+<li>We keep our application <em>chart</em> in a separate <code>git</code> repository. The application <em>chart</em> does not contain templates, but only list of third party charts it needs (<code>requirements.yaml</code> file) and values files for different runtime environments (<code>testing</code>, <code>staging</code> and <code>production</code>)</li>
+<li>All <em>secrets</em> in values files are encrypted with <a href="https://github.com/mozilla/sops">sops</a> tool and we defined a <code>.gitignore</code> file and setup a <code>git pre-commit hook</code> to avoid unintentional commit of decrypted secrets.</li>
 </ol>
 
 <h2 id="docker-continuous-integration">Docker Continuous Integration</h2>
@@ -261,7 +261,8 @@ COPY . .
 # expose port and define CMD
 EXPOSE 5000
 CMD npm run start
-</code></pre>
+</code></pre></li>
+</ol>
 
 <h2 id="kubernetes-continuous-delivery-cd">Kubernetes Continuous Delivery (CD)</h2>
 
@@ -367,7 +368,7 @@ Therefore, I recommend using a web server that supports nice API and allows to g
 
                     </div>
                     <div id="disqus_thread"></div>
-<script>
+<script type="application/javascript">
     var disqus_config = function () {
     
     
