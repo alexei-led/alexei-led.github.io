@@ -1,0 +1,543 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EKS GPU Cluster from Zero to Hero &middot; Terra Nullius</title>
+
+    <meta name="description" content="">
+
+    <meta name="generator" content="Hugo 0.55.6" />
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="alexeiled" />
+    <meta name="twitter:title" content="EKS GPU Cluster from Zero to Hero &middot; Terra Nullius">
+    <meta name="twitter:description" content="">
+
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="EKS GPU Cluster from Zero to Hero &middot; Terra Nullius">
+    <meta property="og:description" content="">
+
+    <link href='//fonts.googleapis.com/css?family=Source+Sans+Pro:400,700|Oxygen:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/pure-min.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/grids-responsive-min.css">
+
+    <link rel="stylesheet" href="https://alexei-led.github.io/css/all.min.css">
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+
+    <link rel="alternate" type="application/rss+xml" title="Terra Nullius" href="https://alexei-led.github.io/index.xml" />
+    <link rel="canonical" href="">
+</head>
+<body>
+
+
+<div id="layout" class="pure-g">
+    <div class="sidebar pure-u-1 pure-u-md-1-4">
+    <div class="header">
+        <hgroup>
+            <h1 class="brand-title"><a href="https://alexei-led.github.io">Terra Nullius</a></h1>
+            <h2 class="brand-tagline"> The Programming Blog </h2>
+        </hgroup>
+
+        <nav class="nav">
+            <ul class="nav-list">
+                
+                <li class="nav-item">
+                    <a class="pure-button" href="https://twitter.com/alexeiled"><i class="fa fa-twitter"></i> Twitter</a>
+                </li>
+                
+                
+                <li class="nav-item">
+                    <a class="pure-button" href="https://github.com/alexei-led "><i class="fa fa-github-alt"></i> github</a>
+                </li>
+                
+                <li class="nav-item">
+                    <a class="pure-button" href="https://alexei-led.github.io/index.xml"><i class="fa fa-rss"></i> rss</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</div>
+
+
+    <div class="content pure-u-1 pure-u-md-3-4">
+        <div>
+            
+            <div class="posts">
+                <h1 class="content-subhead">20 Jul 2019, 10:00</h1>
+                <section class="post">
+                    <header class="post-header">
+
+                        <a href="https://alexei-led.github.io/post/eks_gpu_spot/" class="post-title">EKS GPU Cluster from Zero to Hero</a>
+
+                        <p class="post-meta">
+                            
+                            
+                                under 
+                                
+                                <a class="post-category post-category-Development" href="https://alexei-led.github.io/categories/development">Development</a>
+                            
+                        </p>
+                    </header>
+                    
+                    <div class="post-share">
+                        <div class="post-share-links">
+                            <h4 style="">Share</h4>
+                            <a href="#" data-type="facebook" data-url="https://alexei-led.github.io/post/eks_gpu_spot/" data-title="EKS GPU Cluster from Zero to Hero" data-description="" data-media="" class="prettySocial fa fa-facebook"></a>
+                            <a href="#" data-type="googleplus" data-url="https://alexei-led.github.io/post/eks_gpu_spot/" data-description="" class="prettySocial fa fa-google-plus"></a>
+                            
+                            <a href="#" data-type="twitter" data-url="https://alexei-led.github.io/post/eks_gpu_spot/" data-description="" data-via="alexeiled" class="prettySocial fa fa-twitter"></a>
+                            
+                            
+                        </div>
+                    </div>
+                    
+                    <div class="post-description">
+                        
+
+<h2 id="introduction">Introduction</h2>
+
+<p>If you ever tried to run a GPU workload on Kubernetes cluster, you know that this task requires non-trivial configuration and comes with high cost tag (GPU instances are quite expensive).</p>
+
+<p>This post shows how to run a GPU workload on Kubernetes cluster in cost effective way, using <a href="https://aws.amazon.com/eks/">AWS EKS</a> cluster, <a href="https://aws.amazon.com/autoscaling/">AWS Auto Scaling</a>, <a href="https://aws.amazon.com/ec2/spot/">Amazon EC2 Spot Instances</a> and some Kubernetes resources and configurations.</p>
+
+<h2 id="eks-cluster-plan">EKS Cluster Plan</h2>
+
+<p>First we need to create a Kubernetes cluster that consists from mixed nodes, non-GPU nodes for management and generic Kubernetes workload and more expensive GPU nodes to run GPU intensive tasks, like machine learning, medical analysis, seismic exploration, video transcoding and others.</p>
+
+<p>These node groups should be able to scale on demand (scale out and scale in) for generic nodes, and from 0 to required number and back to 0 for expensive GPU instances. More than that, in order to do it in cost effective way, we are going to use  <a href="https://aws.amazon.com/ec2/spot/">Amazon EC2 Spot Instances</a> both for generic nodes and GPU nodes.</p>
+
+<h3 id="aws-ec2-spot-instances">AWS EC2 Spot Instances</h3>
+
+<p>With <a href="https://aws.amazon.com/ec2/spot/">Amazon EC2 Spot Instances</a> instances you can save up to 90% comparing to On-Demand price. Previously, Spot instances were terminated in ascending order of bids. The market prices fluctuated frequently because of this. In the current model, the Spot prices are more predictable, updated less frequently, and are determined by Amazon EC2 spare capacity, not bid prices. AWS EC2 service can reclaim SPot instances when there is not enough capacity for specific instance in specific Availability Zone. Spot instances receive a 2 minute alert when are about to be reclaimed by Amazon EC2 service and can use this time for graceful shutdown and state change.</p>
+
+<h2 id="the-workflow">The Workflow</h2>
+
+<h3 id="create-eks-cluster">Create EKS Cluster</h3>
+
+<p>It is possible to create <a href="https://aws.amazon.com/eks/">AWS EKS</a> cluster, using <a href="https://docs.aws.amazon.com/cli/latest/reference/eks">AWS EKS CLI</a>, CloudFormation or Terraform, <a href="https://aws.amazon.com/cdk/">AWS CDK</a> or <a href="https://eksctl.io">eksctl</a>.</p>
+
+<h4 id="eksctl-cli-tool">eksctl CLI tool</h4>
+
+<p>In this post <code>eksctl</code> (a CLI tool for creating clusters on EKS) is used.
+It is possible to pass all parameters to the tool as CLI flags or configuration file. Using configuration file makes process more repeatable and automation friendly.</p>
+
+<p><code>eksctl</code> can create or update EKS cluster and additional required AWS resources, using CloudFormation stacks.</p>
+
+<p>Customize your cluster by using a config file. Just run</p>
+
+<pre><code class="language-sh">eksctl create cluster -f cluster.yaml
+</code></pre>
+
+<p>to apply a cluster.yaml file:</p>
+
+<pre><code class="language-yaml">apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+
+metadata:
+name: test-cluster
+region: us-west-2
+
+nodeGroups:
+  - name: ng
+    instanceType: m5.large
+    desiredCapacity: 10
+</code></pre>
+
+<p>A new EKS cluster with 10 <code>m5.large</code> On-Demand EC2 worker nodes will be created and cluster credentials will be added to <code>~/.kube/config</code> file.</p>
+
+<h3 id="creating-node-groups">Creating node groups</h3>
+
+<p>As planned, we are going to create two node groups for Kubernetes worker nodes:</p>
+
+<ol>
+<li><em>General</em> node group - autoscaling group with Spot instances to run Kubernetes system workload and non-GPU workload</li>
+<li><em>GPU</em> node groups - autoscaling group with GPU-powered Spot Instances, that can scale from 0 to required number of instances and back to 0.</li>
+</ol>
+
+<p>Fortunately, the <code>eksctl</code> supports adding Kubernetes node groups to EKS cluster and these groups can be composed from  Spot-only instances or mixture of Spot and On-Demand instances.</p>
+
+<h4 id="general-node-group">General node group</h4>
+
+<p>The <code>eksctl</code> configuration file contains EKS cluster in <code>us-west-2</code> across 3 Availability Zones and the first <em>General</em> autoscaling (from 2 to 20 nodes) node group running on diversified Spot instances.</p>
+
+<pre><code class="language-yaml">---
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+
+metadata:
+  name: gaia-kube
+  region: us-west-2
+
+availabilityZones: [&quot;us-west-2a&quot;, &quot;us-west-2b&quot;, &quot;us-west-2c&quot;]
+
+nodeGroups:
+  # spot workers NG - multi AZ, scale from 3
+  - name: spot-ng
+    ami: auto
+    instanceType: mixed
+    desiredCapacity: 2
+    minSize: 2
+    maxSize: 20
+    volumeSize: 100
+    volumeType: gp2
+    volumeEncrypted: true
+    iam:
+      attachPolicyARNs:
+        - arn:aws:iam::aws:policy/service-role/AmazonEC2RoleforSSM
+        - arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy
+        - arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy
+        - arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly
+      withAddonPolicies:
+        autoScaler: true
+        ebs: true
+        albIngress: true
+        cloudWatch: true
+    instancesDistribution:
+      onDemandPercentageAboveBaseCapacity: 0
+      instanceTypes:
+        - m4.2xlarge
+        - m4.4xlarge
+        - m5.2xlarge
+        - m5.4xlarge
+        - m5a.2xlarge
+        - m5a.4xlarge
+        - c4.2xlarge
+        - c4.4xlarge
+        - c5.2xlarge
+        - c5.4xlarge
+      spotInstancePools: 15
+    tags:
+      k8s.io/cluster-autoscaler/enabled: 'true'
+    labels:
+      lifecycle: Ec2Spot
+    privateNetworking: true
+    availabilityZones: [&quot;us-west-2a&quot;, &quot;us-west-2b&quot;, &quot;us-west-2c&quot;]
+
+    ### next: GPU node groups ...
+</code></pre>
+
+<p>Now it is time to explain some parameters used in the above configuration file.</p>
+
+<ul>
+<li><code>ami: auto</code> - <code>eksctl</code> automatically discover latest EKS-Optimized AMI image for worker nodes, based on specified AWS region, EKS version and instance type. See <a href="https://docs.aws.amazon.com/eks/latest/userguide/eks-optimized-ami.html">Amazon EKS-Optimized AMI</a> chapter in User Guide</li>
+<li><code>instanceType: mixed</code> - specify that actual instance type will be one of instance types defined in <code>instancesDistribution</code> section</li>
+<li><code>iam</code> contains list of predefined and in-place IAM policies; <code>eksctl</code> creates a new <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/iam-roles-for-amazon-ec2.html">IAM Role</a> with specified policies and attaches this role to every EKS worker node. There are several IAM policies you are required to attach to every EKS worker node, read <a href="https://docs.aws.amazon.com/eks/latest/userguide/worker_node_IAM_role.html">Amazon EKS Worker Node IAM Role</a> section in User Guide and <a href="https://eksctl.io/usage/iam-policies/"><code>eksctl</code> IAM policies</a> documentation</li>
+<li><code>instancesDistribution</code> - specify mixed instance policy for EC2 Auto Scaling Groups, read AWS <a href="https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_MixedInstancesPolicy.html">MixedInstancesPolicy</a> documentation</li>
+<li><code>spotInstancePools</code> - specifies number of Spot instance pools to use, <a href="#Spot-Instance-Pools">read more</a></li>
+<li><code>tags</code> - AWS tags added to EKS worker nodes
+
+<ul>
+<li><code>k8s.io/cluster-autoscaler/enabled</code> will use this tag for Kubernetes Cluster Autoscaler auto-discovery</li>
+</ul></li>
+<li><code>privateNetworking: true</code> - all EKS worker nodes will be placed into private subnets</li>
+</ul>
+
+<h5 id="spot-instance-pools">Spot Instance Pools</h5>
+
+<p>When you are using Spot instances as worker nodes you need to diversify usage to as many <em>Spot Instance pools</em> as possible. A <em>Spot Instance pool</em> is a set of unused EC2 instances with the same instance type (for example, <code>m5.large</code>), operating system, Availability Zone, and network platforms.</p>
+
+<p>The <code>eksctl</code> currently supports single Spot provisioning model: <code>lowestPrice</code> allocation strategy. This strategy allows creation of a fleet of Spot Instances that is both cheap and diversified. Spot Fleet automatically deploys the cheapest combination of instance types and Availability Zones based on the current Spot price across the number of Spot pools that you specify. This combination allows avoiding the most expensive Spot Instances.</p>
+
+<p>The Spot instance diversification also increases worker nodes availability, typically not all <em>Spot Instance pools</em> will be interrupted at the same time, so only a small portion of your workload will be interrupted and EC2 Auto-scaling group will replace interrupted instances from others <em>Spot Instance pools</em>.</p>
+
+<h4 id="gpu-powered-node-group">GPU-powered node group</h4>
+
+<p>The next part of our <code>eksctl</code> configuration file contains first <em>GPU</em> autoscaling (from 0 to 10 nodes) node group running on diversified GPU-powered Spot instances.</p>
+
+<p>When using GPU-powered Spot instances, it&rsquo;s recommended to create <em>GPU</em> node group per Availability Zone and configure Kubernetes Cluster Autoscaler to avoid automatic <a href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/auto-scaling-benefits.html#arch-AutoScalingMultiAZ">ASG rebalancing</a>.</p>
+
+<p>Why is it important?
+GPU-powered EC2 Spot Instances have relatively high <em>Frequency of interruption</em> rate (<code>&gt;20%</code> for some GPU instance types) and using multiple AZ and disabling automatic Cluster Autoscaler balancing can help to minimize GPU workload interruptions.</p>
+
+<pre><code class="language-yaml">  # ... EKS cluster and General node group ...
+
+  # spot GPU NG - west-2a AZ, scale from 0
+  - name: gpu-spot-ng-a
+    ami: auto
+    instanceType: mixed
+    desiredCapacity: 0
+    minSize: 0
+    maxSize: 10
+    volumeSize: 100
+    volumeType: gp2
+    volumeEncrypted: true
+    iam:
+      attachPolicyARNs:
+        - arn:aws:iam::aws:policy/service-role/AmazonEC2RoleforSSM
+        - arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy
+        - arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy
+        - arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly
+      withAddonPolicies:
+        autoScaler: true
+        ebs: true
+        fsx: true
+        efs: true
+        albIngress: true
+        cloudWatch: true
+    instancesDistribution:
+      onDemandPercentageAboveBaseCapacity: 0
+      instanceTypes:
+        - p3.2xlarge
+        - p3.8xlarge
+        - p3.16xlarge
+        - p2.xlarge
+        - p2.8xlarge
+        - p2.16xlarge
+      spotInstancePools: 5
+    tags:
+      k8s.io/cluster-autoscaler/node-template/taint/dedicated: nvidia.com/gpu=true
+      k8s.io/cluster-autoscaler/node-template/label/nvidia.com/gpu: 'true'
+      k8s.io/cluster-autoscaler/enabled: 'true'
+    labels:
+      lifecycle: Ec2Spot
+      nvidia.com/gpu: 'true'
+      k8s.amazonaws.com/accelerator: nvidia-tesla
+    taints:
+      nvidia.com/gpu: &quot;true:NoSchedule&quot;
+    privateNetworking: true
+    availabilityZones: [&quot;us-west-2a&quot;]
+
+    # create additional node groups for other `us-west-2b` and `us-west-2c` availability zones ...
+</code></pre>
+
+<p>Now, it is time to explain some parameters used to configure GPU-powered node group.</p>
+
+<ul>
+<li><code>ami: auto</code> - <code>eksctl</code> automatically discover latest EKS-Optimized AMI image with GPU support for worker nodes, based on specified AWS region, EKS version and instance type. See <a href="https://docs.aws.amazon.com/eks/latest/userguide/gpu-ami.html">Amazon EKS-Optimized AMI with GPU support</a> User Guide</li>
+<li><code>iam: withAddonPolicies</code> - if a planned workload requires access to AWS storage services, it is important to include additional IAM policies (auto-generated by <code>eksctl</code>)
+
+<ul>
+<li><code>efs: true</code> - enable access to <a href="https://aws.amazon.com/efs/">Amazon EFS</a></li>
+<li><code>fsx: true</code> - enable access to <a href="https://aws.amazon.com/fsx/lustre/">Amazon FSx for Lustre</a></li>
+</ul></li>
+<li><code>tags</code> - AWS tags added to EKS worker nodes
+
+<ul>
+<li><code>k8s.io/cluster-autoscaler/node-template/taint/dedicated: nvidia.com/gpu=true</code> - Kubernetes node taint</li>
+<li><code>k8s.io/cluster-autoscaler/node-template/label/nvidia.com/gpu: 'true'</code> - Kubernetes node label used by Cluster Autoscaler to scale ASG from/to 0</li>
+</ul></li>
+<li><code>taints</code>
+
+<ul>
+<li><code>nvidia.com/gpu: &quot;true:NoSchedule&quot;</code> - Kubernetes GPU node taint; helps to avoid placement on non-GPU workload on expensive GPU nodes</li>
+</ul></li>
+</ul>
+
+<h5 id="eks-optimized-ami-image-with-gpu-support">EKS Optimized AMI image with GPU support</h5>
+
+<p>In addition to the standard Amazon EKS-optimized AMI configuration, the GPU AMI includes the following:</p>
+
+<ul>
+<li>NVIDIA drivers</li>
+<li>The <code>nvidia-docker2</code> package</li>
+<li>The <code>nvidia-container-runtime</code> (as the default runtime)</li>
+</ul>
+
+<h5 id="scaling-a-node-group-to-from-0">Scaling a node group to/from 0</h5>
+
+<p>From Kubernetes <a href="https://github.com/kubernetes/autoscaler/">Cluster Autoscaler</a> 0.6.1 - it is possible to scale a node group to/from 0, assuming that all scale-up and scale-down conditions are met.</p>
+
+<p>If you are using <code>nodeSelector</code> you need to tag the ASG with a node-template key <code>k8s.io/cluster-autoscaler/node-template/label/</code> and <code>k8s.io/cluster-autoscaler/node-template/taint/</code> if you are using taints.</p>
+
+<h4 id="scheduling-gpu-workload">Scheduling GPU workload</h4>
+
+<h5 id="schedule-based-on-gpu-resources">Schedule based on GPU resources</h5>
+
+<p>The <a href="https://github.com/NVIDIA/k8s-device-plugin">NVIDIA device plugin for Kubernetes</a> exposes the number of GPUs on each nodes of your cluster. Once the plugin is installed, it&rsquo;s possible to use <code>nvidia/gpu</code> Kubernetes resource on GPU nodes and for Kubernetes workloads.</p>
+
+<p>Run this command to apply the Nvidia Kubernetes device plugin as a <code>daemonset</code> running only on AWS GPU-powered worker nodes, using <code>tolerations</code> and <code>nodeAffinity</code></p>
+
+<pre><code class="language-sh">kubectl create -f kubernetes/nvidia-device-plugin.yaml
+
+kubectl get daemonset -nkube-system
+
+NAME                                  DESIRED   CURRENT   READY   UP-TO-DATE   AVAILABLE   NODE SELECTOR   AGE
+aws-node                              5         5         5       5            5           &lt;none&gt;          8d
+kube-proxy                            5         5         5       5            5           &lt;none&gt;          8d
+nvidia-device-plugin-daemonset-1.12   3         3         3       3            3           &lt;none&gt;          8d
+ssm-agent                             5         5         5       5            5           &lt;none&gt;          8d
+</code></pre>
+
+<p>using <code>nvidia-device-plugin.yaml</code> Kubernetes resource file</p>
+
+<pre><code class="language-yaml">apiVersion: extensions/v1beta1
+kind: DaemonSet
+metadata:
+  name: nvidia-device-plugin-daemonset-1.12
+  namespace: kube-system
+spec:
+  updateStrategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        name: nvidia-device-plugin-ds
+    spec:
+      tolerations:
+      - key: nvidia.com/gpu
+        operator: Exists
+        effect: NoSchedule
+      containers:
+      - image: nvidia/k8s-device-plugin:1.11
+        name: nvidia-device-plugin-ctr
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop: [&quot;ALL&quot;]
+        volumeMounts:
+          - name: device-plugin
+            mountPath: /var/lib/kubelet/device-plugins
+      volumes:
+        - name: device-plugin
+          hostPath:
+            path: /var/lib/kubelet/device-plugins
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: beta.kubernetes.io/instance-type
+                operator: In
+                values:
+                - p3.2xlarge
+                - p3.8xlarge
+                - p3.16xlarge
+                - p3dn.24xlarge
+                - p2.xlarge
+                - p2.8xlarge
+                - p2.16xlarge
+</code></pre>
+
+<h5 id="taints-and-tolerations">Taints and Tolerations</h5>
+
+<p>Kubernetes <em>taints</em>  allow a node to repel a set of pods. Taints and tolerations work together to ensure that pods are not scheduled onto inappropriate nodes. One or more taints are applied to a node; this marks that the node should not accept any pods that do not tolerate the taints. Tolerations are applied to pods, and allow (but do not require) the pods to schedule onto nodes with matching taints.</p>
+
+<p>See Kubernetes <a href="https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/">Taints and Tolerations</a> documentation for more details.</p>
+
+<p>In order to run GPU workload to run on GPU-powered Spot instance nodes, with <code>nvidia.com/gpu: &quot;true:NoSchedule&quot;</code> taint, the workload must include both matching <code>tolerations</code> and <code>nodeSelector</code>.</p>
+
+<p>Kubernetes deployment with <code>10</code> pod replicas with <code>nvidia/gpu: 1</code> limit:</p>
+
+<pre><code class="language-yaml">apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cuda-vector-add
+  labels:
+    app: cuda-vector-add
+spec:
+  replicas: 10
+  selector:
+    matchLabels:
+      app: cuda-vector-add
+  template:
+    metadata:
+      name: cuda-vector-add
+      labels:
+        app: cuda-vector-add
+    spec:
+      nodeSelector:
+        nvidia.com/gpu: &quot;true&quot;
+      tolerations:
+      - key: &quot;nvidia.com/gpu&quot;
+        operator: &quot;Exists&quot;
+        effect: &quot;NoSchedule&quot;
+      containers:
+        - name: cuda-vector-add
+          # https://github.com/kubernetes/kubernetes/blob/v1.7.11/test/images/nvidia-cuda/Dockerfile
+          image: &quot;k8s.gcr.io/cuda-vector-add:v0.1&quot;
+          resources:
+            limits:
+              nvidia.com/gpu: 1 # requesting 1 GPU
+</code></pre>
+
+<p>Deploy <code>cuda-vector-add</code> deployment and see how new GPU-powered nodes are added to the EKS cluster.</p>
+
+<pre><code class="language-sh"># list Kubernetes nodes before running GPU workload
+NAME                                            ID                                      TYPE
+ip-192-168-151-104.us-west-2.compute.internal   aws:///us-west-2b/i-01d4c83eaee18b7b3   c4.4xlarge
+ip-192-168-171-140.us-west-2.compute.internal   aws:///us-west-2c/i-07ec09fd128e1393f   c4.4xlarge
+
+
+# deploy GPU workload on EKS cluster with tolerations for nvidia/gpu=true
+kubectl create -f kubernetes/examples/vector/vector-add-dpl.yaml
+
+# list Kubernetes nodes after several minutes to see new GPU nodes added to the cluster
+kubectl get nodes --output=&quot;custom-columns=NAME:.metadata.name,ID:.spec.providerID,TYPE:.metadata.labels.beta\.kubernetes\.io\/instance-type&quot;
+
+NAME                                            ID                                      TYPE
+ip-192-168-101-60.us-west-2.compute.internal    aws:///us-west-2a/i-037d1994fe96eeffc   p2.16xlarge
+ip-192-168-139-227.us-west-2.compute.internal   aws:///us-west-2b/i-0038eb8d2c795fb40   p2.16xlarge
+ip-192-168-151-104.us-west-2.compute.internal   aws:///us-west-2b/i-01d4c83eaee18b7b3   c4.4xlarge
+ip-192-168-171-140.us-west-2.compute.internal   aws:///us-west-2c/i-07ec09fd128e1393f   c4.4xlarge
+ip-192-168-179-248.us-west-2.compute.internal   aws:///us-west-2c/i-0bc0853ef26c0c054   p2.16xlarge
+</code></pre>
+
+<p>As you can see, 3 new GPU-powered nodes (<code>p2.16xlarge</code>), across 3 AZ, had been added to the cluster. When you delete GPU workload, the cluster will scale down GPU node group to 0 after 10 minutes.</p>
+
+<h2 id="summary">Summary</h2>
+
+<p>Follow this tutorial to create an EKS (Kubernetes) cluster with GPU-powered node group, running on Spot instances and scalable from/to 0 nodes.</p>
+
+<h2 id="references">References</h2>
+
+<ul>
+<li><a href="https://github.com/alexei-led/eks-spot-cluster">EKS Spot Cluster</a> GitHub repository with code for this blog</li>
+<li><a href="https://itnext.io/the-definitive-guide-to-running-ec2-spot-instances-as-kubernetes-worker-nodes-68ef2095e767">The definitive guide to running EC2 Spot Instances as Kubernetes worker nodes</a> by Ran Sheinberg</li>
+<li><a href="https://github.com/kubernetes/autoscaler/tree/master/cluster-autoscaler">Kubernetes Cluster Autoscaler</a></li>
+<li><a href="https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/">Taints and Tolleratoins</a> Kubernetes documentation</li>
+</ul>
+
+<h2 id="disclaimer">Disclaimer</h2>
+
+<p>It does not matter where I work, all my opinions are my own.</p>
+
+                    </div>
+                    <div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "gaia-blog" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+                </section>
+            </div>
+            <div class="footer">
+    <div class="pure-menu pure-menu-horizontal pure-menu-open">
+        <ul>
+            <li>Powered by <a class="hugo" href="https://gohugo.io/" target="_blank">hugo</a></li>
+        </ul>
+    </div>
+</div>
+<script src="https://alexei-led.github.io/js/all.min.js"></script>
+
+        </div>
+    </div>
+</div>
+
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-71802462-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+
+</body>
+</html>

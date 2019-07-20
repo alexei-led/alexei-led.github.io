@@ -238,15 +238,6 @@
     </item>
     
     <item>
-      <title>Swarm</title>
-      <link>https://alexei-led.github.io/tags/swarm/</link>
-      <pubDate>Sun, 18 Dec 2016 14:00:00 +0200</pubDate>
-      
-      <guid>https://alexei-led.github.io/tags/swarm/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>cluster</title>
       <link>https://alexei-led.github.io/tags/cluster/</link>
       <pubDate>Sun, 18 Dec 2016 14:00:00 +0200</pubDate>
@@ -270,6 +261,15 @@
       <pubDate>Sun, 18 Dec 2016 14:00:00 +0200</pubDate>
       
       <guid>https://alexei-led.github.io/tags/docker-compose/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>swarm</title>
+      <link>https://alexei-led.github.io/tags/swarm/</link>
+      <pubDate>Sun, 18 Dec 2016 14:00:00 +0200</pubDate>
+      
+      <guid>https://alexei-led.github.io/tags/swarm/</guid>
       <description></description>
     </item>
     
