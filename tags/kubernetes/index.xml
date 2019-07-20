@@ -1,16 +1,38 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>kubernetes on Terra Nullius</title>
+    <title>Kubernetes on Terra Nullius</title>
     <link>https://alexei-led.github.io/tags/kubernetes/</link>
-    <description>Recent content in kubernetes on Terra Nullius</description>
+    <description>Recent content in Kubernetes on Terra Nullius</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>This work is licensed under a Creative Commons Attribution 4.0 International License</copyright>
-    <lastBuildDate>Wed, 11 Oct 2017 18:00:00 +0200</lastBuildDate>
+    <lastBuildDate>Sat, 20 Jul 2019 10:00:00 +0200</lastBuildDate>
     
 	<atom:link href="https://alexei-led.github.io/tags/kubernetes/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>EKS GPU Cluster from Zero to Hero</title>
+      <link>https://alexei-led.github.io/post/eks_gpu_spot/</link>
+      <pubDate>Sat, 20 Jul 2019 10:00:00 +0200</pubDate>
+      
+      <guid>https://alexei-led.github.io/post/eks_gpu_spot/</guid>
+      <description>Introduction If you ever tried to run a GPU workload on Kubernetes cluster, you know that this task requires non-trivial configuration and comes with high cost tag (GPU instances are quite expensive).
+This post shows how to run a GPU workload on Kubernetes cluster in cost effective way, using AWS EKS cluster, AWS Auto Scaling, Amazon EC2 Spot Instances and some Kubernetes resources and configurations.
+EKS Cluster Plan First we need to create a Kubernetes cluster that consists from mixed nodes, non-GPU nodes for management and generic Kubernetes workload and more expensive GPU nodes to run GPU intensive tasks, like machine learning, medical analysis, seismic exploration, video transcoding and others.</description>
+    </item>
+    
+    <item>
+      <title>Kubernetes Continuous Integration</title>
+      <link>https://alexei-led.github.io/post/kubernetes_continuous_integration/</link>
+      <pubDate>Fri, 08 Mar 2019 10:00:00 +0200</pubDate>
+      
+      <guid>https://alexei-led.github.io/post/kubernetes_continuous_integration/</guid>
+      <description>Kubernetes configuration as Code Complex Kubernetes application consists from multiple Kubernetes resources, defined in YAML files. Authoring a properly formatted YAML files that are also a valid Kubernetes specification, that should also comply to some policy can be a challenging task.
+These YAML files are your application deployment and configuration code and should be addressed as code.
+As with code, Continuous Integration approach should be applied to a Kubernetes configuration files.</description>
+    </item>
     
     <item>
       <title>Continuous Delivery and Continuous Deployment for Kubernetes microservices</title>

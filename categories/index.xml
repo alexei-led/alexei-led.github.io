@@ -7,10 +7,19 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>This work is licensed under a Creative Commons Attribution 4.0 International License</copyright>
-    <lastBuildDate>Wed, 11 Oct 2017 18:00:00 +0200</lastBuildDate>
+    <lastBuildDate>Sat, 20 Jul 2019 10:00:00 +0200</lastBuildDate>
     
 	<atom:link href="https://alexei-led.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Development</title>
+      <link>https://alexei-led.github.io/categories/development/</link>
+      <pubDate>Sat, 20 Jul 2019 10:00:00 +0200</pubDate>
+      
+      <guid>https://alexei-led.github.io/categories/development/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>Kubernetes</title>
@@ -45,15 +54,6 @@
       <pubDate>Tue, 07 Mar 2017 18:00:00 +0200</pubDate>
       
       <guid>https://alexei-led.github.io/categories/devops/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Development</title>
-      <link>https://alexei-led.github.io/categories/development/</link>
-      <pubDate>Sat, 26 Nov 2016 16:00:00 +0200</pubDate>
-      
-      <guid>https://alexei-led.github.io/categories/development/</guid>
       <description></description>
     </item>
     

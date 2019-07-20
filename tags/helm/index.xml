@@ -1,16 +1,27 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>helm on Terra Nullius</title>
+    <title>Helm on Terra Nullius</title>
     <link>https://alexei-led.github.io/tags/helm/</link>
-    <description>Recent content in helm on Terra Nullius</description>
+    <description>Recent content in Helm on Terra Nullius</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>This work is licensed under a Creative Commons Attribution 4.0 International License</copyright>
-    <lastBuildDate>Wed, 11 Oct 2017 18:00:00 +0200</lastBuildDate>
+    <lastBuildDate>Fri, 08 Mar 2019 10:00:00 +0200</lastBuildDate>
     
 	<atom:link href="https://alexei-led.github.io/tags/helm/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Kubernetes Continuous Integration</title>
+      <link>https://alexei-led.github.io/post/kubernetes_continuous_integration/</link>
+      <pubDate>Fri, 08 Mar 2019 10:00:00 +0200</pubDate>
+      
+      <guid>https://alexei-led.github.io/post/kubernetes_continuous_integration/</guid>
+      <description>Kubernetes configuration as Code Complex Kubernetes application consists from multiple Kubernetes resources, defined in YAML files. Authoring a properly formatted YAML files that are also a valid Kubernetes specification, that should also comply to some policy can be a challenging task.
+These YAML files are your application deployment and configuration code and should be addressed as code.
+As with code, Continuous Integration approach should be applied to a Kubernetes configuration files.</description>
+    </item>
     
     <item>
       <title>Continuous Delivery and Continuous Deployment for Kubernetes microservices</title>

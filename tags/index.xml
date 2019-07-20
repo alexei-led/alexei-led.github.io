@@ -7,17 +7,89 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>This work is licensed under a Creative Commons Attribution 4.0 International License</copyright>
-    <lastBuildDate>Wed, 11 Oct 2017 18:00:00 +0200</lastBuildDate>
+    <lastBuildDate>Sat, 20 Jul 2019 10:00:00 +0200</lastBuildDate>
     
 	<atom:link href="https://alexei-led.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>Docker</title>
-      <link>https://alexei-led.github.io/tags/docker/</link>
-      <pubDate>Wed, 11 Oct 2017 18:00:00 +0200</pubDate>
+      <title>AWS</title>
+      <link>https://alexei-led.github.io/tags/aws/</link>
+      <pubDate>Sat, 20 Jul 2019 10:00:00 +0200</pubDate>
       
-      <guid>https://alexei-led.github.io/tags/docker/</guid>
+      <guid>https://alexei-led.github.io/tags/aws/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>EKS</title>
+      <link>https://alexei-led.github.io/tags/eks/</link>
+      <pubDate>Sat, 20 Jul 2019 10:00:00 +0200</pubDate>
+      
+      <guid>https://alexei-led.github.io/tags/eks/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>GPU</title>
+      <link>https://alexei-led.github.io/tags/gpu/</link>
+      <pubDate>Sat, 20 Jul 2019 10:00:00 +0200</pubDate>
+      
+      <guid>https://alexei-led.github.io/tags/gpu/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Kubernetes</title>
+      <link>https://alexei-led.github.io/tags/kubernetes/</link>
+      <pubDate>Sat, 20 Jul 2019 10:00:00 +0200</pubDate>
+      
+      <guid>https://alexei-led.github.io/tags/kubernetes/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Machine Learning</title>
+      <link>https://alexei-led.github.io/tags/machine-learning/</link>
+      <pubDate>Sat, 20 Jul 2019 10:00:00 +0200</pubDate>
+      
+      <guid>https://alexei-led.github.io/tags/machine-learning/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Spot</title>
+      <link>https://alexei-led.github.io/tags/spot/</link>
+      <pubDate>Sat, 20 Jul 2019 10:00:00 +0200</pubDate>
+      
+      <guid>https://alexei-led.github.io/tags/spot/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>CI/CD</title>
+      <link>https://alexei-led.github.io/tags/ci/cd/</link>
+      <pubDate>Fri, 08 Mar 2019 10:00:00 +0200</pubDate>
+      
+      <guid>https://alexei-led.github.io/tags/ci/cd/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Continuous Integration</title>
+      <link>https://alexei-led.github.io/tags/continuous-integration/</link>
+      <pubDate>Fri, 08 Mar 2019 10:00:00 +0200</pubDate>
+      
+      <guid>https://alexei-led.github.io/tags/continuous-integration/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Helm</title>
+      <link>https://alexei-led.github.io/tags/helm/</link>
+      <pubDate>Fri, 08 Mar 2019 10:00:00 +0200</pubDate>
+      
+      <guid>https://alexei-led.github.io/tags/helm/</guid>
       <description></description>
     </item>
     
@@ -67,20 +139,11 @@
     </item>
     
     <item>
-      <title>helm</title>
-      <link>https://alexei-led.github.io/tags/helm/</link>
+      <title>docker</title>
+      <link>https://alexei-led.github.io/tags/docker/</link>
       <pubDate>Wed, 11 Oct 2017 18:00:00 +0200</pubDate>
       
-      <guid>https://alexei-led.github.io/tags/helm/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>kubernetes</title>
-      <link>https://alexei-led.github.io/tags/kubernetes/</link>
-      <pubDate>Wed, 11 Oct 2017 18:00:00 +0200</pubDate>
-      
-      <guid>https://alexei-led.github.io/tags/kubernetes/</guid>
+      <guid>https://alexei-led.github.io/tags/docker/</guid>
       <description></description>
     </item>
     
@@ -238,6 +301,15 @@
     </item>
     
     <item>
+      <title>Swarm</title>
+      <link>https://alexei-led.github.io/tags/swarm/</link>
+      <pubDate>Sun, 18 Dec 2016 14:00:00 +0200</pubDate>
+      
+      <guid>https://alexei-led.github.io/tags/swarm/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>cluster</title>
       <link>https://alexei-led.github.io/tags/cluster/</link>
       <pubDate>Sun, 18 Dec 2016 14:00:00 +0200</pubDate>
@@ -261,15 +333,6 @@
       <pubDate>Sun, 18 Dec 2016 14:00:00 +0200</pubDate>
       
       <guid>https://alexei-led.github.io/tags/docker-compose/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>swarm</title>
-      <link>https://alexei-led.github.io/tags/swarm/</link>
-      <pubDate>Sun, 18 Dec 2016 14:00:00 +0200</pubDate>
-      
-      <guid>https://alexei-led.github.io/tags/swarm/</guid>
       <description></description>
     </item>
     
