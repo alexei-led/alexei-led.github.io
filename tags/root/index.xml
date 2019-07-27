@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>root on Terra Nullius</title>
+    <link>https://alexei-led.github.io/tags/root/</link>
+    <description>Recent content in root on Terra Nullius</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>This work is licensed under a Creative Commons Attribution 4.0 International License</copyright>
+    <lastBuildDate>Sat, 27 Jul 2019 10:00:00 +0200</lastBuildDate>
+    
+	<atom:link href="https://alexei-led.github.io/tags/root/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Get a Shell to a Kubernetes Node</title>
+      <link>https://alexei-led.github.io/post/k8s_node_shell/</link>
+      <pubDate>Sat, 27 Jul 2019 10:00:00 +0200</pubDate>
+      
+      <guid>https://alexei-led.github.io/post/k8s_node_shell/</guid>
+      <description>Throughout the lifecycle of your Kubernetes cluster, you may need to access a cluster worker node. This access could be for maintenance, configuration inspection, log collection, or other troubleshooting operations. More than that, it would be nice, if you could enable this access whenever it&amp;rsquo;s needed and disable when you finish your task.
+SSH Approach While it&amp;rsquo;s possible to configure Kubernetes nodes with SSH access, this also makes worker nodes more vulnerable.</description>
+    </item>
+    
+  </channel>
+</rss>

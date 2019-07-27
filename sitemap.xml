@@ -4,13 +4,66 @@
   
   <url>
     <loc>https://alexei-led.github.io/tags/aws/</loc>
-    <lastmod>2019-07-20T10:00:00+02:00</lastmod>
+    <lastmod>2019-07-27T10:00:00+02:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://alexei-led.github.io/categories/</loc>
-    <lastmod>2019-07-20T10:00:00+02:00</lastmod>
+    <lastmod>2019-07-27T10:00:00+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://alexei-led.github.io/categories/devops/</loc>
+    <lastmod>2019-07-27T10:00:00+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://alexei-led.github.io/post/k8s_node_shell/</loc>
+    <lastmod>2019-07-27T10:00:00+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://alexei-led.github.io/tags/kubernetes/</loc>
+    <lastmod>2019-07-27T10:00:00+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://alexei-led.github.io/post/</loc>
+    <lastmod>2019-07-27T10:00:00+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://alexei-led.github.io/tags/ssh/</loc>
+    <lastmod>2019-07-27T10:00:00+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://alexei-led.github.io/tags/</loc>
+    <lastmod>2019-07-27T10:00:00+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://alexei-led.github.io/</loc>
+    <lastmod>2019-07-27T10:00:00+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://alexei-led.github.io/tags/devops/</loc>
+    <lastmod>2019-07-27T10:00:00+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://alexei-led.github.io/tags/root/</loc>
+    <lastmod>2019-07-27T10:00:00+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -38,37 +91,13 @@
   </url>
   
   <url>
-    <loc>https://alexei-led.github.io/tags/kubernetes/</loc>
-    <lastmod>2019-07-20T10:00:00+02:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
     <loc>https://alexei-led.github.io/tags/machine-learning/</loc>
     <lastmod>2019-07-20T10:00:00+02:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://alexei-led.github.io/post/</loc>
-    <lastmod>2019-07-20T10:00:00+02:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
     <loc>https://alexei-led.github.io/tags/spot/</loc>
-    <lastmod>2019-07-20T10:00:00+02:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://alexei-led.github.io/tags/</loc>
-    <lastmod>2019-07-20T10:00:00+02:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://alexei-led.github.io/</loc>
     <lastmod>2019-07-20T10:00:00+02:00</lastmod>
     <priority>0</priority>
   </url>
@@ -102,6 +131,12 @@
   </url>
   
   <url>
+    <loc>https://alexei-led.github.io/tags/docker/</loc>
+    <lastmod>2017-10-11T18:00:00+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>https://alexei-led.github.io/categories/kubernetes/</loc>
     <lastmod>2017-10-11T18:00:00+02:00</lastmod>
     <priority>0</priority>
@@ -127,18 +162,6 @@
   
   <url>
     <loc>https://alexei-led.github.io/tags/continuous-deployment/</loc>
-    <lastmod>2017-10-11T18:00:00+02:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://alexei-led.github.io/tags/devops/</loc>
-    <lastmod>2017-10-11T18:00:00+02:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://alexei-led.github.io/tags/docker/</loc>
     <lastmod>2017-10-11T18:00:00+02:00</lastmod>
     <priority>0</priority>
   </url>
@@ -263,12 +286,6 @@
   <url>
     <loc>https://alexei-led.github.io/post/perfect_docker_java/</loc>
     <lastmod>2017-03-07T18:00:00+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://alexei-led.github.io/categories/devops/</loc>
-    <lastmod>2017-03-07T18:00:00+02:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>

@@ -7,7 +7,7 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>This work is licensed under a Creative Commons Attribution 4.0 International License</copyright>
-    <lastBuildDate>Sat, 20 Jul 2019 10:00:00 +0200</lastBuildDate>
+    <lastBuildDate>Sat, 27 Jul 2019 10:00:00 +0200</lastBuildDate>
     
 	<atom:link href="https://alexei-led.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     
@@ -15,9 +15,45 @@
     <item>
       <title>AWS</title>
       <link>https://alexei-led.github.io/tags/aws/</link>
-      <pubDate>Sat, 20 Jul 2019 10:00:00 +0200</pubDate>
+      <pubDate>Sat, 27 Jul 2019 10:00:00 +0200</pubDate>
       
       <guid>https://alexei-led.github.io/tags/aws/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Kubernetes</title>
+      <link>https://alexei-led.github.io/tags/kubernetes/</link>
+      <pubDate>Sat, 27 Jul 2019 10:00:00 +0200</pubDate>
+      
+      <guid>https://alexei-led.github.io/tags/kubernetes/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>SSH</title>
+      <link>https://alexei-led.github.io/tags/ssh/</link>
+      <pubDate>Sat, 27 Jul 2019 10:00:00 +0200</pubDate>
+      
+      <guid>https://alexei-led.github.io/tags/ssh/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>devops</title>
+      <link>https://alexei-led.github.io/tags/devops/</link>
+      <pubDate>Sat, 27 Jul 2019 10:00:00 +0200</pubDate>
+      
+      <guid>https://alexei-led.github.io/tags/devops/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>root</title>
+      <link>https://alexei-led.github.io/tags/root/</link>
+      <pubDate>Sat, 27 Jul 2019 10:00:00 +0200</pubDate>
+      
+      <guid>https://alexei-led.github.io/tags/root/</guid>
       <description></description>
     </item>
     
@@ -36,15 +72,6 @@
       <pubDate>Sat, 20 Jul 2019 10:00:00 +0200</pubDate>
       
       <guid>https://alexei-led.github.io/tags/gpu/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Kubernetes</title>
-      <link>https://alexei-led.github.io/tags/kubernetes/</link>
-      <pubDate>Sat, 20 Jul 2019 10:00:00 +0200</pubDate>
-      
-      <guid>https://alexei-led.github.io/tags/kubernetes/</guid>
       <description></description>
     </item>
     
@@ -94,6 +121,15 @@
     </item>
     
     <item>
+      <title>Docker</title>
+      <link>https://alexei-led.github.io/tags/docker/</link>
+      <pubDate>Wed, 11 Oct 2017 18:00:00 +0200</pubDate>
+      
+      <guid>https://alexei-led.github.io/tags/docker/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>cd</title>
       <link>https://alexei-led.github.io/tags/cd/</link>
       <pubDate>Wed, 11 Oct 2017 18:00:00 +0200</pubDate>
@@ -126,24 +162,6 @@
       <pubDate>Wed, 11 Oct 2017 18:00:00 +0200</pubDate>
       
       <guid>https://alexei-led.github.io/tags/continuous-deployment/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>devops</title>
-      <link>https://alexei-led.github.io/tags/devops/</link>
-      <pubDate>Wed, 11 Oct 2017 18:00:00 +0200</pubDate>
-      
-      <guid>https://alexei-led.github.io/tags/devops/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>docker</title>
-      <link>https://alexei-led.github.io/tags/docker/</link>
-      <pubDate>Wed, 11 Oct 2017 18:00:00 +0200</pubDate>
-      
-      <guid>https://alexei-led.github.io/tags/docker/</guid>
       <description></description>
     </item>
     
