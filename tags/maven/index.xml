@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>maven on Terra Nullius</title>
@@ -19,7 +19,7 @@
       
       <guid>https://alexei-led.github.io/post/perfect_docker_java/</guid>
       <description>TL;DR  What is the bare minimum you need to build, test and run my Java application in Docker container?
-The recipe: Create a separate Docker image for each step and optimize the way you are running it.
+  The recipe: Create a separate Docker image for each step and optimize the way you are running it.
  Introduction I started working with Java in 1998, and for a long time, it was my main programming language. It was a long love–hate relationship.
 DDuring my work career, I wrote a lot of code in Java.</description>
     </item>

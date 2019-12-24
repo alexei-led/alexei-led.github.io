@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Dockerfile on Terra Nullius</title>
@@ -19,7 +19,7 @@
       
       <guid>https://alexei-led.github.io/post/debug_node_in_docker/</guid>
       <description>Teaser Suppose you want to debug a Node.js application already running on a remote machine inside Docker container. And would like to do it without modifying command arguments (enabling debug mode) and opening remote Node.js debugger agent port to the whole world.
-I bet you didn&amp;rsquo;t know that it&amp;rsquo;s possible and also have no idea how to do it.
+I bet you didn&#39;t know that it&#39;s possible and also have no idea how to do it.
 I encourage you to continue reading this post if you are eager to learn some new cool stuff.</description>
     </item>
     
@@ -39,9 +39,9 @@ The &amp;ldquo;core principle&amp;rdquo; of Dockerfile Docker can build images b
       <pubDate>Mon, 07 Mar 2016 16:39:00 +0200</pubDate>
       
       <guid>https://alexei-led.github.io/post/docker_testing/</guid>
-      <description>Congratulations! You know how to build a Docker image and are able to compose multiple containers into a meaningful application. Hopefully, you&amp;rsquo;ve already created a Continuous Delivery pipeline and know how to push your newly created image into production or testing environment.
+      <description>Congratulations! You know how to build a Docker image and are able to compose multiple containers into a meaningful application. Hopefully, you&#39;ve already created a Continuous Delivery pipeline and know how to push your newly created image into production or testing environment.
  Now, the question is - How do we test our Docker containers?
- There are multiple testing strategies we can apply. In this post, I&amp;rsquo;ll highlight them presenting benefits and drawbacks for each.</description>
+ There are multiple testing strategies we can apply. In this post, I&#39;ll highlight them presenting benefits and drawbacks for each.</description>
     </item>
     
     <item>
@@ -50,8 +50,8 @@ The &amp;ldquo;core principle&amp;rdquo; of Dockerfile Docker can build images b
       <pubDate>Thu, 14 Jan 2016 16:14:47 +0200</pubDate>
       
       <guid>https://alexei-led.github.io/post/docker_builder_pattern/</guid>
-      <description>Let&amp;rsquo;s say that you&amp;rsquo;re developing a microservice in a compiled language or an interpreted language that requires some additional “build” steps to package and lint your application code. This is a useful docker pattern for the &amp;ldquo;build&amp;rdquo; container.
-In our project, we&amp;rsquo;re using Docker as our main deployment package: every microservice is delivered as a Docker image. Each microservice also has it’s own code repository (GitHub), and its own CI build job.</description>
+      <description>Let&#39;s say that you&#39;re developing a microservice in a compiled language or an interpreted language that requires some additional “build” steps to package and lint your application code. This is a useful docker pattern for the &amp;ldquo;build&amp;rdquo; container.
+In our project, we&#39;re using Docker as our main deployment package: every microservice is delivered as a Docker image. Each microservice also has it’s own code repository (GitHub), and its own CI build job.</description>
     </item>
     
   </channel>

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>debug on Terra Nullius</title>
@@ -19,7 +19,7 @@
       
       <guid>https://alexei-led.github.io/post/debug_node_in_docker/</guid>
       <description>Teaser Suppose you want to debug a Node.js application already running on a remote machine inside Docker container. And would like to do it without modifying command arguments (enabling debug mode) and opening remote Node.js debugger agent port to the whole world.
-I bet you didn&amp;rsquo;t know that it&amp;rsquo;s possible and also have no idea how to do it.
+I bet you didn&#39;t know that it&#39;s possible and also have no idea how to do it.
 I encourage you to continue reading this post if you are eager to learn some new cool stuff.</description>
     </item>
     

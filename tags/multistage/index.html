@@ -7,7 +7,7 @@
 
     <meta name="description" content="The Programming Blog">
 
-    <meta name="generator" content="Hugo 0.55.6" />
+    <meta name="generator" content="Hugo 0.61.0" />
     <meta name="twitter:card" content="summary">
     <meta name="twitter:site" content="alexeiled" />
     <meta name="twitter:title" content="multistage &middot; Terra Nullius">
@@ -81,40 +81,23 @@
                     </header>
 
                     <div class="post-description">
-                        
-
-<h2 id="tl-dr">TL;DR</h2>
-
+                        <h2 id="tldr">TL;DR</h2>
 <p>Starting from Docker 17.05+, you can create a single <code>Dockerfile</code> that can build multiple helper images with compilers, tools, and tests and use files from above images to produce the <strong>final</strong> Docker image.</p>
-
-<p><img src="https://alexei-led.github.io/img/multi_stage_build.png" alt="Multi-stage Docker Build" /></p>
-
+<p><img src="https://alexei-led.github.io/img/multi_stage_build.png" alt="Multi-stage Docker Build"></p>
 <h2 id="the-core-principle-of-dockerfile">The &ldquo;core principle&rdquo; of Dockerfile</h2>
-
 <p>Docker can build images by reading the instructions from a <code>Dockerfile</code>. A <code>Dockerfile</code> is a text file that contains a list of all the commands needed to build a new Docker image. The syntax of <code>Dockerfile</code> is pretty simple and the Docker team tries to keep it intact between Docker engine releases.</p>
-
 <p>The core principle is very simple: <code>1 Dockerfile -&gt; 1 Docker Image</code>.</p>
-
 <p>This principle works just fine for basic use cases, where you just need to demonstrate Docker capabilities or put some &ldquo;static&rdquo; content into a Docker image.</p>
-
 <p>Once you advance with Docker and would like to create secure and lean Docker images, singe <code>Dockerfile</code> is not enough.</p>
-
 <p>People who insist on following the above principle find themselves with slow Docker builds, huge Docker images (several GB size images), slow deployment time and lots of CVE violations embedded into these images.</p>
-
 <h2 id="the-docker-build-container-pattern">The Docker Build Container pattern</h2>
-
 <p><a href="https://medium.com/@alexeiled/docker-pattern-the-build-container-b0d0e86ad601">Docker Pattern: The Build Container</a></p>
-
 <p>The basic idea behind <strong>Build Container</strong> pattern is simple:</p>
-
 <blockquote>
 <p>Create additional Docker images with required tools (compilers, linters, testing tools) and use these images to produce lean, secure and production ready Docker image.</p>
 </blockquote>
-
 <p>=============</p>
-
 <p>An example of the <strong>Build Container</strong> pattern for typical Node.js application:</p>
-
 <ol>
 <li>Derive <code>FROM</code> a Node base image (for example <code>node:6.10-alpine</code>) <code>node</code> and <code>npm</code> installed (<code>Dockerfile.build</code>)</li>
 <li>Add <code>package.json</code></li>
@@ -126,155 +109,120 @@
 <li>expose <code>PORT</code> and define default <code>CMD</code> (command to run your application)</li>
 <li>Push the <strong>production</strong> image to some Docker registry</li>
 </ol>
-
 <p>This flow assumes that you are using two or more separate <code>Dockerfile</code>s and a shell script or flow tool to orchestrate all steps above.</p>
-
 <h3 id="example">Example</h3>
-
-<p>I use a fork of <a href="https://github.com/sdelements/lets-chat">Let&rsquo;s Chat</a> node.js application.</p>
-
+<p>I use a fork of <a href="https://github.com/sdelements/lets-chat">Let's Chat</a> node.js application.</p>
 <h4 id="builder-docker-image-with-eslint-mocha-and-gulp">Builder Docker image with eslint, mocha and gulp</h4>
-
-<pre><code class="language-Dockerfile">FROM alpine:3.5
-# install node 
-RUN apk add --no-cache nodejs
-# set working directory
-WORKDIR /root/chat
-# copy project file
-COPY package.json .
-# install node packages
-RUN npm set progress=false &amp;&amp; \
-    npm config set depth 0 &amp;&amp; \
-    npm install
-# copy app files
-COPY . .
-# run linter, setup and tests
-CMD npm run lint &amp;&amp; npm run setup &amp;&amp; npm run test
-</code></pre>
-
-<h4 id="production-docker-image-with-production-node-modules-only">Production Docker image with &lsquo;production&rsquo; node modules only</h4>
-
-<pre><code class="language-Dockerfile">FROM alpine:3.5
-# install node
-RUN apk add --no-cache nodejs tini
-# set working directory
-WORKDIR /root/chat
-# copy project file
-COPY package.json .
-# install node packages
-RUN npm set progress=false &amp;&amp; \
-    npm config set depth 0 &amp;&amp; \
-    npm install --only=production &amp;&amp; \
-    npm cache clean
-# copy app files
-COPY . .
-# Set tini as entrypoint
-ENTRYPOINT [&quot;/sbin/tini&quot;, &quot;--&quot;]
-# application server port
-EXPOSE 5000
-# default run command
-CMD npm run start
-</code></pre>
-
-<h2 id="what-is-docker-multi-stage-build">What is Docker multi-stage build?</h2>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Dockerfile" data-lang="Dockerfile"><span style="color:#66d9ef">FROM</span><span style="color:#e6db74"> alpine:3.5</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e"># install node </span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">RUN</span> apk add --no-cache nodejs<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e"># set working directory</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">WORKDIR</span><span style="color:#e6db74"> /root/chat</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e"># copy project file</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">COPY</span> package.json .<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e"># install node packages</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">RUN</span> npm set progress<span style="color:#f92672">=</span>false <span style="color:#f92672">&amp;&amp;</span> <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    npm config set depth <span style="color:#ae81ff">0</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    npm install<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e"># copy app files</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">COPY</span> . .<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e"># run linter, setup and tests</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">CMD</span> npm run lint <span style="color:#f92672">&amp;&amp;</span> npm run setup <span style="color:#f92672">&amp;&amp;</span> npm run test<span style="color:#960050;background-color:#1e0010">
+</span></code></pre></div><h4 id="production-docker-image-with-production-node-modules-only">Production Docker image with &lsquo;production&rsquo; node modules only</h4>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Dockerfile" data-lang="Dockerfile"><span style="color:#66d9ef">FROM</span><span style="color:#e6db74"> alpine:3.5</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e"># install node</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">RUN</span> apk add --no-cache nodejs tini<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e"># set working directory</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">WORKDIR</span><span style="color:#e6db74"> /root/chat</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e"># copy project file</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">COPY</span> package.json .<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e"># install node packages</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">RUN</span> npm set progress<span style="color:#f92672">=</span>false <span style="color:#f92672">&amp;&amp;</span> <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    npm config set depth <span style="color:#ae81ff">0</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    npm install --only<span style="color:#f92672">=</span>production <span style="color:#f92672">&amp;&amp;</span> <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    npm cache clean<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e"># copy app files</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">COPY</span> . .<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e"># Set tini as entrypoint</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">ENTRYPOINT</span> [<span style="color:#e6db74">&#34;/sbin/tini&#34;</span>, <span style="color:#e6db74">&#34;--&#34;</span>]<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e"># application server port</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">EXPOSE</span><span style="color:#e6db74"> 5000</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e"># default run command</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">CMD</span> npm run start<span style="color:#960050;background-color:#1e0010">
+</span></code></pre></div><h2 id="what-is-docker-multi-stage-build">What is Docker multi-stage build?</h2>
 <p>Docker 17.0.5 extends <code>Dockerfile</code> syntax to support new <strong>multi-stage</strong> build, by extending two commands: <code>FROM</code> and <code>COPY</code>.</p>
-
 <p>The <strong>multi-stage</strong> build allows using multiple <code>FROM</code> commands in the same Dockerfile. The last <code>FROM</code> command produces the final Docker image, all other images are intermediate images (no final Docker image is produced, but <em>all layers are cached</em>).</p>
-
 <p>The <code>FROM</code> syntax also supports <code>AS</code> keyword. Use <code>AS</code> keyword to give the current image a logical name and reference to it later by this name.</p>
-
 <p>To copy files from intermediate images use <code>COPY --from=&lt;image_AS_name|image_number&gt;</code>, where number starts from <code>0</code> (but better to use logical name through <code>AS</code> keyword).</p>
-
-<h2 id="creating-a-multi-stage-dockerfile-for-node-js-application">Creating a multi-stage Dockerfile for Node.js application</h2>
-
+<h2 id="creating-a-multi-stage-dockerfile-for-nodejs-application">Creating a multi-stage Dockerfile for Node.js application</h2>
 <p>The <code>Dockerfile</code> below makes the <strong>Build Container</strong> pattern obsolete, allowing to achieve the same result with the single file.</p>
-
-<pre><code class="language-Dockerfile">#
-# ---- Base Node ----
-FROM alpine:3.5 AS base
-# install node
-RUN apk add --no-cache nodejs-npm tini
-# set working directory
-WORKDIR /root/chat
-# Set tini as entrypoint
-ENTRYPOINT [&quot;/sbin/tini&quot;, &quot;--&quot;]
-# copy project file
-COPY package.json .
-
-#
-# ---- Dependencies ----
-FROM base AS dependencies
-# install node packages
-RUN npm set progress=false &amp;&amp; npm config set depth 0
-RUN npm install --only=production 
-# copy production node_modules aside
-RUN cp -R node_modules prod_node_modules
-# install ALL node_modules, including 'devDependencies'
-RUN npm install
-
-#
-# ---- Test ----
-# run linters, setup and tests
-FROM dependencies AS test
-COPY . .
-RUN  npm run lint &amp;&amp; npm run setup &amp;&amp; npm run test
-
-#
-# ---- Release ----
-FROM base AS release
-# copy production node_modules
-COPY --from=dependencies /root/chat/prod_node_modules ./node_modules
-# copy app sources
-COPY . .
-# expose port and define CMD
-EXPOSE 5000
-CMD npm run start
-</code></pre>
-
-<p>The above <code>Dockerfile</code> creates 3 intermediate Docker images and single <strong>release</strong> Docker image (the final <code>FROM</code>).</p>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Dockerfile" data-lang="Dockerfile"><span style="color:#75715e">#</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e"># ---- Base Node ----</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">FROM</span><span style="color:#e6db74"> alpine:3.5 AS base</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e"># install node</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">RUN</span> apk add --no-cache nodejs-npm tini<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e"># set working directory</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">WORKDIR</span><span style="color:#e6db74"> /root/chat</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e"># Set tini as entrypoint</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">ENTRYPOINT</span> [<span style="color:#e6db74">&#34;/sbin/tini&#34;</span>, <span style="color:#e6db74">&#34;--&#34;</span>]<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e"># copy project file</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">COPY</span> package.json .<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e">#</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e"># ---- Dependencies ----</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">FROM</span><span style="color:#e6db74"> base AS dependencies</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e"># install node packages</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">RUN</span> npm set progress<span style="color:#f92672">=</span>false <span style="color:#f92672">&amp;&amp;</span> npm config set depth <span style="color:#ae81ff">0</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">RUN</span> npm install --only<span style="color:#f92672">=</span>production <span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e"># copy production node_modules aside</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">RUN</span> cp -R node_modules prod_node_modules<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e"># install ALL node_modules, including &#39;devDependencies&#39;</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">RUN</span> npm install<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e">#</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e"># ---- Test ----</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e"># run linters, setup and tests</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">FROM</span><span style="color:#e6db74"> dependencies AS test</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">COPY</span> . .<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">RUN</span>  npm run lint <span style="color:#f92672">&amp;&amp;</span> npm run setup <span style="color:#f92672">&amp;&amp;</span> npm run test<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e">#</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e"># ---- Release ----</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">FROM</span><span style="color:#e6db74"> base AS release</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e"># copy production node_modules</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">COPY</span> --from<span style="color:#f92672">=</span>dependencies /root/chat/prod_node_modules ./node_modules<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e"># copy app sources</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">COPY</span> . .<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e"># expose port and define CMD</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">EXPOSE</span><span style="color:#e6db74"> 5000</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">CMD</span> npm run start<span style="color:#960050;background-color:#1e0010">
+</span></code></pre></div><p>The above <code>Dockerfile</code> creates 3 intermediate Docker images and single <strong>release</strong> Docker image (the final <code>FROM</code>).</p>
 <ol>
 <li>First image <code>FROM alpine:3.5 AS bas</code> - is a base Node image with: <code>node</code>, <code>npm</code>, <code>tini</code> (init app) and <code>package.json</code></li>
 <li>Second image <code>FROM base AS dependencies</code> - contains all node modules from <code>dependencies</code> and <code>devDependencies</code> with additional copy of <code>dependencies</code> required for final image only</li>
 <li>Third image <code>FROM dependencies AS test</code> - runs linters, setup and tests (with <code>mocha</code>); if this run command fail not final image is produced</li>
 <li>The final image <code>FROM base AS release</code> - is a base Node image with application code and all node modules from <code>dependencies</code></li>
 </ol>
-
 <h2 id="try-docker-multi-stage-build-today">Try Docker multi-stage build today</h2>
-
 <p>In order to try Docker <strong>multi-stage</strong> build, you need to get Docker 17.0.5, which is going to be released in May and currently available on the <em>beta</em> channel.</p>
-
 <p>So, you have two options:</p>
-
 <ol>
 <li>Use <em>beta</em> channel to get Docker 17.0.5</li>
 <li>Run <em>dind</em> container (docker-in-docker)</li>
 </ol>
-
-<h3 id="running-docker-in-docker-17-0-5-beta">Running Docker-in-Docker 17.0.5 (beta)</h3>
-
+<h3 id="running-docker-in-docker-1705-beta">Running Docker-in-Docker 17.0.5 (beta)</h3>
 <p>Running Docker 17.0.5 (beta) in docker container (<code>--privileged</code> is required):</p>
-
 <pre><code>$ docker run -d --rm --privileged -p 23751:2375 --name dind docker:17.05.0-ce-dind --storage-driver overlay2
-</code></pre>
-
-<p>Try <strong>mult-stage</strong> build. Add <code>--host=:23751</code> to every Docker command, or set <code>DOCKER_HOST</code> environment variable.</p>
-
+</code></pre><p>Try <strong>mult-stage</strong> build. Add <code>--host=:23751</code> to every Docker command, or set <code>DOCKER_HOST</code> environment variable.</p>
 <pre><code>$ # using --host
 $ docker --host=:23751 build -t local/chat:multi-stage .
 
 $ # OR: setting DOCKER_HOST
 $ export DOCKER_HOST=localhost:23751
 $ docker build -t local/chat:multi-stage .
-</code></pre>
-
-<h2 id="summary">Summary</h2>
-
-<p>With Docker <strong>multi-stage</strong> build feature, it&rsquo;s possible to implement an advanced Docker image build pipeline using a single <code>Dockerfile</code>. Kudos to Docker team!</p>
-
-<hr />
-
+</code></pre><h2 id="summary">Summary</h2>
+<p>With Docker <strong>multi-stage</strong> build feature, it's possible to implement an advanced Docker image build pipeline using a single <code>Dockerfile</code>. Kudos to Docker team!</p>
+<hr>
 <p>Hope, you find this post useful. I look forward to your comments and any questions you have.</p>
 
                     </div>

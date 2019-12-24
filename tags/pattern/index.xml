@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>pattern on Terra Nullius</title>
@@ -18,8 +18,8 @@
       <pubDate>Thu, 14 Jan 2016 16:14:47 +0200</pubDate>
       
       <guid>https://alexei-led.github.io/post/docker_builder_pattern/</guid>
-      <description>Let&amp;rsquo;s say that you&amp;rsquo;re developing a microservice in a compiled language or an interpreted language that requires some additional “build” steps to package and lint your application code. This is a useful docker pattern for the &amp;ldquo;build&amp;rdquo; container.
-In our project, we&amp;rsquo;re using Docker as our main deployment package: every microservice is delivered as a Docker image. Each microservice also has it’s own code repository (GitHub), and its own CI build job.</description>
+      <description>Let&#39;s say that you&#39;re developing a microservice in a compiled language or an interpreted language that requires some additional “build” steps to package and lint your application code. This is a useful docker pattern for the &amp;ldquo;build&amp;rdquo; container.
+In our project, we&#39;re using Docker as our main deployment package: every microservice is delivered as a Docker image. Each microservice also has it’s own code repository (GitHub), and its own CI build job.</description>
     </item>
     
   </channel>

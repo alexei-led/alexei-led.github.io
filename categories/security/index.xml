@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Security on Terra Nullius</title>
+    <link>https://alexei-led.github.io/categories/security/</link>
+    <description>Recent content in Security on Terra Nullius</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>This work is licensed under a Creative Commons Attribution 4.0 International License</copyright>
+    <lastBuildDate>Mon, 23 Dec 2019 10:00:00 +0200</lastBuildDate>
+    
+	<atom:link href="https://alexei-led.github.io/categories/security/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Kubernetes and Secrets Management in Cloud</title>
+      <link>https://alexei-led.github.io/post/secrets-init/</link>
+      <pubDate>Mon, 23 Dec 2019 10:00:00 +0200</pubDate>
+      
+      <guid>https://alexei-led.github.io/post/secrets-init/</guid>
+      <description>Introduction Secrets are essential for operation of many production systems. Unintended secrets exposure is one of the top risks that should properly addressed. Most companies must do their best to protect their secrets.
+The problem becomes even harder, once company moves to a microservice architecture and multiple services need different secrets in order to work. How to distribute, manage, monitor and rotate these secrets, avoiding unintended leaks?
+Kubernetes Secrets Kubernetes provides a resource called Secret, which you can use to store sensitive data, like passwords, SSH keys, API keys, tokens and other.</description>
+    </item>
+    
+  </channel>
+</rss>

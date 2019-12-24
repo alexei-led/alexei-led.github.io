@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Security &middot; Terra Nullius</title>
+
+    <meta name="description" content="The Programming Blog">
+
+    <meta name="generator" content="Hugo 0.61.0" />
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="alexeiled" />
+    <meta name="twitter:title" content="Security &middot; Terra Nullius">
+    <meta name="twitter:description" content="The Programming Blog">
+
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Security &middot; Terra Nullius">
+    <meta property="og:description" content="The Programming Blog">
+
+    <link href='//fonts.googleapis.com/css?family=Source+Sans+Pro:400,700|Oxygen:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/pure-min.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/grids-responsive-min.css">
+
+    <link rel="stylesheet" href="https://alexei-led.github.io/css/all.min.css">
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+
+    <link rel="alternate" type="application/rss+xml" title="Terra Nullius" href="https://alexei-led.github.io/index.xml" />
+    <link rel="canonical" href="">
+</head>
+<body>
+
+
+<div id="layout" class="pure-g">
+    <div class="sidebar pure-u-1 pure-u-md-1-4">
+    <div class="header">
+        <hgroup>
+            <h1 class="brand-title"><a href="https://alexei-led.github.io">Terra Nullius</a></h1>
+            <h2 class="brand-tagline"> The Programming Blog </h2>
+        </hgroup>
+
+        <nav class="nav">
+            <ul class="nav-list">
+                
+                <li class="nav-item">
+                    <a class="pure-button" href="https://twitter.com/alexeiled"><i class="fa fa-twitter"></i> Twitter</a>
+                </li>
+                
+                
+                <li class="nav-item">
+                    <a class="pure-button" href="https://github.com/alexei-led "><i class="fa fa-github-alt"></i> github</a>
+                </li>
+                
+                <li class="nav-item">
+                    <a class="pure-button" href="https://alexei-led.github.io/index.xml"><i class="fa fa-rss"></i> rss</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</div>
+
+
+    <div class="content pure-u-1 pure-u-md-3-4">
+        <div>
+            
+            <div class="posts">
+                
+                <h1 class="content-subhead">23 Dec 2019, 10:00</h1>
+                <section class="post">
+                    <header class="post-header">
+
+                        <a href="https://alexei-led.github.io/post/secrets-init/" class="post-title">Kubernetes and Secrets Management in Cloud</a>
+
+                        <p class="post-meta">
+                            
+                            
+                                under 
+                                
+                                <a class="post-category post-category-Development" href="https://alexei-led.github.io/categories/development">Development</a><a class="post-category post-category-Security" href="https://alexei-led.github.io/categories/security">Security</a><a class="post-category post-category-Kubernetes" href="https://alexei-led.github.io/categories/kubernetes">Kubernetes</a>
+                            
+                        </p>
+                    </header>
+
+                    <div class="post-description">
+                        <h2 id="introduction">Introduction</h2>
+<p>Secrets are essential for operation of many production systems. Unintended secrets exposure is one of the top risks that should properly addressed. Most companies must do their best to protect their secrets.</p>
+<p>The problem becomes even harder, once company moves to a microservice architecture and multiple services need different secrets in order to work. How to distribute, manage, monitor and rotate these secrets, avoiding unintended leaks?</p>
+<h2 id="kubernetes-secrets">Kubernetes Secrets</h2>
+<p>Kubernetes provides a resource called Secret, which you can use to store sensitive data, like passwords, SSH keys, API keys, tokens and other. Kubernetes Secret can be injected into Pod container either as environment variable or file. Using Kubernetes Secrets, allows you to abstract sensitive data data from deployments that describe containerized workflows.</p>
+<p>You can create secret with command line <code>kubectl create secret</code>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">kubectl create secret generic db-credentials -n default --from-literal<span style="color:#f92672">=</span>user<span style="color:#f92672">=</span>dbuser --from-literal<span style="color:#f92672">=</span>password<span style="color:#f92672">=</span>quick.fox.5312
+</code></pre></div><p>or using Kubernetes <code>db-credentials.yaml</code> file, that describes the same secret</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">apiVersion: v1
+kind: Secret
+metadata:
+  name: db-credentials
+type: Opaque
+data:
+  password: cXVpY2suZm94LjUzMTI=
+  user: ZGJ1c2Vy
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">kubectl create -f db-credentials.yaml
+</code></pre></div><p>But storing sensitive data in Kubernetes Secret does not make it secure. By default, all data in Kubernetes Secrets is stored as <code>base64</code> encoded pain text.</p>
+<p>Starting with version 1.13, Kubernetes supports <a href="https://kubernetes.io/docs/tasks/administer-cluster/encrypt-data/">encrypting Secrets data at rest</a>, using <code>EncryptionConfiguration</code> object with encryption provider.</p>
+<p>Supported encryption providers:</p>
+<ul>
+<li><a href="https://kubernetes.io/docs/tasks/administer-cluster/encrypt-data/#providers">built-in providers</a>: <code>aescbc</code>, <code>aesgsm</code>, <code>secretbox</code></li>
+<li><a href="https://kubernetes.io/docs/tasks/administer-cluster/kms-provider/">KMS providers</a>:
+<ul>
+<li><a href="https://cloud.google.com/kubernetes-engine/docs/how-to/encrypting-secrets">Google KMS provider</a></li>
+<li><a href="https://github.com/kubernetes-sigs/aws-encryption-provider">AWS KMS provider</a></li>
+<li><a href="https://github.com/Azure/kubernetes-kms">Azure KMS provider</a></li>
+</ul>
+</li>
+</ul>
+<p>However encryption at rest is not enforced by default, and even if enabled, it not sufficient and cannot be considered a sufficient secret management solution.</p>
+<p>A complete Secret Management solution must also support: secrets distribution, rotation, fine-grained access control, audit log, usage monitoring, versioning, strongly encrypted storage, convenient API and client SDK/s and probably some other useful features.</p>
+<h2 id="cloud-secrets-management">Cloud Secrets Management</h2>
+<h2 id="binding-them-together">Binding them together</h2>
+<p>The <a href="https://github.com/doitintl/secrets-init">doitintl/secrets-init</a> is an open source tool (Apache License 2.0) that simplifies integration of cloud-native Secrets Management services with containerized workload running on cloud-managed or self-managed Kubernetes clusters.</p>
+<p>In its essence, the <code>secrets-init</code> is a minimalistic init system, designed to run as <code>PID 1</code> inside a container environment, similarly to <a href="https://github.com/Yelp/dumb-init">dumb-init</a>, and provides a fluent integration with multiple cloud-native Secrets Management services, like:</p>
+<ul>
+<li><a href="https://aws.amazon.com/secrets-manager/">AWS Secrets Manager</a></li>
+<li><a href="https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-parameter-store.html">AWS Systems Manager Parameter Store</a></li>
+<li><a href="https://cloud.google.com/secret-manager/docs/">Google Secret Manager (Beta)</a></li>
+</ul>
+<h3 id="why-you-need-an-init-system-in-docker-container">Why you need an init system in Docker container?</h3>
+<p>Please <a href="https://github.com/Yelp/dumb-init/blob/v1.2.0/README.md#why-you-need-an-init-system">read Yelp <em>dumb-init</em> repo explanation</a></p>
+<p>Summary:</p>
+<ul>
+<li>Proper signal forwarding</li>
+<li>Orphaned zombies reaping</li>
+</ul>
+<h3 id="what-secrets-init-does">What <code>secrets-init</code> does</h3>
+<p>The <code>secrets-init</code> runs as <code>PID 1</code>, acting like a simple init system serving as <code>ENTRYPOINT</code> or first container command, which is responsible to launch a child process, proxying all systems signals to a session rooted at that child process. This is the essence of init process. On the other hand, the <code>secrets-init</code> also passes <em>almost</em> all environment variables without modification, replacing special <em>secret variables</em> with values from Secret Management services.</p>
+<h3 id="integration-with-docker">Integration with Docker</h3>
+<p>&hellip;</p>
+<h3 id="integration-with-kubernetes">Integration with Kubernetes</h3>
+<p>&hellip;</p>
+<h3 id="working-with-aws-secrets-manager">Working with AWS Secrets Manager</h3>
+<p>To start using <code>secrets-init</code> with AWS Secrets Manager, user should put an AWS secret ARN as environment variable value. The <code>secrets-init</code> will resolve any environment value, using specified ARN, to a referenced secret value.</p>
+<p>AWS Secret Manager example:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh"><span style="color:#75715e"># environment variable referencing AWS Secrets Manager secret</span>
+MY_DB_PASSWORD<span style="color:#f92672">=</span>arn:aws:secretsmanager:$AWS_REGION:$AWS_ACCOUNT_ID:secret:mydbpassword-cdma3
+
+<span style="color:#75715e"># environment variable passed to a child process, as resolved by `secrets-init`</span>
+MY_DB_PASSWORD<span style="color:#f92672">=</span>very-secret-password
+</code></pre></div><h3 id="working-with-aws-systems-manager-parameter-store">Working with AWS Systems Manager Parameter Store</h3>
+<p>It is possible to use AWS Systems Manager Parameter Store to store application parameters as plain text or encrypted (kind of secrets).</p>
+<p>As with the previous example, user can put AWS Parameter Store ARN as environment variable value. The <code>secrets-init</code> will resolve any environment value, using specified ARN, to a referenced parameter value.</p>
+<p>AWS Systems Manager Parameter Store example</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh"><span style="color:#75715e"># environment variable referencing AWS Systems Manager Parameter Store secret</span>
+MY_API_KEY<span style="color:#f92672">=</span>arn:aws:ssm:$AWS_REGION:$AWS_ACCOUNT_ID:parameter/api/key
+
+<span style="color:#75715e"># environment variable passed to a child process, as resolved by `secrets-init`</span>
+MY_API_KEY<span style="color:#f92672">=</span>key-123456789
+</code></pre></div><p>In order to resolve AWS secrets from AWS Secrets Manager and Parameter Store, <code>secrets-init</code> should run under IAM role that has permission to access desired secrets.</p>
+<p>This can be achieved by assigning IAM Role to Kubernetes Pod or ECS Task. It's possible to assign IAM Role to EC2 instance, where container is running, but this option is less secure.</p>
+<h3 id="working-with-google-secret-manager">Working with Google Secret Manager</h3>
+<p>Google Cloud released recently a new service for managing secrets in the cloud: <a href="https://cloud.google.com/secret-manager">Google Secret Manager</a></p>
+<p>User can put Google secret name, using <code>secrets-init</code> recognizable prefix (<code>gcp:secretmanager:</code>), following secret name (<code>projects/{PROJECT_ID}/secrets/{SECRET_NAME}</code> or <code>projects/{PROJECT_ID}/secrets/{SECRET_NAME}/versions/{VERSION}</code>) as environment variable value. The <code>secrets-init</code> will resolve any environment value, using the specified name, to a referenced secret value.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh"><span style="color:#75715e"># environment variable referencing Google Secret Manager secret (without version)</span>
+MY_DB_PASSWORD<span style="color:#f92672">=</span>gcp:secretmanager:projects/$PROJECT_ID/secrets/mydbpassword
+<span style="color:#75715e"># OR versioned secret (with numeric version or &#39;latest&#39;)</span>
+MY_DB_PASSWORD<span style="color:#f92672">=</span>gcp:secretmanager:projects/$PROJECT_ID/secrets/mydbpassword/versions/2
+
+<span style="color:#75715e"># environment variable passed to a child process, as resolved by `secrets-init`</span>
+MY_DB_PASSWORD<span style="color:#f92672">=</span>very-secret-password
+</code></pre></div><p>In order to resolve Google secrets from Google Secret Manager, <code>secrets-init</code> should run under IAM role that has permission to access desired secrets.</p>
+<p>This can be achieved by assigning IAM Role to Kubernetes Pod with <a href="https://cloud.google.com/kubernetes-engine/docs/how-to/workload-identity">Workload Identity</a>. It's possible to assign IAM Role to GCE instance, where container is running, but this option is less secure.</p>
+<h2 id="summary">Summary</h2>
+<p>&hellip;</p>
+
+                    </div>
+                </section>
+                
+            </div>
+            
+
+            <div class="footer">
+    <div class="pure-menu pure-menu-horizontal pure-menu-open">
+        <ul>
+            <li>Powered by <a class="hugo" href="https://gohugo.io/" target="_blank">hugo</a></li>
+        </ul>
+    </div>
+</div>
+<script src="https://alexei-led.github.io/js/all.min.js"></script>
+
+        </div>
+    </div>
+</div>
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-71802462-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+
+</body>
+</html>

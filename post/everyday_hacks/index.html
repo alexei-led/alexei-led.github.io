@@ -7,7 +7,7 @@
 
     <meta name="description" content="">
 
-    <meta name="generator" content="Hugo 0.55.6" />
+    <meta name="generator" content="Hugo 0.61.0" />
     <meta name="twitter:card" content="summary">
     <meta name="twitter:site" content="alexeiled" />
     <meta name="twitter:title" content="Everyday hacks for Docker &middot; Terra Nullius">
@@ -92,60 +92,30 @@
                     </div>
                     
                     <div class="post-description">
-                        
-
-<p>In this post, I&rsquo;ve decided to share with you some useful commands and tools, I&rsquo;m frequently using, working with amazing Docker technology.
+                        <p>In this post, I've decided to share with you some useful commands and tools, I'm frequently using, working with amazing Docker technology.
 There is no particular order or &ldquo;coolness level&rdquo; for every &ldquo;hack&rdquo;. I will try to present the use case and how does specific command or tool help me with my work.</p>
-
-<p><img src="https://alexei-led.github.io/img/docker_animals.png" alt="Docker Hacks" /></p>
-
+<p><img src="https://alexei-led.github.io/img/docker_animals.png" alt="Docker Hacks"></p>
 <h2 id="cleaning-up">Cleaning up</h2>
-
 <p>Working with Docker for some time, you start to accumulate development junk: unused volumes, networks, exited containers and unused images.</p>
-
 <h3 id="one-command-to-rule-them-all">One command to &ldquo;rule them all&rdquo;</h3>
-
 <pre><code>$ docker system  prune
-</code></pre>
-
-<p><code>prune</code> is a very useful command (works also for <code>volume</code> and <code>network</code> sub-commands), but it&rsquo;s only available for Docker 1.13. So, if you are using older Docker versions, then following commands can help you to replace the <code>prune</code> command.</p>
-
+</code></pre><p><code>prune</code> is a very useful command (works also for <code>volume</code> and <code>network</code> sub-commands), but it's only available for Docker 1.13. So, if you are using older Docker versions, then following commands can help you to replace the <code>prune</code> command.</p>
 <h3 id="remove-dangling-volumes">Remove dangling volumes</h3>
-
 <p><code>dangling</code> volumes - volumes not in use by any container. To remove them, combine two commands: first, list volume IDs for <code>dangling</code> volumes and then remove them.</p>
-
 <pre><code>$ docker volume rm $(docker volume ls -q -f &quot;dangling=true&quot;)
-</code></pre>
-
-<h3 id="remove-exited-containers">Remove exited containers</h3>
-
+</code></pre><h3 id="remove-exited-containers">Remove exited containers</h3>
 <p>The same principle works here too: first, list containers (only IDs) you want to remove (with filter) and then remove them (consider <code>rm -f</code> to force remove).</p>
-
 <pre><code>$ docker rm $(docker ps -q -f &quot;status=exited&quot;)
-</code></pre>
-
-<h3 id="remove-dangling-images">Remove dangling images</h3>
-
+</code></pre><h3 id="remove-dangling-images">Remove dangling images</h3>
 <p><code>dangling</code> images are Docker untagged images, that are the leaves of the images tree (not intermediary layers).</p>
-
 <pre><code>docker rmi $(docker images -q -f &quot;dangling=true&quot;)
-</code></pre>
-
-<h3 id="autoremove-interactive-containers">Autoremove interactive containers</h3>
-
+</code></pre><h3 id="autoremove-interactive-containers">Autoremove interactive containers</h3>
 <p>When you run a new interactive container and want to avoid typing <code>rm</code> command after it exits, use <code>--rm</code> option. Then when you exit from created container, it will be automatically destroyed.</p>
-
 <pre><code>$ docker run -it --rm alpine sh
-</code></pre>
-
-<h2 id="inspect-docker-resources">Inspect Docker resources</h2>
-
+</code></pre><h2 id="inspect-docker-resources">Inspect Docker resources</h2>
 <p><a href="https://stedolan.github.io/jq/">jq</a> - <code>jq</code> is a lightweight and flexible command-line <code>JSON</code> processor. It is like <code>sed</code> for JSON data - you can use it to slice and filter and map and transform structured data with the same ease that <code>sed</code>, <code>awk</code>, <code>grep</code> and friends let you play with text.</p>
-
 <p><a href="https://docs.docker.com/engine/reference/commandline/info/"><code>docker info</code></a> and <a href="https://docs.docker.com/engine/reference/commandline/inspect/"><code>docker inspect</code></a> commands can produce output in <code>JSON</code> format. Combine these commands with <code>jq</code> processor.</p>
-
 <h3 id="pretty-json-and-jq-processing">Pretty JSON and jq processing</h3>
-
 <pre><code># show whole Docker info
 $ docker info --format &quot;{{json .}}&quot; | jq .
 
@@ -154,62 +124,35 @@ $ docker info --format &quot;{{json .Plugins}}&quot; | jq .
 
 # list IP addresses for all containers connected to 'bridge' network
 $ docker network inspect bridge -f '{{json .Containers}}' | jq '.[] | {cont: .Name, ip: .IPv4Address}'
-</code></pre>
-
-<h2 id="watching-containers-lifecycle">Watching containers lifecycle</h2>
-
+</code></pre><h2 id="watching-containers-lifecycle">Watching containers lifecycle</h2>
 <p>Sometimes you want to see containers being activated and exited, when you run some docker commands or try different restart policies.
 <a href="http://man7.org/linux/man-pages/man1/watch.1.html"><code>watch</code></a> command combined with <a href="https://docs.docker.com/engine/reference/commandline/ps/"><code>docker ps</code></a> can be pretty useful here.
 The <code>docker stats</code> command, even with <code>--format</code> option is not useful for this use case since it does not allow you to see same info as you can see with <code>docker ps</code> command.</p>
-
 <h3 id="display-a-table-with-id-image-status-for-active-containers-and-refresh-it-every-2-seconds">Display a table with &lsquo;ID Image Status&rsquo; for active containers and refresh it every 2 seconds</h3>
-
 <pre><code>$ watch -n 2 'docker ps --format &quot;table {{.ID}}\t {{.Image}}\t {{.Status}}&quot;'
-</code></pre>
-
-<h2 id="enter-into-host-container-namespace">Enter into host/container Namespace</h2>
-
+</code></pre><h2 id="enter-into-hostcontainer-namespace">Enter into host/container Namespace</h2>
 <p>Sometimes you want to connect to the Docker host. The <code>ssh</code> command is the default option, but this option can be either not available, due to security settings, firewall rules or not documented (try to find how to <code>ssh</code> into Docker for Mac VM).</p>
-
 <p><a href="https://github.com/jpetazzo/nsenter"><code>nsenter</code></a>, by Jérôme Petazzoni, is a small and very useful tool for above cases. <code>nsenter</code> allows to <code>enter</code> into <code>n</code>ame<code>s</code>paces. I like to use minimalistic (<code>580 kB</code>) <a href="https://hub.docker.com/r/walkerlee/nsenter/">walkerlee/nsenter</a> Docker image.</p>
-
 <h3 id="enter-into-docker-host">Enter into Docker host</h3>
-
 <p>Use <code>--pid=host</code> to enter into Docker host namespaces</p>
-
 <pre><code># get a shell into Docker host
 $ docker run --rm -it --privileged --pid=host walkerlee/nsenter -t 1 -m -u -i -n sh
-</code></pre>
-
-<h3 id="enter-into-any-container">Enter into ANY container</h3>
-
-<p>It&rsquo;s also possible to enter into any container with <code>nsenter</code> and <code>--pid=container:[id OR name]</code>. But in most cases, it&rsquo;s better to use standard <a href="https://docs.docker.com/engine/reference/commandline/exec/"><code>docker exec</code></a> command. The main difference is that <code>nsenter</code> doesn&rsquo;t enter the <em>cgroups</em>, and therefore evades resource limitations (can be useful for debugging).</p>
-
+</code></pre><h3 id="enter-into-any-container">Enter into ANY container</h3>
+<p>It's also possible to enter into any container with <code>nsenter</code> and <code>--pid=container:[id OR name]</code>. But in most cases, it's better to use standard <a href="https://docs.docker.com/engine/reference/commandline/exec/"><code>docker exec</code></a> command. The main difference is that <code>nsenter</code> doesn't enter the <em>cgroups</em>, and therefore evades resource limitations (can be useful for debugging).</p>
 <pre><code># get a shell into 'redis' container namespace
 $ docker run --rm -it --privileged --pid=container:redis walkerlee/nsenter -t 1 -m -u -i -n sh
-</code></pre>
-
-<h2 id="heredoc-docker-container">Heredoc Docker container</h2>
-
-<p>Suppose you want to get some tool as a Docker image, but you do not want to search for a suitable image or to create a new <code>Dockerfile</code> (no need to keep it for future use, for example). Sometimes storing a Docker image definition in a file looks like an overkill - you need to decide how do you edit, store and share this Dockerfile. Sometimes it&rsquo;s better just to have a single line command, that you can copy, share, embed into a shell script or create special command <code>alias</code>.
+</code></pre><h2 id="heredoc-docker-container">Heredoc Docker container</h2>
+<p>Suppose you want to get some tool as a Docker image, but you do not want to search for a suitable image or to create a new <code>Dockerfile</code> (no need to keep it for future use, for example). Sometimes storing a Docker image definition in a file looks like an overkill - you need to decide how do you edit, store and share this Dockerfile. Sometimes it's better just to have a single line command, that you can copy, share, embed into a shell script or create special command <code>alias</code>.
 So, when you want to create a new ad-hoc container with a single command, try a <a href="http://www.tldp.org/LDP/abs/html/here-docs.html">Heredoc</a> approach.</p>
-
 <h3 id="create-alpine-based-container-with-htop-tool">Create Alpine based container with &lsquo;htop&rsquo; tool</h3>
-
 <pre><code>$ docker build -t htop - &lt;&lt; EOF
 FROM alpine
 RUN apk --no-cache add htop
 EOF
-</code></pre>
-
-<h2 id="docker-command-completion">Docker command completion</h2>
-
-<p>Docker CLI syntax is very rich and constantly growing: adding new commands and new options. It&rsquo;s hard to remember every possible command and option, so having a nice command completion for a terminal is a <strong>must have</strong>.</p>
-
+</code></pre><h2 id="docker-command-completion">Docker command completion</h2>
+<p>Docker CLI syntax is very rich and constantly growing: adding new commands and new options. It's hard to remember every possible command and option, so having a nice command completion for a terminal is a <strong>must have</strong>.</p>
 <p>Command completion is a kind of terminal plugin, that lets you auto-complete or auto-suggest what to type in next by hitting <em>tab</em> key. Docker command completion works both for commands and options. Docker team prepared command completion for <code>docker</code>, <code>docker-machine</code> and <code>docker-compose</code> commands, both for <code>Bash</code> and <code>Zsh</code>.</p>
-
 <p>If you are using Mac and <a href="http://brew.sh">Homebrew</a>, then installing Docker commands completion is pretty straight forward.</p>
-
 <pre><code># Tap homebrew/completion to gain access to these
 $ brew tap homebrew/completions
 
@@ -217,62 +160,34 @@ $ brew tap homebrew/completions
 $ brew install docker-completion
 $ brew install docker-compose-completion
 $ brew install docker-machine-completion
-</code></pre>
-
-<p>For non-Mac install read official Docker documentation: <a href="https://github.com/docker/docker/tree/master/contrib/completion">docker engine</a>, <a href="https://docs.docker.com/compose/completion/">docker-compose</a> and <a href="https://docs.docker.com/machine/completion/">docker-machine</a></p>
-
+</code></pre><p>For non-Mac install read official Docker documentation: <a href="https://github.com/docker/docker/tree/master/contrib/completion">docker engine</a>, <a href="https://docs.docker.com/compose/completion/">docker-compose</a> and <a href="https://docs.docker.com/machine/completion/">docker-machine</a></p>
 <h2 id="start-containers-automatically">Start containers automatically</h2>
-
-<p>When you are running process in Docker container, it may fail due to multiple reasons. Sometimes to fix this failure it&rsquo;s enough to rerun the failed container. If you are using Docker orchestration engine, like Swarm or Kubernetes, the failed service will be restarted automatically.
-But if you are using plain Docker and want to restart container, based on <em>exit code</em> of container&rsquo;s main process or always (regardless the <em>exit code</em>), Docker 1.12 introduced a very helpful option for <code>docker run</code> command: <a href="https://docs.docker.com/engine/reference/run/#restart-policies-restart#restart-policies---restart">restart</a>.</p>
-
+<p>When you are running process in Docker container, it may fail due to multiple reasons. Sometimes to fix this failure it's enough to rerun the failed container. If you are using Docker orchestration engine, like Swarm or Kubernetes, the failed service will be restarted automatically.
+But if you are using plain Docker and want to restart container, based on <em>exit code</em> of container's main process or always (regardless the <em>exit code</em>), Docker 1.12 introduced a very helpful option for <code>docker run</code> command: <a href="https://docs.docker.com/engine/reference/run/#restart-policies-restart#restart-policies---restart">restart</a>.</p>
 <h3 id="restart-always">Restart always</h3>
-
 <p>Restart the <code>redis</code> container with a restart policy of <strong>always</strong> so that if the container exits, Docker will restart it.</p>
-
 <pre><code>$ docker run --restart=always redis
-</code></pre>
-
-<h3 id="restart-container-on-failure">Restart container on failure</h3>
-
+</code></pre><h3 id="restart-container-on-failure">Restart container on failure</h3>
 <p>Restart the <code>redis</code> container with a restart policy of <strong>on-failure</strong> and a maximum restart count of <code>10</code>.</p>
-
 <pre><code>$ docker run --restart=on-failure:10 redis
-</code></pre>
-
-<h2 id="network-tricks">Network tricks</h2>
-
-<p>There are cases when you want to create a new container and connect it to already existing network stack. It can be Docker host network or another container&rsquo;s network. This can be pretty useful for debugging and audition network issues.
+</code></pre><h2 id="network-tricks">Network tricks</h2>
+<p>There are cases when you want to create a new container and connect it to already existing network stack. It can be Docker host network or another container's network. This can be pretty useful for debugging and audition network issues.
 The <code>docker run --network/net</code> option support this use case.</p>
-
 <h3 id="use-docker-host-network-stack">Use Docker host network stack</h3>
-
 <pre><code>$ docker run --net=host ...
-</code></pre>
-
-<p>The new container will attach to same network interfaces as the Docker host.</p>
-
-<h3 id="use-another-container-s-network-stack">Use another container&rsquo;s network stack</h3>
-
+</code></pre><p>The new container will attach to same network interfaces as the Docker host.</p>
+<h3 id="use-another-containers-network-stack">Use another container's network stack</h3>
 <pre><code>$ docker run --net=container:&lt;name|id&gt; ...
-</code></pre>
-
-<p>The new container will attach to same network interfaces as another container. The target container can be specified with <code>id</code> or <code>name</code>.</p>
-
+</code></pre><p>The new container will attach to same network interfaces as another container. The target container can be specified with <code>id</code> or <code>name</code>.</p>
 <h3 id="attachable-overlay-network">Attachable overlay network</h3>
-
 <p>Using docker engine running in <strong>swarm mode</strong>, you can create a multi-host <code>overlay</code> network on a manager node. When you create a new <em>swarm service</em>, you can attach it to the previously created <code>overlay</code> network.</p>
-
 <p>Sometimes to inspect network configuration or debug network issues, you want to attach a new Docker container, filled with different network tools, to existing <code>overlay</code> network and do this with <code>docker run</code> command and not to create a new &ldquo;debug service&rdquo;.</p>
-
 <p>Docker 1.13 brings a new option to <code>docker network create</code> command: <code>attachable</code>. The <code>attachable</code> option enables manual container attachment.</p>
-
 <pre><code># create an attachable overlay network
 $ docker network create --driver overlay --attachable mynet
 # create net-tools container and attach it to mynet overlay network
 $ docker run -it --rm --net=mynet net-tools sh
 </code></pre>
-
                     </div>
                     <div id="disqus_thread"></div>
 <script type="application/javascript">

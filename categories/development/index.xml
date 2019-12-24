@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Development on Terra Nullius</title>
@@ -7,10 +7,21 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>This work is licensed under a Creative Commons Attribution 4.0 International License</copyright>
-    <lastBuildDate>Sat, 20 Jul 2019 10:00:00 +0200</lastBuildDate>
+    <lastBuildDate>Mon, 23 Dec 2019 10:00:00 +0200</lastBuildDate>
     
 	<atom:link href="https://alexei-led.github.io/categories/development/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Kubernetes and Secrets Management in Cloud</title>
+      <link>https://alexei-led.github.io/post/secrets-init/</link>
+      <pubDate>Mon, 23 Dec 2019 10:00:00 +0200</pubDate>
+      
+      <guid>https://alexei-led.github.io/post/secrets-init/</guid>
+      <description>Introduction Secrets are essential for operation of many production systems. Unintended secrets exposure is one of the top risks that should properly addressed. Most companies must do their best to protect their secrets.
+The problem becomes even harder, once company moves to a microservice architecture and multiple services need different secrets in order to work. How to distribute, manage, monitor and rotate these secrets, avoiding unintended leaks?
+Kubernetes Secrets Kubernetes provides a resource called Secret, which you can use to store sensitive data, like passwords, SSH keys, API keys, tokens and other.</description>
+    </item>
     
     <item>
       <title>EKS GPU Cluster from Zero to Hero</title>
@@ -52,7 +63,7 @@ So, what is the Docker build context?</description>
       
       <guid>https://alexei-led.github.io/post/swarm_dind/</guid>
       <description>TL;DR  Docker-in-Docker dind can help you to run Docker Swarm cluster on your Macbook only with Docker for Mac (v1.12+). No virtualbox, docker-machine, vagrant or other app is required.
- The Beginning One day, I&amp;rsquo;ve decided to try running Docker 1.12 Swarm cluster on my MacBook Pro. Docker team did a great job releasing Docker for Mac, and from that time I forgot all problems I used to have with boot2docker.</description>
+ The Beginning One day, I&#39;ve decided to try running Docker 1.12 Swarm cluster on my MacBook Pro. Docker team did a great job releasing Docker for Mac, and from that time I forgot all problems I used to have with boot2docker.</description>
     </item>
     
     <item>
@@ -81,9 +92,9 @@ Introduction The best defense against unexpected failures is to build resilient 
       <pubDate>Mon, 07 Mar 2016 16:39:00 +0200</pubDate>
       
       <guid>https://alexei-led.github.io/post/docker_testing/</guid>
-      <description>Congratulations! You know how to build a Docker image and are able to compose multiple containers into a meaningful application. Hopefully, you&amp;rsquo;ve already created a Continuous Delivery pipeline and know how to push your newly created image into production or testing environment.
+      <description>Congratulations! You know how to build a Docker image and are able to compose multiple containers into a meaningful application. Hopefully, you&#39;ve already created a Continuous Delivery pipeline and know how to push your newly created image into production or testing environment.
  Now, the question is - How do we test our Docker containers?
- There are multiple testing strategies we can apply. In this post, I&amp;rsquo;ll highlight them presenting benefits and drawbacks for each.</description>
+ There are multiple testing strategies we can apply. In this post, I&#39;ll highlight them presenting benefits and drawbacks for each.</description>
     </item>
     
     <item>
@@ -92,8 +103,8 @@ Introduction The best defense against unexpected failures is to build resilient 
       <pubDate>Thu, 14 Jan 2016 16:14:47 +0200</pubDate>
       
       <guid>https://alexei-led.github.io/post/docker_builder_pattern/</guid>
-      <description>Let&amp;rsquo;s say that you&amp;rsquo;re developing a microservice in a compiled language or an interpreted language that requires some additional “build” steps to package and lint your application code. This is a useful docker pattern for the &amp;ldquo;build&amp;rdquo; container.
-In our project, we&amp;rsquo;re using Docker as our main deployment package: every microservice is delivered as a Docker image. Each microservice also has it’s own code repository (GitHub), and its own CI build job.</description>
+      <description>Let&#39;s say that you&#39;re developing a microservice in a compiled language or an interpreted language that requires some additional “build” steps to package and lint your application code. This is a useful docker pattern for the &amp;ldquo;build&amp;rdquo; container.
+In our project, we&#39;re using Docker as our main deployment package: every microservice is delivered as a Docker image. Each microservice also has it’s own code repository (GitHub), and its own CI build job.</description>
     </item>
     
     <item>

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>integration test on Terra Nullius</title>
@@ -18,9 +18,9 @@
       <pubDate>Mon, 07 Mar 2016 16:39:00 +0200</pubDate>
       
       <guid>https://alexei-led.github.io/post/docker_testing/</guid>
-      <description>Congratulations! You know how to build a Docker image and are able to compose multiple containers into a meaningful application. Hopefully, you&amp;rsquo;ve already created a Continuous Delivery pipeline and know how to push your newly created image into production or testing environment.
+      <description>Congratulations! You know how to build a Docker image and are able to compose multiple containers into a meaningful application. Hopefully, you&#39;ve already created a Continuous Delivery pipeline and know how to push your newly created image into production or testing environment.
  Now, the question is - How do we test our Docker containers?
- There are multiple testing strategies we can apply. In this post, I&amp;rsquo;ll highlight them presenting benefits and drawbacks for each.</description>
+ There are multiple testing strategies we can apply. In this post, I&#39;ll highlight them presenting benefits and drawbacks for each.</description>
     </item>
     
   </channel>

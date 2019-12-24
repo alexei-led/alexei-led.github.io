@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Tags on Terra Nullius</title>
@@ -7,7 +7,7 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>This work is licensed under a Creative Commons Attribution 4.0 International License</copyright>
-    <lastBuildDate>Sat, 27 Jul 2019 10:00:00 +0200</lastBuildDate>
+    <lastBuildDate>Mon, 23 Dec 2019 10:00:00 +0200</lastBuildDate>
     
 	<atom:link href="https://alexei-led.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     
@@ -15,27 +15,54 @@
     <item>
       <title>AWS</title>
       <link>https://alexei-led.github.io/tags/aws/</link>
-      <pubDate>Sat, 27 Jul 2019 10:00:00 +0200</pubDate>
+      <pubDate>Mon, 23 Dec 2019 10:00:00 +0200</pubDate>
       
       <guid>https://alexei-led.github.io/tags/aws/</guid>
       <description></description>
     </item>
     
     <item>
+      <title>EKS</title>
+      <link>https://alexei-led.github.io/tags/eks/</link>
+      <pubDate>Mon, 23 Dec 2019 10:00:00 +0200</pubDate>
+      
+      <guid>https://alexei-led.github.io/tags/eks/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>GCP</title>
+      <link>https://alexei-led.github.io/tags/gcp/</link>
+      <pubDate>Mon, 23 Dec 2019 10:00:00 +0200</pubDate>
+      
+      <guid>https://alexei-led.github.io/tags/gcp/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>GKE</title>
+      <link>https://alexei-led.github.io/tags/gke/</link>
+      <pubDate>Mon, 23 Dec 2019 10:00:00 +0200</pubDate>
+      
+      <guid>https://alexei-led.github.io/tags/gke/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>Kubernetes</title>
       <link>https://alexei-led.github.io/tags/kubernetes/</link>
-      <pubDate>Sat, 27 Jul 2019 10:00:00 +0200</pubDate>
+      <pubDate>Mon, 23 Dec 2019 10:00:00 +0200</pubDate>
       
       <guid>https://alexei-led.github.io/tags/kubernetes/</guid>
       <description></description>
     </item>
     
     <item>
-      <title>SSH</title>
-      <link>https://alexei-led.github.io/tags/ssh/</link>
-      <pubDate>Sat, 27 Jul 2019 10:00:00 +0200</pubDate>
+      <title>Secrets Manager</title>
+      <link>https://alexei-led.github.io/tags/secrets-manager/</link>
+      <pubDate>Mon, 23 Dec 2019 10:00:00 +0200</pubDate>
       
-      <guid>https://alexei-led.github.io/tags/ssh/</guid>
+      <guid>https://alexei-led.github.io/tags/secrets-manager/</guid>
       <description></description>
     </item>
     
@@ -58,11 +85,11 @@
     </item>
     
     <item>
-      <title>EKS</title>
-      <link>https://alexei-led.github.io/tags/eks/</link>
-      <pubDate>Sat, 20 Jul 2019 10:00:00 +0200</pubDate>
+      <title>SSH</title>
+      <link>https://alexei-led.github.io/tags/ssh/</link>
+      <pubDate>Sat, 27 Jul 2019 10:00:00 +0200</pubDate>
       
-      <guid>https://alexei-led.github.io/tags/eks/</guid>
+      <guid>https://alexei-led.github.io/tags/ssh/</guid>
       <description></description>
     </item>
     
@@ -121,15 +148,6 @@
     </item>
     
     <item>
-      <title>Docker</title>
-      <link>https://alexei-led.github.io/tags/docker/</link>
-      <pubDate>Wed, 11 Oct 2017 18:00:00 +0200</pubDate>
-      
-      <guid>https://alexei-led.github.io/tags/docker/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>cd</title>
       <link>https://alexei-led.github.io/tags/cd/</link>
       <pubDate>Wed, 11 Oct 2017 18:00:00 +0200</pubDate>
@@ -162,6 +180,15 @@
       <pubDate>Wed, 11 Oct 2017 18:00:00 +0200</pubDate>
       
       <guid>https://alexei-led.github.io/tags/continuous-deployment/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>docker</title>
+      <link>https://alexei-led.github.io/tags/docker/</link>
+      <pubDate>Wed, 11 Oct 2017 18:00:00 +0200</pubDate>
+      
+      <guid>https://alexei-led.github.io/tags/docker/</guid>
       <description></description>
     </item>
     
@@ -247,20 +274,20 @@
     </item>
     
     <item>
-      <title>Dockerfile</title>
-      <link>https://alexei-led.github.io/tags/dockerfile/</link>
-      <pubDate>Sat, 03 Jun 2017 18:00:00 +0200</pubDate>
-      
-      <guid>https://alexei-led.github.io/tags/dockerfile/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>debug</title>
       <link>https://alexei-led.github.io/tags/debug/</link>
       <pubDate>Sat, 03 Jun 2017 18:00:00 +0200</pubDate>
       
       <guid>https://alexei-led.github.io/tags/debug/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Dockerfile</title>
+      <link>https://alexei-led.github.io/tags/dockerfile/</link>
+      <pubDate>Sat, 03 Jun 2017 18:00:00 +0200</pubDate>
+      
+      <guid>https://alexei-led.github.io/tags/dockerfile/</guid>
       <description></description>
     </item>
     
@@ -319,15 +346,6 @@
     </item>
     
     <item>
-      <title>Swarm</title>
-      <link>https://alexei-led.github.io/tags/swarm/</link>
-      <pubDate>Sun, 18 Dec 2016 14:00:00 +0200</pubDate>
-      
-      <guid>https://alexei-led.github.io/tags/swarm/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>cluster</title>
       <link>https://alexei-led.github.io/tags/cluster/</link>
       <pubDate>Sun, 18 Dec 2016 14:00:00 +0200</pubDate>
@@ -351,6 +369,15 @@
       <pubDate>Sun, 18 Dec 2016 14:00:00 +0200</pubDate>
       
       <guid>https://alexei-led.github.io/tags/docker-compose/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>swarm</title>
+      <link>https://alexei-led.github.io/tags/swarm/</link>
+      <pubDate>Sun, 18 Dec 2016 14:00:00 +0200</pubDate>
+      
+      <guid>https://alexei-led.github.io/tags/swarm/</guid>
       <description></description>
     </item>
     

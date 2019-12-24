@@ -7,7 +7,7 @@
 
     <meta name="description" content="">
 
-    <meta name="generator" content="Hugo 0.55.6" />
+    <meta name="generator" content="Hugo 0.61.0" />
     <meta name="twitter:card" content="summary">
     <meta name="twitter:site" content="alexeiled" />
     <meta name="twitter:title" content="Docker Swarm cluster with docker-in-docker on MacOS &middot; Terra Nullius">
@@ -92,87 +92,51 @@
                     </div>
                     
                     <div class="post-description">
-                        
-
-<h2 id="tl-dr">TL;DR</h2>
-
+                        <h2 id="tldr">TL;DR</h2>
 <blockquote>
 <p>Docker-in-Docker <a href="https://hub.docker.com/_/docker/">dind</a> can help you to run Docker Swarm cluster on your Macbook only with Docker for Mac (v1.12+). No <code>virtualbox</code>, <code>docker-machine</code>, <code>vagrant</code> or other app is required.</p>
 </blockquote>
-
 <h2 id="the-beginning">The Beginning</h2>
-
-<p>One day, I&rsquo;ve decided to try running Docker 1.12 Swarm cluster on my MacBook Pro. Docker team did a great job releasing Docker for Mac, and from that time I forgot all problems I used to have with <code>boot2docker</code>. I really like Docker for Mac: it’s fast, lightweight, tightly integrated with MacOS and significantly simplifies my life when working in changing network environment. The only missing thing is that it&rsquo;s possible to create and work with single Docker daemon running inside <code>xhyve</code> VM. Shit! I want a cluster.</p>
-
-<p>Of cause, it&rsquo;s possible to create Swarm cluster with <code>docker-machine</code> tool, but it&rsquo;s not MacOS friendly and requires to install additional VM software, like VirtualBox or Parallels (why? I already have <code>xhyve</code>!). I have different network for work office and home. At work I&rsquo;m behind corporate proxy with multiple firewall filters. At home, of cause, life is better. <code>docker-machine</code> requires to create dedicated VMs for each environment and thus force me juggling with different shell scripts when I switch from one to another. It&rsquo;s possible, but it&rsquo;s not fun.</p>
-
+<p>One day, I've decided to try running Docker 1.12 Swarm cluster on my MacBook Pro. Docker team did a great job releasing Docker for Mac, and from that time I forgot all problems I used to have with <code>boot2docker</code>. I really like Docker for Mac: it’s fast, lightweight, tightly integrated with MacOS and significantly simplifies my life when working in changing network environment. The only missing thing is that it's possible to create and work with single Docker daemon running inside <code>xhyve</code> VM. Shit! I want a cluster.</p>
+<p>Of cause, it's possible to create Swarm cluster with <code>docker-machine</code> tool, but it's not MacOS friendly and requires to install additional VM software, like VirtualBox or Parallels (why? I already have <code>xhyve</code>!). I have different network for work office and home. At work I'm behind corporate proxy with multiple firewall filters. At home, of cause, life is better. <code>docker-machine</code> requires to create dedicated VMs for each environment and thus force me juggling with different shell scripts when I switch from one to another. It's possible, but it's not fun.</p>
 <blockquote>
 <p>I just want to have multi-node Swarm cluster with Docker for Mac (and <code>xhyve</code> VM). As simple as it is.</p>
 </blockquote>
-
-<p>I’m a lazy person and if there is an already existing solution, I will alway choose one, even if it’s not ideal. So, after googling for a while, I&rsquo;ve failed to find any suitable solution or blog post. So, I’ve decided to create my own and share it with you.</p>
-
+<p>I’m a lazy person and if there is an already existing solution, I will alway choose one, even if it’s not ideal. So, after googling for a while, I've failed to find any suitable solution or blog post. So, I’ve decided to create my own and share it with you.</p>
 <h2 id="the-idea">The Idea</h2>
-
 <p>The basic idea is to use Docker for Mac for running Swam master and several <a href="https://hub.docker.com/_/docker/">Docker-in-Docker containers</a> for running Swarm worker nodes.</p>
-
 <p>First, lets init our Swarm master:</p>
-
 <pre><code># init Swarm master
 docker swarm init
-</code></pre>
-
-<p>&hellip; keep Swarm join token:</p>
-
+</code></pre><p>&hellip; keep Swarm join token:</p>
 <pre><code># get join token
 SWARM_TOKEN=$(docker swarm join-token -q worker)
-</code></pre>
-
-<p>&hellip; and Docker <code>xhyve</code> VM IP:</p>
-
+</code></pre><p>&hellip; and Docker <code>xhyve</code> VM IP:</p>
 <pre><code># get Swarm master IP (Docker for Mac xhyve VM IP)
 SWARM_MASTER=$(docker info | grep -w 'Node Address' | awk '{print $3}')
-</code></pre>
-
-<p>&hellip; now let&rsquo;s create 3 worker nodes and join these nodes to our cluster</p>
-
+</code></pre><p>&hellip; now let's create 3 worker nodes and join these nodes to our cluster</p>
 <pre><code># run NUM_WORKERS workers with SWARM_TOKEN
 NUM_WORKERS=3
 for i in $(seq “${NUM_WORKERS}&quot;); do
   docker run -d --privileged --name worker-${i} --hostname=worker-${i} -p ${i}2375:2375 docker:1.12.1-dind
   docker --host=localhost:${i}2375 swarm join --token ${SWARM_TOKEN} ${SWARM_MASTER}:2377
 done
-</code></pre>
-
-<p>Listing all our Swarm cluster nodes:</p>
-
+</code></pre><p>Listing all our Swarm cluster nodes:</p>
 <pre><code># list Swarm nodes :)
 docker node ls
-</code></pre>
-
-<p>&hellip; you should see something like this:</p>
-
+</code></pre><p>&hellip; you should see something like this:</p>
 <pre><code>ID                           HOSTNAME  STATUS  AVAILABILITY  MANAGER STATUS
 1f6z8pioh3vuaz84gyp0biqt0    worker-2  Ready   Active
 35z72o6zjhs9u1h99lrwzvx5n    worker-3  Ready   Active
 d9ph5cmc604wp1vhhs754nnxx *  moby      Ready   Active        Leader
 dj3gnpv86uqrw4b9mo9ux4jb5    worker-1  Ready   Active
-</code></pre>
-
-<p>That&rsquo;s all folks! Now, you have running Swarm cluster on your Macbook and your Docker client is talking with Swarm master.</p>
-
+</code></pre><p>That's all folks! Now, you have running Swarm cluster on your Macbook and your Docker client is talking with Swarm master.</p>
 <h3 id="nice-tip">Nice tip:</h3>
-
-<p>You can use very nice <a href="https://github.com/ManoMarks/docker-swarm-visualizer">Swarm visualizer</a> by Mano Marks to see your Swarm cluster &ldquo;in action&rdquo;.</p>
-
+<p>You can use very nice [Swarm visualizer] (<a href="https://github.com/ManoMarks/docker-swarm-visualizer">https://github.com/ManoMarks/docker-swarm-visualizer</a>) by Mano Marks to see your Swarm cluster &ldquo;in action&rdquo;.</p>
 <p>Run it with following command:</p>
-
 <pre><code>docker run -it -d -p 8000:8000 -e HOST=localhost -e PORT=8000 -v /var/run/docker.sock:/var/run/docker.sock manomarks/visualizer
-</code></pre>
-
-<p>And you should be able to see something like this (after you deploy some demo app):</p>
-
-<p><img src="https://alexei-led.github.io/img/docker_visualizer.png" alt="Docker Swarm visualizer: Voting App" /></p>
+</code></pre><p>And you should be able to see something like this (after you deploy some demo app):</p>
+<p><img src="https://alexei-led.github.io/img/docker_visualizer.png" alt="Docker Swarm visualizer: Voting App"></p>
 
                     </div>
                     <div id="disqus_thread"></div>

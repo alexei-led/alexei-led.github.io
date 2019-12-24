@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Terra Nullius</title>
@@ -7,10 +7,21 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>This work is licensed under a Creative Commons Attribution 4.0 International License</copyright>
-    <lastBuildDate>Sat, 27 Jul 2019 10:00:00 +0200</lastBuildDate>
+    <lastBuildDate>Mon, 23 Dec 2019 10:00:00 +0200</lastBuildDate>
     
 	<atom:link href="https://alexei-led.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Kubernetes and Secrets Management in Cloud</title>
+      <link>https://alexei-led.github.io/post/secrets-init/</link>
+      <pubDate>Mon, 23 Dec 2019 10:00:00 +0200</pubDate>
+      
+      <guid>https://alexei-led.github.io/post/secrets-init/</guid>
+      <description>Introduction Secrets are essential for operation of many production systems. Unintended secrets exposure is one of the top risks that should properly addressed. Most companies must do their best to protect their secrets.
+The problem becomes even harder, once company moves to a microservice architecture and multiple services need different secrets in order to work. How to distribute, manage, monitor and rotate these secrets, avoiding unintended leaks?
+Kubernetes Secrets Kubernetes provides a resource called Secret, which you can use to store sensitive data, like passwords, SSH keys, API keys, tokens and other.</description>
+    </item>
     
     <item>
       <title>Get a Shell to a Kubernetes Node</title>
@@ -18,8 +29,8 @@
       <pubDate>Sat, 27 Jul 2019 10:00:00 +0200</pubDate>
       
       <guid>https://alexei-led.github.io/post/k8s_node_shell/</guid>
-      <description>Throughout the lifecycle of your Kubernetes cluster, you may need to access a cluster worker node. This access could be for maintenance, configuration inspection, log collection, or other troubleshooting operations. More than that, it would be nice, if you could enable this access whenever it&amp;rsquo;s needed and disable when you finish your task.
-SSH Approach While it&amp;rsquo;s possible to configure Kubernetes nodes with SSH access, this also makes worker nodes more vulnerable.</description>
+      <description>Throughout the lifecycle of your Kubernetes cluster, you may need to access a cluster worker node. This access could be for maintenance, configuration inspection, log collection, or other troubleshooting operations. More than that, it would be nice, if you could enable this access whenever it&#39;s needed and disable when you finish your task.
+SSH Approach While it&#39;s possible to configure Kubernetes nodes with SSH access, this also makes worker nodes more vulnerable.</description>
     </item>
     
     <item>
@@ -51,7 +62,7 @@ As with code, Continuous Integration approach should be applied to a Kubernetes 
       
       <guid>https://alexei-led.github.io/post/cd_helm_kubernetes/</guid>
       <description>Continuous Delivery and Continuous Deployment for Kubernetes microservices  THIS IS A DRAFT VERSION OF POST TO COME, PLEASE DO NOT SHARE
- Starting Point Over last years we&amp;rsquo;ve been adopting several concepts for our project, straggling to make them work together.
+ Starting Point Over last years we&#39;ve been adopting several concepts for our project, straggling to make them work together.
 The first one is the Microservice Architecture. We did not start it clean and by the book, rather applied it to the already existing project: splitting big services into smaller and breaking excessive coupling.</description>
     </item>
     
@@ -61,7 +72,7 @@ The first one is the Microservice Architecture. We did not start it clean and by
       <pubDate>Wed, 04 Oct 2017 18:00:00 +0200</pubDate>
       
       <guid>https://alexei-led.github.io/post/pumba_containercamp/</guid>
-      <description>What follows is the text of my presentation, Chaos Testing for Docker Containers that I gave at ContainerCamp in London this year. I&amp;rsquo;ve also decided to turn the presentation into an article. I edited the text slightly for readability and added some links for more context. You can find the original video recording and slides at the end of this post.
+      <description>What follows is the text of my presentation, Chaos Testing for Docker Containers that I gave at ContainerCamp in London this year. I&#39;ve also decided to turn the presentation into an article. I edited the text slightly for readability and added some links for more context. You can find the original video recording and slides at the end of this post.
 Intro Software development is about building software services that support business needs.</description>
     </item>
     
@@ -72,7 +83,7 @@ Intro Software development is about building software services that support busi
       
       <guid>https://alexei-led.github.io/post/debug_node_in_docker/</guid>
       <description>Teaser Suppose you want to debug a Node.js application already running on a remote machine inside Docker container. And would like to do it without modifying command arguments (enabling debug mode) and opening remote Node.js debugger agent port to the whole world.
-I bet you didn&amp;rsquo;t know that it&amp;rsquo;s possible and also have no idea how to do it.
+I bet you didn&#39;t know that it&#39;s possible and also have no idea how to do it.
 I encourage you to continue reading this post if you are eager to learn some new cool stuff.</description>
     </item>
     
@@ -93,7 +104,7 @@ The &amp;ldquo;core principle&amp;rdquo; of Dockerfile Docker can build images b
       
       <guid>https://alexei-led.github.io/post/perfect_docker_java/</guid>
       <description>TL;DR  What is the bare minimum you need to build, test and run my Java application in Docker container?
-The recipe: Create a separate Docker image for each step and optimize the way you are running it.
+  The recipe: Create a separate Docker image for each step and optimize the way you are running it.
  Introduction I started working with Java in 1998, and for a long time, it was my main programming language. It was a long love–hate relationship.
 DDuring my work career, I wrote a lot of code in Java.</description>
     </item>
@@ -104,7 +115,7 @@ DDuring my work career, I wrote a lot of code in Java.</description>
       <pubDate>Mon, 02 Jan 2017 18:00:00 +0200</pubDate>
       
       <guid>https://alexei-led.github.io/post/everyday_hacks/</guid>
-      <description>In this post, I&amp;rsquo;ve decided to share with you some useful commands and tools, I&amp;rsquo;m frequently using, working with amazing Docker technology. There is no particular order or &amp;ldquo;coolness level&amp;rdquo; for every &amp;ldquo;hack&amp;rdquo;. I will try to present the use case and how does specific command or tool help me with my work.
+      <description>In this post, I&#39;ve decided to share with you some useful commands and tools, I&#39;m frequently using, working with amazing Docker technology. There is no particular order or &amp;ldquo;coolness level&amp;rdquo; for every &amp;ldquo;hack&amp;rdquo;. I will try to present the use case and how does specific command or tool help me with my work.
 Cleaning up Working with Docker for some time, you start to accumulate development junk: unused volumes, networks, exited containers and unused images.</description>
     </item>
     
@@ -137,7 +148,7 @@ So, what is the Docker build context?</description>
       
       <guid>https://alexei-led.github.io/post/swarm_dind/</guid>
       <description>TL;DR  Docker-in-Docker dind can help you to run Docker Swarm cluster on your Macbook only with Docker for Mac (v1.12+). No virtualbox, docker-machine, vagrant or other app is required.
- The Beginning One day, I&amp;rsquo;ve decided to try running Docker 1.12 Swarm cluster on my MacBook Pro. Docker team did a great job releasing Docker for Mac, and from that time I forgot all problems I used to have with boot2docker.</description>
+ The Beginning One day, I&#39;ve decided to try running Docker 1.12 Swarm cluster on my MacBook Pro. Docker team did a great job releasing Docker for Mac, and from that time I forgot all problems I used to have with boot2docker.</description>
     </item>
     
     <item>
@@ -166,9 +177,9 @@ Introduction The best defense against unexpected failures is to build resilient 
       <pubDate>Mon, 07 Mar 2016 16:39:00 +0200</pubDate>
       
       <guid>https://alexei-led.github.io/post/docker_testing/</guid>
-      <description>Congratulations! You know how to build a Docker image and are able to compose multiple containers into a meaningful application. Hopefully, you&amp;rsquo;ve already created a Continuous Delivery pipeline and know how to push your newly created image into production or testing environment.
+      <description>Congratulations! You know how to build a Docker image and are able to compose multiple containers into a meaningful application. Hopefully, you&#39;ve already created a Continuous Delivery pipeline and know how to push your newly created image into production or testing environment.
  Now, the question is - How do we test our Docker containers?
- There are multiple testing strategies we can apply. In this post, I&amp;rsquo;ll highlight them presenting benefits and drawbacks for each.</description>
+ There are multiple testing strategies we can apply. In this post, I&#39;ll highlight them presenting benefits and drawbacks for each.</description>
     </item>
     
     <item>
@@ -177,8 +188,17 @@ Introduction The best defense against unexpected failures is to build resilient 
       <pubDate>Thu, 14 Jan 2016 16:14:47 +0200</pubDate>
       
       <guid>https://alexei-led.github.io/post/docker_builder_pattern/</guid>
-      <description>Let&amp;rsquo;s say that you&amp;rsquo;re developing a microservice in a compiled language or an interpreted language that requires some additional “build” steps to package and lint your application code. This is a useful docker pattern for the &amp;ldquo;build&amp;rdquo; container.
-In our project, we&amp;rsquo;re using Docker as our main deployment package: every microservice is delivered as a Docker image. Each microservice also has it’s own code repository (GitHub), and its own CI build job.</description>
+      <description>Let&#39;s say that you&#39;re developing a microservice in a compiled language or an interpreted language that requires some additional “build” steps to package and lint your application code. This is a useful docker pattern for the &amp;ldquo;build&amp;rdquo; container.
+In our project, we&#39;re using Docker as our main deployment package: every microservice is delivered as a Docker image. Each microservice also has it’s own code repository (GitHub), and its own CI build job.</description>
+    </item>
+    
+    <item>
+      <title>about</title>
+      <link>https://alexei-led.github.io/about/</link>
+      <pubDate>Wed, 30 Dec 2015 11:09:47 +0200</pubDate>
+      
+      <guid>https://alexei-led.github.io/about/</guid>
+      <description>Alexei Ledenev Software Developer</description>
     </item>
     
     <item>
@@ -190,15 +210,6 @@ In our project, we&amp;rsquo;re using Docker as our main deployment package: eve
       <description>Docker is great technology that simplifies development and deployment of distributed applications.
 While Docker serves as a core technology, many issues remain to be solved. We find ourselves struggling with some of these issues. For example:
  How to create an elastic Docker cluster? How to deploy and connect multiple containers together? How to build CI/CD process? How to register and discover system services and more?  For most, there are open source projects, or services available from the community as well as commercially, including from Docker, Inc.</description>
-    </item>
-    
-    <item>
-      <title>about</title>
-      <link>https://alexei-led.github.io/about/</link>
-      <pubDate>Wed, 30 Dec 2015 11:09:47 +0200</pubDate>
-      
-      <guid>https://alexei-led.github.io/about/</guid>
-      <description>Alexei Ledenev Software Developer</description>
     </item>
     
   </channel>
