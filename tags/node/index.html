@@ -7,7 +7,7 @@
 
     <meta name="description" content="The Programming Blog">
 
-    <meta name="generator" content="Hugo 0.61.0" />
+    <meta name="generator" content="Hugo 0.62.0" />
     <meta name="twitter:card" content="summary">
     <meta name="twitter:site" content="alexeiled" />
     <meta name="twitter:title" content="node &middot; Terra Nullius">
@@ -224,7 +224,7 @@ $ ssh -i <span style="color:#e6db74">${</span>SSH_KEY_FILE<span style="color:#e6
 <li><code>org.label-schema.vcs-ref</code> - contains short SHA for a <code>HEAD</code> commit</li>
 <li><code>org.label-schema.vcs-url</code> - contains an application git repository url (I can use in <code>clone/pull</code>)</li>
 </ol>
-<p>I'm using (Label Schema Convention)[<a href="http://label-schema.org/rc1/">http://label-schema.org/rc1/</a>], since I really like it and find it useful, but you can select any other convention too.</p>
+<p>I'm using (Label Schema Convention)[http://label-schema.org/rc1/], since I really like it and find it useful, but you can select any other convention too.</p>
 <p>This approach allows me, for each, properly labeled, Docker image, to identify the application code repository and the commit it was created from.</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ <span style="color:#75715e"># get git repository url form Docker image</span>
 $ GIT_URL<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>docker inspect local/todomvc | jq -r <span style="color:#e6db74">&#39;.[].ContainerConfig.Labels.&#34;org.label-schema.vcs-url&#34;&#39;</span><span style="color:#66d9ef">)</span>

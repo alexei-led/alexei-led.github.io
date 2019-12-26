@@ -18,9 +18,8 @@
       <pubDate>Mon, 23 Dec 2019 10:00:00 +0200</pubDate>
       
       <guid>https://alexei-led.github.io/post/secrets-init/</guid>
-      <description>Introduction Secrets are essential for operation of many production systems. Unintended secrets exposure is one of the top risks that should properly addressed. Most companies must do their best to protect their secrets.
-The problem becomes even harder, once company moves to a microservice architecture and multiple services need different secrets in order to work. How to distribute, manage, monitor and rotate these secrets, avoiding unintended leaks?
-Kubernetes Secrets Kubernetes provides a resource called Secret, which you can use to store sensitive data, like passwords, SSH keys, API keys, tokens and other.</description>
+      <description>Introduction Secrets are essential for operation of many production systems. Unintended secrets exposure is one of the top risks that should be properly addressed. Developers should do their best to protect application secrets.
+The problem becomes even harder, once company moves to a microservice architecture and multiple services require an access to different secrets in order to properly work. And this leads to a new challenges: how to distribute, manage, monitor and rotate application secrets, avoiding unintended exposure?</description>
     </item>
     
     <item>
