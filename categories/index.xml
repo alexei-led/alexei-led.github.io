@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Categories on Terra Nullius</title>
@@ -8,15 +8,12 @@
     <language>en-us</language>
     <copyright>This work is licensed under a Creative Commons Attribution 4.0 International License</copyright>
     <lastBuildDate>Mon, 23 Dec 2019 10:00:00 +0200</lastBuildDate>
-    
-	<atom:link href="https://alexei-led.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
-    
+    <atom:link href="https://alexei-led.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>Development</title>
       <link>https://alexei-led.github.io/categories/development/</link>
       <pubDate>Mon, 23 Dec 2019 10:00:00 +0200</pubDate>
-      
       <guid>https://alexei-led.github.io/categories/development/</guid>
       <description></description>
     </item>
@@ -25,7 +22,6 @@
       <title>Kubernetes</title>
       <link>https://alexei-led.github.io/categories/kubernetes/</link>
       <pubDate>Mon, 23 Dec 2019 10:00:00 +0200</pubDate>
-      
       <guid>https://alexei-led.github.io/categories/kubernetes/</guid>
       <description></description>
     </item>
@@ -34,7 +30,6 @@
       <title>Security</title>
       <link>https://alexei-led.github.io/categories/security/</link>
       <pubDate>Mon, 23 Dec 2019 10:00:00 +0200</pubDate>
-      
       <guid>https://alexei-led.github.io/categories/security/</guid>
       <description></description>
     </item>
@@ -43,7 +38,6 @@
       <title>DevOps</title>
       <link>https://alexei-led.github.io/categories/devops/</link>
       <pubDate>Sat, 27 Jul 2019 10:00:00 +0200</pubDate>
-      
       <guid>https://alexei-led.github.io/categories/devops/</guid>
       <description></description>
     </item>
@@ -52,7 +46,6 @@
       <title>Chaos Testing</title>
       <link>https://alexei-led.github.io/categories/chaos-testing/</link>
       <pubDate>Wed, 04 Oct 2017 18:00:00 +0200</pubDate>
-      
       <guid>https://alexei-led.github.io/categories/chaos-testing/</guid>
       <description></description>
     </item>
@@ -61,7 +54,6 @@
       <title>Docker</title>
       <link>https://alexei-led.github.io/categories/docker/</link>
       <pubDate>Sat, 03 Jun 2017 18:00:00 +0200</pubDate>
-      
       <guid>https://alexei-led.github.io/categories/docker/</guid>
       <description></description>
     </item>

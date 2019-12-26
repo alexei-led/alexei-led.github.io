@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>chaos on Terra Nullius</title>
@@ -8,18 +8,165 @@
     <language>en-us</language>
     <copyright>This work is licensed under a Creative Commons Attribution 4.0 International License</copyright>
     <lastBuildDate>Wed, 04 Oct 2017 18:00:00 +0200</lastBuildDate>
-    
-	<atom:link href="https://alexei-led.github.io/tags/chaos/index.xml" rel="self" type="application/rss+xml" />
-    
+    <atom:link href="https://alexei-led.github.io/tags/chaos/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>Chaos Testing for Docker Containers</title>
       <link>https://alexei-led.github.io/post/pumba_containercamp/</link>
       <pubDate>Wed, 04 Oct 2017 18:00:00 +0200</pubDate>
-      
       <guid>https://alexei-led.github.io/post/pumba_containercamp/</guid>
-      <description>What follows is the text of my presentation, Chaos Testing for Docker Containers that I gave at ContainerCamp in London this year. I&#39;ve also decided to turn the presentation into an article. I edited the text slightly for readability and added some links for more context. You can find the original video recording and slides at the end of this post.
-Intro Software development is about building software services that support business needs.</description>
+      <description>&lt;p&gt;What follows is the text of my presentation, &lt;em&gt;Chaos Testing for Docker Containers&lt;/em&gt; that I gave at &lt;a href=&#34;https://2017.container.camp/uk&#34;&gt;ContainerCamp&lt;/a&gt; in London this year.
+I&#39;ve also decided to turn the presentation into an article. I edited the text slightly for readability and added some links for more context. You can find the original video recording and slides at the end of this post.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://alexei-led.github.io/img/sink_cargo.jpg&#34; alt=&#34;Docker Chaos Testing&#34;&gt;&lt;/p&gt;
+&lt;h2 id=&#34;intro&#34;&gt;Intro&lt;/h2&gt;
+&lt;p&gt;Software development is about building software services that support business needs. More complex businesses processes we want to automate and integrate with. the more complex software system we are building. And solution complexity is tend to grown over time and scope.&lt;/p&gt;
+&lt;p&gt;The reasons for growing complexity can be different. Some systems just tend to handle too many concerns, or require a lot of integrations with external services and internal legacy systems. These systems are written and rewritten multiple times over several years by different people with different skills, trying to satisfy constantly changing business requirements, using different technologies, following different technology and architecture trends.&lt;/p&gt;
+&lt;p&gt;So, my point, is that building software, that unintentionally become more and more complex over time, is easy - we all done in the past it or doing it right now. Building a &amp;ldquo;good&amp;rdquo; software architecture for complex systems and preserving it&#39;s &amp;ldquo;good&amp;rdquo; abilities for some period of time, is really hard.&lt;/p&gt;
+&lt;p&gt;When you have too many &amp;ldquo;moving&amp;rdquo; parts, integrations, constantly changing requirements, that lead to code changes, security upgrades, hardware modernization, multiple network communication channels and etc, it can become a &amp;ldquo;Mission Impossible&amp;rdquo; to avoid unexpected failures.&lt;/p&gt;
+&lt;h2 id=&#34;stuff-happens&#34;&gt;Stuff happens!&lt;/h2&gt;
+&lt;p&gt;All systems fail from time to time. And your software system will fail too. Take this as a fact of life. There will always be something that can — and will — go wrong. No matter how hard we try, we can’t build perfect software, nor can the companies we depend on. Even the most stable and respectful services from companies, that practice CI/CD, test driven development (TDD/BDD), have huge QA departments and well defined release procedures, fail.&lt;/p&gt;
+&lt;p&gt;Just a few examples from the last year outages:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;BM, January 26&lt;/strong&gt;
+&lt;ul&gt;
+&lt;li&gt;IBM&#39;s cloud credibility took a hit at the start of the year when a management portal used by customers to access its Bluemix cloud infrastructure went down for several hours. While no underlying infrastructure actually failed, users were frustrated in finding they couldn&#39;t manage their applications or add or remove cloud resources powering workloads.&lt;/li&gt;
+&lt;li&gt;IBM said the problem was intermittent and stemmed from a botched update to the interface.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;GitLab, January 31&lt;/strong&gt;
+&lt;ul&gt;
+&lt;li&gt;GitLab&#39;s popular online code repository, GibLab.com, suffered an 18-hour service outage that ultimately couldn&#39;t be fully remediated.&lt;/li&gt;
+&lt;li&gt;The problem resulted when an employee removed a database directory from the wrong database server during maintenance procedures.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;AWS, February 28&lt;/strong&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;http://www.crn.com/news/cloud/300083958/aws-storage-outage-wreaking-havoc-on-web-services-providers.htm&#34;&gt;This was the outage&lt;/a&gt; that shook the industry.&lt;/li&gt;
+&lt;li&gt;An Amazon Web Services engineer trying to debug an S3 storage system in the provider&#39;s Virginia data center accidentally typed a command incorrectly, and much of the Internet – including many enterprise platforms like Slack, Quora and Trello – was down for four hours.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Microsoft Azure, March 16&lt;/strong&gt;
+&lt;ul&gt;
+&lt;li&gt;Storage availability issues plagued Microsoft&#39;s Azure public cloud for more than eight hours, mostly affecting customers in the Eastern U.S.&lt;/li&gt;
+&lt;li&gt;Some users had trouble provisioning new storage or accessing existing resources in the region. A Microsoft engineering team later identified the culprit as a storage cluster that lost power and became unavailable.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Visit &lt;a href=&#34;http://outage.report&#34;&gt;Outage.Report&lt;/a&gt; or &lt;a href=&#34;http://downdetector.com&#34;&gt;Downdetector&lt;/a&gt; to see a constantly updating long list of outages reported by end-users.&lt;/p&gt;
+&lt;h2 id=&#34;chasing-software-quality&#34;&gt;Chasing Software Quality&lt;/h2&gt;
+&lt;p&gt;As software engineers, we what to be proud of software systems we are building. We want theses systems to be of high quality, without functional bugs, security holes, providing exceptional performance, resilient to unexpected failures, self-healing, always available and easy to maintain and modernize.&lt;/p&gt;
+&lt;p&gt;Every new project starts with &amp;ldquo;high quality&amp;rdquo; picture in mind and none wants to create crappy software, but very few of us (or none) are able to achieve and keep intact all good &amp;ldquo;abilities&amp;rdquo;. So, what we can do to improve overall system quality? Should we do more testing?&lt;/p&gt;
+&lt;p&gt;I tend to say &amp;ldquo;Yes&amp;rdquo; - software testing is critical. But just running unit, functional and performance testing is not enough.&lt;/p&gt;
+&lt;p&gt;Today, building complex distributed system is much easier with all new amazing technology we have and experience we gathered. Microservice Architecture is a real trend nowadays and miscellaneous container technologies support this architecture. It&#39;s much easier to deploy, scale, link, monitor, update and manage distributed systems, composed from multiple &amp;ldquo;microservices&amp;rdquo;.
+When we are building distributed systems, we are choosing &lt;strong&gt;P&lt;/strong&gt; (&lt;em&gt;Pratition Tolerance&lt;/em&gt;) from the &lt;a href=&#34;https://en.wikipedia.org/wiki/CAP_theorem&#34;&gt;CAP theorem&lt;/a&gt; and second to it either &lt;strong&gt;A&lt;/strong&gt; (&lt;em&gt;Availability&lt;/em&gt; - the most popular choice) or &lt;strong&gt;C&lt;/strong&gt; (&lt;em&gt;Consistency&lt;/em&gt;). So, we need to find a good approach for testing &lt;strong&gt;AP&lt;/strong&gt; or &lt;strong&gt;CP&lt;/strong&gt; systems.&lt;/p&gt;
+&lt;p&gt;Traditional testing disciplines and tools do not provide a good answer to &lt;em&gt;how does your distributed system behave when unexpected stuff happens in production?&lt;/em&gt;.
+Sure, you can learn from previous failures, after the fact, and you should definitely do it. But, learning from past experience should not be the only way to prepare for the future failures.&lt;/p&gt;
+&lt;p&gt;Waiting for things to break in production is not an option. But what’s the alternative?&lt;/p&gt;
+&lt;h2 id=&#34;chaos-engineering&#34;&gt;Chaos Engineering&lt;/h2&gt;
+&lt;p&gt;The alternative is to break things on purpose. And Chaos Engineering is a particular approach to doing just that. The idea of Chaos Engineering is to &lt;em&gt;embrace the failure!&lt;/em&gt;
+Chaos Engineering for distributed software systems was originally popularized by Netflix.&lt;/p&gt;
+&lt;p&gt;Chaos Engineering defines an empirical approach to resilience testing of distributed software systems. You are testing a system by conducting &lt;em&gt;chaos experiments&lt;/em&gt;.&lt;/p&gt;
+&lt;p&gt;Typical &lt;em&gt;chaos experiment&lt;/em&gt;:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;define a &lt;em&gt;normal/steady&lt;/em&gt; state of the system (e.g. by monitoring a set of system and business metrics)&lt;/li&gt;
+&lt;li&gt;pseudo-randomly inject faults (e.g. by terminating VMs, killing containers or changing network behavior)&lt;/li&gt;
+&lt;li&gt;try to discover system weaknesses by deviation from expected or steady-state behavior&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The harder it is to disrupt the steady state, the more confidence we have in the behavior of the system.  &lt;/p&gt;
+&lt;h2 id=&#34;chaos-engineering-tools&#34;&gt;Chaos Engineering tools&lt;/h2&gt;
+&lt;p&gt;Of cause it&#39;s possible to practice Chaos Engineering manually, or relay on automatic system updates, but we, as engineers like to automate boring manual tasks, so there are some nice tools to use.&lt;/p&gt;
+&lt;p&gt;Netflix built a some &lt;a href=&#34;https://github.com/Netflix/SimianArmy/wiki&#34;&gt;useful tools&lt;/a&gt; for practicing Chaos Engineering in public cloud (AWS):&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Chaos Monkey - kill EC2, kill processes, burn CPU, fill disk, detach volumes, add network latency, etc&lt;/li&gt;
+&lt;li&gt;Chaos Kong - remove whole AWS Regions&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;These are very good tools, I encourage you to use them. But when I&#39;ve started my new container based project (2 years ago), it looks like these tools provided just a &lt;em&gt;wrong&lt;/em&gt; granularity for &lt;em&gt;chaos&lt;/em&gt; I wanted to create, and I wanted to be able to create the &lt;em&gt;chaos&lt;/em&gt; not only in real cluster, but also on single developer machine, to be able to debug and tune my application. So, I&#39;ve searched Google for &lt;em&gt;Chaos Monkey for Docker&lt;/em&gt;, but did not find anything, besides some basic Bash scripts.
+So, I&#39;ve decided to create my own tool. And since it happens to be quite a useful tool from the very first version, I&#39;ve shared it with a community as an open source. It&#39;s a Chaos &lt;del&gt;Monkey&lt;/del&gt; Warthog for Docker - &lt;a href=&#34;https://github.com/gaia-adm/pumba&#34;&gt;Pumba&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&#34;pumba---chaos-testing-for-docker&#34;&gt;Pumba - Chaos Testing for Docker&lt;/h2&gt;
+&lt;p&gt;&lt;em&gt;What is Pumba(a)?&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;Those of us who have kids or was a kid in 90s should remember this character from Disney&#39;s animated film &lt;strong&gt;The Lion King&lt;/strong&gt;. In Swahili, &lt;strong&gt;pumbaa&lt;/strong&gt; means &amp;ldquo;&lt;em&gt;to be foolish, silly, weak-minded, careless, negligent&lt;/em&gt;&amp;quot;. I like the Swahili meaning of this word. It matched perfectly for the tool I wanted to create.&lt;/p&gt;
+&lt;h3 id=&#34;what-pumba-can-do&#34;&gt;What Pumba can do?&lt;/h3&gt;
+&lt;p&gt;Pumba disturbs running Docker runtime environment by injecting different failures. Pumba can &lt;code&gt;kill&lt;/code&gt;, &lt;code&gt;stop&lt;/code&gt;, &lt;code&gt;remove&lt;/code&gt; or &lt;code&gt;pause&lt;/code&gt; Docker container.
+Pumba can also do a network emulation, simulating different network failures, like: delay, packet loss (using different probability loss models), bandwidth rate limits and more. For network emulation, Pumba uses Linux kernel traffic control &lt;code&gt;tc&lt;/code&gt; with &lt;code&gt;netem&lt;/code&gt; queueing discipline, read more &lt;a href=&#34;http://man7.org/linux/man-pages/man8/tc-netem.8.html&#34;&gt;here&lt;/a&gt;. If &lt;code&gt;tc&lt;/code&gt; is not available within target container, Pumba uses a &lt;em&gt;sidekick&lt;/em&gt; container with &lt;code&gt;tc&lt;/code&gt; on-board, attaching it to the target container network.&lt;/p&gt;
+&lt;p&gt;You can pass list of containers to the Pumba or just write a regular expression to select matching containers. If you will not specify containers, Pumba will try to disturb all running containers. Use &lt;code&gt;--random&lt;/code&gt; option, to randomly select only one target container from the provided list. It&#39;s also possible to define a repeatable time interval and duration parameters to better control the amount of &lt;em&gt;chaos&lt;/em&gt; you want to create.&lt;/p&gt;
+&lt;p&gt;Pumba is available as a single binary file for Linux, MacOS and Windows, or as a Docker container.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# Download binary from https://github.com/gaia-adm/pumba/releases&lt;/span&gt;
+curl https://github.com/gaia-adm/pumba/releases/download/0.4.6/pumba_linux_amd64 --output /usr/local/bin/pumba
+chmod +x /usr/local/bin/pumba &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; pumba --help
+
+&lt;span style=&#34;color:#75715e&#34;&gt;# Install with Homebrew (MacOS only)&lt;/span&gt;
+brew install pumba &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; pumba --help
+
+&lt;span style=&#34;color:#75715e&#34;&gt;# Use Docker image&lt;/span&gt;
+docker run gaiaadm/pumba pumba --help
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;pumba-commands-examples&#34;&gt;Pumba commands examples&lt;/h3&gt;
+&lt;p&gt;First of all, run &lt;code&gt;pumba --help&lt;/code&gt; to get help about available commands and options and &lt;code&gt;pumba &amp;lt;command&amp;gt; --help&lt;/code&gt; to get help for the specific command and sub-command.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# pumba help&lt;/span&gt;
+pumba --help
+
+&lt;span style=&#34;color:#75715e&#34;&gt;# pumba kill help&lt;/span&gt;
+pumba kill --help
+
+&lt;span style=&#34;color:#75715e&#34;&gt;# pumba netem delay help&lt;/span&gt;
+pumba netem delay --help
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Killing randomly chosen Docker container from  &lt;code&gt;^test&lt;/code&gt; regex list.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# on main pane/screen, run 7 test containers that do nothing&lt;/span&gt;
+&lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; i in &lt;span style=&#34;color:#f92672&#34;&gt;{&lt;/span&gt;0..7&lt;span style=&#34;color:#f92672&#34;&gt;}&lt;/span&gt;; &lt;span style=&#34;color:#66d9ef&#34;&gt;do&lt;/span&gt; docker run -d --rm --name test$i alpine tail -f /dev/null; &lt;span style=&#34;color:#66d9ef&#34;&gt;done&lt;/span&gt;
+&lt;span style=&#34;color:#75715e&#34;&gt;# run an additional container with &amp;#39;skipme&amp;#39; name&lt;/span&gt;
+docker run -d --rm --name skipme alpine tail -f /dev/null
+
+&lt;span style=&#34;color:#75715e&#34;&gt;# run this command in another pane/screen to see running docker containers&lt;/span&gt;
+watch docker ps -a
+
+&lt;span style=&#34;color:#75715e&#34;&gt;# go back to main pane/screen and kill (once in 10s) random &amp;#39;test&amp;#39; container, ignoring &amp;#39;skipme&amp;#39;&lt;/span&gt;
+pumba --random --interval 10s kill re2:^test
+&lt;span style=&#34;color:#75715e&#34;&gt;# press Ctrl-C to stop Pumba at any time&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Adding a &lt;code&gt;3000ms&lt;/code&gt; (&lt;code&gt;+-50ms&lt;/code&gt;) delay to the &lt;em&gt;engress&lt;/em&gt; traffic for the &lt;code&gt;ping&lt;/code&gt; container for &lt;code&gt;20&lt;/code&gt; seconds, using &lt;em&gt;normal&lt;/em&gt; distribution model.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# run &amp;#34;ping&amp;#34; container on one screen/pane&lt;/span&gt;
+docker run -it --rm --name ping alpine ping 8.8.8.8
+
+&lt;span style=&#34;color:#75715e&#34;&gt;# on second screen/pane, run pumba netem delay command, disturbing &amp;#34;ping&amp;#34; container; sidekick a &amp;#34;tc&amp;#34; helper container&lt;/span&gt;
+pumba netem --duration 20s --tc-image gaiadocker/iproute2 delay --time &lt;span style=&#34;color:#ae81ff&#34;&gt;3000&lt;/span&gt; jitter &lt;span style=&#34;color:#ae81ff&#34;&gt;50&lt;/span&gt; --distribution normal ping
+&lt;span style=&#34;color:#75715e&#34;&gt;# pumba will exit after 20s, or stop it with Ctrl-C&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;To demonstrate packet loss capability, we will need three screens/panes. I will use &lt;code&gt;iperf&lt;/code&gt; network bandwidth measurement &lt;a href=&#34;https://iperf.fr&#34;&gt;tool&lt;/a&gt;.
+On the first pane, run &lt;em&gt;server&lt;/em&gt; docker container with &lt;code&gt;iperf&lt;/code&gt; on-board and start there a UDP server. On the second pane, start &lt;em&gt;client&lt;/em&gt; docker container with &lt;code&gt;iperf&lt;/code&gt; and send datagrams to the &lt;em&gt;server&lt;/em&gt; container. Then, on the third pane, run &lt;code&gt;pumba netem loss&lt;/code&gt; command, adding a packet loss to the &lt;em&gt;client&lt;/em&gt; container. Enjoy the chaos.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# create docker network&lt;/span&gt;
+docker network create -d bridge testnet
+
+&lt;span style=&#34;color:#75715e&#34;&gt;# &amp;gt; Server Pane&lt;/span&gt;
+&lt;span style=&#34;color:#75715e&#34;&gt;# run server container&lt;/span&gt;
+docker run -it --name server --network testnet --rm alpine sh -c &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;apk add --no-cache iperf; sh&amp;#34;&lt;/span&gt;
+&lt;span style=&#34;color:#75715e&#34;&gt;# shell inside server container: run a UDP Server listening on UDP port 5001&lt;/span&gt;
+sh$ iperf -s -u -i &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;
+
+&lt;span style=&#34;color:#75715e&#34;&gt;# &amp;gt; Client Pane&lt;/span&gt;
+&lt;span style=&#34;color:#75715e&#34;&gt;# run client container&lt;/span&gt;
+docker run -it --name client --network testnet --rm alpine sh -c &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;apk add --no-cache iperf; sh&amp;#34;&lt;/span&gt;
+&lt;span style=&#34;color:#75715e&#34;&gt;# shell inside client container: send datagrams to the server -&amp;gt; see no packet loss&lt;/span&gt;
+sh$ iperf -c server -u
+
+&lt;span style=&#34;color:#75715e&#34;&gt;# &amp;gt; Server Pane&lt;/span&gt;
+&lt;span style=&#34;color:#75715e&#34;&gt;# see server receives datagrams without any packet loss&lt;/span&gt;
+
+&lt;span style=&#34;color:#75715e&#34;&gt;# &amp;gt; Pumba Pane&lt;/span&gt;
+&lt;span style=&#34;color:#75715e&#34;&gt;# inject 20% packet loss into client container, for 1m&lt;/span&gt;
+pumba netem --duration 1m --tc-image gaiadocker/iproute2 loss --percent &lt;span style=&#34;color:#ae81ff&#34;&gt;20&lt;/span&gt; client
+
+&lt;span style=&#34;color:#75715e&#34;&gt;# &amp;gt; Client Pane&lt;/span&gt;
+&lt;span style=&#34;color:#75715e&#34;&gt;# shell inside client container: send datagrams to the server -&amp;gt; see ~20% packet loss&lt;/span&gt;
+sh$ iperf -c server -u
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;session-and-slides&#34;&gt;Session and slides&lt;/h2&gt;
+
+&lt;div style=&#34;position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;&#34;&gt;
+  &lt;iframe src=&#34;https://www.youtube.com/embed/68ZepHa5UVg&#34; style=&#34;position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;&#34; allowfullscreen title=&#34;YouTube Video&#34;&gt;&lt;/iframe&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://speakerdeck.com/alexeiled/chaos-testing-for-docker-containers&#34;&gt;Slides&lt;/a&gt;&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;Hope, you find this post useful. I look forward to your comments and any questions you have.&lt;/p&gt;
+</description>
     </item>
     
   </channel>

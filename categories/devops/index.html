@@ -1,941 +1,136 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html class="nojs" lang="en" dir="ltr">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DevOps &middot; Terra Nullius</title>
-
-    <meta name="description" content="The Programming Blog">
-
-    <meta name="generator" content="Hugo 0.62.0" />
-    <meta name="twitter:card" content="summary">
-    <meta name="twitter:site" content="alexeiled" />
-    <meta name="twitter:title" content="DevOps &middot; Terra Nullius">
-    <meta name="twitter:description" content="The Programming Blog">
-
-    <meta property="og:type" content="article">
-    <meta property="og:title" content="DevOps &middot; Terra Nullius">
-    <meta property="og:description" content="The Programming Blog">
-
-    <link href='//fonts.googleapis.com/css?family=Source+Sans+Pro:400,700|Oxygen:400,700' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/pure-min.css">
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/grids-responsive-min.css">
-
-    <link rel="stylesheet" href="https://alexei-led.github.io/css/all.min.css">
-    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
-
-    <link rel="alternate" type="application/rss+xml" title="Terra Nullius" href="https://alexei-led.github.io/index.xml" />
-    <link rel="canonical" href="">
-</head>
-<body>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+<title>DevOps – Terra Nullius</title>
+<link rel="alternate" type="application/rss+xml" title="RSS" href="https://alexei-led.github.io/categories/devops/index.xml">
+<meta name="description" content="">
+<meta name="created" content="2019-07-27T10:00:00+0200">
+<meta name="modified" content="2019-07-27T10:00:00+0200">
 
 
-<div id="layout" class="pure-g">
-    <div class="sidebar pure-u-1 pure-u-md-1-4">
-    <div class="header">
-        <hgroup>
-            <h1 class="brand-title"><a href="https://alexei-led.github.io">Terra Nullius</a></h1>
-            <h2 class="brand-tagline"> The Programming Blog </h2>
-        </hgroup>
+<meta property="og:site_name" content="Terra Nullius">
+<meta property="og:title" content="DevOps">
+<meta property="og:url" content="https://alexei-led.github.io/categories/devops/">
+<meta property="og:type" content="website">
 
-        <nav class="nav">
-            <ul class="nav-list">
-                
-                <li class="nav-item">
-                    <a class="pure-button" href="https://twitter.com/alexeiled"><i class="fa fa-twitter"></i> Twitter</a>
-                </li>
-                
-                
-                <li class="nav-item">
-                    <a class="pure-button" href="https://github.com/alexei-led "><i class="fa fa-github-alt"></i> github</a>
-                </li>
-                
-                <li class="nav-item">
-                    <a class="pure-button" href="https://alexei-led.github.io/index.xml"><i class="fa fa-rss"></i> rss</a>
-                </li>
-            </ul>
-        </nav>
-    </div>
-</div>
+<meta name="generator" content="Hugo 0.62.0" />
+<meta name="msapplication-TileColor" content="#ffffff">
+<meta name="theme-color" content="#ffffff">
 
 
-    <div class="content pure-u-1 pure-u-md-3-4">
-        <div>
-            
-            <div class="posts">
-                
-                <h1 class="content-subhead">27 Jul 2019, 10:00</h1>
-                <section class="post">
-                    <header class="post-header">
+<link rel="canonical" href="https://alexei-led.github.io/categories/devops/">
+<link rel="apple-touch-icon" href="https://alexei-led.github.io/apple-touch-icon.png">
 
-                        <a href="https://alexei-led.github.io/post/k8s_node_shell/" class="post-title">Get a Shell to a Kubernetes Node</a>
+<link rel="stylesheet" href="https://alexei-led.github.io/css/styles.9a3856451d3f4911845551d6f046455bd8cbf120441071c76e7438ba3ac163e1.css">
+<link rel="stylesheet" href="https://alexei-led.github.io/css/print.27fc184f8670f41a2690985390779e7b20335a8fadff8fa015cf9417ffe50c36.css" media="print">
 
-                        <p class="post-meta">
-                            
-                            
-                                under 
-                                
-                                <a class="post-category post-category-DevOps" href="https://alexei-led.github.io/categories/devops">DevOps</a>
-                            
-                        </p>
-                    </header>
-
-                    <div class="post-description">
-                        <p><img src="https://alexei-led.github.io/img/linux_pinguin_terminal.jpg" alt="Linux Shell"></p>
-<p>Throughout the lifecycle of your Kubernetes cluster, you may need to access a cluster worker node. This access could be for maintenance, configuration inspection, log collection, or other troubleshooting operations. More than that, it would be nice, if you could enable this access whenever it's needed and disable when you finish your task.</p>
-<h2 id="ssh-approach">SSH Approach</h2>
-<p>While it's possible to configure Kubernetes nodes with SSH access, this also makes worker nodes more vulnerable. Using SSH requires a network connection between the engineer’s machine and the EC2 instance, something you may want to avoid. Some users set up a jump server (also called bastion host) as a typical pattern to minimize the attack surface from the Internet. But this approach still requires from you to manage access to the bastion servers and protect SSH keys. IMHO, managing supporting SSH infrastructure, is a high price to pay, especially if you just wanted to get a shell access to a worker node or to run some commands.</p>
-<h2 id="kubernetes-approach">Kubernetes Approach</h2>
-<p>The Kubernetes command line tool, <code>kubectl</code>, allows you to run different commands against a Kubernetes cluster. You can manipulate Kubernetes API objects, manage worker nodes, inspect cluster, execute commands inside running container, and <a href="https://kubernetes.io/docs/tasks/debug-application-cluster/get-shell-running-container/">get an interactive shell to a running container</a>.</p>
-<p>Suppose you have a <code>pod</code>, named <code>shell-demo</code>. To get a shell to the running container on this <code>pod</code>, just run:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">kubectl exec -it shell-demo -- /bin/bash
-
-<span style="color:#75715e"># see shell prompt ...</span>
-root@shell-demo:/#
-</code></pre></div><h3 id="how-does-exec-work">How Does <code>exec</code> Work?</h3>
-<p><code>kubectl exec</code> invokes Kubernetes API Server and it &ldquo;asks&rdquo; a <code>Kubelet</code> &ldquo;node agent&rdquo; to run an <code>exec</code> command against CRI (Container Runtime Interface), most frequently it is a Docker runtime.</p>
-<p>The <code>docker exec</code> API/command creates a new process, sets its namespaces to a target container's namespaces and then executes the requested command, handling also input and output streams for created process.</p>
-<h3 id="the-idea">The Idea</h3>
-<blockquote>
-<p>A Linux system starts out with a single namespace of each type (mount, process, ipc, network, UTS, and user), used by all processes.</p>
-</blockquote>
-<p>So, we need to do is to run a new <code>pod</code>, and connect it to a worker node host namespaces.</p>
-<h3 id="a-helper-program">A Helper Program</h3>
-<p>It is possible to use any Docker image with shell on board as a &ldquo;host shell&rdquo; container. There is one limitation, you should be aware of - it's not possible to join <code>mount namespace</code> of target container (or host).</p>
-<p>The <a href="http://man7.org/linux/man-pages/man1/nsenter.1.html"><code>nsenter</code></a> is a small program from <code>util-linux</code> package, that can run program with <code>namespaces</code> (and <code>cgroups</code>) of other processes. Exactly what we need!</p>
-<p>Most Linux distros ship with an outdated version of <code>util-linux</code>. So, I prepared the <a href="https://hub.docker.com/r/alexeiled/nsenterr">alexeiled/nsenter</a> Docker image with <code>nsenter</code> program on-board. This is a super small Docker image, of <code>900K</code> size, created from <code>scratch</code> image and a single statically linked <code>nsenter</code> binary (<code>v2.34</code>).</p>
-<p>Use the helper script below, also available in <a href="https://github.com/alexei-led/nsenter">alexei-led/nsenter</a> GitHub repository, to run a new <code>nsenter pod</code> on specified Kubernetes worker node. This helper script create a <em>privileged</em> <code>nsenter pod</code> in a host's process and network namespaces, running <code>nsenter</code> with <code>--all</code> flag, joining all <code>namespaces</code> and <code>cgroups</code> and running a default shell as a <em>superuser</em> (with <code>su -</code> command).</p>
-<p>The <code>nodeSelector</code> makes it possible to specify a target Kubernetes node to run <code>nsenter pod</code> on.
-The <code>&quot;tolerations&quot;: [{&quot;operator&quot;: &quot;Exists&quot;}]</code> parameter helps to match any node <code>taint</code>, if specified.</p>
-<h4 id="helper-script">Helper script</h4>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh"><span style="color:#75715e"># get cluster nodes</span>
-kubectl get nodes
-
-<span style="color:#75715e"># output</span>
-NAME                                            STATUS   ROLES    AGE     VERSION
-ip-192-168-151-104.us-west-2.compute.internal   Ready    &lt;none&gt;   8d      v1.13.7-eks-c57ff8
-ip-192-168-171-140.us-west-2.compute.internal   Ready    &lt;none&gt;   7d11h   v1.13.7-eks-c57ff8
-
-<span style="color:#75715e"># open superuser shell on specified node</span>
-./nsenter-node.sh ip-192-168-151-104.us-west-2.compute.internal
-
-<span style="color:#75715e"># prompt</span>
-<span style="color:#f92672">[</span>root@ip-192-168-151-104 ~<span style="color:#f92672">]</span>#
-
-<span style="color:#75715e"># pod will be destroyed on exit</span>
-...
-</code></pre></div><h5 id="nsenter-nodesh"><code>nsenter-node.sh</code></h5>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh"><span style="color:#75715e">#!/bin/sh
-</span><span style="color:#75715e"></span>set -x
-
-node<span style="color:#f92672">=</span><span style="color:#e6db74">${</span>1<span style="color:#e6db74">}</span>
-nodeName<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>kubectl get node <span style="color:#e6db74">${</span>node<span style="color:#e6db74">}</span> -o template --template<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;{{index .metadata.labels &#34;kubernetes.io/hostname&#34;}}&#39;</span><span style="color:#66d9ef">)</span> 
-nodeSelector<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;&#34;nodeSelector&#34;: { &#34;kubernetes.io/hostname&#34;: &#34;&#39;</span><span style="color:#e6db74">${</span>nodeName:?<span style="color:#e6db74">}</span><span style="color:#e6db74">&#39;&#34; },&#39;</span>
-podName<span style="color:#f92672">=</span><span style="color:#e6db74">${</span>USER<span style="color:#e6db74">}</span>-nsenter-<span style="color:#e6db74">${</span>node<span style="color:#e6db74">}</span>
-
-kubectl run <span style="color:#e6db74">${</span>podName:?<span style="color:#e6db74">}</span> --restart<span style="color:#f92672">=</span>Never -it --rm --image overriden --overrides <span style="color:#e6db74">&#39;
-</span><span style="color:#e6db74">{
-</span><span style="color:#e6db74">  &#34;spec&#34;: {
-</span><span style="color:#e6db74">    &#34;hostPID&#34;: true,
-</span><span style="color:#e6db74">    &#34;hostNetwork&#34;: true,
-</span><span style="color:#e6db74">    &#39;</span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>nodeSelector?<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">&#39;
-</span><span style="color:#e6db74">    &#34;tolerations&#34;: [{
-</span><span style="color:#e6db74">        &#34;operator&#34;: &#34;Exists&#34;
-</span><span style="color:#e6db74">    }],
-</span><span style="color:#e6db74">    &#34;containers&#34;: [
-</span><span style="color:#e6db74">      {
-</span><span style="color:#e6db74">        &#34;name&#34;: &#34;nsenter&#34;,
-</span><span style="color:#e6db74">        &#34;image&#34;: &#34;alexeiled/nsenter:2.34&#34;,
-</span><span style="color:#e6db74">        &#34;command&#34;: [
-</span><span style="color:#e6db74">          &#34;/nsenter&#34;, &#34;--all&#34;, &#34;--target=1&#34;, &#34;--&#34;, &#34;su&#34;, &#34;-&#34;
-</span><span style="color:#e6db74">        ],
-</span><span style="color:#e6db74">        &#34;stdin&#34;: true,
-</span><span style="color:#e6db74">        &#34;tty&#34;: true,
-</span><span style="color:#e6db74">        &#34;securityContext&#34;: {
-</span><span style="color:#e6db74">          &#34;privileged&#34;: true
-</span><span style="color:#e6db74">        }
-</span><span style="color:#e6db74">      }
-</span><span style="color:#e6db74">    ]
-</span><span style="color:#e6db74">  }
-</span><span style="color:#e6db74">}&#39;</span> --attach <span style="color:#e6db74">&#34;</span>$@<span style="color:#e6db74">&#34;</span>
-</code></pre></div><h3 id="management-of-kubernetes-worker-nodes-on-aws">Management of Kubernetes worker nodes on AWS</h3>
-<p>When running a Kubernetes cluster on AWS, Amazon EKS or self-managed Kubernetes cluster, it is possible to manage Kubernetes nodes with [AWS Systems Manager]https://aws.amazon.com/systems-manager/). Using AWS Systems Manager (AWS SSM), you can automate multiple management tasks, apply patches and updates, run commands, and access shell on any managed node, without a need of maintaining SSH infrastructure.</p>
-<p>In order to manage a Kubernetes node (AWS EC2 host), you need to install and start a SSM Agent daemon, see <a href="https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-install-ssm-agent.html">AWS documentation</a> for more details.</p>
-<p>But we are taking a Kubernetes approach, and this means we are going to run a SSM Agent as a <code>daemonset</code> on every Kubernetes node in a cluster. This approach allows you to run an updated version SSM Agent without a need to install it into a host machine and do it only when needed.</p>
-<h4 id="pre-request">Pre-request</h4>
-<p>First, you need to attach the <code>AmazonEC2RoleforSSM</code> policy to Kubernetes worker nodes instance role. Without this policy, you wont be able to manage Kubernetes worker nodes with AWS SSM.</p>
-<h3 id="setup">Setup</h3>
-<p>Then, clone the <a href="https://github.com/alexei-led/kube-ssm-agent">alexei-led/kube-ssm-agent</a> GitHub repository. It contains a properly configured SSM Agent <code>daemonset</code> file.</p>
-<p>The <code>daemonset</code> uses the <a href="https://hub.docker.com/r/alexeiled/aws-ssm-agent"><code>alexeiled/aws-ssm-agent:&lt;ver&gt;</code></a> Docker image that contains:</p>
-<ol>
-<li>AWS SSM Agent, the same version as Docker image tag</li>
-<li>Docker CLI client</li>
-<li>AWS CLI client</li>
-<li>Vim and additional useful programs</li>
-</ol>
-<p>Run to deploy a new SSM Agent daemonset:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">kubectl create -f daemonset.yaml
-</code></pre></div><p>Once SSM Agent daemonset is running you can run any <code>aws ssm</code> command.</p>
-<p>Run to start a new SSM terminal session:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">AWS_DEFAULT_REGION<span style="color:#f92672">=</span>us-west-2 aws ssm start-session --target &lt;instance-id&gt;
-
-starting session with SessionId: ...
-
-sh-4.2$ ls
-sh-4.2$ pwd
-/opt/amazon/ssm
-sh-4.2$ bash -i
-<span style="color:#f92672">[</span>ssm-user@ip-192-168-84-111 ssm<span style="color:#f92672">]</span>$
-
-<span style="color:#f92672">[</span>ssm-user@ip-192-168-84-111 ssm<span style="color:#f92672">]</span>$ exit
-sh-4.2$ exit
-
-Exiting session with sessionId: ...
-</code></pre></div><h4 id="the-daemonsetyaml-file">The <code>daemonset.yaml</code> file</h4>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">apiVersion: apps/v1
-kind: DaemonSet
-metadata:
-  name: ssm-agent
-  labels:
-    k8s-app: ssm-agent
-  namespace: kube-system
-spec:
-  selector:
-    matchLabels:
-      name: ssm-agent
-  template:
-    metadata:
-      labels:
-        name: ssm-agent
-    spec:
-      <span style="color:#75715e"># join host network namespace</span>
-      hostNetwork: <span style="color:#66d9ef">true</span>
-      <span style="color:#75715e"># join host process namespace</span>
-      hostPID: <span style="color:#66d9ef">true</span>
-      <span style="color:#75715e"># join host IPC namespace</span>
-      hostIPC: <span style="color:#66d9ef">true</span> 
-      <span style="color:#75715e"># tolerations</span>
-      tolerations:
-      - effect: NoExecute
-        operator: Exists
-      - effect: NoSchedule
-        operator: Exists
-      containers:
-      - image: alexeiled/aws-ssm-agent:<span style="color:#ae81ff">2.3</span><span style="color:#ae81ff">.680</span>
-        imagePullPolicy: Always
-        name: ssm-agent
-        securityContext:
-          runAsUser: <span style="color:#ae81ff">0</span>
-          privileged: <span style="color:#66d9ef">true</span>
-        volumeMounts:
-        <span style="color:#75715e"># Allows systemctl to communicate with the systemd running on the host</span>
-        - name: dbus
-          mountPath: /var/run/dbus
-        - name: run-systemd
-          mountPath: /run/systemd
-        <span style="color:#75715e"># Allows to peek into systemd units that are baked into the official EKS AMI</span>
-        - name: etc-systemd
-          mountPath: /etc/systemd
-        <span style="color:#75715e"># This is needed in order to fetch logs NOT managed by journald</span>
-        <span style="color:#75715e"># journallog is stored only in memory by default, so we need</span>
-        <span style="color:#75715e">#</span>
-        <span style="color:#75715e"># If all you need is access to persistent journals, /var/log/journal/* would be enough</span>
-        <span style="color:#75715e"># FYI, the volatile log store /var/run/journal was empty on my nodes. Perhaps it isn&#39;t used in Amazon Linux 2 / EKS AMI?</span>
-        <span style="color:#75715e"># See https://askubuntu.com/a/1082910 for more background</span>
-        - name: var-log
-          mountPath: /var/log
-        - name: var-run
-          mountPath: /var/run
-        - name: run
-          mountPath: /run
-        - name: usr-lib-systemd
-          mountPath: /usr/lib/systemd
-        - name: etc-machine-id
-          mountPath: /etc/machine-id
-        - name: etc-sudoers
-          mountPath: /etc/sudoers.d
-      volumes:
-      <span style="color:#75715e"># for systemctl to systemd access</span>
-      - name: dbus
-        hostPath:
-          path: /var/run/dbus
-          type: Directory
-      - name: run-systemd
-        hostPath:
-          path: /run/systemd
-          type: Directory
-      - name: etc-systemd
-        hostPath:
-          path: /etc/systemd
-          type: Directory
-      - name: var-log
-        hostPath:
-          path: /var/log
-          type: Directory
-      <span style="color:#75715e"># mainly for dockerd access via /var/run/docker.sock</span>
-      - name: var-run
-        hostPath:
-          path: /var/run
-          type: Directory
-      <span style="color:#75715e"># var-run implies you also need this, because</span>
-      <span style="color:#75715e"># /var/run is a synmlink to /run</span>
-      <span style="color:#75715e"># sh-4.2$ ls -lah /var/run</span>
-      <span style="color:#75715e"># lrwxrwxrwx 1 root root 6 Nov 14 07:22 /var/run -&gt; ../run</span>
-      - name: run
-        hostPath:
-          path: /run
-          type: Directory
-      - name: usr-lib-systemd
-        hostPath:
-          path: /usr/lib/systemd
-          type: Directory
-      <span style="color:#75715e"># Required by journalctl to locate the current boot.</span>
-      <span style="color:#75715e"># If omitted, journalctl is unable to locate host&#39;s current boot journal</span>
-      - name: etc-machine-id
-        hostPath:
-          path: /etc/machine-id
-          type: File
-      <span style="color:#75715e"># Avoid this error &gt; ERROR [MessageGatewayService] Failed to add ssm-user to sudoers file: open /etc/sudoers.d/ssm-agent-users: no such file or directory</span>
-      - name: etc-sudoers
-        hostPath:
-          path: /etc/sudoers.d
-          type: Directory
-</code></pre></div><h2 id="summary">Summary</h2>
-<p>As you see, it's relatively easy to manage Kubernetes nodes in a pure Kubernetes way, without taking unnecessary risks and managing complex SSH infrastructure.</p>
-<h2 id="reference">Reference</h2>
-<ul>
-<li><a href="https://hub.docker.com/r/alexeiled/nsenter"><code>alexeiled/nsenter</code></a> Docker image</li>
-<li><a href="https://github.com/alexei-led/nsenter"><code>alexei-led/nsenter</code></a> GitHub repository</li>
-<li><a href="http://man7.org/linux/man-pages/man1/nsenter.1.html"><code>nsenter</code></a> man page</li>
-<li><a href="https://github.com/alexei-led/kube-ssm-agent">alexei-led/kube-ssm-agent</a> SSM Agent for Amazon EKS</li>
-</ul>
-
-                    </div>
-                </section>
-                
-                <h1 class="content-subhead">07 Mar 2017, 18:00</h1>
-                <section class="post">
-                    <header class="post-header">
-
-                        <a href="https://alexei-led.github.io/post/perfect_docker_java/" class="post-title">Crafting perfect Java Docker build flow</a>
-
-                        <p class="post-meta">
-                            
-                            
-                                under 
-                                
-                                <a class="post-category post-category-DevOps" href="https://alexei-led.github.io/categories/devops">DevOps</a>
-                            
-                        </p>
-                    </header>
-
-                    <div class="post-description">
-                        <h2 id="tldr">TL;DR</h2>
-<blockquote>
-<p><em>What is the bare minimum you need to <strong>build</strong>, <strong>test</strong> and <strong>run</strong> my Java application in Docker container?</em></p>
-</blockquote>
-<blockquote>
-<p><strong>The recipe:</strong> Create a separate Docker image for each step and optimize the way you are running it.</p>
-</blockquote>
-<p><img src="https://alexei-led.github.io/img/duke_docker.png" alt="Duke and Container"></p>
-<h2 id="introduction">Introduction</h2>
-<p>I started working with Java in 1998, and for a long time, it was my main programming language. It was a long love–hate relationship.</p>
-<p>DDuring my work career, I wrote a lot of code in Java. Despite that fact, I don’t think Java is usually the right choice for writing microservices running in <a href="https://www.docker.com/">Docker</a> containers.</p>
-<p>But, sometimes you have to work with Java. Maybe Java is your favorite language and you do not want to learn a new one, or you have a legacy code that you need to maintain, or your company decided on Java and you have no other option.</p>
-<p>Whatever reason you have to <strong><em>marry Java with Docker</em></strong>, you better <strong><em>do it properly</em></strong>.</p>
-<p>In this post, I will show you how to create an effective Java-Docker build pipeline to consistently produce small, efficient, and secure Docker images.</p>
-<h2 id="be-careful">Be careful</h2>
-<p>There are plenty of <em>“Docker for Java developers”</em> tutorials out there, that unintentionally encourage some Docker bad practices.</p>
-<p>For example:</p>
-<ul>
-<li><a href="https://sparktutorials.github.io/2015/04/14/getting-started-with-spark-and-docker.html">Spark and Docker tutorial</a></li>
-<li><a href="https://examples.javacodegeeks.com/devops/docker/introduction-docker-java-developers/">Introducing Docker for Java Developers</a></li>
-<li><a href="http://www.developer.com/java/data/using-java-with-docker-engine.html">Using Java with Docker Engine</a></li>
-<li>and others &hellip;</li>
-</ul>
-<p>For current demo project, first two tutorials took around 15 minutes to build (first build) and produced images of 1.3GB size each.</p>
-<blockquote>
-<p>Make yourself a favor and do not follow these tutorials!</p>
-</blockquote>
-<h2 id="what-should-you-know-about-docker">What should you know about Docker?</h2>
-<p>Developers new to Docker are often tempted to think of it as just another VM. Instead, think of Docker as a “child process”. The files and packages needed for an entire VM are different from those needed by just another process running a dev machine. Docker is even better than a child process because it allows better isolation and environmental control.</p>
-<p>If you’re new to Docker, I suggest reading this <a href="https://docs.docker.com/engine/understanding-docker/">Understanding Docker</a> article. Docker isn’t so complex than any developer should not be able to understand how it works.</p>
-<h2 id="dockerizing-java-application">Dockerizing Java application</h2>
-<h3 id="what-files-need-to-be-included-in-a-java-applications-docker-image">What files need to be included in a Java Application’s Docker image?</h3>
-<p>Since Docker containers are just isolated processes, your Java Docker image should only contain the files required to run your application.</p>
-<p><em>What are these files?</em></p>
-<p>It starts with a Java Runtime Environment (<strong>JRE</strong>). <strong>JRE</strong> is a software package, that has everything required to run a Java program. It includes an implementation of the Java Virtual Machine (<strong>JVM</strong>) with an implementation of the <em>Java Class Library</em>.</p>
-<p>I recommend using <a href="http://openjdk.java.net/">OpenJDK</a> JRE. OpenJDK is licensed under <a href="https://en.wikipedia.org/wiki/GNU_General_Public_License">GPL</a> with <a href="http://www.gnu.org/software/classpath/license.html">Classpath Exception</a>. The <em>Classpath Exception</em> part is important. This license allows using OpenJDK with any software of any license, not just the GPL. In particular, you can use OpenJDK in proprietary software without disclosing your code.</p>
-<p>Before using Oracle’s JDK/JRE, please read the following post: <a href="http://blog.takipi.com/running-java-on-docker-youre-breaking-the-law/">“Running Java on Docker? You’re Breaking the Law.”</a></p>
-<p>Since it’s rare for Java applications to be developed using only the standard library, you most likely need to also add 3rd party Java libraries. Then add the application compiled bytecode as plain <em>Java Class</em> files or packaged into <em>JAR</em> archives. And, if you are using native code, you will need to add corresponding native libraries/packages too.</p>
-<h3 id="choosing-a-base-docker-image-for-java-application">Choosing a base Docker image for Java Application</h3>
-<p>In order to choose the base Docker image, you need to answer the following questions:</p>
-<ul>
-<li><em>What native packages do you need for your Java application?</em></li>
-<li><em>Should you choose Ubuntu or Debian as your base image?</em></li>
-<li><em>What is your strategy for patching security holes, including packages you are not using at all?</em></li>
-<li><em>Do you mind paying extra (money and time) for network traffic and storage of unused files?</em></li>
-</ul>
-<p>Some might say: <em>“but, if all your images share the same Docker layers, you only download them just once, right?”</em></p>
-<p>That’s <em>true</em> in theory, but in reality is often very different.</p>
-<p>Usually, you have lots of different images: some you built lately, others a long time ago, others you pull from DockerHub. All these images do not share the same base image or version. You need to invest a lot of time to align these images to share the same base image and then keep these images up-to-date.</p>
-<p>Some might say: <em>“but, who cares about image size? we download them just once and run forever”</em>.</p>
-<p>Docker image size is actually very important.</p>
-<p>The size has an impact on …</p>
-<ul>
-<li><strong>network latency</strong> - need to transfer Docker image over the web</li>
-<li><strong>storage</strong> - need to store all these bits somewhere</li>
-<li><strong>service availability and elasticity</strong> - when using a Docker scheduler, like Kubernetes, Swarm, DC/OS or other (scheduler can move containers between hosts)</li>
-<li><strong>security</strong> - do you really, I mean really need the libpng package with all its <a href="https://www.cvedetails.com/vulnerability-list/vendor_id-7294/Libpng.html">CVE vulnerabilities</a> for your Java application?</li>
-<li><strong>development agility</strong> - small Docker images == faster build time and faster deployment</li>
-</ul>
-<p>Without being careful, Java Docker images tends to grow to enormous sizes. I’ve seen 3GB Java images, where the real code and required JAR libraries only take around 150MB.</p>
-<p>Consider using <a href="https://hub.docker.com/_/alpine/">Alpine Linux image</a>, which is only a 5MBs image, as a base Docker image. Lots of <a href="https://github.com/docker-library/official-images">&ldquo;Official Docker images&rdquo;</a> have an Alpine-based flavor.</p>
-<p><strong>Note</strong>: Many, but not all Linux packages have versions compiled with <code>musl libc</code> C runtime library. Sometimes you want to use a package that is compiled with <code>glibc</code> (GNU C runtime library). The <a href="https://hub.docker.com/r/frolvlad/alpine-glibc/">frolvlad/alpine-glibc</a> image based on Alpine Linux image and contains <code>glibc</code> to enable proprietary projects, compiled against <code>glibc</code> (e.g. OracleJDK, Anaconda), working on Alpine.</p>
-<h3 id="choosing-the-right-java-application-server">Choosing the right Java Application server</h3>
-<p>Frequently, you also need to expose some kind of interface to reach your Java application, that runs in a Docker container.</p>
-<p>When you deploy Java applications with Docker containers, the default Java deployment model changes.</p>
-<p>Originally, Java server-side deployment assumes that you have already pre-configured a Java Web Server (Tomcat, WebLogic, JBoss, or other) and you are deploying an application <strong>WAR</strong> (Web Archive) packaged Java application to this server and run it together with other applications, deployed on the same server.</p>
-<p>Lots of tools are developed around this concept, allowing you to update running applications without stopping the Java Application server, route traffic to the new application, resolve possible class loading conflicts and more.</p>
-<p>With Docker-based deployments, you do not need these tools anymore, you don't even need the fat &ldquo;enterprise-ready&rdquo; Java Application servers. The only thing that you need is a stable and scalable network server that can serve your API over HTTP/TCP or other protocol of your choice. Search Google for [“embedded Java server”](<a href="https://www.google.com/search?q=%22embedded">https://www.google.com/search?q=&quot;embedded</a> java server&rdquo;) and take one that you like most.</p>
-<p>For this demo, I forked <a href="https://github.com/khoubyari/spring-boot-rest-example">Spring Boot's REST example</a> and modified it a bit. The demo uses <a href="https://projects.spring.io/spring-boot/">Spring Boot</a> with an embedded <a href="http://tomcat.apache.org/">Tomcat</a> server. Here is my <a href="https://github.com/alexei-led/spring-boot-rest-example">fork</a> on GitHub repository (<code>blog</code> branch).</p>
-<h3 id="building-a-java-application-docker-image">Building a Java Application Docker image</h3>
-<p>In order to run this demo, I need to create a Docker image with JRE, the compiled and packaged Java application, and all 3rd party libraries.</p>
-<p>Here is the <code>Dockerfile</code> I used to build my Docker image. This demo Docker image is based on slim Alpine Linux with OpenJDK JRE and contains the application WAR file with all dependencies embedded into it. It's just the bare minimum required to run the demo application.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-dockerfile" data-lang="dockerfile"><span style="color:#75715e"># Base Alpine Linux based image with OpenJDK JRE only</span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">FROM</span><span style="color:#e6db74"> openjdk:8-jre-alpine</span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e"># copy application WAR (with libraries inside)</span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">COPY</span> target/spring-boot-*.war /app.war<span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e"># specify default command</span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">CMD</span> [<span style="color:#e6db74">&#34;/usr/bin/java&#34;</span>, <span style="color:#e6db74">&#34;-jar&#34;</span>, <span style="color:#e6db74">&#34;-Dspring.profiles.active=test&#34;</span>, <span style="color:#e6db74">&#34;/app.war&#34;</span>]<span style="color:#960050;background-color:#1e0010">
-</span></code></pre></div><p>To build the Docker image, run the following command:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ docker build -t blog/sbdemo:latest .
-</code></pre></div><p>Running the <code>docker history</code> command on created Docker image will let you to see all layers that make up this image:</p>
-<ul>
-<li>4.8MB Alpine Linux Layer</li>
-<li>103MB OpenJDK JRE Layer</li>
-<li>61.8MB Application WAR file</li>
-</ul>
-<pre><code>$ docker history blog/sbdemo:latest
-
-IMAGE               CREATED             CREATED BY                                      SIZE                COMMENT
-16d5236aa7c8        About an hour ago   /bin/sh -c #(nop)  CMD [&quot;/usr/bin/java&quot; &quot;-...   0 B                 
-e1bbd125efc4        About an hour ago   /bin/sh -c #(nop) COPY file:1af38329f6f390...   61.8 MB             
-d85b17c6762e        2 months ago        /bin/sh -c set -x  &amp;&amp; apk add --no-cache  ...   103 MB              
-&lt;missing&gt;           2 months ago        /bin/sh -c #(nop)  ENV JAVA_ALPINE_VERSION...   0 B                 
-&lt;missing&gt;           2 months ago        /bin/sh -c #(nop)  ENV JAVA_VERSION=8u111       0 B                 
-&lt;missing&gt;           2 months ago        /bin/sh -c #(nop)  ENV PATH=/usr/local/sbi...   0 B                 
-&lt;missing&gt;           2 months ago        /bin/sh -c #(nop)  ENV JAVA_HOME=/usr/lib/...   0 B                 
-&lt;missing&gt;           2 months ago        /bin/sh -c {   echo '#!/bin/sh';   echo 's...   87 B                
-&lt;missing&gt;           2 months ago        /bin/sh -c #(nop)  ENV LANG=C.UTF-8             0 B                 
-&lt;missing&gt;           2 months ago        /bin/sh -c #(nop) ADD file:eeed5f514a35d18...   4.8 MB              
-</code></pre><h3 id="running-the-java-application-docker-container">Running the Java Application Docker container</h3>
-<p>In order to run the demo application, run following command:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ docker run -d --name demo-default -p 8090:8090 -p 8091:8091 blog/sbdemo:latest
-</code></pre></div><p>Let's check, that application is up and running (I’m using the <code>httpie</code> tool here):</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ http http://localhost:8091/info
-
-HTTP/1.1 <span style="color:#ae81ff">200</span> OK
-Content-Type: application/json
-Date: Thu, <span style="color:#ae81ff">09</span> Mar <span style="color:#ae81ff">2017</span> 14:43:28 GMT
-Server: Apache-Coyote/1.1
-Transfer-Encoding: chunked
-
-<span style="color:#f92672">{</span>
-    <span style="color:#e6db74">&#34;build&#34;</span>: <span style="color:#f92672">{</span>
-        <span style="color:#e6db74">&#34;artifact&#34;</span>: <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>project.artifactId<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>,
-        <span style="color:#e6db74">&#34;description&#34;</span>: <span style="color:#e6db74">&#34;boot-example default description&#34;</span>,
-        <span style="color:#e6db74">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;spring-boot-rest-example&#34;</span>,
-        <span style="color:#e6db74">&#34;version&#34;</span>: <span style="color:#e6db74">&#34;0.1&#34;</span>
-    <span style="color:#f92672">}</span>
-<span style="color:#f92672">}</span>
-
-</code></pre></div><h4 id="setting-docker-container-memory-constraints">Setting Docker container memory constraints</h4>
-<p>One thing you need to know about Java process memory allocation is that in reality it consumes more physical memory than specified with the <code>-Xmx</code> JVM option. The <code>-Xmx</code> option specifies only the maximum Java heap size. But the Java process is a regular Linux process and what is interesting, is how much actual physical memory this process is consuming.</p>
-<p>Or in other words - <em>what is the <strong>Resident Set Size</strong> (<strong>RSS</strong>) value for running a Java process?</em></p>
-<p>Theoretically, in the case of a Java application, a required RSS size can be calculated by:</p>
-<pre><code>RSS = Heap size + MetaSpace + OffHeap size
-</code></pre><p>where <em>OffHeap</em> consists of thread stacks, direct buffers, mapped files (libraries and jars) and JVM code itself.</p>
-<p>There is a very good post on this topic: <a href="http://trustmeiamadeveloper.com/2016/03/18/where-is-my-memory-java/">Analyzing java memory usage in a Docker container</a> by Mikhail Krestjaninoff.</p>
-<p>When using the  <code>--memory</code>  option in <code>docker run</code> make sure the limit is larger (at least twice) than what you specify for <code>-Xmx</code>.</p>
-<h4 id="offtopic-using-oom-killer-instead-of-gc">Offtopic: Using OOM Killer instead of GC</h4>
-<p>There is an interesting <strong>JDK Enhancement Proposal (JEP)</strong> by Aleksey Shipilev: [Epsilon GC]((<a href="http://openjdk.java.net/jeps/8174901)">http://openjdk.java.net/jeps/8174901)</a>. This JEP proposes to develop a GC that only handles memory allocation, but does not implement any actual memory reclamation mechanism.</p>
-<p>This GC, combined with <code>--restart</code> (Docker restart policy) should theoretically allow supporting “Extremely short lived jobs” implemented in Java.</p>
-<p>For ultra-performance-sensitive applications, where developers are conscious about memory allocations or want to create completely garbage-free applications - GC cycle may be considered an implementation bug that wastes cycles for no good reason. In such use case, it could be better to allow <strong>OOM Killer</strong> (Out of Memory) to kill the process and use Docker restart policy to restarting the process.</p>
-<p>Anyway, <strong>Epsilon GC</strong> is not available yet, so it’s just an interesting theoretical use case for a moment.</p>
-<h2 id="building-java-applications-with-builder-container">Building Java applications with Builder container</h2>
-<p>As you can probably see, in the previous step, I did not explain how I’ve created the application WAR file.</p>
-<p>Of course, there is a Maven project file <code>pom.xml</code> which most Java developers should be familiar with. But, in order to actually build, you need to install the <em>same Java Build tools</em> (JDK and Maven) on <em>every machine</em>, where you are building the application. You need to have the same versions, use the same repositories and share the same configurations. While's tt’s possible, managing different projects that rely on different tools, versions, configurations, and development environments can quickly become a nightmare.</p>
-<p>What if you might also want to run a build on a clean machine that does not have Java or Maven installed? <em>What should you do?</em></p>
-<h3 id="java-builder-container">Java Builder Container</h3>
-<p>Docker can help here too. With Docker, you can create and share portable development and build environments. The idea is to create a special <strong>Builder</strong> Docker image, that contains all tools you need to properly build your Java application, e.g.: JDK, Ant, Maven, Gradle, SBT or others.</p>
-<p>To create a really useful <strong>Builder</strong> Docker image, you need to know well how you Java Build tools are working and how <code>docker build</code> invalidates build cache. Without proper design, you will end up with non-effective and slow builds.</p>
-<h3 id="running-maven-in-docker">Running Maven in Docker</h3>
-<p>While most of these tools were created nearly a generation ago, they are still are very popular and widely used by Java developers.</p>
-<p>Java development life is hard to imagine without some extra build tools. There are multiple Java build tools out there, but most of them share similar concepts and serve the same targets - resolve cumbersome package dependencies, and run different build tasks, such as, <strong>compile, lint, test, package, and deploy</strong>.</p>
-<p>In this post, I will use <a href="https://maven.apache.org">Maven</a>, but the same approach can be applied to <a href="https://gradle.org/">Gradle</a>, <a href="http://www.scala-sbt.org/">SBT</a>, and other less popular Java Build tools.</p>
-<p>It’s important to learn how your Java Build tool works and how can it's tuned. Apply this knowledge, when creating a <strong>Builder</strong> Docker image and the way you are running a <strong>Builder</strong> Docker container.</p>
-<p>Maven uses the project level <code>pom.xml</code> file to resolve project dependencies. It downloads missing <code>JAR</code> files from private and public Maven repositories, and <em>caches</em> these files for future builds. Thus, next time you run your build, it won’t download anything if your dependency had not been changed.</p>
-<h4 id="official-maven-docker-image-should-you-use-it">Official Maven Docker image: should you use it?</h4>
-<p>The Maven team provides an official <a href="https://hub.docker.com/r/_/maven/">Docker images</a>. There are multiple images (under different tags) that allow you to select an image that can answer your needs. Take a deeper look at the <code>Dockerfile</code> files and <code>mvn-entrypoint.sh</code> shell scripts when selecting Maven image to use.</p>
-<p>There are two flavors of official Maven Docker images: regular images (JDK version, Maven version, and Linux distro) and <code>onbuild</code> images.</p>
-<h5 id="what-is-the-official-maven-image-good-for">What is the official Maven image good for?</h5>
-<p>The official Maven image does a good job containerizing the Maven tool itself. The image contains some JDK and Maven version. Using such image, you can run Maven build on any machine without installing a JDK and Maven.</p>
-<p><strong>Example:</strong> running <code>mvn clean install</code> on local folder</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ docker run -it --rm --name my-maven-project -v <span style="color:#e6db74">&#34;</span>$PWD<span style="color:#e6db74">&#34;</span>:/usr/src/app -w /usr/src/app maven:3.2-jdk-7 mvn clean install
-</code></pre></div><p>Maven local repository, for official Maven images, is placed inside a Docker <em>data volume</em>. That means, all downloaded dependencies <strong>are not part of the image</strong> and <strong>will disappear</strong> once the Maven container is destroyed. If you do not want to download dependencies on every build, mount Maven repository Docker volume to some persistent storage (at least local folder on the Docker host).</p>
-<p><strong>Example:</strong> running <code>mvn clean install</code> on local folder with properly mounted Maven local repository</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ docker run -it --rm --name my-maven-project -v <span style="color:#e6db74">&#34;</span>$PWD<span style="color:#e6db74">&#34;</span>:/usr/src/app -v <span style="color:#e6db74">&#34;</span>$HOME<span style="color:#e6db74">&#34;</span>/.m2:/root/.m2 -w /usr/src/app maven:3.2-jdk-7 mvn clean install
-</code></pre></div><p>Now, let's take a look at onbuild Maven Docker images.</p>
-<h5 id="what-is-maven-onbuild-image">What is Maven <code>onbuild</code> image?</h5>
-<p>Maven <code>onbuild</code> Docker image exists to <em>“simplify”</em> developer’s life, allowing him/er skip writing a <code>Dockerfile</code>. Actually, a developer should write a <code>Dockerfile</code>, but it’s usually enough to have the single line in it:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-dockerfile" data-lang="dockerfile"><span style="color:#66d9ef">FROM</span><span style="color:#e6db74"> maven:&lt;versions&gt;-onbuild</span><span style="color:#960050;background-color:#1e0010">
-</span></code></pre></div><p>Looking into onbuild Dockerfile on the GitHub repository …</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-dockerfile" data-lang="dockerfile"><span style="color:#66d9ef">FROM</span><span style="color:#e6db74"> maven:&lt;version&gt;</span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">RUN</span> mkdir -p /usr/src/app<span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">WORKDIR</span><span style="color:#e6db74"> /usr/src/app</span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">ONBUILD</span> <span style="color:#66d9ef">ADD</span> . /usr/src/app<span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">ONBUILD</span> <span style="color:#66d9ef">RUN</span> mvn install<span style="color:#960050;background-color:#1e0010">
-</span></code></pre></div><p>… you can see several <code>Dockerfile</code> commands with the ONBUILD prefix. The <code>ONBUILD</code> tells Docker to postpone the execution of these build commands until building a new image that inherits from the current image.</p>
-<p>In our example, two build commands will be executed, when you build the application <code>Dockerfile</code> created <code>FROM: maven:&lt;version&gt;-onbuild</code> :</p>
-<ul>
-<li>Add current folder (all files, if you are not using <code>.dockerignore</code>) to the new Docker image</li>
-<li>Run <code>mvn install</code> Maven target</li>
-</ul>
-<p>The <code>onbuild</code> Maven Docker image is not as useful as the previous image.</p>
-<p>First of all, it copies everything from the current repository, so do not use it without a properly configured <code>.dockerignore</code> file.</p>
-<p>Then, think: <em>what kind of image you are trying to build?</em></p>
-<p>The new image, created from <code>onbuild</code>  Maven Docker image, includes JDK, Maven, application code (and potentially <strong>all files</strong> from current directory), and <strong>all files</strong> produced by Maven <code>install</code> phase (compiled, tested and packaged app; plus lots of build junk files you do not really need).</p>
-<p>So, this Docker image contains everything, but, for some strange reason, does not contain a local Maven repository. I have no idea why the Maven team created this image.</p>
-<blockquote>
-<p><strong>Recommendation:</strong> Do not use Maven onbuild images!</p>
-</blockquote>
-<p>If you just want to use Maven tool, use non-onbuild image.</p>
-<p>If you want to create proper Builder image, I will show you how to do this later in this post.</p>
-<h4 id="where-to-keep-maven-cache">Where to keep Maven cache?</h4>
-<p>Official Maven Docker image chooses to keep Maven cache folder outside of the container, exposing it as a Docker <em>data volume</em>, using <code>VOLUME root/.m2</code> command in the <code>Dockerfile</code>. A Docker data volume is a directory within one or more containers that bypasses the Docker Union File System, in simple words: it’s not part of the Docker image.</p>
-<p>What you should know about Docker <em>data volumes</em>:</p>
-<ul>
-<li>Volumes are initialized when a container is created.</li>
-<li>Data volumes can be shared and reused among containers.</li>
-<li>Changes to a data volume are made directly to the mounted endpoint (usually some directory on host, but can be some storage device too)</li>
-<li>Changes to a data volume will not be included when you update an image or persist Docker container.</li>
-<li>Data volumes persist even if the container itself is deleted.</li>
-</ul>
-<p>So, in order to <em>reuse</em> Maven <em>cache</em> between different builds, mount a Maven <em>cache data volume</em> to some persistent storage (for example, a local directory on the Docker host).</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ docker run -it --rm --volume <span style="color:#e6db74">&#34;</span>$PWD<span style="color:#e6db74">&#34;</span>/pom.xml://usr/src/app/pom.xml --volume <span style="color:#e6db74">&#34;</span>$HOME<span style="color:#e6db74">&#34;</span>/.m2:/root/.m2 maven:3-jdk-8-alpine mvn install
-</code></pre></div><p>The command above runs the official Maven Docker image (Maven 3 and OpenJDK 8), mounts project <code>pom.xml</code> file into working directory and <code>$HOME&quot;/.m2</code> folder for Maven <em>cache data volume</em>. Maven running inside this Docker container will download all required JAR files into host’s local</p>
-<p>Maven running inside this Docker container will download all required <code>JAR</code> files into host’s local folder <code>$HOME/.m2</code>. Next time you create new Maven Docker container for the same <code>pom.xml</code> file and the same <em>cache</em> mount, Maven will reuse the <em>cache</em> and will download only missing or updated <code>JAR</code> files.</p>
-<h4 id="maven-builder-docker-image">Maven Builder Docker image</h4>
-<p>First, let’s try to formulate <em>what is the <strong>Builder</strong> Docker image and what should it contain?</em></p>
-<blockquote>
-<p><strong>Builder</strong> is a Docker image that contains <strong>everything</strong> to allow you creating a reproducible build on any machine and at any point of time.</p>
-</blockquote>
-<p>So, <em>what should it contain?</em></p>
-<ul>
-<li>Linux shell and some tools - I prefer Alpine Linux</li>
-<li>JDK (version) - for the <code>javac</code> compiler</li>
-<li>Maven (version) - Java build tool</li>
-<li>Application source code and <code>pom.xml</code> file/s - it’s the application code <code>SNAPSHOT</code> at specific point of time; just code, no need to include a <code>.git</code> repository or other files</li>
-<li>Project dependencies (Maven local repository) - all <code>POM</code> and <code>JAR</code> files you need to build and test Java application, at any time, even offline, even if library disappear from the web</li>
-</ul>
-<p>The <strong>Builder</strong> image captures code, dependencies, and tools at a specific point of time and stores them inside a Docker image. The <strong>Builder</strong> container can be used to create the application “binaries” on any machine, at any time and even without internet connection (or with poor connection).</p>
-<p>Here is the sample <code>Dockerfile</code> for my demo <strong>Builder</strong>:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-dockerfile" data-lang="dockerfile"><span style="color:#66d9ef">FROM</span><span style="color:#e6db74"> openjdk:8-jdk-alpine</span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e"># ----</span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e"># Install Maven</span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">RUN</span> apk add --no-cache curl tar bash<span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">ARG</span> MAVEN_VERSION<span style="color:#f92672">=</span><span style="color:#ae81ff">3</span>.3.9<span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">ARG</span> USER_HOME_DIR<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;/root&#34;</span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">RUN</span> mkdir -p /usr/share/maven <span style="color:#f92672">&amp;&amp;</span> <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>  curl -fsSL http://apache.osuosl.org/maven/maven-3/$MAVEN_VERSION/binaries/apache-maven-$MAVEN_VERSION-bin.tar.gz | tar -xzC /usr/share/maven --strip-components<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>  ln -s /usr/share/maven/bin/mvn /usr/bin/mvn<span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">ENV</span> MAVEN_HOME /usr/share/maven<span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">ENV</span> MAVEN_CONFIG <span style="color:#e6db74">&#34;</span>$USER_HOME_DIR<span style="color:#e6db74">/.m2</span><span style="color:#e6db74">&#34;</span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e"># speed up Maven JVM a bit</span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">ENV</span> MAVEN_OPTS<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;-XX:+TieredCompilation -XX:TieredStopAtLevel=1&#34;</span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">ENTRYPOINT</span> [<span style="color:#e6db74">&#34;/usr/bin/mvn&#34;</span>]<span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e"># ----</span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e"># Install project dependencies and keep sources </span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e"># make source folder</span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">RUN</span> mkdir -p /usr/src/app<span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">WORKDIR</span><span style="color:#e6db74"> /usr/src/app</span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e"># install maven dependency packages (keep in image)</span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">COPY</span> pom.xml /usr/src/app<span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">RUN</span> mvn -T 1C install <span style="color:#f92672">&amp;&amp;</span> rm -rf target<span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e"># copy other source files (keep in image)</span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">COPY</span> src /usr/src/app/src<span style="color:#960050;background-color:#1e0010">
-</span></code></pre></div><p>Let’s go over this <code>Dockerfile</code> and I will try to explain the reasoning behind each command.</p>
-<ul>
-<li><code>FROM: openjdk:8-jdk-alpine</code> - select and freeze JDK version: OpenJDK 8 and Linux Alpine</li>
-<li>Install Maven
-<ul>
-<li><code>ARG ...</code> - Use build arguments to allow overriding Maven version and local repository location (<code>MAVEN_VERSION</code> and <code>USER_HOME_DIR</code>) with <code>docker build --build-arg ...</code></li>
-<li><code>RUN mkdir -p ... curl ... tar ...</code> - Download and install (<code>untar</code> and <code>ln -s</code>) Apache Maven</li>
-<li>Speed up Maven JVM a bit: <code>MAVEN_OPTS=&quot;-XX:+TieredCompilation -XX:TieredStopAtLevel=1&quot;</code>, read the following <a href="https://zeroturnaround.com/rebellabs/your-maven-build-is-slow-speed-it-up/">post</a></li>
-</ul>
-</li>
-<li><code>RUN mvn -T 1C install &amp;&amp; rm -rf target</code> Download project dependencies:
-<ul>
-<li>Copy project <code>pom.xml</code> file and run <code>mvn install</code> command and remove build artifacts as far as I know, there is no Maven command that will let you download without installing)</li>
-<li>This Docker image layer will be rebuilt only when project’s <code>pom.xml</code> file changes</li>
-</ul>
-</li>
-<li><code>COPY src /usr/src/app/src</code> - copy project source files (source, tests, and resources)</li>
-</ul>
-<p><strong>Note:</strong> if you are using <a href="http://maven.apache.org/surefire/maven-surefire-plugin">Maven Surefire plugin</a> and want to have all dependencies for the offline build, make sure to <a href="http://maven.apache.org/surefire/maven-surefire-plugin/examples/providers.html">lock down Surefire test provider</a>.</p>
-<p>When you build a new <strong>Builder</strong> version, I suggest you use a <code>--cache-from</code> option passing previous Builder image to it. This will allow you reuse any unmodified Docker layer and avoid obsolete downloads most of the time (if <code>pom.xml</code> did not change or you did not decide to upgrade Maven or JDK).</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ <span style="color:#75715e"># pull latest (or specific version) builder image</span>
-$ docker pull myrep/mvn-builder:latest
-$ <span style="color:#75715e"># build new builder</span>
-$ docker build -t myrep/mvn-builder:latest --cache-from myrep/mvn-builder:latest .
-</code></pre></div><h5 id="use-builder-container-to-run-tests">Use Builder container to run tests</h5>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ <span style="color:#75715e"># run tests - test results are saved into $PWD/target/surefire-reports</span>
-$ docker run -it --rm -v <span style="color:#e6db74">&#34;</span>$PWD<span style="color:#e6db74">&#34;</span>/target:/usr/src/app/target myrep/mvn-builder -T 1C -o test
-</code></pre></div><h5 id="use-builder-container-to-create-application-war">Use Builder container to create application WAR</h5>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ <span style="color:#75715e"># create application WAR file (skip tests) - $PWD/target/spring-boot-rest-example-0.3.0.war</span>
-$ docker run -it --rm -v <span style="color:#66d9ef">$(</span>shell pwd<span style="color:#66d9ef">)</span>/target:/usr/src/app/target myrep/mvn-builder package -T 1C -o -Dmaven.test.skip<span style="color:#f92672">=</span>true
-</code></pre></div><h2 id="summary">Summary</h2>
-<p>Take a look at images bellow:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">REPOSITORY      TAG     IMAGE ID     CREATED        SIZE
-sbdemo/run      latest  6f432638aa60 <span style="color:#ae81ff">7</span> minutes ago  <span style="color:#ae81ff">143</span> MB
-sbdemo/tutorial <span style="color:#ae81ff">1</span>       669333d13d71 <span style="color:#ae81ff">12</span> minutes ago 1.28 GB
-sbdemo/tutorial <span style="color:#ae81ff">2</span>       38634e4d9d5e <span style="color:#ae81ff">3</span> hours ago    1.26 GB
-sbdemo/builder  mvn     2d325a403c5f <span style="color:#ae81ff">5</span> days ago     <span style="color:#ae81ff">263</span> MB
-</code></pre></div><ul>
-<li><code>sbdemo/run:latest</code> - Docker image for demo runtime: Alpine, OpenJDK JRE only, demo WAR</li>
-<li><code>sbdemo/builder:mvn</code> - <strong>Builder</strong> Docker image: Alpine, OpenJDK 8, Maven 3, code, dependency</li>
-<li><code>sbdemo/tutorial:1</code> - Docker image created following first tutorial (just for reference)</li>
-<li><code>sbdemo/tutorial:2</code> - Docker image created following second tutorial (just for reference)</li>
-</ul>
-<h2 id="bonus-build-flow-automation">Bonus: Build flow automation</h2>
-<p>In this section, I will show how to use Docker build flow automation service to automate and orchestrate all steps from this post.</p>
-<h3 id="build-pipeline-steps">Build Pipeline Steps</h3>
-<p>I'm going to use <a href="https://codefresh.io">Codefresh.io</a> Docker CI/CD service (the company I'm working for) to create a <strong>Builder</strong> Docker image for Maven, run tests, create application WAR, build Docker image for application and deploy it to DockerHub.</p>
-<p>The Codefresh automation flow <code>YAML</code> (also called <em>pipeline</em>) is pretty straight forward:</p>
-<ul>
-<li>it contains ordered list of steps</li>
-<li>each step can be of type:</li>
-<li>
-<ul>
-<li><code>build</code> - for <code>docker build</code> command</li>
-</ul>
-</li>
-<li>
-<ul>
-<li><code>push</code> - for <code>docker push</code></li>
-</ul>
-</li>
-<li>
-<ul>
-<li><code>composition</code> - for creating environment, specified with <code>docker-compose</code></li>
-</ul>
-</li>
-<li>
-<ul>
-<li><code>freestyle</code> (default if not specified) - for <code>docker run</code> command</li>
-</ul>
-</li>
-<li><code>/codefresh/volume/</code> <em>data volume</em> (<code>git clone</code> and files generated by steps) is mounted into each step</li>
-<li>current working directory for each step is set to <code>/codefresh/volume/</code> by default (can be changed)</li>
-</ul>
-<p>For detailed description and other examples, take a look at the <a href="https://docs.codefresh.io/docs/steps">documentation</a>.</p>
-<p>For my demo flow I've created following automation steps:</p>
-<ol>
-<li><code>mvn_builder</code> - create Maven <strong>Builder</strong> Docker image</li>
-<li><code>mv_test</code> - execute tests in <strong>Builder</strong> container, place test results into <code>/codefresh/volume/target/surefire-reports/</code> <em>data volume</em> folder</li>
-<li><code>mv_package</code> - create application <code>WAR</code> file, place created file into <code>/codefresh/volume/target/</code> <em>data volume</em> folder</li>
-<li><code>build_image</code> - build application Docker image with JRE and application <code>WAR</code> file</li>
-<li><code>push_image</code> - tag and push the application Docker image to DockerHub</li>
-</ol>
-<p>Here is the full Codefresh <code>YAML</code>:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">version: <span style="color:#e6db74">&#39;1.0&#39;</span>
-
-steps:
-
-  mvn_builder:
-    type: build
-    description: create Maven builder image
-    dockerfile: Dockerfile.build
-    image_name: &lt;put_you_repo_here&gt;/mvn-builder
-
-  mvn_test:
-    description: run unit tests 
-    image: ${{mvn_builder}}
-    commands:
-      - mvn -T 1C -o test
-  
-  mvn_package:
-    description: package application and dependencies into WAR 
-    image: ${{mvn_builder}}
-    commands:
-      - mvn package -T 1C -o -Dmaven.test.skip=<span style="color:#66d9ef">true</span>
-
-  build_image:
-    type: build
-    description: create Docker image with application WAR
-    dockerfile: Dockerfile
-    working_directory: ${{main_clone}}/target
-    image_name: &lt;put_you_repo_here&gt;/sbdemo
-
-  push_image:
-    type: push
-    description: push application image to DockerHub
-    candidate: <span style="color:#e6db74">&#39;${{build_image}}&#39;</span>
-    tag: <span style="color:#e6db74">&#39;${{CF_BRANCH}}&#39;</span>
-    credentials:
-      <span style="color:#75715e"># set docker registry credentials in project configuration</span>
-      username: <span style="color:#e6db74">&#39;${{DOCKER_USER}}&#39;</span>
-      password: <span style="color:#e6db74">&#39;${{DOCKER_PASS}}&#39;</span>
-</code></pre></div><hr>
-<p>Hope, you find this post useful. I look forward to your comments and any questions you have.</p>
-<hr>
-<p><em>This is a <strong>working draft</strong> version. The final post version is published at <a href="https://codefresh.io/blog/java_docker_pipeline/">Codefresh Blog</a> on March 22, 2017.</em></p>
-
-                    </div>
-                </section>
-                
-                <h1 class="content-subhead">02 Jan 2017, 18:00</h1>
-                <section class="post">
-                    <header class="post-header">
-
-                        <a href="https://alexei-led.github.io/post/everyday_hacks/" class="post-title">Everyday hacks for Docker</a>
-
-                        <p class="post-meta">
-                            
-                            
-                                under 
-                                
-                                <a class="post-category post-category-DevOps" href="https://alexei-led.github.io/categories/devops">DevOps</a>
-                            
-                        </p>
-                    </header>
-
-                    <div class="post-description">
-                        <p>In this post, I've decided to share with you some useful commands and tools, I'm frequently using, working with amazing Docker technology.
-There is no particular order or &ldquo;coolness level&rdquo; for every &ldquo;hack&rdquo;. I will try to present the use case and how does specific command or tool help me with my work.</p>
-<p><img src="https://alexei-led.github.io/img/docker_animals.png" alt="Docker Hacks"></p>
-<h2 id="cleaning-up">Cleaning up</h2>
-<p>Working with Docker for some time, you start to accumulate development junk: unused volumes, networks, exited containers and unused images.</p>
-<h3 id="one-command-to-rule-them-all">One command to &ldquo;rule them all&rdquo;</h3>
-<pre><code>$ docker system  prune
-</code></pre><p><code>prune</code> is a very useful command (works also for <code>volume</code> and <code>network</code> sub-commands), but it's only available for Docker 1.13. So, if you are using older Docker versions, then following commands can help you to replace the <code>prune</code> command.</p>
-<h3 id="remove-dangling-volumes">Remove dangling volumes</h3>
-<p><code>dangling</code> volumes - volumes not in use by any container. To remove them, combine two commands: first, list volume IDs for <code>dangling</code> volumes and then remove them.</p>
-<pre><code>$ docker volume rm $(docker volume ls -q -f &quot;dangling=true&quot;)
-</code></pre><h3 id="remove-exited-containers">Remove exited containers</h3>
-<p>The same principle works here too: first, list containers (only IDs) you want to remove (with filter) and then remove them (consider <code>rm -f</code> to force remove).</p>
-<pre><code>$ docker rm $(docker ps -q -f &quot;status=exited&quot;)
-</code></pre><h3 id="remove-dangling-images">Remove dangling images</h3>
-<p><code>dangling</code> images are Docker untagged images, that are the leaves of the images tree (not intermediary layers).</p>
-<pre><code>docker rmi $(docker images -q -f &quot;dangling=true&quot;)
-</code></pre><h3 id="autoremove-interactive-containers">Autoremove interactive containers</h3>
-<p>When you run a new interactive container and want to avoid typing <code>rm</code> command after it exits, use <code>--rm</code> option. Then when you exit from created container, it will be automatically destroyed.</p>
-<pre><code>$ docker run -it --rm alpine sh
-</code></pre><h2 id="inspect-docker-resources">Inspect Docker resources</h2>
-<p><a href="https://stedolan.github.io/jq/">jq</a> - <code>jq</code> is a lightweight and flexible command-line <code>JSON</code> processor. It is like <code>sed</code> for JSON data - you can use it to slice and filter and map and transform structured data with the same ease that <code>sed</code>, <code>awk</code>, <code>grep</code> and friends let you play with text.</p>
-<p><a href="https://docs.docker.com/engine/reference/commandline/info/"><code>docker info</code></a> and <a href="https://docs.docker.com/engine/reference/commandline/inspect/"><code>docker inspect</code></a> commands can produce output in <code>JSON</code> format. Combine these commands with <code>jq</code> processor.</p>
-<h3 id="pretty-json-and-jq-processing">Pretty JSON and jq processing</h3>
-<pre><code># show whole Docker info
-$ docker info --format &quot;{{json .}}&quot; | jq .
-
-# show Plugins only
-$ docker info --format &quot;{{json .Plugins}}&quot; | jq .
-
-# list IP addresses for all containers connected to 'bridge' network
-$ docker network inspect bridge -f '{{json .Containers}}' | jq '.[] | {cont: .Name, ip: .IPv4Address}'
-</code></pre><h2 id="watching-containers-lifecycle">Watching containers lifecycle</h2>
-<p>Sometimes you want to see containers being activated and exited, when you run some docker commands or try different restart policies.
-<a href="http://man7.org/linux/man-pages/man1/watch.1.html"><code>watch</code></a> command combined with <a href="https://docs.docker.com/engine/reference/commandline/ps/"><code>docker ps</code></a> can be pretty useful here.
-The <code>docker stats</code> command, even with <code>--format</code> option is not useful for this use case since it does not allow you to see same info as you can see with <code>docker ps</code> command.</p>
-<h3 id="display-a-table-with-id-image-status-for-active-containers-and-refresh-it-every-2-seconds">Display a table with &lsquo;ID Image Status&rsquo; for active containers and refresh it every 2 seconds</h3>
-<pre><code>$ watch -n 2 'docker ps --format &quot;table {{.ID}}\t {{.Image}}\t {{.Status}}&quot;'
-</code></pre><h2 id="enter-into-hostcontainer-namespace">Enter into host/container Namespace</h2>
-<p>Sometimes you want to connect to the Docker host. The <code>ssh</code> command is the default option, but this option can be either not available, due to security settings, firewall rules or not documented (try to find how to <code>ssh</code> into Docker for Mac VM).</p>
-<p><a href="https://github.com/jpetazzo/nsenter"><code>nsenter</code></a>, by Jérôme Petazzoni, is a small and very useful tool for above cases. <code>nsenter</code> allows to <code>enter</code> into <code>n</code>ame<code>s</code>paces. I like to use minimalistic (<code>580 kB</code>) <a href="https://hub.docker.com/r/walkerlee/nsenter/">walkerlee/nsenter</a> Docker image.</p>
-<h3 id="enter-into-docker-host">Enter into Docker host</h3>
-<p>Use <code>--pid=host</code> to enter into Docker host namespaces</p>
-<pre><code># get a shell into Docker host
-$ docker run --rm -it --privileged --pid=host walkerlee/nsenter -t 1 -m -u -i -n sh
-</code></pre><h3 id="enter-into-any-container">Enter into ANY container</h3>
-<p>It's also possible to enter into any container with <code>nsenter</code> and <code>--pid=container:[id OR name]</code>. But in most cases, it's better to use standard <a href="https://docs.docker.com/engine/reference/commandline/exec/"><code>docker exec</code></a> command. The main difference is that <code>nsenter</code> doesn't enter the <em>cgroups</em>, and therefore evades resource limitations (can be useful for debugging).</p>
-<pre><code># get a shell into 'redis' container namespace
-$ docker run --rm -it --privileged --pid=container:redis walkerlee/nsenter -t 1 -m -u -i -n sh
-</code></pre><h2 id="heredoc-docker-container">Heredoc Docker container</h2>
-<p>Suppose you want to get some tool as a Docker image, but you do not want to search for a suitable image or to create a new <code>Dockerfile</code> (no need to keep it for future use, for example). Sometimes storing a Docker image definition in a file looks like an overkill - you need to decide how do you edit, store and share this Dockerfile. Sometimes it's better just to have a single line command, that you can copy, share, embed into a shell script or create special command <code>alias</code>.
-So, when you want to create a new ad-hoc container with a single command, try a <a href="http://www.tldp.org/LDP/abs/html/here-docs.html">Heredoc</a> approach.</p>
-<h3 id="create-alpine-based-container-with-htop-tool">Create Alpine based container with &lsquo;htop&rsquo; tool</h3>
-<pre><code>$ docker build -t htop - &lt;&lt; EOF
-FROM alpine
-RUN apk --no-cache add htop
-EOF
-</code></pre><h2 id="docker-command-completion">Docker command completion</h2>
-<p>Docker CLI syntax is very rich and constantly growing: adding new commands and new options. It's hard to remember every possible command and option, so having a nice command completion for a terminal is a <strong>must have</strong>.</p>
-<p>Command completion is a kind of terminal plugin, that lets you auto-complete or auto-suggest what to type in next by hitting <em>tab</em> key. Docker command completion works both for commands and options. Docker team prepared command completion for <code>docker</code>, <code>docker-machine</code> and <code>docker-compose</code> commands, both for <code>Bash</code> and <code>Zsh</code>.</p>
-<p>If you are using Mac and <a href="http://brew.sh">Homebrew</a>, then installing Docker commands completion is pretty straight forward.</p>
-<pre><code># Tap homebrew/completion to gain access to these
-$ brew tap homebrew/completions
-
-# Install completions for docker suite
-$ brew install docker-completion
-$ brew install docker-compose-completion
-$ brew install docker-machine-completion
-</code></pre><p>For non-Mac install read official Docker documentation: <a href="https://github.com/docker/docker/tree/master/contrib/completion">docker engine</a>, <a href="https://docs.docker.com/compose/completion/">docker-compose</a> and <a href="https://docs.docker.com/machine/completion/">docker-machine</a></p>
-<h2 id="start-containers-automatically">Start containers automatically</h2>
-<p>When you are running process in Docker container, it may fail due to multiple reasons. Sometimes to fix this failure it's enough to rerun the failed container. If you are using Docker orchestration engine, like Swarm or Kubernetes, the failed service will be restarted automatically.
-But if you are using plain Docker and want to restart container, based on <em>exit code</em> of container's main process or always (regardless the <em>exit code</em>), Docker 1.12 introduced a very helpful option for <code>docker run</code> command: <a href="https://docs.docker.com/engine/reference/run/#restart-policies-restart#restart-policies---restart">restart</a>.</p>
-<h3 id="restart-always">Restart always</h3>
-<p>Restart the <code>redis</code> container with a restart policy of <strong>always</strong> so that if the container exits, Docker will restart it.</p>
-<pre><code>$ docker run --restart=always redis
-</code></pre><h3 id="restart-container-on-failure">Restart container on failure</h3>
-<p>Restart the <code>redis</code> container with a restart policy of <strong>on-failure</strong> and a maximum restart count of <code>10</code>.</p>
-<pre><code>$ docker run --restart=on-failure:10 redis
-</code></pre><h2 id="network-tricks">Network tricks</h2>
-<p>There are cases when you want to create a new container and connect it to already existing network stack. It can be Docker host network or another container's network. This can be pretty useful for debugging and audition network issues.
-The <code>docker run --network/net</code> option support this use case.</p>
-<h3 id="use-docker-host-network-stack">Use Docker host network stack</h3>
-<pre><code>$ docker run --net=host ...
-</code></pre><p>The new container will attach to same network interfaces as the Docker host.</p>
-<h3 id="use-another-containers-network-stack">Use another container's network stack</h3>
-<pre><code>$ docker run --net=container:&lt;name|id&gt; ...
-</code></pre><p>The new container will attach to same network interfaces as another container. The target container can be specified with <code>id</code> or <code>name</code>.</p>
-<h3 id="attachable-overlay-network">Attachable overlay network</h3>
-<p>Using docker engine running in <strong>swarm mode</strong>, you can create a multi-host <code>overlay</code> network on a manager node. When you create a new <em>swarm service</em>, you can attach it to the previously created <code>overlay</code> network.</p>
-<p>Sometimes to inspect network configuration or debug network issues, you want to attach a new Docker container, filled with different network tools, to existing <code>overlay</code> network and do this with <code>docker run</code> command and not to create a new &ldquo;debug service&rdquo;.</p>
-<p>Docker 1.13 brings a new option to <code>docker network create</code> command: <code>attachable</code>. The <code>attachable</code> option enables manual container attachment.</p>
-<pre><code># create an attachable overlay network
-$ docker network create --driver overlay --attachable mynet
-# create net-tools container and attach it to mynet overlay network
-$ docker run -it --rm --net=mynet net-tools sh
-</code></pre>
-                    </div>
-                </section>
-                
-                <h1 class="content-subhead">18 Dec 2016, 14:00</h1>
-                <section class="post">
-                    <header class="post-header">
-
-                        <a href="https://alexei-led.github.io/post/composev3_swarm/" class="post-title">Deploy Docker Compose (v3) to Swarm (mode) Cluster</a>
-
-                        <p class="post-meta">
-                            
-                            
-                                under 
-                                
-                                <a class="post-category post-category-DevOps" href="https://alexei-led.github.io/categories/devops">DevOps</a>
-                            
-                        </p>
-                    </header>
-
-                    <div class="post-description">
-                        <blockquote>
-<p><strong>Disclaimer:</strong> all code snippets bellow are working only with <strong>Docker 1.13+</strong></p>
-</blockquote>
-<h1 id="tldr">TL;DR</h1>
-<p><strong>Docker 1.13</strong> simplifies deployment of composed application to a <strong>swarm</strong> (mode) cluster. And you can do it without creating a new <code>dab</code> (<em>Distribution Application Bundle</em>) file, but just using familiar and well-known <code>docker-compose.yml</code> syntax (with some additions) and <code>--compose-file</code> option.</p>
-<p><img src="https://alexei-led.github.io/img/compose_swarm.png" alt="Compose to Swarm"></p>
-<h1 id="swarm-cluster">Swarm cluster</h1>
-<p>Docker Engine 1.12 introduced a new <strong>swarm mode</strong> for natively managing a cluster of Docker Engines called a <strong>swarm</strong>. Docker <strong>swarm mode</strong> implements <a href="https://docs.docker.com/engine/swarm/raft/">Raft Consensus Algorithm</a> and does not require using external key value store anymore, such as <a href="https://www.consul.io/">Consul</a> or <a href="https://github.com/coreos/etcd">etcd</a>.</p>
-<p>If you want to run a <strong>swarm</strong> cluster on a developer's machine, there are several options.</p>
-<p>The first option and most widely known, is to use a <code>docker-machine</code> tool with some virtual driver (Virtualbox, Parallels or other).</p>
-<p>But, in this post I will use another approach: using <a href="https://hub.docker.com/_/docker/">docker-in-docker</a> Docker image with Docker for Mac, see more details in my <a href="../swarm_dind">Docker Swarm cluster with docker-in-docker on MacOS</a> post.</p>
-<h2 id="docker-registry-mirror">Docker Registry mirror</h2>
-<p>When you deploy a new service on local swarm cluster, I recommend to setup local Docker registry mirror and run all swarm nodes with <code>--registry-mirror</code> option, pointing to local Docker registry. By running a local Docker registry mirror, you can keep most of the redundant image fetch traffic on your local network and speedup service deployment.</p>
-<h3 id="docker-swarm-cluster-bootstrap-script">Docker Swarm cluster bootstrap script</h3>
-<p>I've prepared a shell script to bootstrap 4 nodes swarm cluster with Docker registry mirror and very nice <a href="https://github.com/ManoMarks/docker-swarm-visualizer">swarm visualizer</a> application.</p>
-<p>The script initialize docker engine as a <strong>swarm master</strong>, then starts 3 new docker-in-docker containers and join them to the <strong>swarm</strong> cluster as worker nodes. All worker nodes run with <code>--registry-mirror</code> option.</p>
-<script type="application/javascript" src="https://gist.github.com/alexei-led/a4d31ee446a0fbcab845b93fe4a9b09d.js?file=create_swarm_cluster.sh"></script>
-
-<h2 id="deploy-multi-container-application---the-old-way">Deploy multi-container application - the &ldquo;old&rdquo; way</h2>
-<p>The Docker <code>compose</code> is a tool (and deployment specification format) for defining and running composed multi-container Docker applications. Before Docker 1.12, you could use <code>docker-compose</code> tool to deploy such applications to a <strong>swarm</strong> cluster. With 1.12 release, it's not possible anymore: <code>docker-compose</code> can deploy your application only on single Docker host.</p>
-<p>In order to deploy it to a <strong>swarm</strong> cluster, you need to create a special deployment specification file (also knows as <em>Distribution Application Bundle</em>) in <code>dab</code> format (see more <a href="https://github.com/docker/docker/blob/master/experimental/docker-stacks-and-bundles.md">here</a>).</p>
-<p>The way to create this file, is to run the <code>docker-compose bundle</code> command. The output of this command is a JSON file, that describes  multi-container composed application with Docker images referenced by <code>@sha256</code> instead of tags. Currently <code>dab</code> file format does not support multiple settings from <code>docker-compose.yml</code> and does not allow to use supported options from <code>docker service create</code> command.</p>
-<p>Such a pity story: the <code>dab</code> bundle format looks promising, but currently is totally useless (at least in Docker 1.12).</p>
-<h2 id="deploy-multi-container-application---the-new-way">Deploy multi-container application - the &ldquo;new&rdquo; way</h2>
-<p>With Docker 1.13, the &ldquo;new&rdquo; way to deploy a multi-container composed application is to use <code>docker-compose.yml</code> again (<em>hurrah!</em>). Kudos to Docker team!</p>
-<p>*<strong>Note</strong>: And you do not need the <code>docker-compose</code> tool, only <code>yaml</code> file in <strong>docker-compose</strong> format (<code>version: &quot;3&quot;</code>)</p>
-<pre><code>$ docker deploy --compose-file docker-compose.yml myapp
-</code></pre><h2 id="docker-compose-v3-version-3">Docker compose v3 (<code>version: &quot;3&quot;</code>)</h2>
-<p><em>So, what's new in docker compose version 3?</em></p>
-<p>First, I suggest you take a deeper look at <a href="https://github.com/aanand/compose-file/blob/master/schema/data/config_schema_v3.0.json">docker-compose schema</a>. It is an extension of well-known <code>docker-compose</code> format.</p>
-<p><strong>Note:</strong> <code>docker-compose</code> tool (<code>ver. 1.9.0</code>) does not support <code>docker-compose.yaml version: &quot;3&quot;</code> yet.</p>
-<p>The most visible change is around <strong>swarm</strong> ***service deployment.
-Now you can specify all options supported by <code>docker service create/update</code> commands:</p>
-<ul>
-<li>number of service replicas (or global service)</li>
-<li>service labels</li>
-<li>hard and soft limits for service (container) CPU and memory</li>
-<li>service restart policy</li>
-<li>service rolling update policy</li>
-<li>deployment placement constraints <a href="https://github.com/docker/docker/blob/master/docs/reference/commandline/service_create.md#specify-service-constraints---constraint">link</a></li>
-</ul>
-<h3 id="docker-compose-v3-example">Docker compose v3 example</h3>
-<p>I've created a &ldquo;new&rdquo; compose file (v3) for classic &ldquo;Cats vs. Dogs&rdquo; example. This example application contains 5 services with following deployment configurations:</p>
-<ol>
-<li><code>voting-app</code> - a Python webapp which lets you vote between two options; requires <code>redis</code></li>
-<li><code>redis</code> - Redis queue which collects new votes; deployed on <code>swarm manager</code> node</li>
-<li><code>worker</code> .NET worker which consumes votes and stores them in <code>db</code>;</li>
-</ol>
-<ul>
-<li><strong># of replicas:</strong> 2 replicas</li>
-<li><strong>hard limit:</strong> max 25% CPU and 512MB memory</li>
-<li><strong>soft limit:</strong> max 25% CPU and 256MB memory</li>
-<li><strong>placement:</strong> on <code>swarm worker</code> nodes only</li>
-<li><strong>restart policy:</strong> restart on-failure, with 5 seconds delay, up to 3 attempts</li>
-<li><strong>update policy:</strong> one by one, with 10 seconds delay and 0.3 failure rate to tolerate during the update</li>
-</ul>
-<ol start="4">
-<li><code>db</code> - Postgres database backed by a Docker volume; deployed on <code>swarm manager</code> node</li>
-<li><code>result-app</code> Node.js webapp which shows the results of the voting in real time; 2 replicas, deployed on <code>swarm worker</code> nodes</li>
-</ol>
-<p>Run the <code>docker deploy --compose-file docker-compose.yml</code> command to deploy my version of &ldquo;Cats vs. Dogs&rdquo; application on a swarm cluster.</p>
-<script type="application/javascript" src="https://gist.github.com/alexei-led/a4d31ee446a0fbcab845b93fe4a9b09d.js?file=docker-compose.yml"></script>
-
-<hr>
-<p>Hope you find this post useful. I look forward to your comments and any questions you have.</p>
-
-                    </div>
-                </section>
-                
-            </div>
-            
-
-            <div class="footer">
-    <div class="pure-menu pure-menu-horizontal pure-menu-open">
-        <ul>
-            <li>Powered by <a class="hugo" href="https://gohugo.io/" target="_blank">hugo</a></li>
-        </ul>
-    </div>
-</div>
-<script src="https://alexei-led.github.io/js/all.min.js"></script>
-
-        </div>
-    </div>
-</div>
-
-<script>
-(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-ga('create', 'UA-71802462-1', 'auto');
-ga('send', 'pageview');
-
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "url" : "https://alexei-led.github.io/categories/devops/",
+    "name": "DevOps",
+    "description": "The Programming Blog",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https://alexei-led.github.io"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Terra Nullius",
+      "url": "https://alexei-led.github.io"
+    }
+  }
 </script>
 
+<script defer src="https://alexei-led.github.io/js/umbrella.min.b426107371d121c9a56a27aac9e9058ff592a021e2f4c3c94827fe70920d3cbb.js"></script>
+<script defer src="https://alexei-led.github.io/js/script.min.8e4d91ebe0d9226621e408b7205bd7b009e4935608e4b29c4275116490cc836d.js"></script>
+
+
+</head>
+
+<body>
+<div class="page layout__page layout__sidebar-second">
+<header class="header layout__header">
+<a href="https://alexei-led.github.io/" title="Home" rel="home" class="header__logo"><img src="https://alexei-led.github.io/images/logo.png" alt="Home" class="header__logo-image"></a>
+<h1 class="header__site-name">
+<a href="https://alexei-led.github.io/" title="Home" class="header__site-link" rel="home"><span>Terra Nullius</span></a>
+</h1>
+<div class="region header__region">
+</div>
+</header>
+
+<nav class="main-menu layout__navigation">
+<h2 class="visually-hidden">Main menu</h2>
+<ul class="navbar">
+<li><a class="active" href="https://alexei-led.github.io/">Home</a></li>
+<li><a class="" href="https://alexei-led.github.io/about/">about</a></li>
+<li><a class="" href="https://alexei-led.github.io/post/">Posts</a></li>
+</ul>
+</nav>
+
+
+<main class="main layout__main">
+<h1 class="title">DevOps</h1>
+<article class="section-post list-view">
+<header>
+<h2 class="title "><a href="https://alexei-led.github.io/post/k8s_node_shell/">Get a Shell to a Kubernetes Node</a></h2>
+
+</header>
+<div class="content">
+Throughout the lifecycle of your Kubernetes cluster, you may need to access a cluster worker node. This access could be for maintenance, configuration inspection, log collection, or other troubleshooting operations. More than that, it would be nice, if you could enable this access whenever it's needed and disable when you finish your task.
+SSH Approach While it's possible to configure Kubernetes nodes with SSH access, this also makes worker nodes more vulnerable.
+</div>
+</article>
+
+<article class="section-post list-view">
+<header>
+<h2 class="title "><a href="https://alexei-led.github.io/post/perfect_docker_java/">Crafting perfect Java Docker build flow</a></h2>
+
+</header>
+<div class="content">
+TL;DR  What is the bare minimum you need to build, test and run my Java application in Docker container?
+  The recipe: Create a separate Docker image for each step and optimize the way you are running it.
+ Introduction I started working with Java in 1998, and for a long time, it was my main programming language. It was a long love–hate relationship.
+DDuring my work career, I wrote a lot of code in Java.
+</div>
+</article>
+
+<article class="section-post list-view">
+<header>
+<h2 class="title "><a href="https://alexei-led.github.io/post/everyday_hacks/">Everyday hacks for Docker</a></h2>
+
+</header>
+<div class="content">
+In this post, I've decided to share with you some useful commands and tools, I'm frequently using, working with amazing Docker technology. There is no particular order or &ldquo;coolness level&rdquo; for every &ldquo;hack&rdquo;. I will try to present the use case and how does specific command or tool help me with my work.
+Cleaning up Working with Docker for some time, you start to accumulate development junk: unused volumes, networks, exited containers and unused images.
+</div>
+</article>
+
+<article class="section-post list-view">
+<header>
+<h2 class="title "><a href="https://alexei-led.github.io/post/composev3_swarm/">Deploy Docker Compose (v3) to Swarm (mode) Cluster</a></h2>
+
+</header>
+<div class="content">
+Disclaimer: all code snippets bellow are working only with Docker 1.13+
+ TL;DR Docker 1.13 simplifies deployment of composed application to a swarm (mode) cluster. And you can do it without creating a new dab (Distribution Application Bundle) file, but just using familiar and well-known docker-compose.yml syntax (with some additions) and --compose-file option.
+Swarm cluster Docker Engine 1.12 introduced a new swarm mode for natively managing a cluster of Docker Engines called a swarm.
+</div>
+</article>
+
+
+</main>
+
+
+<footer class="footer layout__footer">
+<p><span>© Terra Nullius</span></p>
+
+
+</footer>
+
+</div>
 </body>
 </html>

@@ -1,68 +1,1015 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Kubernetes on Terra Nullius</title>
+    <title>kubernetes on Terra Nullius</title>
     <link>https://alexei-led.github.io/tags/kubernetes/</link>
-    <description>Recent content in Kubernetes on Terra Nullius</description>
+    <description>Recent content in kubernetes on Terra Nullius</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>This work is licensed under a Creative Commons Attribution 4.0 International License</copyright>
     <lastBuildDate>Mon, 23 Dec 2019 10:00:00 +0200</lastBuildDate>
-    
-	<atom:link href="https://alexei-led.github.io/tags/kubernetes/index.xml" rel="self" type="application/rss+xml" />
-    
+    <atom:link href="https://alexei-led.github.io/tags/kubernetes/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>Kubernetes and Secrets Management in Cloud</title>
       <link>https://alexei-led.github.io/post/secrets-init/</link>
       <pubDate>Mon, 23 Dec 2019 10:00:00 +0200</pubDate>
-      
       <guid>https://alexei-led.github.io/post/secrets-init/</guid>
-      <description>Introduction Secrets are essential for operation of many production systems. Unintended secrets exposure is one of the top risks that should be properly addressed. Developers should do their best to protect application secrets.
-The problem becomes even harder, once company moves to a microservice architecture and multiple services require an access to different secrets in order to properly work. And this leads to a new challenges: how to distribute, manage, monitor and rotate application secrets, avoiding unintended exposure?</description>
+      <description>&lt;h2 id=&#34;introduction&#34;&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;Secrets are essential for operation of many production systems. Unintended secrets exposure is one of the top risks that should be properly addressed. Developers should do their best to protect application secrets.&lt;/p&gt;
+&lt;p&gt;The problem becomes even harder, once company moves to a microservice architecture and multiple services require an access to different secrets in order to properly work. And this leads to a new challenges: how to distribute, manage, monitor and rotate application secrets, avoiding unintended exposure?&lt;/p&gt;
+&lt;h2 id=&#34;kubernetes-secrets&#34;&gt;Kubernetes Secrets&lt;/h2&gt;
+&lt;p&gt;Kubernetes provides an object called Secret, which you can use to store application sensitive data, like passwords, SSH keys, API keys, tokens and others. Kubernetes Secret can be injected into a Pod container either as an environment variable or mounted as a file. Using Kubernetes Secrets, allows to abstract sensitive data and configuration from application deployment.&lt;/p&gt;
+&lt;p&gt;For example, a Kubernetes secret can be created with command &lt;code&gt;kubectl create secret&lt;/code&gt;:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;kubectl create secret generic db-credentials -n default --from-literal&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;user&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;dbuser --from-literal&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;password&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;quick.fox.5312
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;or Kubernetes &lt;code&gt;db-credentials.yaml&lt;/code&gt; file, that describes the same secret:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;apiVersion: v1
+kind: Secret
+metadata:
+  name: db-credentials
+type: Opaque
+data:
+  password: cXVpY2suZm94LjUzMTI=
+  user: ZGJ1c2Vy
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;kubectl create -f db-credentials.yaml
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Please note, that storing a sensitive data in a Kubernetes Secret does not make it secure. By default, all data in Kubernetes Secrets is stored as a plantext encoded with &lt;code&gt;base64&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Starting with version 1.13, Kubernetes supports &lt;a href=&#34;https://kubernetes.io/docs/tasks/administer-cluster/encrypt-data/&#34;&gt;encrypting Secrets data at rest&lt;/a&gt;, using &lt;code&gt;EncryptionConfiguration&lt;/code&gt; object with built-in or external encryption provider.&lt;/p&gt;
+&lt;p&gt;List of currently supported encryption providers:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://kubernetes.io/docs/tasks/administer-cluster/encrypt-data/#providers&#34;&gt;built-in providers&lt;/a&gt;: &lt;code&gt;aescbc&lt;/code&gt;, &lt;code&gt;aesgsm&lt;/code&gt;, &lt;code&gt;secretbox&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://kubernetes.io/docs/tasks/administer-cluster/kms-provider/&#34;&gt;KMS providers&lt;/a&gt;:
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://cloud.google.com/kubernetes-engine/docs/how-to/encrypting-secrets&#34;&gt;Google KMS provider&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/kubernetes-sigs/aws-encryption-provider&#34;&gt;AWS KMS provider&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/Azure/kubernetes-kms&#34;&gt;Azure KMS provider&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;However Secrets encryption at rest is not enforced by default. And even when enabled, it is not sufficient and cannot be considered a complete secrets management solution.&lt;/p&gt;
+&lt;p&gt;A complete secrets management solution must also support: secrets distribution, rotation, fine-grained access control, audit log, usage monitoring, versioning, strongly encrypted storage, convenient API and client SDK/s and probably some other useful features.&lt;/p&gt;
+&lt;h2 id=&#34;cloud-secrets-management&#34;&gt;Cloud Secrets Management&lt;/h2&gt;
+&lt;p&gt;Multiple cloud vendors provide secret management services, as part of their cloud platform offering, helping you to protect secrets needed to access applications, services, and APIs. Using these services eliminates the need to hardcode sensitive information in plain text and develop home-grown secrets management lifecycle. Secrets management services enable you to control access to application secrets using fine-grained permissions and auditing.&lt;/p&gt;
+&lt;h2 id=&#34;integrating-kubernetes-with-secrets-management-services&#34;&gt;Integrating Kubernetes with Secrets Management services&lt;/h2&gt;
+&lt;p&gt;In general, any application can use vendor-specific SDK/API to access secrets stored in a secrets management service. Usually this requires modifying application code or using some kind of bootstrap scripts or &lt;a href=&#34;https://kubernetes.io/docs/concepts/workloads/pods/init-containers/&#34;&gt;Init containers&lt;/a&gt;, using client CLI tools or web APIs.&lt;/p&gt;
+&lt;h3 id=&#34;make-it-easy-with-secrets-init-tool&#34;&gt;Make it easy with &lt;code&gt;secrets-init&lt;/code&gt; tool&lt;/h3&gt;
+&lt;p&gt;We release a &lt;a href=&#34;https://github.com/doitintl/secrets-init&#34;&gt;doitintl/secrets-init&lt;/a&gt; open source tool (Apache License 2.0) that simplifies integration of cloud-native Secrets Management services with containerized workload running on cloud-managed or self-managed Kubernetes clusters.&lt;/p&gt;
+&lt;p&gt;In its essence, the &lt;code&gt;secrets-init&lt;/code&gt; is a minimalistic init system, designed to run as &lt;code&gt;PID 1&lt;/code&gt; inside a container environment, similarly to &lt;a href=&#34;https://github.com/Yelp/dumb-init&#34;&gt;dumb-init&lt;/a&gt;, and provides a fluent integration with multiple cloud-native Secrets Management services, like:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://aws.amazon.com/secrets-manager/&#34;&gt;AWS Secrets Manager&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-parameter-store.html&#34;&gt;AWS Systems Manager Parameter Store&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://cloud.google.com/secret-manager/docs/&#34;&gt;Google Secret Manager (Beta)&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;why-you-need-an-init-system-in-docker-container&#34;&gt;Why you need an init system in Docker container?&lt;/h3&gt;
+&lt;p&gt;Please &lt;a href=&#34;https://github.com/Yelp/dumb-init/blob/v1.2.0/README.md#why-you-need-an-init-system&#34;&gt;read Yelp &lt;em&gt;dumb-init&lt;/em&gt; repo explanation&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Summary:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Proper signal forwarding&lt;/li&gt;
+&lt;li&gt;Orphaned zombies reaping&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;what-secrets-init-does&#34;&gt;What &lt;code&gt;secrets-init&lt;/code&gt; does&lt;/h3&gt;
+&lt;p&gt;The &lt;code&gt;secrets-init&lt;/code&gt; runs as &lt;code&gt;PID 1&lt;/code&gt;, acting like a simple init system serving as &lt;code&gt;ENTRYPOINT&lt;/code&gt; or first container command, which is responsible to launch a child process, proxying all systems signals to a session rooted at that child process. This is the essence of init process. On the other hand, the &lt;code&gt;secrets-init&lt;/code&gt; also passes &lt;em&gt;almost&lt;/em&gt; all environment variables without modification, replacing special &lt;em&gt;secret variables&lt;/em&gt; with values from Secret Management services.&lt;/p&gt;
+&lt;h3 id=&#34;integration-with-docker&#34;&gt;Integration with Docker&lt;/h3&gt;
+&lt;p&gt;The &lt;code&gt;secrets-init&lt;/code&gt; is a statically compiled binary file (without external dependencies) and can be easily embedded included into any Docker image. Download &lt;code&gt;secrets-init&lt;/code&gt; binary and use it as the Docker container &lt;code&gt;ENTRYPOINT&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;For example:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-dockerfile&#34; data-lang=&#34;dockerfile&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;FROM&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt; node:alpine&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# download secrets-init binary&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;ENV&lt;/span&gt; SECRETS_INIT_VERSION&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;v0.2.1&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;ENV&lt;/span&gt; SECRETS_INIT_URL&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;https://github.com/doitintl/secrets-init/releases/download/v0.2.1/secrets-init_Linux_amd64.tar.gz&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;ENV&lt;/span&gt; SECRETS_INIT_SHA256&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;a2849460c650e9e7a29d9d0764e2b5fc679961e6667ad1c4416210fa791be29f
+&lt;span style=&#34;color:#66d9ef&#34;&gt;RUN&lt;/span&gt; mkdir -p /opt/secrets-init &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; cd /opt/secrets-init &lt;span style=&#34;color:#ae81ff&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; wget -qO secrets-init.tar.gz &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;$SECRETS_INIT_URL&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; echo &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;$SECRETS_INIT_SHA256&lt;span style=&#34;color:#e6db74&#34;&gt;  secrets-init.tar.gz&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt; | sha256sum -c - &lt;span style=&#34;color:#ae81ff&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; tar -xzvf secrets-init.tar.gz &lt;span style=&#34;color:#ae81ff&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; mv secrets-init /usr/local/bin &lt;span style=&#34;color:#ae81ff&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; rm secrets-init.tar.gz&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# set container entrypoint to secrets-init&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;ENTRYPOINT&lt;/span&gt; [&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;/usr/local/bin/secrets-init&amp;#34;&lt;/span&gt;]&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# ... copy app dependencies and code&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# ... define app CMD&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;integration-with-kubernetes&#34;&gt;Integration with Kubernetes&lt;/h3&gt;
+&lt;p&gt;In order to use &lt;code&gt;secrets-init&lt;/code&gt; with Kubernetes object (Pod/Deployment/Job/etc) without modifying Docker image, consider injecting &lt;code&gt;secrets-init&lt;/code&gt; into a target Pod through &lt;a href=&#34;https://kubernetes.io/docs/concepts/workloads/pods/init-containers/&#34;&gt;Init Container&lt;/a&gt;.
+You can use the &lt;a href=&#34;https://hub.docker.com/r/doitintl/secrets-init&#34;&gt;doitint/secrets-init&lt;/a&gt; Docker image or create your own. Copy &lt;code&gt;secrets-init&lt;/code&gt; binary from init container to a common shared volume and change Pod &lt;code&gt;command&lt;/code&gt; to run &lt;code&gt;secrets-init&lt;/code&gt; as a first command.&lt;/p&gt;
+&lt;h3 id=&#34;integration-with-aws-secrets-manager&#34;&gt;Integration with AWS Secrets Manager&lt;/h3&gt;
+&lt;p&gt;To start using &lt;code&gt;secrets-init&lt;/code&gt; with AWS Secrets Manager, user should put an AWS secret ARN as environment variable value. The &lt;code&gt;secrets-init&lt;/code&gt; will resolve any environment value, using specified ARN, to a referenced secret value.&lt;/p&gt;
+&lt;p&gt;Example, using &lt;code&gt;secrets-init&lt;/code&gt; with Kubernetes Job:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;apiVersion: batch/v1
+kind: Job
+metadata:
+  name: printenv-job
+spec:
+  template:
+    spec:
+      restartPolicy: Never
+      serviceAccountName: iam-secrets-manager-ro
+      initContainers:
+        - name: secrets-init
+          image: doitintl/secrets-init:v0&lt;span style=&#34;color:#ae81ff&#34;&gt;.2&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;.1&lt;/span&gt;
+          command:
+            - sh
+          args:
+            - -c
+            - &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;cp /usr/local/bin/secrets-init /secrets-init/bin/&amp;#34;&lt;/span&gt;
+          volumeMounts:
+          - mountPath: /secrets-init/bin
+            name: secrets-init-volume
+      containers:
+      - image: alpine:&lt;span style=&#34;color:#ae81ff&#34;&gt;3&lt;/span&gt;
+        name: print-env
+        env:
+          - name: AWS_REGION
+            value: us-west&lt;span style=&#34;color:#ae81ff&#34;&gt;-2&lt;/span&gt;
+          - name: TOP_SECRET
+            value: arn:aws:secretsmanager:us-west&lt;span style=&#34;color:#ae81ff&#34;&gt;-2&lt;/span&gt;:&lt;span style=&#34;color:#ae81ff&#34;&gt;906364353610&lt;/span&gt;:secret:topsecret-Acdaq8
+        command:
+          - /secrets-init/bin/secrets-init
+        args:
+          - sh
+          - -c
+          - &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;echo $TOP_SECRET&amp;#39;&lt;/span&gt;
+        volumeMounts:
+        - mountPath: /secrets-init/bin
+          name: secrets-init-volume
+      volumes:
+      - name: secrets-init-volume
+        emptyDir: {}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;integration-with-aws-systems-manager-parameter-store&#34;&gt;Integration with AWS Systems Manager Parameter Store&lt;/h3&gt;
+&lt;p&gt;It is possible to use AWS Systems Manager Parameter Store to store application parameters as plain text or encrypted (kind of secrets).&lt;/p&gt;
+&lt;p&gt;As with the previous example, user can put AWS Parameter Store ARN as environment variable value. The &lt;code&gt;secrets-init&lt;/code&gt; will resolve any environment value, using specified ARN, to a referenced parameter value.&lt;/p&gt;
+&lt;p&gt;AWS Systems Manager Parameter Store format example:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# environment variable referencing AWS Systems Manager Parameter Store secret&lt;/span&gt;
+MY_API_KEY&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;arn:aws:ssm:$AWS_REGION:$AWS_ACCOUNT_ID:parameter/api/key
+
+&lt;span style=&#34;color:#75715e&#34;&gt;# environment variable passed to a child process, as resolved by `secrets-init`&lt;/span&gt;
+MY_API_KEY&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;key-123456789
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;In order to resolve AWS secrets from AWS Secrets Manager and Parameter Store, &lt;code&gt;secrets-init&lt;/code&gt; should run under IAM role that has permission to access desired secrets.&lt;/p&gt;
+&lt;p&gt;This can be achieved by assigning IAM Role to Kubernetes Pod or ECS Task. See &lt;a href=&#34;https://aws.amazon.com/blogs/opensource/introducing-fine-grained-iam-roles-service-accounts/&#34;&gt;Introducing fine-grained IAM roles for service accounts&lt;/a&gt; EKS blog post.&lt;/p&gt;
+&lt;p&gt;It&#39;s possible to assign IAM Role to EC2 instance, where container is running, but this option is considerably less secure and not recommended.&lt;/p&gt;
+&lt;h3 id=&#34;integration-with-google-secret-manager&#34;&gt;Integration with Google Secret Manager&lt;/h3&gt;
+&lt;p&gt;Google Cloud released recently a new service for managing secrets in the cloud: &lt;a href=&#34;https://cloud.google.com/secret-manager&#34;&gt;Google Secret Manager&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;User can put Google secret name, using &lt;code&gt;secrets-init&lt;/code&gt; recognizable prefix (&lt;code&gt;gcp:secretmanager:&lt;/code&gt;), following secret name (&lt;code&gt;projects/{PROJECT_ID}/secrets/{SECRET_NAME}&lt;/code&gt; or &lt;code&gt;projects/{PROJECT_ID}/secrets/{SECRET_NAME}/versions/{VERSION}&lt;/code&gt;) as environment variable value. The &lt;code&gt;secrets-init&lt;/code&gt; will resolve any environment value, using the specified name, to a referenced secret value.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# environment variable referencing Google Secret Manager secret (without version)&lt;/span&gt;
+MY_DB_PASSWORD&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;gcp:secretmanager:projects/$PROJECT_ID/secrets/mydbpassword
+&lt;span style=&#34;color:#75715e&#34;&gt;# OR versioned secret (with numeric version or &amp;#39;latest&amp;#39;)&lt;/span&gt;
+MY_DB_PASSWORD&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;gcp:secretmanager:projects/$PROJECT_ID/secrets/mydbpassword/versions/2
+
+&lt;span style=&#34;color:#75715e&#34;&gt;# environment variable passed to a child process, as resolved by `secrets-init`&lt;/span&gt;
+MY_DB_PASSWORD&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;very-secret-password
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;In order to resolve Google secrets from Google Secret Manager, &lt;code&gt;secrets-init&lt;/code&gt; should run under IAM role that has permission to access desired secrets.&lt;/p&gt;
+&lt;p&gt;This can be achieved by assigning IAM Role to Kubernetes Pod with &lt;a href=&#34;https://cloud.google.com/kubernetes-engine/docs/how-to/workload-identity&#34;&gt;Workload Identity&lt;/a&gt;. It&#39;s possible to assign IAM Role to GCE instance, where container is running, but this option is less secure.&lt;/p&gt;
+&lt;h2 id=&#34;summary&#34;&gt;Summary&lt;/h2&gt;
+&lt;p&gt;Hope, you find this post useful. I look forward to your comments and any questions you have.&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;em&gt;This is a &lt;strong&gt;working draft&lt;/strong&gt; version. The final post version is published at &lt;a href=&#34;https://blog.doit-intl.com/&#34;&gt;DoiT Blog&lt;/a&gt; .&lt;/em&gt;&lt;/p&gt;
+</description>
     </item>
     
     <item>
       <title>Get a Shell to a Kubernetes Node</title>
       <link>https://alexei-led.github.io/post/k8s_node_shell/</link>
       <pubDate>Sat, 27 Jul 2019 10:00:00 +0200</pubDate>
-      
       <guid>https://alexei-led.github.io/post/k8s_node_shell/</guid>
-      <description>Throughout the lifecycle of your Kubernetes cluster, you may need to access a cluster worker node. This access could be for maintenance, configuration inspection, log collection, or other troubleshooting operations. More than that, it would be nice, if you could enable this access whenever it&#39;s needed and disable when you finish your task.
-SSH Approach While it&#39;s possible to configure Kubernetes nodes with SSH access, this also makes worker nodes more vulnerable.</description>
+      <description>&lt;p&gt;&lt;img src=&#34;https://alexei-led.github.io/img/linux_pinguin_terminal.jpg&#34; alt=&#34;Linux Shell&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Throughout the lifecycle of your Kubernetes cluster, you may need to access a cluster worker node. This access could be for maintenance, configuration inspection, log collection, or other troubleshooting operations. More than that, it would be nice, if you could enable this access whenever it&#39;s needed and disable when you finish your task.&lt;/p&gt;
+&lt;h2 id=&#34;ssh-approach&#34;&gt;SSH Approach&lt;/h2&gt;
+&lt;p&gt;While it&#39;s possible to configure Kubernetes nodes with SSH access, this also makes worker nodes more vulnerable. Using SSH requires a network connection between the engineer’s machine and the EC2 instance, something you may want to avoid. Some users set up a jump server (also called bastion host) as a typical pattern to minimize the attack surface from the Internet. But this approach still requires from you to manage access to the bastion servers and protect SSH keys. IMHO, managing supporting SSH infrastructure, is a high price to pay, especially if you just wanted to get a shell access to a worker node or to run some commands.&lt;/p&gt;
+&lt;h2 id=&#34;kubernetes-approach&#34;&gt;Kubernetes Approach&lt;/h2&gt;
+&lt;p&gt;The Kubernetes command line tool, &lt;code&gt;kubectl&lt;/code&gt;, allows you to run different commands against a Kubernetes cluster. You can manipulate Kubernetes API objects, manage worker nodes, inspect cluster, execute commands inside running container, and &lt;a href=&#34;https://kubernetes.io/docs/tasks/debug-application-cluster/get-shell-running-container/&#34;&gt;get an interactive shell to a running container&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Suppose you have a &lt;code&gt;pod&lt;/code&gt;, named &lt;code&gt;shell-demo&lt;/code&gt;. To get a shell to the running container on this &lt;code&gt;pod&lt;/code&gt;, just run:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;kubectl exec -it shell-demo -- /bin/bash
+
+&lt;span style=&#34;color:#75715e&#34;&gt;# see shell prompt ...&lt;/span&gt;
+root@shell-demo:/#
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;how-does-exec-work&#34;&gt;How Does &lt;code&gt;exec&lt;/code&gt; Work?&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;kubectl exec&lt;/code&gt; invokes Kubernetes API Server and it &amp;ldquo;asks&amp;rdquo; a &lt;code&gt;Kubelet&lt;/code&gt; &amp;ldquo;node agent&amp;rdquo; to run an &lt;code&gt;exec&lt;/code&gt; command against CRI (Container Runtime Interface), most frequently it is a Docker runtime.&lt;/p&gt;
+&lt;p&gt;The &lt;code&gt;docker exec&lt;/code&gt; API/command creates a new process, sets its namespaces to a target container&#39;s namespaces and then executes the requested command, handling also input and output streams for created process.&lt;/p&gt;
+&lt;h3 id=&#34;the-idea&#34;&gt;The Idea&lt;/h3&gt;
+&lt;blockquote&gt;
+&lt;p&gt;A Linux system starts out with a single namespace of each type (mount, process, ipc, network, UTS, and user), used by all processes.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;So, we need to do is to run a new &lt;code&gt;pod&lt;/code&gt;, and connect it to a worker node host namespaces.&lt;/p&gt;
+&lt;h3 id=&#34;a-helper-program&#34;&gt;A Helper Program&lt;/h3&gt;
+&lt;p&gt;It is possible to use any Docker image with shell on board as a &amp;ldquo;host shell&amp;rdquo; container. There is one limitation, you should be aware of - it&#39;s not possible to join &lt;code&gt;mount namespace&lt;/code&gt; of target container (or host).&lt;/p&gt;
+&lt;p&gt;The &lt;a href=&#34;http://man7.org/linux/man-pages/man1/nsenter.1.html&#34;&gt;&lt;code&gt;nsenter&lt;/code&gt;&lt;/a&gt; is a small program from &lt;code&gt;util-linux&lt;/code&gt; package, that can run program with &lt;code&gt;namespaces&lt;/code&gt; (and &lt;code&gt;cgroups&lt;/code&gt;) of other processes. Exactly what we need!&lt;/p&gt;
+&lt;p&gt;Most Linux distros ship with an outdated version of &lt;code&gt;util-linux&lt;/code&gt;. So, I prepared the &lt;a href=&#34;https://hub.docker.com/r/alexeiled/nsenterr&#34;&gt;alexeiled/nsenter&lt;/a&gt; Docker image with &lt;code&gt;nsenter&lt;/code&gt; program on-board. This is a super small Docker image, of &lt;code&gt;900K&lt;/code&gt; size, created from &lt;code&gt;scratch&lt;/code&gt; image and a single statically linked &lt;code&gt;nsenter&lt;/code&gt; binary (&lt;code&gt;v2.34&lt;/code&gt;).&lt;/p&gt;
+&lt;p&gt;Use the helper script below, also available in &lt;a href=&#34;https://github.com/alexei-led/nsenter&#34;&gt;alexei-led/nsenter&lt;/a&gt; GitHub repository, to run a new &lt;code&gt;nsenter pod&lt;/code&gt; on specified Kubernetes worker node. This helper script create a &lt;em&gt;privileged&lt;/em&gt; &lt;code&gt;nsenter pod&lt;/code&gt; in a host&#39;s process and network namespaces, running &lt;code&gt;nsenter&lt;/code&gt; with &lt;code&gt;--all&lt;/code&gt; flag, joining all &lt;code&gt;namespaces&lt;/code&gt; and &lt;code&gt;cgroups&lt;/code&gt; and running a default shell as a &lt;em&gt;superuser&lt;/em&gt; (with &lt;code&gt;su -&lt;/code&gt; command).&lt;/p&gt;
+&lt;p&gt;The &lt;code&gt;nodeSelector&lt;/code&gt; makes it possible to specify a target Kubernetes node to run &lt;code&gt;nsenter pod&lt;/code&gt; on.
+The &lt;code&gt;&amp;quot;tolerations&amp;quot;: [{&amp;quot;operator&amp;quot;: &amp;quot;Exists&amp;quot;}]&lt;/code&gt; parameter helps to match any node &lt;code&gt;taint&lt;/code&gt;, if specified.&lt;/p&gt;
+&lt;h4 id=&#34;helper-script&#34;&gt;Helper script&lt;/h4&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# get cluster nodes&lt;/span&gt;
+kubectl get nodes
+
+&lt;span style=&#34;color:#75715e&#34;&gt;# output&lt;/span&gt;
+NAME                                            STATUS   ROLES    AGE     VERSION
+ip-192-168-151-104.us-west-2.compute.internal   Ready    &amp;lt;none&amp;gt;   8d      v1.13.7-eks-c57ff8
+ip-192-168-171-140.us-west-2.compute.internal   Ready    &amp;lt;none&amp;gt;   7d11h   v1.13.7-eks-c57ff8
+
+&lt;span style=&#34;color:#75715e&#34;&gt;# open superuser shell on specified node&lt;/span&gt;
+./nsenter-node.sh ip-192-168-151-104.us-west-2.compute.internal
+
+&lt;span style=&#34;color:#75715e&#34;&gt;# prompt&lt;/span&gt;
+&lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;root@ip-192-168-151-104 ~&lt;span style=&#34;color:#f92672&#34;&gt;]&lt;/span&gt;#
+
+&lt;span style=&#34;color:#75715e&#34;&gt;# pod will be destroyed on exit&lt;/span&gt;
+...
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h5 id=&#34;nsenter-nodesh&#34;&gt;&lt;code&gt;nsenter-node.sh&lt;/code&gt;&lt;/h5&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span style=&#34;color:#75715e&#34;&gt;#!/bin/sh
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;set -x
+
+node&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;${&lt;/span&gt;1&lt;span style=&#34;color:#e6db74&#34;&gt;}&lt;/span&gt;
+nodeName&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;$(&lt;/span&gt;kubectl get node &lt;span style=&#34;color:#e6db74&#34;&gt;${&lt;/span&gt;node&lt;span style=&#34;color:#e6db74&#34;&gt;}&lt;/span&gt; -o template --template&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;{{index .metadata.labels &amp;#34;kubernetes.io/hostname&amp;#34;}}&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;)&lt;/span&gt; 
+nodeSelector&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;&amp;#34;nodeSelector&amp;#34;: { &amp;#34;kubernetes.io/hostname&amp;#34;: &amp;#34;&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;${&lt;/span&gt;nodeName:?&lt;span style=&#34;color:#e6db74&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;&amp;#34; },&amp;#39;&lt;/span&gt;
+podName&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;${&lt;/span&gt;USER&lt;span style=&#34;color:#e6db74&#34;&gt;}&lt;/span&gt;-nsenter-&lt;span style=&#34;color:#e6db74&#34;&gt;${&lt;/span&gt;node&lt;span style=&#34;color:#e6db74&#34;&gt;}&lt;/span&gt;
+
+kubectl run &lt;span style=&#34;color:#e6db74&#34;&gt;${&lt;/span&gt;podName:?&lt;span style=&#34;color:#e6db74&#34;&gt;}&lt;/span&gt; --restart&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;Never -it --rm --image overriden --overrides &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;{
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;  &amp;#34;spec&amp;#34;: {
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;    &amp;#34;hostPID&amp;#34;: true,
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;    &amp;#34;hostNetwork&amp;#34;: true,
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;    &amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;${&lt;/span&gt;nodeSelector?&lt;span style=&#34;color:#e6db74&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;    &amp;#34;tolerations&amp;#34;: [{
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;        &amp;#34;operator&amp;#34;: &amp;#34;Exists&amp;#34;
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;    }],
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;    &amp;#34;containers&amp;#34;: [
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;      {
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;        &amp;#34;name&amp;#34;: &amp;#34;nsenter&amp;#34;,
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;        &amp;#34;image&amp;#34;: &amp;#34;alexeiled/nsenter:2.34&amp;#34;,
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;        &amp;#34;command&amp;#34;: [
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;          &amp;#34;/nsenter&amp;#34;, &amp;#34;--all&amp;#34;, &amp;#34;--target=1&amp;#34;, &amp;#34;--&amp;#34;, &amp;#34;su&amp;#34;, &amp;#34;-&amp;#34;
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;        ],
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;        &amp;#34;stdin&amp;#34;: true,
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;        &amp;#34;tty&amp;#34;: true,
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;        &amp;#34;securityContext&amp;#34;: {
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;          &amp;#34;privileged&amp;#34;: true
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;        }
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;      }
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;    ]
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;  }
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;}&amp;#39;&lt;/span&gt; --attach &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;$@&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;management-of-kubernetes-worker-nodes-on-aws&#34;&gt;Management of Kubernetes worker nodes on AWS&lt;/h3&gt;
+&lt;p&gt;When running a Kubernetes cluster on AWS, Amazon EKS or self-managed Kubernetes cluster, it is possible to manage Kubernetes nodes with [AWS Systems Manager]https://aws.amazon.com/systems-manager/). Using AWS Systems Manager (AWS SSM), you can automate multiple management tasks, apply patches and updates, run commands, and access shell on any managed node, without a need of maintaining SSH infrastructure.&lt;/p&gt;
+&lt;p&gt;In order to manage a Kubernetes node (AWS EC2 host), you need to install and start a SSM Agent daemon, see &lt;a href=&#34;https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-install-ssm-agent.html&#34;&gt;AWS documentation&lt;/a&gt; for more details.&lt;/p&gt;
+&lt;p&gt;But we are taking a Kubernetes approach, and this means we are going to run a SSM Agent as a &lt;code&gt;daemonset&lt;/code&gt; on every Kubernetes node in a cluster. This approach allows you to run an updated version SSM Agent without a need to install it into a host machine and do it only when needed.&lt;/p&gt;
+&lt;h4 id=&#34;pre-request&#34;&gt;Pre-request&lt;/h4&gt;
+&lt;p&gt;First, you need to attach the &lt;code&gt;AmazonEC2RoleforSSM&lt;/code&gt; policy to Kubernetes worker nodes instance role. Without this policy, you wont be able to manage Kubernetes worker nodes with AWS SSM.&lt;/p&gt;
+&lt;h3 id=&#34;setup&#34;&gt;Setup&lt;/h3&gt;
+&lt;p&gt;Then, clone the &lt;a href=&#34;https://github.com/alexei-led/kube-ssm-agent&#34;&gt;alexei-led/kube-ssm-agent&lt;/a&gt; GitHub repository. It contains a properly configured SSM Agent &lt;code&gt;daemonset&lt;/code&gt; file.&lt;/p&gt;
+&lt;p&gt;The &lt;code&gt;daemonset&lt;/code&gt; uses the &lt;a href=&#34;https://hub.docker.com/r/alexeiled/aws-ssm-agent&#34;&gt;&lt;code&gt;alexeiled/aws-ssm-agent:&amp;lt;ver&amp;gt;&lt;/code&gt;&lt;/a&gt; Docker image that contains:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;AWS SSM Agent, the same version as Docker image tag&lt;/li&gt;
+&lt;li&gt;Docker CLI client&lt;/li&gt;
+&lt;li&gt;AWS CLI client&lt;/li&gt;
+&lt;li&gt;Vim and additional useful programs&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Run to deploy a new SSM Agent daemonset:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;kubectl create -f daemonset.yaml
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Once SSM Agent daemonset is running you can run any &lt;code&gt;aws ssm&lt;/code&gt; command.&lt;/p&gt;
+&lt;p&gt;Run to start a new SSM terminal session:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;AWS_DEFAULT_REGION&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;us-west-2 aws ssm start-session --target &amp;lt;instance-id&amp;gt;
+
+starting session with SessionId: ...
+
+sh-4.2$ ls
+sh-4.2$ pwd
+/opt/amazon/ssm
+sh-4.2$ bash -i
+&lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;ssm-user@ip-192-168-84-111 ssm&lt;span style=&#34;color:#f92672&#34;&gt;]&lt;/span&gt;$
+
+&lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;ssm-user@ip-192-168-84-111 ssm&lt;span style=&#34;color:#f92672&#34;&gt;]&lt;/span&gt;$ exit
+sh-4.2$ exit
+
+Exiting session with sessionId: ...
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;the-daemonsetyaml-file&#34;&gt;The &lt;code&gt;daemonset.yaml&lt;/code&gt; file&lt;/h4&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: ssm-agent
+  labels:
+    k8s-app: ssm-agent
+  namespace: kube-system
+spec:
+  selector:
+    matchLabels:
+      name: ssm-agent
+  template:
+    metadata:
+      labels:
+        name: ssm-agent
+    spec:
+      &lt;span style=&#34;color:#75715e&#34;&gt;# join host network namespace&lt;/span&gt;
+      hostNetwork: &lt;span style=&#34;color:#66d9ef&#34;&gt;true&lt;/span&gt;
+      &lt;span style=&#34;color:#75715e&#34;&gt;# join host process namespace&lt;/span&gt;
+      hostPID: &lt;span style=&#34;color:#66d9ef&#34;&gt;true&lt;/span&gt;
+      &lt;span style=&#34;color:#75715e&#34;&gt;# join host IPC namespace&lt;/span&gt;
+      hostIPC: &lt;span style=&#34;color:#66d9ef&#34;&gt;true&lt;/span&gt; 
+      &lt;span style=&#34;color:#75715e&#34;&gt;# tolerations&lt;/span&gt;
+      tolerations:
+      - effect: NoExecute
+        operator: Exists
+      - effect: NoSchedule
+        operator: Exists
+      containers:
+      - image: alexeiled/aws-ssm-agent:&lt;span style=&#34;color:#ae81ff&#34;&gt;2.3&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;.680&lt;/span&gt;
+        imagePullPolicy: Always
+        name: ssm-agent
+        securityContext:
+          runAsUser: &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;
+          privileged: &lt;span style=&#34;color:#66d9ef&#34;&gt;true&lt;/span&gt;
+        volumeMounts:
+        &lt;span style=&#34;color:#75715e&#34;&gt;# Allows systemctl to communicate with the systemd running on the host&lt;/span&gt;
+        - name: dbus
+          mountPath: /var/run/dbus
+        - name: run-systemd
+          mountPath: /run/systemd
+        &lt;span style=&#34;color:#75715e&#34;&gt;# Allows to peek into systemd units that are baked into the official EKS AMI&lt;/span&gt;
+        - name: etc-systemd
+          mountPath: /etc/systemd
+        &lt;span style=&#34;color:#75715e&#34;&gt;# This is needed in order to fetch logs NOT managed by journald&lt;/span&gt;
+        &lt;span style=&#34;color:#75715e&#34;&gt;# journallog is stored only in memory by default, so we need&lt;/span&gt;
+        &lt;span style=&#34;color:#75715e&#34;&gt;#&lt;/span&gt;
+        &lt;span style=&#34;color:#75715e&#34;&gt;# If all you need is access to persistent journals, /var/log/journal/* would be enough&lt;/span&gt;
+        &lt;span style=&#34;color:#75715e&#34;&gt;# FYI, the volatile log store /var/run/journal was empty on my nodes. Perhaps it isn&amp;#39;t used in Amazon Linux 2 / EKS AMI?&lt;/span&gt;
+        &lt;span style=&#34;color:#75715e&#34;&gt;# See https://askubuntu.com/a/1082910 for more background&lt;/span&gt;
+        - name: var-log
+          mountPath: /var/log
+        - name: var-run
+          mountPath: /var/run
+        - name: run
+          mountPath: /run
+        - name: usr-lib-systemd
+          mountPath: /usr/lib/systemd
+        - name: etc-machine-id
+          mountPath: /etc/machine-id
+        - name: etc-sudoers
+          mountPath: /etc/sudoers.d
+      volumes:
+      &lt;span style=&#34;color:#75715e&#34;&gt;# for systemctl to systemd access&lt;/span&gt;
+      - name: dbus
+        hostPath:
+          path: /var/run/dbus
+          type: Directory
+      - name: run-systemd
+        hostPath:
+          path: /run/systemd
+          type: Directory
+      - name: etc-systemd
+        hostPath:
+          path: /etc/systemd
+          type: Directory
+      - name: var-log
+        hostPath:
+          path: /var/log
+          type: Directory
+      &lt;span style=&#34;color:#75715e&#34;&gt;# mainly for dockerd access via /var/run/docker.sock&lt;/span&gt;
+      - name: var-run
+        hostPath:
+          path: /var/run
+          type: Directory
+      &lt;span style=&#34;color:#75715e&#34;&gt;# var-run implies you also need this, because&lt;/span&gt;
+      &lt;span style=&#34;color:#75715e&#34;&gt;# /var/run is a synmlink to /run&lt;/span&gt;
+      &lt;span style=&#34;color:#75715e&#34;&gt;# sh-4.2$ ls -lah /var/run&lt;/span&gt;
+      &lt;span style=&#34;color:#75715e&#34;&gt;# lrwxrwxrwx 1 root root 6 Nov 14 07:22 /var/run -&amp;gt; ../run&lt;/span&gt;
+      - name: run
+        hostPath:
+          path: /run
+          type: Directory
+      - name: usr-lib-systemd
+        hostPath:
+          path: /usr/lib/systemd
+          type: Directory
+      &lt;span style=&#34;color:#75715e&#34;&gt;# Required by journalctl to locate the current boot.&lt;/span&gt;
+      &lt;span style=&#34;color:#75715e&#34;&gt;# If omitted, journalctl is unable to locate host&amp;#39;s current boot journal&lt;/span&gt;
+      - name: etc-machine-id
+        hostPath:
+          path: /etc/machine-id
+          type: File
+      &lt;span style=&#34;color:#75715e&#34;&gt;# Avoid this error &amp;gt; ERROR [MessageGatewayService] Failed to add ssm-user to sudoers file: open /etc/sudoers.d/ssm-agent-users: no such file or directory&lt;/span&gt;
+      - name: etc-sudoers
+        hostPath:
+          path: /etc/sudoers.d
+          type: Directory
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;summary&#34;&gt;Summary&lt;/h2&gt;
+&lt;p&gt;As you see, it&#39;s relatively easy to manage Kubernetes nodes in a pure Kubernetes way, without taking unnecessary risks and managing complex SSH infrastructure.&lt;/p&gt;
+&lt;h2 id=&#34;reference&#34;&gt;Reference&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://hub.docker.com/r/alexeiled/nsenter&#34;&gt;&lt;code&gt;alexeiled/nsenter&lt;/code&gt;&lt;/a&gt; Docker image&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/alexei-led/nsenter&#34;&gt;&lt;code&gt;alexei-led/nsenter&lt;/code&gt;&lt;/a&gt; GitHub repository&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://man7.org/linux/man-pages/man1/nsenter.1.html&#34;&gt;&lt;code&gt;nsenter&lt;/code&gt;&lt;/a&gt; man page&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/alexei-led/kube-ssm-agent&#34;&gt;alexei-led/kube-ssm-agent&lt;/a&gt; SSM Agent for Amazon EKS&lt;/li&gt;
+&lt;/ul&gt;
+</description>
     </item>
     
     <item>
       <title>EKS GPU Cluster from Zero to Hero</title>
       <link>https://alexei-led.github.io/post/eks_gpu_spot/</link>
       <pubDate>Sat, 20 Jul 2019 10:00:00 +0200</pubDate>
-      
       <guid>https://alexei-led.github.io/post/eks_gpu_spot/</guid>
-      <description>Introduction If you ever tried to run a GPU workload on Kubernetes cluster, you know that this task requires non-trivial configuration and comes with high cost tag (GPU instances are quite expensive).
-This post shows how to run a GPU workload on Kubernetes cluster in cost effective way, using AWS EKS cluster, AWS Auto Scaling, Amazon EC2 Spot Instances and some Kubernetes resources and configurations.
-EKS Cluster Plan First we need to create a Kubernetes cluster that consists from mixed nodes, non-GPU nodes for management and generic Kubernetes workload and more expensive GPU nodes to run GPU intensive tasks, like machine learning, medical analysis, seismic exploration, video transcoding and others.</description>
+      <description>&lt;h2 id=&#34;introduction&#34;&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;If you ever tried to run a GPU workload on Kubernetes cluster, you know that this task requires non-trivial configuration and comes with high cost tag (GPU instances are quite expensive).&lt;/p&gt;
+&lt;p&gt;This post shows how to run a GPU workload on Kubernetes cluster in cost effective way, using &lt;a href=&#34;https://aws.amazon.com/eks/&#34;&gt;AWS EKS&lt;/a&gt; cluster, &lt;a href=&#34;https://aws.amazon.com/autoscaling/&#34;&gt;AWS Auto Scaling&lt;/a&gt;, &lt;a href=&#34;https://aws.amazon.com/ec2/spot/&#34;&gt;Amazon EC2 Spot Instances&lt;/a&gt; and some Kubernetes resources and configurations.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://alexei-led.github.io/img/k8s_gpu.png&#34; alt=&#34;Kubernetes with GPU Mixed ASG&#34;&gt;&lt;/p&gt;
+&lt;h2 id=&#34;eks-cluster-plan&#34;&gt;EKS Cluster Plan&lt;/h2&gt;
+&lt;p&gt;First we need to create a Kubernetes cluster that consists from mixed nodes, non-GPU nodes for management and generic Kubernetes workload and more expensive GPU nodes to run GPU intensive tasks, like machine learning, medical analysis, seismic exploration, video transcoding and others.&lt;/p&gt;
+&lt;p&gt;These node groups should be able to scale on demand (scale out and scale in) for generic nodes, and from 0 to required number and back to 0 for expensive GPU instances. More than that, in order to do it in cost effective way, we are going to use  &lt;a href=&#34;https://aws.amazon.com/ec2/spot/&#34;&gt;Amazon EC2 Spot Instances&lt;/a&gt; both for generic nodes and GPU nodes.&lt;/p&gt;
+&lt;h3 id=&#34;aws-ec2-spot-instances&#34;&gt;AWS EC2 Spot Instances&lt;/h3&gt;
+&lt;p&gt;With &lt;a href=&#34;https://aws.amazon.com/ec2/spot/&#34;&gt;Amazon EC2 Spot Instances&lt;/a&gt; instances you can save up to 90% comparing to On-Demand price. Previously, Spot instances were terminated in ascending order of bids. The market prices fluctuated frequently because of this. In the current model, the Spot prices are more predictable, updated less frequently, and are determined by Amazon EC2 spare capacity, not bid prices. AWS EC2 service can reclaim SPot instances when there is not enough capacity for specific instance in specific Availability Zone. Spot instances receive a 2 minute alert when are about to be reclaimed by Amazon EC2 service and can use this time for graceful shutdown and state change.&lt;/p&gt;
+&lt;h2 id=&#34;the-workflow&#34;&gt;The Workflow&lt;/h2&gt;
+&lt;h3 id=&#34;create-eks-cluster&#34;&gt;Create EKS Cluster&lt;/h3&gt;
+&lt;p&gt;It is possible to create &lt;a href=&#34;https://aws.amazon.com/eks/&#34;&gt;AWS EKS&lt;/a&gt; cluster, using &lt;a href=&#34;https://docs.aws.amazon.com/cli/latest/reference/eks&#34;&gt;AWS EKS CLI&lt;/a&gt;, CloudFormation or Terraform, &lt;a href=&#34;https://aws.amazon.com/cdk/&#34;&gt;AWS CDK&lt;/a&gt; or &lt;a href=&#34;https://eksctl.io&#34;&gt;eksctl&lt;/a&gt;.&lt;/p&gt;
+&lt;h4 id=&#34;eksctl-cli-tool&#34;&gt;eksctl CLI tool&lt;/h4&gt;
+&lt;p&gt;In this post &lt;code&gt;eksctl&lt;/code&gt; (a CLI tool for creating clusters on EKS) is used.
+It is possible to pass all parameters to the tool as CLI flags or configuration file. Using configuration file makes process more repeatable and automation friendly.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;eksctl&lt;/code&gt; can create or update EKS cluster and additional required AWS resources, using CloudFormation stacks.&lt;/p&gt;
+&lt;p&gt;Customize your cluster by using a config file. Just run&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;eksctl create cluster -f cluster.yaml
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;to apply a cluster.yaml file:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+
+metadata:
+name: test-cluster
+region: us-west&lt;span style=&#34;color:#ae81ff&#34;&gt;-2&lt;/span&gt;
+
+nodeGroups:
+  - name: ng
+    instanceType: m5.large
+    desiredCapacity: &lt;span style=&#34;color:#ae81ff&#34;&gt;10&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;A new EKS cluster with 10 &lt;code&gt;m5.large&lt;/code&gt; On-Demand EC2 worker nodes will be created and cluster credentials will be added to &lt;code&gt;~/.kube/config&lt;/code&gt; file.&lt;/p&gt;
+&lt;h3 id=&#34;creating-node-groups&#34;&gt;Creating node groups&lt;/h3&gt;
+&lt;p&gt;As planned, we are going to create two node groups for Kubernetes worker nodes:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;em&gt;General&lt;/em&gt; node group - autoscaling group with Spot instances to run Kubernetes system workload and non-GPU workload&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;GPU&lt;/em&gt; node groups - autoscaling group with GPU-powered Spot Instances, that can scale from 0 to required number of instances and back to 0.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Fortunately, the &lt;code&gt;eksctl&lt;/code&gt; supports adding Kubernetes node groups to EKS cluster and these groups can be composed from  Spot-only instances or mixture of Spot and On-Demand instances.&lt;/p&gt;
+&lt;h4 id=&#34;general-node-group&#34;&gt;General node group&lt;/h4&gt;
+&lt;p&gt;The &lt;code&gt;eksctl&lt;/code&gt; configuration file contains EKS cluster in &lt;code&gt;us-west-2&lt;/code&gt; across 3 Availability Zones and the first &lt;em&gt;General&lt;/em&gt; autoscaling (from 2 to 20 nodes) node group running on diversified Spot instances.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;---
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+
+metadata:
+  name: gaia-kube
+  region: us-west&lt;span style=&#34;color:#ae81ff&#34;&gt;-2&lt;/span&gt;
+
+availabilityZones: [&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;us-west-2a&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;us-west-2b&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;us-west-2c&amp;#34;&lt;/span&gt;]
+
+nodeGroups:
+  &lt;span style=&#34;color:#75715e&#34;&gt;# spot workers NG - multi AZ, scale from 3&lt;/span&gt;
+  - name: spot-ng
+    ami: auto
+    instanceType: mixed
+    desiredCapacity: &lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;
+    minSize: &lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;
+    maxSize: &lt;span style=&#34;color:#ae81ff&#34;&gt;20&lt;/span&gt;
+    volumeSize: &lt;span style=&#34;color:#ae81ff&#34;&gt;100&lt;/span&gt;
+    volumeType: gp2
+    volumeEncrypted: &lt;span style=&#34;color:#66d9ef&#34;&gt;true&lt;/span&gt;
+    iam:
+      attachPolicyARNs:
+        - arn:aws:iam::aws:policy/service-role/AmazonEC2RoleforSSM
+        - arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy
+        - arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy
+        - arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly
+      withAddonPolicies:
+        autoScaler: &lt;span style=&#34;color:#66d9ef&#34;&gt;true&lt;/span&gt;
+        ebs: &lt;span style=&#34;color:#66d9ef&#34;&gt;true&lt;/span&gt;
+        albIngress: &lt;span style=&#34;color:#66d9ef&#34;&gt;true&lt;/span&gt;
+        cloudWatch: &lt;span style=&#34;color:#66d9ef&#34;&gt;true&lt;/span&gt;
+    instancesDistribution:
+      onDemandPercentageAboveBaseCapacity: &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;
+      instanceTypes:
+        - m4.2xlarge
+        - m4.4xlarge
+        - m5.2xlarge
+        - m5.4xlarge
+        - m5a.2xlarge
+        - m5a.4xlarge
+        - c4.2xlarge
+        - c4.4xlarge
+        - c5.2xlarge
+        - c5.4xlarge
+      spotInstancePools: &lt;span style=&#34;color:#ae81ff&#34;&gt;15&lt;/span&gt;
+    tags:
+      k8s.io/cluster-autoscaler/enabled: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;true&amp;#39;&lt;/span&gt;
+    labels:
+      lifecycle: Ec2Spot
+    privateNetworking: &lt;span style=&#34;color:#66d9ef&#34;&gt;true&lt;/span&gt;
+    availabilityZones: [&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;us-west-2a&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;us-west-2b&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;us-west-2c&amp;#34;&lt;/span&gt;]
+
+    &lt;span style=&#34;color:#75715e&#34;&gt;### next: GPU node groups ...&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Now it is time to explain some parameters used in the above configuration file.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;ami: auto&lt;/code&gt; - &lt;code&gt;eksctl&lt;/code&gt; automatically discover latest EKS-Optimized AMI image for worker nodes, based on specified AWS region, EKS version and instance type. See &lt;a href=&#34;https://docs.aws.amazon.com/eks/latest/userguide/eks-optimized-ami.html&#34;&gt;Amazon EKS-Optimized AMI&lt;/a&gt; chapter in User Guide&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;instanceType: mixed&lt;/code&gt; - specify that actual instance type will be one of instance types defined in &lt;code&gt;instancesDistribution&lt;/code&gt; section&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;iam&lt;/code&gt; contains list of predefined and in-place IAM policies; &lt;code&gt;eksctl&lt;/code&gt; creates a new &lt;a href=&#34;https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/iam-roles-for-amazon-ec2.html&#34;&gt;IAM Role&lt;/a&gt; with specified policies and attaches this role to every EKS worker node. There are several IAM policies you are required to attach to every EKS worker node, read &lt;a href=&#34;https://docs.aws.amazon.com/eks/latest/userguide/worker_node_IAM_role.html&#34;&gt;Amazon EKS Worker Node IAM Role&lt;/a&gt; section in User Guide and &lt;a href=&#34;https://eksctl.io/usage/iam-policies/&#34;&gt;&lt;code&gt;eksctl&lt;/code&gt; IAM policies&lt;/a&gt; documentation&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;instancesDistribution&lt;/code&gt; - specify mixed instance policy for EC2 Auto Scaling Groups, read AWS &lt;a href=&#34;https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_MixedInstancesPolicy.html&#34;&gt;MixedInstancesPolicy&lt;/a&gt; documentation&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;spotInstancePools&lt;/code&gt; - specifies number of Spot instance pools to use, &lt;a href=&#34;#Spot-Instance-Pools&#34;&gt;read more&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;tags&lt;/code&gt; - AWS tags added to EKS worker nodes
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;k8s.io/cluster-autoscaler/enabled&lt;/code&gt; will use this tag for Kubernetes Cluster Autoscaler auto-discovery&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;privateNetworking: true&lt;/code&gt; - all EKS worker nodes will be placed into private subnets&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h5 id=&#34;spot-instance-pools&#34;&gt;Spot Instance Pools&lt;/h5&gt;
+&lt;p&gt;When you are using Spot instances as worker nodes you need to diversify usage to as many &lt;em&gt;Spot Instance pools&lt;/em&gt; as possible. A &lt;em&gt;Spot Instance pool&lt;/em&gt; is a set of unused EC2 instances with the same instance type (for example, &lt;code&gt;m5.large&lt;/code&gt;), operating system, Availability Zone, and network platforms.&lt;/p&gt;
+&lt;p&gt;The &lt;code&gt;eksctl&lt;/code&gt; currently supports single Spot provisioning model: &lt;code&gt;lowestPrice&lt;/code&gt; allocation strategy. This strategy allows creation of a fleet of Spot Instances that is both cheap and diversified. Spot Fleet automatically deploys the cheapest combination of instance types and Availability Zones based on the current Spot price across the number of Spot pools that you specify. This combination allows avoiding the most expensive Spot Instances.&lt;/p&gt;
+&lt;p&gt;The Spot instance diversification also increases worker nodes availability, typically not all &lt;em&gt;Spot Instance pools&lt;/em&gt; will be interrupted at the same time, so only a small portion of your workload will be interrupted and EC2 Auto-scaling group will replace interrupted instances from others &lt;em&gt;Spot Instance pools&lt;/em&gt;.&lt;/p&gt;
+&lt;h4 id=&#34;gpu-powered-node-group&#34;&gt;GPU-powered node group&lt;/h4&gt;
+&lt;p&gt;The next part of our &lt;code&gt;eksctl&lt;/code&gt; configuration file contains first &lt;em&gt;GPU&lt;/em&gt; autoscaling (from 0 to 10 nodes) node group running on diversified GPU-powered Spot instances.&lt;/p&gt;
+&lt;p&gt;When using GPU-powered Spot instances, it&#39;s recommended to create &lt;em&gt;GPU&lt;/em&gt; node group per Availability Zone and configure Kubernetes Cluster Autoscaler to avoid automatic &lt;a href=&#34;https://docs.aws.amazon.com/autoscaling/ec2/userguide/auto-scaling-benefits.html#arch-AutoScalingMultiAZ&#34;&gt;ASG rebalancing&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Why is it important?
+GPU-powered EC2 Spot Instances have relatively high &lt;em&gt;Frequency of interruption&lt;/em&gt; rate (&lt;code&gt;&amp;gt;20%&lt;/code&gt; for some GPU instance types) and using multiple AZ and disabling automatic Cluster Autoscaler balancing can help to minimize GPU workload interruptions.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;  &lt;span style=&#34;color:#75715e&#34;&gt;# ... EKS cluster and General node group ...&lt;/span&gt;
+
+  &lt;span style=&#34;color:#75715e&#34;&gt;# spot GPU NG - west-2a AZ, scale from 0&lt;/span&gt;
+  - name: gpu-spot-ng-a
+    ami: auto
+    instanceType: mixed
+    desiredCapacity: &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;
+    minSize: &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;
+    maxSize: &lt;span style=&#34;color:#ae81ff&#34;&gt;10&lt;/span&gt;
+    volumeSize: &lt;span style=&#34;color:#ae81ff&#34;&gt;100&lt;/span&gt;
+    volumeType: gp2
+    volumeEncrypted: &lt;span style=&#34;color:#66d9ef&#34;&gt;true&lt;/span&gt;
+    iam:
+      attachPolicyARNs:
+        - arn:aws:iam::aws:policy/service-role/AmazonEC2RoleforSSM
+        - arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy
+        - arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy
+        - arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly
+      withAddonPolicies:
+        autoScaler: &lt;span style=&#34;color:#66d9ef&#34;&gt;true&lt;/span&gt;
+        ebs: &lt;span style=&#34;color:#66d9ef&#34;&gt;true&lt;/span&gt;
+        fsx: &lt;span style=&#34;color:#66d9ef&#34;&gt;true&lt;/span&gt;
+        efs: &lt;span style=&#34;color:#66d9ef&#34;&gt;true&lt;/span&gt;
+        albIngress: &lt;span style=&#34;color:#66d9ef&#34;&gt;true&lt;/span&gt;
+        cloudWatch: &lt;span style=&#34;color:#66d9ef&#34;&gt;true&lt;/span&gt;
+    instancesDistribution:
+      onDemandPercentageAboveBaseCapacity: &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;
+      instanceTypes:
+        - p3.2xlarge
+        - p3.8xlarge
+        - p3.16xlarge
+        - p2.xlarge
+        - p2.8xlarge
+        - p2.16xlarge
+      spotInstancePools: &lt;span style=&#34;color:#ae81ff&#34;&gt;5&lt;/span&gt;
+    tags:
+      k8s.io/cluster-autoscaler/node-template/taint/dedicated: nvidia.com/gpu=&lt;span style=&#34;color:#66d9ef&#34;&gt;true&lt;/span&gt;
+      k8s.io/cluster-autoscaler/node-template/label/nvidia.com/gpu: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;true&amp;#39;&lt;/span&gt;
+      k8s.io/cluster-autoscaler/enabled: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;true&amp;#39;&lt;/span&gt;
+    labels:
+      lifecycle: Ec2Spot
+      nvidia.com/gpu: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;true&amp;#39;&lt;/span&gt;
+      k8s.amazonaws.com/accelerator: nvidia-tesla
+    taints:
+      nvidia.com/gpu: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;true:NoSchedule&amp;#34;&lt;/span&gt;
+    privateNetworking: &lt;span style=&#34;color:#66d9ef&#34;&gt;true&lt;/span&gt;
+    availabilityZones: [&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;us-west-2a&amp;#34;&lt;/span&gt;]
+
+    &lt;span style=&#34;color:#75715e&#34;&gt;# create additional node groups for other `us-west-2b` and `us-west-2c` availability zones ...&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Now, it is time to explain some parameters used to configure GPU-powered node group.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;ami: auto&lt;/code&gt; - &lt;code&gt;eksctl&lt;/code&gt; automatically discover latest EKS-Optimized AMI image with GPU support for worker nodes, based on specified AWS region, EKS version and instance type. See &lt;a href=&#34;https://docs.aws.amazon.com/eks/latest/userguide/gpu-ami.html&#34;&gt;Amazon EKS-Optimized AMI with GPU support&lt;/a&gt; User Guide&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;iam: withAddonPolicies&lt;/code&gt; - if a planned workload requires access to AWS storage services, it is important to include additional IAM policies (auto-generated by &lt;code&gt;eksctl&lt;/code&gt;)
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;efs: true&lt;/code&gt; - enable access to &lt;a href=&#34;https://aws.amazon.com/efs/&#34;&gt;Amazon EFS&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;fsx: true&lt;/code&gt; - enable access to &lt;a href=&#34;https://aws.amazon.com/fsx/lustre/&#34;&gt;Amazon FSx for Lustre&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;tags&lt;/code&gt; - AWS tags added to EKS worker nodes
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;k8s.io/cluster-autoscaler/node-template/taint/dedicated: nvidia.com/gpu=true&lt;/code&gt; - Kubernetes node taint&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;k8s.io/cluster-autoscaler/node-template/label/nvidia.com/gpu: &#39;true&#39;&lt;/code&gt; - Kubernetes node label used by Cluster Autoscaler to scale ASG from/to 0&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;taints&lt;/code&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;nvidia.com/gpu: &amp;quot;true:NoSchedule&amp;quot;&lt;/code&gt; - Kubernetes GPU node taint; helps to avoid placement on non-GPU workload on expensive GPU nodes&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h5 id=&#34;eks-optimized-ami-image-with-gpu-support&#34;&gt;EKS Optimized AMI image with GPU support&lt;/h5&gt;
+&lt;p&gt;In addition to the standard Amazon EKS-optimized AMI configuration, the GPU AMI includes the following:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;NVIDIA drivers&lt;/li&gt;
+&lt;li&gt;The &lt;code&gt;nvidia-docker2&lt;/code&gt; package&lt;/li&gt;
+&lt;li&gt;The &lt;code&gt;nvidia-container-runtime&lt;/code&gt; (as the default runtime)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h5 id=&#34;scaling-a-node-group-tofrom-0&#34;&gt;Scaling a node group to/from 0&lt;/h5&gt;
+&lt;p&gt;From Kubernetes &lt;a href=&#34;https://github.com/kubernetes/autoscaler/&#34;&gt;Cluster Autoscaler&lt;/a&gt; 0.6.1 - it is possible to scale a node group to/from 0, assuming that all scale-up and scale-down conditions are met.&lt;/p&gt;
+&lt;p&gt;If you are using &lt;code&gt;nodeSelector&lt;/code&gt; you need to tag the ASG with a node-template key &lt;code&gt;k8s.io/cluster-autoscaler/node-template/label/&lt;/code&gt; and &lt;code&gt;k8s.io/cluster-autoscaler/node-template/taint/&lt;/code&gt; if you are using taints.&lt;/p&gt;
+&lt;h4 id=&#34;scheduling-gpu-workload&#34;&gt;Scheduling GPU workload&lt;/h4&gt;
+&lt;h5 id=&#34;schedule-based-on-gpu-resources&#34;&gt;Schedule based on GPU resources&lt;/h5&gt;
+&lt;p&gt;The &lt;a href=&#34;https://github.com/NVIDIA/k8s-device-plugin&#34;&gt;NVIDIA device plugin for Kubernetes&lt;/a&gt; exposes the number of GPUs on each nodes of your cluster. Once the plugin is installed, it&#39;s possible to use &lt;code&gt;nvidia/gpu&lt;/code&gt; Kubernetes resource on GPU nodes and for Kubernetes workloads.&lt;/p&gt;
+&lt;p&gt;Run this command to apply the Nvidia Kubernetes device plugin as a &lt;code&gt;daemonset&lt;/code&gt; running only on AWS GPU-powered worker nodes, using &lt;code&gt;tolerations&lt;/code&gt; and &lt;code&gt;nodeAffinity&lt;/code&gt;&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;kubectl create -f kubernetes/nvidia-device-plugin.yaml
+
+kubectl get daemonset -nkube-system
+
+NAME                                  DESIRED   CURRENT   READY   UP-TO-DATE   AVAILABLE   NODE SELECTOR   AGE
+aws-node                              &lt;span style=&#34;color:#ae81ff&#34;&gt;5&lt;/span&gt;         &lt;span style=&#34;color:#ae81ff&#34;&gt;5&lt;/span&gt;         &lt;span style=&#34;color:#ae81ff&#34;&gt;5&lt;/span&gt;       &lt;span style=&#34;color:#ae81ff&#34;&gt;5&lt;/span&gt;            &lt;span style=&#34;color:#ae81ff&#34;&gt;5&lt;/span&gt;           &amp;lt;none&amp;gt;          8d
+kube-proxy                            &lt;span style=&#34;color:#ae81ff&#34;&gt;5&lt;/span&gt;         &lt;span style=&#34;color:#ae81ff&#34;&gt;5&lt;/span&gt;         &lt;span style=&#34;color:#ae81ff&#34;&gt;5&lt;/span&gt;       &lt;span style=&#34;color:#ae81ff&#34;&gt;5&lt;/span&gt;            &lt;span style=&#34;color:#ae81ff&#34;&gt;5&lt;/span&gt;           &amp;lt;none&amp;gt;          8d
+nvidia-device-plugin-daemonset-1.12   &lt;span style=&#34;color:#ae81ff&#34;&gt;3&lt;/span&gt;         &lt;span style=&#34;color:#ae81ff&#34;&gt;3&lt;/span&gt;         &lt;span style=&#34;color:#ae81ff&#34;&gt;3&lt;/span&gt;       &lt;span style=&#34;color:#ae81ff&#34;&gt;3&lt;/span&gt;            &lt;span style=&#34;color:#ae81ff&#34;&gt;3&lt;/span&gt;           &amp;lt;none&amp;gt;          8d
+ssm-agent                             &lt;span style=&#34;color:#ae81ff&#34;&gt;5&lt;/span&gt;         &lt;span style=&#34;color:#ae81ff&#34;&gt;5&lt;/span&gt;         &lt;span style=&#34;color:#ae81ff&#34;&gt;5&lt;/span&gt;       &lt;span style=&#34;color:#ae81ff&#34;&gt;5&lt;/span&gt;            &lt;span style=&#34;color:#ae81ff&#34;&gt;5&lt;/span&gt;           &amp;lt;none&amp;gt;          8d
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;using &lt;code&gt;nvidia-device-plugin.yaml&lt;/code&gt; Kubernetes resource file&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;apiVersion: extensions/v1beta1
+kind: DaemonSet
+metadata:
+  name: nvidia-device-plugin-daemonset&lt;span style=&#34;color:#ae81ff&#34;&gt;-1.12&lt;/span&gt;
+  namespace: kube-system
+spec:
+  updateStrategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        name: nvidia-device-plugin-ds
+    spec:
+      tolerations:
+      - key: nvidia.com/gpu
+        operator: Exists
+        effect: NoSchedule
+      containers:
+      - image: nvidia/k8s-device-plugin:&lt;span style=&#34;color:#ae81ff&#34;&gt;1.11&lt;/span&gt;
+        name: nvidia-device-plugin-ctr
+        securityContext:
+          allowPrivilegeEscalation: &lt;span style=&#34;color:#66d9ef&#34;&gt;false&lt;/span&gt;
+          capabilities:
+            drop: [&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;ALL&amp;#34;&lt;/span&gt;]
+        volumeMounts:
+          - name: device-plugin
+            mountPath: /var/lib/kubelet/device-plugins
+      volumes:
+        - name: device-plugin
+          hostPath:
+            path: /var/lib/kubelet/device-plugins
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: beta.kubernetes.io/instance-type
+                operator: In
+                values:
+                - p3.2xlarge
+                - p3.8xlarge
+                - p3.16xlarge
+                - p3dn.24xlarge
+                - p2.xlarge
+                - p2.8xlarge
+                - p2.16xlarge
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h5 id=&#34;taints-and-tolerations&#34;&gt;Taints and Tolerations&lt;/h5&gt;
+&lt;p&gt;Kubernetes &lt;em&gt;taints&lt;/em&gt;  allow a node to repel a set of pods. Taints and tolerations work together to ensure that pods are not scheduled onto inappropriate nodes. One or more taints are applied to a node; this marks that the node should not accept any pods that do not tolerate the taints. Tolerations are applied to pods, and allow (but do not require) the pods to schedule onto nodes with matching taints.&lt;/p&gt;
+&lt;p&gt;See Kubernetes &lt;a href=&#34;https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/&#34;&gt;Taints and Tolerations&lt;/a&gt; documentation for more details.&lt;/p&gt;
+&lt;p&gt;In order to run GPU workload to run on GPU-powered Spot instance nodes, with &lt;code&gt;nvidia.com/gpu: &amp;quot;true:NoSchedule&amp;quot;&lt;/code&gt; taint, the workload must include both matching &lt;code&gt;tolerations&lt;/code&gt; and &lt;code&gt;nodeSelector&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Kubernetes deployment with &lt;code&gt;10&lt;/code&gt; pod replicas with &lt;code&gt;nvidia/gpu: 1&lt;/code&gt; limit:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cuda-vector-add
+  labels:
+    app: cuda-vector-add
+spec:
+  replicas: &lt;span style=&#34;color:#ae81ff&#34;&gt;10&lt;/span&gt;
+  selector:
+    matchLabels:
+      app: cuda-vector-add
+  template:
+    metadata:
+      name: cuda-vector-add
+      labels:
+        app: cuda-vector-add
+    spec:
+      nodeSelector:
+        nvidia.com/gpu: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;true&amp;#34;&lt;/span&gt;
+      tolerations:
+      - key: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;nvidia.com/gpu&amp;#34;&lt;/span&gt;
+        operator: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Exists&amp;#34;&lt;/span&gt;
+        effect: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;NoSchedule&amp;#34;&lt;/span&gt;
+      containers:
+        - name: cuda-vector-add
+          &lt;span style=&#34;color:#75715e&#34;&gt;# https://github.com/kubernetes/kubernetes/blob/v1.7.11/test/images/nvidia-cuda/Dockerfile&lt;/span&gt;
+          image: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;k8s.gcr.io/cuda-vector-add:v0.1&amp;#34;&lt;/span&gt;
+          resources:
+            limits:
+              nvidia.com/gpu: &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt; &lt;span style=&#34;color:#75715e&#34;&gt;# requesting 1 GPU&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Deploy &lt;code&gt;cuda-vector-add&lt;/code&gt; deployment and see how new GPU-powered nodes are added to the EKS cluster.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# list Kubernetes nodes before running GPU workload&lt;/span&gt;
+NAME                                            ID                                      TYPE
+ip-192-168-151-104.us-west-2.compute.internal   aws:///us-west-2b/i-01d4c83eaee18b7b3   c4.4xlarge
+ip-192-168-171-140.us-west-2.compute.internal   aws:///us-west-2c/i-07ec09fd128e1393f   c4.4xlarge
+
+
+&lt;span style=&#34;color:#75715e&#34;&gt;# deploy GPU workload on EKS cluster with tolerations for nvidia/gpu=true&lt;/span&gt;
+kubectl create -f kubernetes/examples/vector/vector-add-dpl.yaml
+
+&lt;span style=&#34;color:#75715e&#34;&gt;# list Kubernetes nodes after several minutes to see new GPU nodes added to the cluster&lt;/span&gt;
+kubectl get nodes --output&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;custom-columns=NAME:.metadata.name,ID:.spec.providerID,TYPE:.metadata.labels.beta\.kubernetes\.io\/instance-type&amp;#34;&lt;/span&gt;
+
+NAME                                            ID                                      TYPE
+ip-192-168-101-60.us-west-2.compute.internal    aws:///us-west-2a/i-037d1994fe96eeffc   p2.16xlarge
+ip-192-168-139-227.us-west-2.compute.internal   aws:///us-west-2b/i-0038eb8d2c795fb40   p2.16xlarge
+ip-192-168-151-104.us-west-2.compute.internal   aws:///us-west-2b/i-01d4c83eaee18b7b3   c4.4xlarge
+ip-192-168-171-140.us-west-2.compute.internal   aws:///us-west-2c/i-07ec09fd128e1393f   c4.4xlarge
+ip-192-168-179-248.us-west-2.compute.internal   aws:///us-west-2c/i-0bc0853ef26c0c054   p2.16xlarge
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;As you can see, 3 new GPU-powered nodes (&lt;code&gt;p2.16xlarge&lt;/code&gt;), across 3 AZ, had been added to the cluster. When you delete GPU workload, the cluster will scale down GPU node group to 0 after 10 minutes.&lt;/p&gt;
+&lt;h2 id=&#34;summary&#34;&gt;Summary&lt;/h2&gt;
+&lt;p&gt;Follow this tutorial to create an EKS (Kubernetes) cluster with GPU-powered node group, running on Spot instances and scalable from/to 0 nodes.&lt;/p&gt;
+&lt;h2 id=&#34;references&#34;&gt;References&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/alexei-led/eks-spot-cluster&#34;&gt;EKS Spot Cluster&lt;/a&gt; GitHub repository with code for this blog&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://itnext.io/the-definitive-guide-to-running-ec2-spot-instances-as-kubernetes-worker-nodes-68ef2095e767&#34;&gt;The definitive guide to running EC2 Spot Instances as Kubernetes worker nodes&lt;/a&gt; by Ran Sheinberg&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/kubernetes/autoscaler/tree/master/cluster-autoscaler&#34;&gt;Kubernetes Cluster Autoscaler&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/&#34;&gt;Taints and Tolleratoins&lt;/a&gt; Kubernetes documentation&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;disclaimer&#34;&gt;Disclaimer&lt;/h2&gt;
+&lt;p&gt;It does not matter where I work, all my opinions are my own.&lt;/p&gt;
+</description>
     </item>
     
     <item>
       <title>Kubernetes Continuous Integration</title>
       <link>https://alexei-led.github.io/post/kubernetes_continuous_integration/</link>
       <pubDate>Fri, 08 Mar 2019 10:00:00 +0200</pubDate>
-      
       <guid>https://alexei-led.github.io/post/kubernetes_continuous_integration/</guid>
-      <description>Kubernetes configuration as Code Complex Kubernetes application consists from multiple Kubernetes resources, defined in YAML files. Authoring a properly formatted YAML files that are also a valid Kubernetes specification, that should also comply to some policy can be a challenging task.
-These YAML files are your application deployment and configuration code and should be addressed as code.
-As with code, Continuous Integration approach should be applied to a Kubernetes configuration files.</description>
+      <description>&lt;h1 id=&#34;kubernetes-configuration-as-code&#34;&gt;Kubernetes configuration as Code&lt;/h1&gt;
+&lt;p&gt;Complex Kubernetes application consists from multiple Kubernetes resources, defined in YAML files. Authoring a properly formatted YAML files that are also a valid Kubernetes specification, that should also comply to some policy can be a challenging task.&lt;/p&gt;
+&lt;p&gt;These YAML files are your application deployment and configuration code and should be addressed as code.&lt;/p&gt;
+&lt;p&gt;As with code, Continuous Integration approach should be applied to a Kubernetes configuration files.&lt;/p&gt;
+&lt;h2 id=&#34;git-repository&#34;&gt;Git Repository&lt;/h2&gt;
+&lt;p&gt;Create a separate Git repository that contains Kubernetes configuration files. Define a Continuous Integration pipeline that is triggered automatically for for every change and can validate it without human intervention.&lt;/p&gt;
+&lt;h2 id=&#34;helm&#34;&gt;Helm&lt;/h2&gt;
+&lt;p&gt;Helm helps you manage complex Kubernetes applications. Using Helm Charts you define, install, test and upgrade Kubernetes application.&lt;/p&gt;
+&lt;p&gt;Here I&#39;m going to focus on using Helm for authoring complex Kubernetes application.&lt;/p&gt;
+&lt;p&gt;The same Kubernetes application can be installed in multiple environments: development, testing, staging and production. Helm template helps to separate application structure from environment configuration by keeping environment specific values in external files.&lt;/p&gt;
+&lt;h3 id=&#34;dependency-management&#34;&gt;Dependency Management&lt;/h3&gt;
+&lt;p&gt;Helm also helps with dependency management. A typical Kubernetes application can be composed from multiple services developed by other teams and open source community.&lt;/p&gt;
+&lt;p&gt;A &lt;code&gt;requirements.yaml&lt;/code&gt; file is a YAML file in which developers can declare Helm chart dependencies, along with the location of the chart and the desired version. For example, this requirements file declares two dependencies:&lt;/p&gt;
+&lt;p&gt;Where possible, use version ranges instead of pinning to an exact version. The suggested default is to use a patch-level version match:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-txt&#34; data-lang=&#34;txt&#34;&gt;version: ~1.2.3
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;This will match version 1.2.3 and any patches to that release. In other words, ~1.2.3 is equivalent to &amp;gt;= 1.2.3, &amp;lt; 1.3.0&lt;/p&gt;
+&lt;h2 id=&#34;yaml&#34;&gt;YAML&lt;/h2&gt;
+&lt;p&gt;YAML is the most convenient way to write Kubernetes configuration files. YAML is easier for humans to read and write than other common data formats like XML or JSON. Still it&#39;s recommended to use automatic YAML linters to avoid syntax and formatting errors.&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://github.com/adrienverge/yamllint&#34;&gt;yamlint&lt;/a&gt;&lt;/p&gt;
+&lt;h3 id=&#34;helm-chart-validation&#34;&gt;Helm Chart Validation&lt;/h3&gt;
+&lt;p&gt;Helm has a &lt;code&gt;helm lint&lt;/code&gt; command that runs a series of tests to verify that the chart is well-formed. The &lt;code&gt;helm lint&lt;/code&gt; also converts YAML to JSON, and this ways is able to detect some YAML errors.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt;helm lint mychart
+
+==&amp;gt; Linting mychart
+[ERROR] templates/deployment.yaml: unable to parse YAML
+    error converting YAML to JSON: yaml: line 53: did not find expected &amp;#39;-&amp;#39; indicator
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;There are few issues with &lt;code&gt;helm lint&lt;/code&gt;, you should be aware of:
+- no real YAML validation is done: only YAML to JSON conversion errors are detected
+- it shows wrong error line number: no the actual line in a template that contains the detected error&lt;/p&gt;
+&lt;p&gt;So, I recommend also to use YAML linter, like &lt;code&gt;yamllint&lt;/code&gt; to perform YAML validation.&lt;/p&gt;
+&lt;p&gt;First, you need to generate Kubernetes YAML files from a Helm chart. The &lt;code&gt;helm template&lt;/code&gt; renders chart templates locally and prints the output to the &lt;code&gt;stdout&lt;/code&gt;.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;helm template --namespace test --values dev-values.yaml
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Pipe &lt;code&gt;helm template&lt;/code&gt; and &lt;code&gt;yamllint&lt;/code&gt; together to validate rendered YAML files.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;helm template mychart | yamllint -
+
+stdin
+  41:81     error    line too long &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;93&lt;/span&gt; &amp;gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;80&lt;/span&gt; characters&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;  &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;line-length&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;
+  43:1      error    trailing spaces  &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;trailing-spaces&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;
+  151:9     error    wrong indentation: expected &lt;span style=&#34;color:#ae81ff&#34;&gt;10&lt;/span&gt; but found &lt;span style=&#34;color:#ae81ff&#34;&gt;8&lt;/span&gt;  &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;indentation&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;
+  245:10    error    syntax error: expected &amp;lt;block end&amp;gt;, but found &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;&amp;lt;block sequence start&amp;gt;&amp;#39;&lt;/span&gt;
+  293:1     error    too many blank lines &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt; &amp;gt; 0&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;  &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;empty-lines&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Now there are multiple ways to inspect these errors:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# using vim editor&lt;/span&gt;
+vim &amp;lt;&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;helm template mychart&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;
+
+&lt;span style=&#34;color:#75715e&#34;&gt;# using cat command (with line number)&lt;/span&gt;
+cat -n &amp;lt;&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;helm template mychart&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;
+
+&lt;span style=&#34;color:#75715e&#34;&gt;# printing error line and few lines around it, replacing spaces with dots&lt;/span&gt;
+helm template hermes | sed -n 240,250p | tr &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39; &amp;#39;&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;⋅&amp;#39;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;valid-kubernetes-configuration&#34;&gt;Valid Kubernetes Configuration&lt;/h2&gt;
+&lt;p&gt;When authoring Kubernetes configuration files, it&#39;s important not only check if they are valid YAML files, but if they are valid Kubernetes files.&lt;/p&gt;
+&lt;p&gt;It turns out that the Kubernetes supports OpenAPI specification and it&#39;s possible to generate Kubernetes JSON schema for every Kubernetes API version.&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://github.com/garethr&#34;&gt;Gareth Rushgrove&lt;/a&gt; wrote a &lt;a href=&#34;https://www.morethanseven.net/2017/06/26/schemas-for-kubernetes-types/&#34;&gt;blog post&lt;/a&gt; on this topic and maintains the &lt;a href=&#34;https://github.com/garethr/kubernetes-json-schema&#34;&gt;garethr/kubernetes-json-schema&lt;/a&gt; GitHub repository with most recent Kubernetes and OpenShift JSON schemas for all API versions. What a great contribution to the community!&lt;/p&gt;
+&lt;p&gt;Now, with Kubernetes API JSON schema, it&#39;s possible to validate any YAML file if it&#39;s a valid Kubernetes configuration file.&lt;/p&gt;
+&lt;p&gt;The &lt;a href=&#34;https://github.com/garethr/kubeval&#34;&gt;kubeval&lt;/a&gt; tool (also authored by Gareth Rushgrove) is to help.&lt;/p&gt;
+&lt;p&gt;Run &lt;code&gt;kubeval&lt;/code&gt; piped with &lt;code&gt;helm template&lt;/code&gt; command.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;helm template mychart | kubeval
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The output below sows single detected error in &lt;code&gt;Service&lt;/code&gt; definition: invalid annotation. The &lt;code&gt;kubeval&lt;/code&gt; could be more specific, by providing &lt;code&gt;Service&lt;/code&gt; name, but event AS IS it is a valuable output for detecting Kubernetes configuration errors.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt;The document stdin contains a valid Secret
+The document stdin contains a valid Secret
+The document stdin contains a valid ConfigMap
+The document stdin contains a valid ConfigMap
+The document stdin contains a valid PersistentVolumeClaim
+The document stdin contains an invalid Service
+---&amp;gt; metadata.annotations: Invalid type. Expected: object, given: null
+The document stdin contains a valid Service
+The document stdin contains a valid Deployment
+The document stdin contains a valid Deployment
+The document stdin is empty
+The document stdin is empty
+The document stdin is empty
+The document stdin is empty
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;a href=&#34;https://github.com/garethr/kubetest&#34;&gt;https://github.com/garethr/kubetest&lt;/a&gt;&lt;/p&gt;
+</description>
     </item>
     
     <item>
       <title>Continuous Delivery and Continuous Deployment for Kubernetes microservices</title>
       <link>https://alexei-led.github.io/post/cd_helm_kubernetes/</link>
       <pubDate>Wed, 11 Oct 2017 18:00:00 +0200</pubDate>
-      
       <guid>https://alexei-led.github.io/post/cd_helm_kubernetes/</guid>
-      <description>Continuous Delivery and Continuous Deployment for Kubernetes microservices  THIS IS A DRAFT VERSION OF POST TO COME, PLEASE DO NOT SHARE
- Starting Point Over last years we&#39;ve been adopting several concepts for our project, straggling to make them work together.
-The first one is the Microservice Architecture. We did not start it clean and by the book, rather applied it to the already existing project: splitting big services into smaller and breaking excessive coupling.</description>
+      <description>&lt;h1 id=&#34;continuous-delivery-and-continuous-deployment-for-kubernetes-microservices&#34;&gt;Continuous Delivery and Continuous Deployment for Kubernetes microservices&lt;/h1&gt;
+&lt;blockquote&gt;
+&lt;p&gt;THIS IS A DRAFT VERSION OF POST TO COME, PLEASE DO NOT SHARE&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&#34;starting-point&#34;&gt;Starting Point&lt;/h2&gt;
+&lt;p&gt;Over last years we&#39;ve been adopting several concepts for our project, straggling to make them work together.&lt;/p&gt;
+&lt;p&gt;The first one is the &lt;em&gt;Microservice Architecture&lt;/em&gt;. We did not start it clean and by the book, rather applied it to the already existing project: splitting big services into smaller and breaking excessive coupling. The refactoring work is not finished yet. New services, we are building, starts looking more like &amp;ldquo;microservices&amp;rdquo;, while there are still few that, I would call &amp;ldquo;micro-monoliths&amp;rdquo;.
+I have a feeling that this is a typical situation for an already existing project, that tries to adopt this new architecture pattern: &lt;em&gt;you are almost there, but there is always a work to be done&lt;/em&gt;.&lt;/p&gt;
+&lt;p&gt;Another concept is using Docker for building, packaging and deploying application services. We bet on Docker from the very beginning and used it for most of our services and it happens to be a good bet.
+There are still few pure cloud services, that we are using when running our application on public cloud, thing like Databases, Error Analytics, Push Notifications and some others.&lt;/p&gt;
+&lt;p&gt;And one of the latest bet we made was Kubernetes. Kubernetes became the main runtime platform for our application. Adopting Kubernetes, allowed us not only to hide away lots of operational complexity, achieving better availability and scalability, but also be able to run our application on any public cloud and on-premise deployment.&lt;/p&gt;
+&lt;p&gt;With great flexibility, that Kubernetes provides, it brings an additional deployment complexity.
+Suddenly your services are not just plain Docker containers, but there are a lot of new (and useful) Kubernetes resources that you need to take care for: &lt;em&gt;ConfigMsaps&lt;/em&gt;, &lt;em&gt;Secrets&lt;/em&gt;, &lt;em&gt;Services&lt;/em&gt;, &lt;em&gt;Deployments&lt;/em&gt;, &lt;em&gt;StatefulSets&lt;/em&gt;, &lt;em&gt;PVs&lt;/em&gt;, &lt;em&gt;PVCs&lt;/em&gt;, &lt;em&gt;Ingress&lt;/em&gt;, &lt;em&gt;Jobs&lt;/em&gt; and others. And it&#39;s not always obvious where to keep all these resources and how they are related to Docker images built by CI tool.&lt;/p&gt;
+&lt;h2 id=&#34;continuous-delivery-vs-continuous-deployment&#34;&gt;&amp;ldquo;Continuous Delivery&amp;rdquo; vs. &amp;ldquo;Continuous Deployment&amp;rdquo;&lt;/h2&gt;
+&lt;p&gt;The ambiguity of &lt;strong&gt;CD&lt;/strong&gt; term annoys me a lot. Different people mean different things when using this term. And it&#39;s not only about abbreviation meaning: &lt;em&gt;Continuous Deployment vs Continuous Delivery&lt;/em&gt;, but also &lt;em&gt;what do people really mean&lt;/em&gt;, when using this abbreviation.&lt;/p&gt;
+&lt;p&gt;Still, it looks like there is a common agreement that &lt;em&gt;Continuous Deployment (CD)&lt;/em&gt; is a super-set of &lt;em&gt;Continuous Delivery (CD)&lt;/em&gt;. And the main difference, so far, is that &lt;em&gt;Continuous Deployment&lt;/em&gt; is 100% automated, while in &lt;em&gt;Continuous Delivery&lt;/em&gt; there are still some steps that should be done manually.&lt;/p&gt;
+&lt;p&gt;In our project, for example, we succeeded to achieve &lt;em&gt;Continuous Delivery&lt;/em&gt;, that serves us well both for SaaS and on-premise versions of our product. Our next goal is to create fluent &lt;em&gt;Continuous Deployment&lt;/em&gt; for SaaS version. We would like to be able release a change automatically to production, without human intervention, and be able to rollback to the previous version if something went wrong.&lt;/p&gt;
+&lt;h2 id=&#34;kubernetes-application-and-release-content&#34;&gt;Kubernetes Application and Release Content&lt;/h2&gt;
+&lt;p&gt;Now let&#39;s talk about &lt;em&gt;Release&lt;/em&gt; and try to define &lt;em&gt;what is a &lt;strong&gt;Release Content&lt;/strong&gt;?&lt;/em&gt;.&lt;/p&gt;
+&lt;p&gt;When we are releasing a &lt;em&gt;change&lt;/em&gt; to some runtime environment (&lt;code&gt;development&lt;/code&gt;, &lt;code&gt;staging&lt;/code&gt; or &lt;code&gt;production&lt;/code&gt;), it&#39;s not always a &lt;em&gt;code change&lt;/em&gt;, that is represented by a newly backed Docker image with some tag. Change can be done to application configurations, secrets, ingress rules, jobs we are running, volumes and other resources. It would be nice to be able to release all these changes in the same way as we release a &lt;em&gt;code change&lt;/em&gt;. Actually, a change can be a mixture of both and in practice, it&#39;s not a rare use case.&lt;/p&gt;
+&lt;p&gt;So, we need to find a good methodology and supporting technology, that will allow us to release a new version of our Kubernetes application, that might be composed of multiple changes and these changes are not only new Docker image tags. This methodology should allow us to do it repeatedly on any runtime environment (Kubernetes cluster in our case) and be able to rollback &lt;em&gt;ALL&lt;/em&gt; changes to the previous version if something went wrong.&lt;/p&gt;
+&lt;p&gt;That&#39;s why we adopted &lt;a href=&#34;https://www.helm.sh&#34;&gt;Helm&lt;/a&gt; as our main release management tool for Kubernetes.&lt;/p&gt;
+&lt;h2 id=&#34;helm-recap&#34;&gt;Helm recap&lt;/h2&gt;
+&lt;p&gt;This post is not about Helm, so Helm recap will be very short. I encourage you to read &lt;a href=&#34;https://www.helm.sh&#34;&gt;Helm&lt;/a&gt; documentation, it&#39;s complete and well written.&lt;/p&gt;
+&lt;p&gt;Just to remind - core Helm concepts are:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;(Helm) Chart&lt;/strong&gt; - is a package (&lt;code&gt;tar&lt;/code&gt; archive) with Kubernetes &lt;code&gt;YAML&lt;/code&gt; templates (for different Kubernetes resources) and default values (also stored in &lt;code&gt;YAML&lt;/code&gt; files). Helm uses &lt;em&gt;chart&lt;/em&gt; to install a new or update an existing &lt;em&gt;(Helm) release&lt;/em&gt;.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;(Helm) Release&lt;/strong&gt; - is a Kubernetes application instance, installed with Helm. It is possible to create multiple &lt;em&gt;releases&lt;/em&gt; from the same &lt;em&gt;chart&lt;/em&gt; version.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;(Release) Revision&lt;/strong&gt; - when updating an existing &lt;em&gt;release&lt;/em&gt;, a new &lt;em&gt;revision&lt;/em&gt; is created. Helm can rollback a &lt;em&gt;release&lt;/em&gt; to the previous &lt;em&gt;revision&lt;/em&gt;. Helm stores all &lt;em&gt;revisions&lt;/em&gt; in &lt;em&gt;ConfigMap&lt;/em&gt; and it&#39;s possible to list previous &lt;em&gt;releases&lt;/em&gt; with &lt;code&gt;helm history&lt;/code&gt; command.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Chart Repository&lt;/strong&gt; - is a location where packaged &lt;em&gt;charts&lt;/em&gt; can be stored and shared. Any web server that can store and serve static files can be used as &lt;em&gt;Chart Repository&lt;/em&gt; (Nginx, GitHub, AWS S3 and others).&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Helm consists of the server, called &lt;em&gt;Tiller&lt;/em&gt; and the command line client, called &lt;code&gt;helm&lt;/code&gt;. When releasing a new version (or updating an existing) &lt;code&gt;helm&lt;/code&gt; client sends &lt;em&gt;chart&lt;/em&gt; (template files and values) to the Helm server. &lt;em&gt;Tiller&lt;/em&gt; server generates valid Kubernetes &lt;code&gt;yaml&lt;/code&gt; files from templates and values and deploys them to Kubernetes, using Kubernetes API. &lt;em&gt;Tiller&lt;/em&gt; also saves generated &lt;code&gt;yaml&lt;/code&gt; files as a new revision inside &lt;code&gt;ConfigMaps&lt;/code&gt; and can use previously saved revision for rollback operation.&lt;/p&gt;
+&lt;p&gt;It was a short recap. Helm is a flexible release management system and can be extended with plugins and hooks.&lt;/p&gt;
+&lt;h2 id=&#34;helm-chart-management&#34;&gt;Helm Chart Management&lt;/h2&gt;
+&lt;p&gt;Typical Helm &lt;em&gt;chart&lt;/em&gt; contains a list of template files (&lt;code&gt;yaml&lt;/code&gt; files with &lt;code&gt;go templates&lt;/code&gt; commands) and values files (with configurations and secrets).&lt;/p&gt;
+&lt;p&gt;We use &lt;em&gt;Git&lt;/em&gt; to store all our Helm &lt;em&gt;chart&lt;/em&gt; files and Amazon S3 for &lt;em&gt;chart repository&lt;/em&gt;.&lt;/p&gt;
+&lt;p&gt;Short &lt;em&gt;How-To&lt;/em&gt; guide:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Adopt some Git management methodology. We use something very close to the &lt;a href=&#34;http://www.nicoespeon.com/en/2013/08/which-git-workflow-for-my-project/#the-github-flow&#34;&gt;GitHub Flow model&lt;/a&gt;
+&lt;img src=&#34;https://alexei-led.github.io/img/github-flow-branching-model.jpg&#34; alt=&#34;GitHub Flow&#34;&gt;&lt;/li&gt;
+&lt;li&gt;Have a &lt;code&gt;git&lt;/code&gt; repository for each microservice. Our typical project structure:
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# chart files&lt;/span&gt;
+chart/
+    &lt;span style=&#34;color:#75715e&#34;&gt;# chart templates&lt;/span&gt;
+    templates/
+    &lt;span style=&#34;color:#75715e&#34;&gt;# external dependency&lt;/span&gt;
+    requirements.yaml
+    &lt;span style=&#34;color:#75715e&#34;&gt;# default values&lt;/span&gt;
+    values.yaml
+    &lt;span style=&#34;color:#75715e&#34;&gt;# chart definition&lt;/span&gt;
+    Chart.yaml
+&lt;span style=&#34;color:#75715e&#34;&gt;# source code&lt;/span&gt;
+scr/
+&lt;span style=&#34;color:#75715e&#34;&gt;# test code&lt;/span&gt;
+test/
+&lt;span style=&#34;color:#75715e&#34;&gt;# build scripts&lt;/span&gt;
+hack/
+&lt;span style=&#34;color:#75715e&#34;&gt;# multi-stage Docker build file&lt;/span&gt;
+Dockerfile
+&lt;span style=&#34;color:#75715e&#34;&gt;# Codefresh CI/CD pipeline&lt;/span&gt;
+codefresh.yaml
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;We keep our application &lt;em&gt;chart&lt;/em&gt; in a separate &lt;code&gt;git&lt;/code&gt; repository. The application &lt;em&gt;chart&lt;/em&gt; does not contain templates, but only list of third party charts it needs (&lt;code&gt;requirements.yaml&lt;/code&gt; file) and values files for different runtime environments (&lt;code&gt;testing&lt;/code&gt;, &lt;code&gt;staging&lt;/code&gt; and &lt;code&gt;production&lt;/code&gt;)&lt;/li&gt;
+&lt;li&gt;All &lt;em&gt;secrets&lt;/em&gt; in values files are encrypted with &lt;a href=&#34;https://github.com/mozilla/sops&#34;&gt;sops&lt;/a&gt; tool and we defined a &lt;code&gt;.gitignore&lt;/code&gt; file and setup a &lt;code&gt;git pre-commit hook&lt;/code&gt; to avoid unintentional commit of decrypted secrets.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;docker-continuous-integration&#34;&gt;Docker Continuous Integration&lt;/h2&gt;
+&lt;p&gt;Building and testing code on &lt;code&gt;git push/tag&lt;/code&gt; event and packaging it into some build artifact is a common knowledge and there are tons of tools, services, and tutorials how to do it.&lt;/p&gt;
+&lt;p&gt;Codefresh is one of such services, which is tuned effectively build Docker images.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Codefresh Docker CI&lt;/strong&gt; has one significant benefit versus other similar services - besides just being fast CI for Docker, it maintains a traceability links between git commits, builds, Docker images and Helm Releases running on Kubernetes clusters.&lt;/p&gt;
+&lt;h3 id=&#34;typical-docker-ci-flow&#34;&gt;Typical Docker CI flow&lt;/h3&gt;
+&lt;p&gt;&lt;img src=&#34;https://alexei-led.github.io/img/docker_ci.png&#34; alt=&#34;Docker CI&#34;&gt;&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Trigger CI pipeline on &lt;code&gt;push&lt;/code&gt; event&lt;/li&gt;
+&lt;li&gt;Build and test service code. &lt;em&gt;Tip:&lt;/em&gt; give a try to a Docker multi-stage build.&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;Tip:&lt;/em&gt; Embed the &lt;code&gt;git commit&lt;/code&gt; details into the Docker image (using Docker labels). I suggest following &lt;a href=&#34;http://label-schema.org&#34;&gt;Label Schema convention&lt;/a&gt;.&lt;/li&gt;
+&lt;li&gt;Tag Docker image with &lt;code&gt;{branch}-{short SHA}&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Push newly created Docker image into preferred Docker Registry&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;docker-multistage-build&#34;&gt;Docker multistage build&lt;/h3&gt;
+&lt;p&gt;With a Docker &lt;a href=&#34;https://codefresh.io/blog/node_docker_multistage/&#34;&gt;multi-stage build&lt;/a&gt;, you can even remove a need to learn a custom CI DSL syntax, like Jenkins Job/Pipeline, or other &lt;code&gt;YAML&lt;/code&gt; based DSL. Just use a familiar &lt;code&gt;Dockerfile&lt;/code&gt; imperative syntax to describe all required CI stages (&lt;code&gt;build&lt;/code&gt;, &lt;code&gt;lint&lt;/code&gt;, &lt;code&gt;test&lt;/code&gt;, &lt;code&gt;package&lt;/code&gt;) and create a &lt;em&gt;thin and secure&lt;/em&gt; final Docker image, that contains only bare minimum, required to run the service.&lt;/p&gt;
+&lt;p&gt;Using multi-stage Docker build, has other benefits.&lt;/p&gt;
+&lt;p&gt;It allows you to use the same CI flow both on the developer machine and the CI server. It can help you to switch easily between different CI services, using the same &lt;code&gt;Dockerfile&lt;/code&gt;. The only thing you need is a right Docker daemon version (&amp;lsquo;&amp;gt; 17.05&amp;rsquo;). So, select CI service that supports latest Docker daemon versions.&lt;/p&gt;
+&lt;h4 id=&#34;example-nodejs-multi-stage-dockerfile&#34;&gt;Example: Node.js multi-stage Dockerfile&lt;/h4&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-dockerfile&#34; data-lang=&#34;dockerfile&#34;&gt;&lt;span style=&#34;color:#75715e&#34;&gt;#&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# ---- Base Node ----&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;FROM&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt; alpine:3.5 AS base&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# install node&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;RUN&lt;/span&gt; apk add --no-cache nodejs-npm tini&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# set working directory&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;WORKDIR&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt; /root/chat&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# Set tini as entrypoint&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;ENTRYPOINT&lt;/span&gt; [&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;/sbin/tini&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;--&amp;#34;&lt;/span&gt;]&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# copy project file&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;COPY&lt;/span&gt; package.json .&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;#&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# ---- Dependencies ----&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;FROM&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt; base AS dependencies&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# install node packages&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;RUN&lt;/span&gt; npm set progress&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;false &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; npm config set depth &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;RUN&lt;/span&gt; npm install --only&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;production &lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# copy production node_modules aside&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;RUN&lt;/span&gt; cp -R node_modules prod_node_modules&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# install ALL node_modules, including &amp;#39;devDependencies&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;RUN&lt;/span&gt; npm install&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;#&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# ---- Test ----&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# run linters, setup and tests&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;FROM&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt; dependencies AS test&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;COPY&lt;/span&gt; . .&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;RUN&lt;/span&gt;  npm run lint &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; npm run setup &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; npm run test&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;#&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# ---- Release ----&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;FROM&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt; base AS release&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# copy production node_modules&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;COPY&lt;/span&gt; --from&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;dependencies /root/chat/prod_node_modules ./node_modules&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# copy app sources&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;COPY&lt;/span&gt; . .&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# expose port and define CMD&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;EXPOSE&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt; 5000&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;CMD&lt;/span&gt; npm run start&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;kubernetes-continuous-delivery-cd&#34;&gt;Kubernetes Continuous Delivery (CD)&lt;/h2&gt;
+&lt;p&gt;Building Docker image on &lt;code&gt;git push&lt;/code&gt; is a very first step you need to automate, but &amp;hellip;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;em&gt;Docker Continuous Integration&lt;/em&gt; is not a &lt;em&gt;Kubernetes Continuous Deployment/Delivery&lt;/em&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;After CI completes, you just have a new build artifact - a Docker image file.&lt;/p&gt;
+&lt;p&gt;Now, somehow you need to deploy it to a desired environment (Kubernetes cluster) and maybe also need to modify other Kubernetes resources, like configurations, secrets, volumes, policies, and others. Or maybe you do not have a &lt;em&gt;&amp;ldquo;pure&amp;rdquo;&lt;/em&gt; microservice architecture and some of your services still have some kind of inter-dependency and have to be released together. I know, this is not &lt;em&gt;&amp;ldquo;by the book&amp;rdquo;&lt;/em&gt;, but this is a very common use case: people are not perfect and not all architectures out there perfect too. Usually, you start from an already existing project and try to move it to a new &lt;em&gt;ideal&lt;/em&gt; architecture step by step.&lt;/p&gt;
+&lt;p&gt;So, on one side, you have one or more freshly backed Docker images. On the other side, there are one or more environments where you want to deploy these images with related configuration changes. And most likely, you would like to reduce required manual effort to the bare minimum or dismiss it completely, if possible.&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Continuous Delivery&lt;/em&gt; is the next step we are taking. Most of the CD tasks should be automated, while there still may be a few tasks that should be done manually. The reason for having manual tasks can be different: either you cannot achieve full automation or you want to have a feeling of control (deciding when to release by pressing some &amp;ldquo;Release&amp;rdquo; button), or there is some manual effort required (bring the new server and switch in on :) )&lt;/p&gt;
+&lt;p&gt;For our &lt;em&gt;Kubernetes Continuous Delivery&lt;/em&gt; pipeline, we manually update Codefresh application Helm &lt;em&gt;chart&lt;/em&gt; with appropriate image tags and sometimes we also update different Kubernetes &lt;code&gt;YAML&lt;/code&gt; template files too (defining a new &lt;em&gt;PVC&lt;/em&gt; or environment variable). Once changes to our application &lt;em&gt;chart&lt;/em&gt; are pushed into the git repository, an automated &lt;em&gt;Continuous Delivery&lt;/em&gt; pipeline execution is triggered.&lt;/p&gt;
+&lt;p&gt;Codefresh includes some helper steps that make building &lt;strong&gt;Kubernetes CD&lt;/strong&gt; pipeline easier. First, we have a built-in &lt;code&gt;helm update&lt;/code&gt; step that can install or update a Helm chart on specified Kubernetes cluster or namespace, using Kubernetes context, defined in Codefresh account.&lt;/p&gt;
+&lt;p&gt;Codefresh also provides a nice view of what is running in your Kubernetes cluster, where it comes from (release, build) and what does it contain: images, image metadata (quality, security, etc.), code commits.&lt;/p&gt;
+&lt;p&gt;We use our own service (Codefresh) to build an effective Kubernetes &lt;em&gt;Continuous Delivery&lt;/em&gt; pipeline for deploying Codefresh itself. We also constantly add new features and useful functionality that simplify our life (as developers) and hopefully help our customers too.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://alexei-led.github.io/img/cf_helm_rel.png&#34; alt=&#34;Codefresh Helm Release View&#34;&gt;&lt;/p&gt;
+&lt;h3 id=&#34;typical-kubernetes-continuous-delivery-flow&#34;&gt;Typical Kubernetes Continuous Delivery flow&lt;/h3&gt;
+&lt;p&gt;&lt;img src=&#34;https://alexei-led.github.io/img/k8s_cd.png&#34; alt=&#34;Kubernetes Continuous Delivery&#34;&gt;&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Setup a Docker CI for the application microservices&lt;/li&gt;
+&lt;li&gt;Update microservice/s code and &lt;em&gt;chart&lt;/em&gt; template files, if needed (adding ports, env variables, volumes, etc.)&lt;/li&gt;
+&lt;li&gt;Wait till Docker CI completes and you have a new Docker image for updated microservice/s&lt;/li&gt;
+&lt;li&gt;Manage the application Helm chart code in separate &lt;code&gt;git&lt;/code&gt; repository; use the same git branch methodology as for microservices&lt;/li&gt;
+&lt;li&gt;Manually update &lt;code&gt;imageTag&lt;/code&gt;s for updated microservice/s&lt;/li&gt;
+&lt;li&gt;Manually update the application Helm &lt;em&gt;chart&lt;/em&gt; version&lt;/li&gt;
+&lt;li&gt;Trigger CD pipeline on &lt;code&gt;git push&lt;/code&gt; event for the application Helm &lt;em&gt;chart&lt;/em&gt; git repository
+&lt;ul&gt;
+&lt;li&gt;validate Helm chart syntax: use &lt;code&gt;helm lint&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;convert Helm chart to Kubernetes template files (with &lt;code&gt;helm template&lt;/code&gt; plugin) and use &lt;a href=&#34;https://github.com/garethr/kubeval&#34;&gt;&lt;code&gt;kubeval&lt;/code&gt;&lt;/a&gt; to validate these files&lt;/li&gt;
+&lt;li&gt;package the application Helm &lt;code&gt;chart&lt;/code&gt; and push it to the Helm &lt;em&gt;chart repository&lt;/em&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;em&gt;Tip:&lt;/em&gt; create few chart repositories; I suggest having a &lt;em&gt;chart repository&lt;/em&gt; per environment: &lt;code&gt;production&lt;/code&gt;, &lt;code&gt;staging&lt;/code&gt;, &lt;code&gt;develop&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Manually (or automatically) execute &lt;code&gt;helm upgrade --install&lt;/code&gt; from corresponding &lt;em&gt;chart repository&lt;/em&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;After CD completes, we have a new &lt;strong&gt;artifact&lt;/strong&gt; - an updated Helm &lt;em&gt;chart package&lt;/em&gt; (&lt;code&gt;tar&lt;/code&gt; archive) of our Kubernetes application with a new version number.&lt;/p&gt;
+&lt;p&gt;Now, we can run &lt;code&gt;help upgrade --install&lt;/code&gt; command creating a new &lt;em&gt;revision&lt;/em&gt; for the application &lt;em&gt;release&lt;/em&gt;. If something goes wrong, we can always rollback failed release to the previous &lt;em&gt;revision&lt;/em&gt;. For the sake of safety, I suggest first to run &lt;code&gt;helm diff&lt;/code&gt; (using &lt;code&gt;helm diff&lt;/code&gt; plugin) or at least use a &lt;code&gt;--dry-run&lt;/code&gt; flag for the first run, inspect the difference between a new &lt;em&gt;release&lt;/em&gt; version and already installed &lt;em&gt;revision&lt;/em&gt;. If you are ok with upcoming changes, accept them and run the &lt;code&gt;helm upgrade --install&lt;/code&gt; command without &lt;code&gt;--dry-run&lt;/code&gt; flag.&lt;/p&gt;
+&lt;h2 id=&#34;kubernetes-continuous-deployment-cd&#34;&gt;Kubernetes Continuous Deployment (CD)&lt;/h2&gt;
+&lt;p&gt;Based on above definition, to achieve &lt;em&gt;Continuous Deployment&lt;/em&gt; we should try to avoid all manual steps, besides &lt;code&gt;git push&lt;/code&gt; for code and configuration changes. All actions, running after &lt;code&gt;git push&lt;/code&gt;, should be 100% automated and deliver all changes to a corresponding runtime environment.&lt;/p&gt;
+&lt;p&gt;Let&#39;s take a look at manual steps from &amp;ldquo;Continuous Delivery&amp;rdquo; pipeline and think about &lt;em&gt;how can we automate them?&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://alexei-led.github.io/img/k8s_cdd.png&#34; alt=&#34;Kubernetes Continuous Deployment&#34;&gt;&lt;/p&gt;
+&lt;h3 id=&#34;automate-update-microservice-imagetag-after-successful-docker-push&#34;&gt;Automate: Update microservice imageTag after successful &lt;code&gt;docker push&lt;/code&gt;&lt;/h3&gt;
+&lt;p&gt;After a new Docker image for some microservice pushed to a Docker Registry, we would like to update the microservice Helm &lt;em&gt;chart&lt;/em&gt; with the new Docker image tag. There are two (at least) options to do this.&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Add a Docker Registry &lt;em&gt;WebHook&lt;/em&gt; handler (for example, using AWS Lambda). Take the new image tag from the DockerHub &lt;code&gt;push&lt;/code&gt; event payload and update corresponding &lt;code&gt;imageTag&lt;/code&gt; in the Application Helm &lt;em&gt;chart&lt;/em&gt;. For GitHub, we can use GitHub API to update a single file or bash scripting with mixture of &lt;code&gt;sed&lt;/code&gt; and &lt;code&gt;git&lt;/code&gt; commands.&lt;/li&gt;
+&lt;li&gt;Add an additional step to every microservice CI pipeline, after &lt;code&gt;docker push&lt;/code&gt; step, to update a corresponding &lt;code&gt;imageTag&lt;/code&gt; for the microservice Helm &lt;em&gt;chart&lt;/em&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;automate-deploy-application-helm-chart&#34;&gt;Automate: Deploy Application Helm chart&lt;/h3&gt;
+&lt;p&gt;After a new &lt;em&gt;chart&lt;/em&gt; version uploaded to a &lt;em&gt;chart repository&lt;/em&gt;, we would like to deploy it automatically to &amp;ldquo;linked&amp;rdquo; runtime environment and rollback on failure.&lt;/p&gt;
+&lt;p&gt;Helm &lt;em&gt;chart repository&lt;/em&gt; is not a real server that aware of deployed &lt;em&gt;charts&lt;/em&gt;. It is possible to use any Web server that can serve static files as a Helm &lt;em&gt;chart repository&lt;/em&gt;. In general, I like simplicity, but sometimes it leads to naive design and lack of basic functionality. With Helm &lt;em&gt;chart repository&lt;/em&gt; it is the case.
+Therefore, I recommend using a web server that supports nice API and allows to get notifications about content change without &lt;em&gt;pull loop&lt;/em&gt;. Amazon S3 can be a good choice for Helm &lt;em&gt;chart repository&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;Once you have a &lt;em&gt;chart repository&lt;/em&gt; up and running and can get notifications about a content update (as &lt;code&gt;WebHook&lt;/code&gt; or with &lt;code&gt;pool loop&lt;/code&gt;), and make next steps towards Kubernetes &lt;em&gt;Continuous Deployment&lt;/em&gt;.&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Get updates from Helm &lt;em&gt;chart repository&lt;/em&gt;: new &lt;em&gt;chart&lt;/em&gt; version&lt;/li&gt;
+&lt;li&gt;Run &lt;code&gt;helm update --install&lt;/code&gt; command to update/install a new application version on &amp;ldquo;linked&amp;rdquo; runtime environment&lt;/li&gt;
+&lt;li&gt;Run post-install and in-cluster integration tests&lt;/li&gt;
+&lt;li&gt;Rollback to the previous application revision on any &amp;ldquo;failure&amp;rdquo;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;summary&#34;&gt;Summary&lt;/h2&gt;
+&lt;p&gt;This post describes our current Kubernetes &lt;em&gt;Continuous Delivery&lt;/em&gt;&amp;rdquo; pipeline we succeeded to setup. There are still things we need to improve and change in order to achieve fully automated &lt;em&gt;Continuous Deployment&lt;/em&gt;.&lt;/p&gt;
+&lt;p&gt;We constantly change Codefresh to be the product that helps us and our customers to build and maintain effective Kubernetes CD pipelines. Give it a try and let us know how can we improve it.&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;Hope, you find this post useful. I look forward to your comments and any questions you have.&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;em&gt;This is a &lt;strong&gt;working draft&lt;/strong&gt; version. The final post version is published at &lt;a href=&#34;https://codefresh.io/blog/cd_helm_kubernetes_microservices/&#34;&gt;Codefresh Blog&lt;/a&gt; on December 4, 2018.&lt;/em&gt;&lt;/p&gt;
+</description>
     </item>
     
   </channel>

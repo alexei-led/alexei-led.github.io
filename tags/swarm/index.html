@@ -1,247 +1,112 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html class="nojs" lang="en" dir="ltr">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Swarm &middot; Terra Nullius</title>
-
-    <meta name="description" content="The Programming Blog">
-
-    <meta name="generator" content="Hugo 0.62.0" />
-    <meta name="twitter:card" content="summary">
-    <meta name="twitter:site" content="alexeiled" />
-    <meta name="twitter:title" content="Swarm &middot; Terra Nullius">
-    <meta name="twitter:description" content="The Programming Blog">
-
-    <meta property="og:type" content="article">
-    <meta property="og:title" content="Swarm &middot; Terra Nullius">
-    <meta property="og:description" content="The Programming Blog">
-
-    <link href='//fonts.googleapis.com/css?family=Source+Sans+Pro:400,700|Oxygen:400,700' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/pure-min.css">
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/grids-responsive-min.css">
-
-    <link rel="stylesheet" href="https://alexei-led.github.io/css/all.min.css">
-    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
-
-    <link rel="alternate" type="application/rss+xml" title="Terra Nullius" href="https://alexei-led.github.io/index.xml" />
-    <link rel="canonical" href="">
-</head>
-<body>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+<title>Swarm – Terra Nullius</title>
+<link rel="alternate" type="application/rss+xml" title="RSS" href="https://alexei-led.github.io/tags/swarm/index.xml">
+<meta name="description" content="">
+<meta name="created" content="2016-12-18T14:00:00+0200">
+<meta name="modified" content="2016-12-18T14:00:00+0200">
 
 
-<div id="layout" class="pure-g">
-    <div class="sidebar pure-u-1 pure-u-md-1-4">
-    <div class="header">
-        <hgroup>
-            <h1 class="brand-title"><a href="https://alexei-led.github.io">Terra Nullius</a></h1>
-            <h2 class="brand-tagline"> The Programming Blog </h2>
-        </hgroup>
+<meta property="og:site_name" content="Terra Nullius">
+<meta property="og:title" content="Swarm">
+<meta property="og:url" content="https://alexei-led.github.io/tags/swarm/">
+<meta property="og:type" content="website">
 
-        <nav class="nav">
-            <ul class="nav-list">
-                
-                <li class="nav-item">
-                    <a class="pure-button" href="https://twitter.com/alexeiled"><i class="fa fa-twitter"></i> Twitter</a>
-                </li>
-                
-                
-                <li class="nav-item">
-                    <a class="pure-button" href="https://github.com/alexei-led "><i class="fa fa-github-alt"></i> github</a>
-                </li>
-                
-                <li class="nav-item">
-                    <a class="pure-button" href="https://alexei-led.github.io/index.xml"><i class="fa fa-rss"></i> rss</a>
-                </li>
-            </ul>
-        </nav>
-    </div>
-</div>
+<meta name="generator" content="Hugo 0.62.0" />
+<meta name="msapplication-TileColor" content="#ffffff">
+<meta name="theme-color" content="#ffffff">
 
 
-    <div class="content pure-u-1 pure-u-md-3-4">
-        <div>
-            
-            <div class="posts">
-                
-                <h1 class="content-subhead">18 Dec 2016, 14:00</h1>
-                <section class="post">
-                    <header class="post-header">
+<link rel="canonical" href="https://alexei-led.github.io/tags/swarm/">
+<link rel="apple-touch-icon" href="https://alexei-led.github.io/apple-touch-icon.png">
 
-                        <a href="https://alexei-led.github.io/post/composev3_swarm/" class="post-title">Deploy Docker Compose (v3) to Swarm (mode) Cluster</a>
+<link rel="stylesheet" href="https://alexei-led.github.io/css/styles.9a3856451d3f4911845551d6f046455bd8cbf120441071c76e7438ba3ac163e1.css">
+<link rel="stylesheet" href="https://alexei-led.github.io/css/print.27fc184f8670f41a2690985390779e7b20335a8fadff8fa015cf9417ffe50c36.css" media="print">
 
-                        <p class="post-meta">
-                            
-                            
-                                under 
-                                
-                                <a class="post-category post-category-DevOps" href="https://alexei-led.github.io/categories/devops">DevOps</a>
-                            
-                        </p>
-                    </header>
-
-                    <div class="post-description">
-                        <blockquote>
-<p><strong>Disclaimer:</strong> all code snippets bellow are working only with <strong>Docker 1.13+</strong></p>
-</blockquote>
-<h1 id="tldr">TL;DR</h1>
-<p><strong>Docker 1.13</strong> simplifies deployment of composed application to a <strong>swarm</strong> (mode) cluster. And you can do it without creating a new <code>dab</code> (<em>Distribution Application Bundle</em>) file, but just using familiar and well-known <code>docker-compose.yml</code> syntax (with some additions) and <code>--compose-file</code> option.</p>
-<p><img src="https://alexei-led.github.io/img/compose_swarm.png" alt="Compose to Swarm"></p>
-<h1 id="swarm-cluster">Swarm cluster</h1>
-<p>Docker Engine 1.12 introduced a new <strong>swarm mode</strong> for natively managing a cluster of Docker Engines called a <strong>swarm</strong>. Docker <strong>swarm mode</strong> implements <a href="https://docs.docker.com/engine/swarm/raft/">Raft Consensus Algorithm</a> and does not require using external key value store anymore, such as <a href="https://www.consul.io/">Consul</a> or <a href="https://github.com/coreos/etcd">etcd</a>.</p>
-<p>If you want to run a <strong>swarm</strong> cluster on a developer's machine, there are several options.</p>
-<p>The first option and most widely known, is to use a <code>docker-machine</code> tool with some virtual driver (Virtualbox, Parallels or other).</p>
-<p>But, in this post I will use another approach: using <a href="https://hub.docker.com/_/docker/">docker-in-docker</a> Docker image with Docker for Mac, see more details in my <a href="../swarm_dind">Docker Swarm cluster with docker-in-docker on MacOS</a> post.</p>
-<h2 id="docker-registry-mirror">Docker Registry mirror</h2>
-<p>When you deploy a new service on local swarm cluster, I recommend to setup local Docker registry mirror and run all swarm nodes with <code>--registry-mirror</code> option, pointing to local Docker registry. By running a local Docker registry mirror, you can keep most of the redundant image fetch traffic on your local network and speedup service deployment.</p>
-<h3 id="docker-swarm-cluster-bootstrap-script">Docker Swarm cluster bootstrap script</h3>
-<p>I've prepared a shell script to bootstrap 4 nodes swarm cluster with Docker registry mirror and very nice <a href="https://github.com/ManoMarks/docker-swarm-visualizer">swarm visualizer</a> application.</p>
-<p>The script initialize docker engine as a <strong>swarm master</strong>, then starts 3 new docker-in-docker containers and join them to the <strong>swarm</strong> cluster as worker nodes. All worker nodes run with <code>--registry-mirror</code> option.</p>
-<script type="application/javascript" src="https://gist.github.com/alexei-led/a4d31ee446a0fbcab845b93fe4a9b09d.js?file=create_swarm_cluster.sh"></script>
-
-<h2 id="deploy-multi-container-application---the-old-way">Deploy multi-container application - the &ldquo;old&rdquo; way</h2>
-<p>The Docker <code>compose</code> is a tool (and deployment specification format) for defining and running composed multi-container Docker applications. Before Docker 1.12, you could use <code>docker-compose</code> tool to deploy such applications to a <strong>swarm</strong> cluster. With 1.12 release, it's not possible anymore: <code>docker-compose</code> can deploy your application only on single Docker host.</p>
-<p>In order to deploy it to a <strong>swarm</strong> cluster, you need to create a special deployment specification file (also knows as <em>Distribution Application Bundle</em>) in <code>dab</code> format (see more <a href="https://github.com/docker/docker/blob/master/experimental/docker-stacks-and-bundles.md">here</a>).</p>
-<p>The way to create this file, is to run the <code>docker-compose bundle</code> command. The output of this command is a JSON file, that describes  multi-container composed application with Docker images referenced by <code>@sha256</code> instead of tags. Currently <code>dab</code> file format does not support multiple settings from <code>docker-compose.yml</code> and does not allow to use supported options from <code>docker service create</code> command.</p>
-<p>Such a pity story: the <code>dab</code> bundle format looks promising, but currently is totally useless (at least in Docker 1.12).</p>
-<h2 id="deploy-multi-container-application---the-new-way">Deploy multi-container application - the &ldquo;new&rdquo; way</h2>
-<p>With Docker 1.13, the &ldquo;new&rdquo; way to deploy a multi-container composed application is to use <code>docker-compose.yml</code> again (<em>hurrah!</em>). Kudos to Docker team!</p>
-<p>*<strong>Note</strong>: And you do not need the <code>docker-compose</code> tool, only <code>yaml</code> file in <strong>docker-compose</strong> format (<code>version: &quot;3&quot;</code>)</p>
-<pre><code>$ docker deploy --compose-file docker-compose.yml myapp
-</code></pre><h2 id="docker-compose-v3-version-3">Docker compose v3 (<code>version: &quot;3&quot;</code>)</h2>
-<p><em>So, what's new in docker compose version 3?</em></p>
-<p>First, I suggest you take a deeper look at <a href="https://github.com/aanand/compose-file/blob/master/schema/data/config_schema_v3.0.json">docker-compose schema</a>. It is an extension of well-known <code>docker-compose</code> format.</p>
-<p><strong>Note:</strong> <code>docker-compose</code> tool (<code>ver. 1.9.0</code>) does not support <code>docker-compose.yaml version: &quot;3&quot;</code> yet.</p>
-<p>The most visible change is around <strong>swarm</strong> ***service deployment.
-Now you can specify all options supported by <code>docker service create/update</code> commands:</p>
-<ul>
-<li>number of service replicas (or global service)</li>
-<li>service labels</li>
-<li>hard and soft limits for service (container) CPU and memory</li>
-<li>service restart policy</li>
-<li>service rolling update policy</li>
-<li>deployment placement constraints <a href="https://github.com/docker/docker/blob/master/docs/reference/commandline/service_create.md#specify-service-constraints---constraint">link</a></li>
-</ul>
-<h3 id="docker-compose-v3-example">Docker compose v3 example</h3>
-<p>I've created a &ldquo;new&rdquo; compose file (v3) for classic &ldquo;Cats vs. Dogs&rdquo; example. This example application contains 5 services with following deployment configurations:</p>
-<ol>
-<li><code>voting-app</code> - a Python webapp which lets you vote between two options; requires <code>redis</code></li>
-<li><code>redis</code> - Redis queue which collects new votes; deployed on <code>swarm manager</code> node</li>
-<li><code>worker</code> .NET worker which consumes votes and stores them in <code>db</code>;</li>
-</ol>
-<ul>
-<li><strong># of replicas:</strong> 2 replicas</li>
-<li><strong>hard limit:</strong> max 25% CPU and 512MB memory</li>
-<li><strong>soft limit:</strong> max 25% CPU and 256MB memory</li>
-<li><strong>placement:</strong> on <code>swarm worker</code> nodes only</li>
-<li><strong>restart policy:</strong> restart on-failure, with 5 seconds delay, up to 3 attempts</li>
-<li><strong>update policy:</strong> one by one, with 10 seconds delay and 0.3 failure rate to tolerate during the update</li>
-</ul>
-<ol start="4">
-<li><code>db</code> - Postgres database backed by a Docker volume; deployed on <code>swarm manager</code> node</li>
-<li><code>result-app</code> Node.js webapp which shows the results of the voting in real time; 2 replicas, deployed on <code>swarm worker</code> nodes</li>
-</ol>
-<p>Run the <code>docker deploy --compose-file docker-compose.yml</code> command to deploy my version of &ldquo;Cats vs. Dogs&rdquo; application on a swarm cluster.</p>
-<script type="application/javascript" src="https://gist.github.com/alexei-led/a4d31ee446a0fbcab845b93fe4a9b09d.js?file=docker-compose.yml"></script>
-
-<hr>
-<p>Hope you find this post useful. I look forward to your comments and any questions you have.</p>
-
-                    </div>
-                </section>
-                
-                <h1 class="content-subhead">06 Oct 2016, 16:00</h1>
-                <section class="post">
-                    <header class="post-header">
-
-                        <a href="https://alexei-led.github.io/post/swarm_dind/" class="post-title">Docker Swarm cluster with docker-in-docker on MacOS</a>
-
-                        <p class="post-meta">
-                            
-                            
-                                under 
-                                
-                                <a class="post-category post-category-Development" href="https://alexei-led.github.io/categories/development">Development</a>
-                            
-                        </p>
-                    </header>
-
-                    <div class="post-description">
-                        <h2 id="tldr">TL;DR</h2>
-<blockquote>
-<p>Docker-in-Docker <a href="https://hub.docker.com/_/docker/">dind</a> can help you to run Docker Swarm cluster on your Macbook only with Docker for Mac (v1.12+). No <code>virtualbox</code>, <code>docker-machine</code>, <code>vagrant</code> or other app is required.</p>
-</blockquote>
-<h2 id="the-beginning">The Beginning</h2>
-<p>One day, I've decided to try running Docker 1.12 Swarm cluster on my MacBook Pro. Docker team did a great job releasing Docker for Mac, and from that time I forgot all problems I used to have with <code>boot2docker</code>. I really like Docker for Mac: it’s fast, lightweight, tightly integrated with MacOS and significantly simplifies my life when working in changing network environment. The only missing thing is that it's possible to create and work with single Docker daemon running inside <code>xhyve</code> VM. Shit! I want a cluster.</p>
-<p>Of cause, it's possible to create Swarm cluster with <code>docker-machine</code> tool, but it's not MacOS friendly and requires to install additional VM software, like VirtualBox or Parallels (why? I already have <code>xhyve</code>!). I have different network for work office and home. At work I'm behind corporate proxy with multiple firewall filters. At home, of cause, life is better. <code>docker-machine</code> requires to create dedicated VMs for each environment and thus force me juggling with different shell scripts when I switch from one to another. It's possible, but it's not fun.</p>
-<blockquote>
-<p>I just want to have multi-node Swarm cluster with Docker for Mac (and <code>xhyve</code> VM). As simple as it is.</p>
-</blockquote>
-<p>I’m a lazy person and if there is an already existing solution, I will alway choose one, even if it’s not ideal. So, after googling for a while, I've failed to find any suitable solution or blog post. So, I’ve decided to create my own and share it with you.</p>
-<h2 id="the-idea">The Idea</h2>
-<p>The basic idea is to use Docker for Mac for running Swam master and several <a href="https://hub.docker.com/_/docker/">Docker-in-Docker containers</a> for running Swarm worker nodes.</p>
-<p>First, lets init our Swarm master:</p>
-<pre><code># init Swarm master
-docker swarm init
-</code></pre><p>&hellip; keep Swarm join token:</p>
-<pre><code># get join token
-SWARM_TOKEN=$(docker swarm join-token -q worker)
-</code></pre><p>&hellip; and Docker <code>xhyve</code> VM IP:</p>
-<pre><code># get Swarm master IP (Docker for Mac xhyve VM IP)
-SWARM_MASTER=$(docker info | grep -w 'Node Address' | awk '{print $3}')
-</code></pre><p>&hellip; now let's create 3 worker nodes and join these nodes to our cluster</p>
-<pre><code># run NUM_WORKERS workers with SWARM_TOKEN
-NUM_WORKERS=3
-for i in $(seq “${NUM_WORKERS}&quot;); do
-  docker run -d --privileged --name worker-${i} --hostname=worker-${i} -p ${i}2375:2375 docker:1.12.1-dind
-  docker --host=localhost:${i}2375 swarm join --token ${SWARM_TOKEN} ${SWARM_MASTER}:2377
-done
-</code></pre><p>Listing all our Swarm cluster nodes:</p>
-<pre><code># list Swarm nodes :)
-docker node ls
-</code></pre><p>&hellip; you should see something like this:</p>
-<pre><code>ID                           HOSTNAME  STATUS  AVAILABILITY  MANAGER STATUS
-1f6z8pioh3vuaz84gyp0biqt0    worker-2  Ready   Active
-35z72o6zjhs9u1h99lrwzvx5n    worker-3  Ready   Active
-d9ph5cmc604wp1vhhs754nnxx *  moby      Ready   Active        Leader
-dj3gnpv86uqrw4b9mo9ux4jb5    worker-1  Ready   Active
-</code></pre><p>That's all folks! Now, you have running Swarm cluster on your Macbook and your Docker client is talking with Swarm master.</p>
-<h3 id="nice-tip">Nice tip:</h3>
-<p>You can use very nice [Swarm visualizer] (<a href="https://github.com/ManoMarks/docker-swarm-visualizer">https://github.com/ManoMarks/docker-swarm-visualizer</a>) by Mano Marks to see your Swarm cluster &ldquo;in action&rdquo;.</p>
-<p>Run it with following command:</p>
-<pre><code>docker run -it -d -p 8000:8000 -e HOST=localhost -e PORT=8000 -v /var/run/docker.sock:/var/run/docker.sock manomarks/visualizer
-</code></pre><p>And you should be able to see something like this (after you deploy some demo app):</p>
-<p><img src="https://alexei-led.github.io/img/docker_visualizer.png" alt="Docker Swarm visualizer: Voting App"></p>
-
-                    </div>
-                </section>
-                
-            </div>
-            
-
-            <div class="footer">
-    <div class="pure-menu pure-menu-horizontal pure-menu-open">
-        <ul>
-            <li>Powered by <a class="hugo" href="https://gohugo.io/" target="_blank">hugo</a></li>
-        </ul>
-    </div>
-</div>
-<script src="https://alexei-led.github.io/js/all.min.js"></script>
-
-        </div>
-    </div>
-</div>
-
-<script>
-(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-ga('create', 'UA-71802462-1', 'auto');
-ga('send', 'pageview');
-
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "url" : "https://alexei-led.github.io/tags/swarm/",
+    "name": "Swarm",
+    "description": "The Programming Blog",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https://alexei-led.github.io"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Terra Nullius",
+      "url": "https://alexei-led.github.io"
+    }
+  }
 </script>
 
+<script defer src="https://alexei-led.github.io/js/umbrella.min.b426107371d121c9a56a27aac9e9058ff592a021e2f4c3c94827fe70920d3cbb.js"></script>
+<script defer src="https://alexei-led.github.io/js/script.min.8e4d91ebe0d9226621e408b7205bd7b009e4935608e4b29c4275116490cc836d.js"></script>
+
+
+</head>
+
+<body>
+<div class="page layout__page layout__sidebar-second">
+<header class="header layout__header">
+<a href="https://alexei-led.github.io/" title="Home" rel="home" class="header__logo"><img src="https://alexei-led.github.io/images/logo.png" alt="Home" class="header__logo-image"></a>
+<h1 class="header__site-name">
+<a href="https://alexei-led.github.io/" title="Home" class="header__site-link" rel="home"><span>Terra Nullius</span></a>
+</h1>
+<div class="region header__region">
+</div>
+</header>
+
+<nav class="main-menu layout__navigation">
+<h2 class="visually-hidden">Main menu</h2>
+<ul class="navbar">
+<li><a class="active" href="https://alexei-led.github.io/">Home</a></li>
+<li><a class="" href="https://alexei-led.github.io/about/">about</a></li>
+<li><a class="" href="https://alexei-led.github.io/post/">Posts</a></li>
+</ul>
+</nav>
+
+
+<main class="main layout__main">
+<h1 class="title">Swarm</h1>
+<article class="section-post list-view">
+<header>
+<h2 class="title "><a href="https://alexei-led.github.io/post/composev3_swarm/">Deploy Docker Compose (v3) to Swarm (mode) Cluster</a></h2>
+
+</header>
+<div class="content">
+Disclaimer: all code snippets bellow are working only with Docker 1.13+
+ TL;DR Docker 1.13 simplifies deployment of composed application to a swarm (mode) cluster. And you can do it without creating a new dab (Distribution Application Bundle) file, but just using familiar and well-known docker-compose.yml syntax (with some additions) and --compose-file option.
+Swarm cluster Docker Engine 1.12 introduced a new swarm mode for natively managing a cluster of Docker Engines called a swarm.
+</div>
+</article>
+
+<article class="section-post list-view">
+<header>
+<h2 class="title "><a href="https://alexei-led.github.io/post/swarm_dind/">Docker Swarm cluster with docker-in-docker on MacOS</a></h2>
+
+</header>
+<div class="content">
+TL;DR  Docker-in-Docker dind can help you to run Docker Swarm cluster on your Macbook only with Docker for Mac (v1.12+). No virtualbox, docker-machine, vagrant or other app is required.
+ The Beginning One day, I've decided to try running Docker 1.12 Swarm cluster on my MacBook Pro. Docker team did a great job releasing Docker for Mac, and from that time I forgot all problems I used to have with boot2docker.
+</div>
+</article>
+
+
+</main>
+
+
+<footer class="footer layout__footer">
+<p><span>© Terra Nullius</span></p>
+
+
+</footer>
+
+</div>
 </body>
 </html>

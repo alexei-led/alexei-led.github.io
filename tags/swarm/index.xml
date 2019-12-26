@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Swarm on Terra Nullius</title>
@@ -8,29 +8,132 @@
     <language>en-us</language>
     <copyright>This work is licensed under a Creative Commons Attribution 4.0 International License</copyright>
     <lastBuildDate>Sun, 18 Dec 2016 14:00:00 +0200</lastBuildDate>
-    
-	<atom:link href="https://alexei-led.github.io/tags/swarm/index.xml" rel="self" type="application/rss+xml" />
-    
+    <atom:link href="https://alexei-led.github.io/tags/swarm/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>Deploy Docker Compose (v3) to Swarm (mode) Cluster</title>
       <link>https://alexei-led.github.io/post/composev3_swarm/</link>
       <pubDate>Sun, 18 Dec 2016 14:00:00 +0200</pubDate>
-      
       <guid>https://alexei-led.github.io/post/composev3_swarm/</guid>
-      <description>Disclaimer: all code snippets bellow are working only with Docker 1.13+
- TL;DR Docker 1.13 simplifies deployment of composed application to a swarm (mode) cluster. And you can do it without creating a new dab (Distribution Application Bundle) file, but just using familiar and well-known docker-compose.yml syntax (with some additions) and --compose-file option.
-Swarm cluster Docker Engine 1.12 introduced a new swarm mode for natively managing a cluster of Docker Engines called a swarm.</description>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;Disclaimer:&lt;/strong&gt; all code snippets bellow are working only with &lt;strong&gt;Docker 1.13+&lt;/strong&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h1 id=&#34;tldr&#34;&gt;TL;DR&lt;/h1&gt;
+&lt;p&gt;&lt;strong&gt;Docker 1.13&lt;/strong&gt; simplifies deployment of composed application to a &lt;strong&gt;swarm&lt;/strong&gt; (mode) cluster. And you can do it without creating a new &lt;code&gt;dab&lt;/code&gt; (&lt;em&gt;Distribution Application Bundle&lt;/em&gt;) file, but just using familiar and well-known &lt;code&gt;docker-compose.yml&lt;/code&gt; syntax (with some additions) and &lt;code&gt;--compose-file&lt;/code&gt; option.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://alexei-led.github.io/img/compose_swarm.png&#34; alt=&#34;Compose to Swarm&#34;&gt;&lt;/p&gt;
+&lt;h1 id=&#34;swarm-cluster&#34;&gt;Swarm cluster&lt;/h1&gt;
+&lt;p&gt;Docker Engine 1.12 introduced a new &lt;strong&gt;swarm mode&lt;/strong&gt; for natively managing a cluster of Docker Engines called a &lt;strong&gt;swarm&lt;/strong&gt;. Docker &lt;strong&gt;swarm mode&lt;/strong&gt; implements &lt;a href=&#34;https://docs.docker.com/engine/swarm/raft/&#34;&gt;Raft Consensus Algorithm&lt;/a&gt; and does not require using external key value store anymore, such as &lt;a href=&#34;https://www.consul.io/&#34;&gt;Consul&lt;/a&gt; or &lt;a href=&#34;https://github.com/coreos/etcd&#34;&gt;etcd&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;If you want to run a &lt;strong&gt;swarm&lt;/strong&gt; cluster on a developer&#39;s machine, there are several options.&lt;/p&gt;
+&lt;p&gt;The first option and most widely known, is to use a &lt;code&gt;docker-machine&lt;/code&gt; tool with some virtual driver (Virtualbox, Parallels or other).&lt;/p&gt;
+&lt;p&gt;But, in this post I will use another approach: using &lt;a href=&#34;https://hub.docker.com/_/docker/&#34;&gt;docker-in-docker&lt;/a&gt; Docker image with Docker for Mac, see more details in my &lt;a href=&#34;../swarm_dind&#34;&gt;Docker Swarm cluster with docker-in-docker on MacOS&lt;/a&gt; post.&lt;/p&gt;
+&lt;h2 id=&#34;docker-registry-mirror&#34;&gt;Docker Registry mirror&lt;/h2&gt;
+&lt;p&gt;When you deploy a new service on local swarm cluster, I recommend to setup local Docker registry mirror and run all swarm nodes with &lt;code&gt;--registry-mirror&lt;/code&gt; option, pointing to local Docker registry. By running a local Docker registry mirror, you can keep most of the redundant image fetch traffic on your local network and speedup service deployment.&lt;/p&gt;
+&lt;h3 id=&#34;docker-swarm-cluster-bootstrap-script&#34;&gt;Docker Swarm cluster bootstrap script&lt;/h3&gt;
+&lt;p&gt;I&#39;ve prepared a shell script to bootstrap 4 nodes swarm cluster with Docker registry mirror and very nice &lt;a href=&#34;https://github.com/ManoMarks/docker-swarm-visualizer&#34;&gt;swarm visualizer&lt;/a&gt; application.&lt;/p&gt;
+&lt;p&gt;The script initialize docker engine as a &lt;strong&gt;swarm master&lt;/strong&gt;, then starts 3 new docker-in-docker containers and join them to the &lt;strong&gt;swarm&lt;/strong&gt; cluster as worker nodes. All worker nodes run with &lt;code&gt;--registry-mirror&lt;/code&gt; option.&lt;/p&gt;
+&lt;script type=&#34;application/javascript&#34; src=&#34;https://gist.github.com/alexei-led/a4d31ee446a0fbcab845b93fe4a9b09d.js?file=create_swarm_cluster.sh&#34;&gt;&lt;/script&gt;
+
+&lt;h2 id=&#34;deploy-multi-container-application---the-old-way&#34;&gt;Deploy multi-container application - the &amp;ldquo;old&amp;rdquo; way&lt;/h2&gt;
+&lt;p&gt;The Docker &lt;code&gt;compose&lt;/code&gt; is a tool (and deployment specification format) for defining and running composed multi-container Docker applications. Before Docker 1.12, you could use &lt;code&gt;docker-compose&lt;/code&gt; tool to deploy such applications to a &lt;strong&gt;swarm&lt;/strong&gt; cluster. With 1.12 release, it&#39;s not possible anymore: &lt;code&gt;docker-compose&lt;/code&gt; can deploy your application only on single Docker host.&lt;/p&gt;
+&lt;p&gt;In order to deploy it to a &lt;strong&gt;swarm&lt;/strong&gt; cluster, you need to create a special deployment specification file (also knows as &lt;em&gt;Distribution Application Bundle&lt;/em&gt;) in &lt;code&gt;dab&lt;/code&gt; format (see more &lt;a href=&#34;https://github.com/docker/docker/blob/master/experimental/docker-stacks-and-bundles.md&#34;&gt;here&lt;/a&gt;).&lt;/p&gt;
+&lt;p&gt;The way to create this file, is to run the &lt;code&gt;docker-compose bundle&lt;/code&gt; command. The output of this command is a JSON file, that describes  multi-container composed application with Docker images referenced by &lt;code&gt;@sha256&lt;/code&gt; instead of tags. Currently &lt;code&gt;dab&lt;/code&gt; file format does not support multiple settings from &lt;code&gt;docker-compose.yml&lt;/code&gt; and does not allow to use supported options from &lt;code&gt;docker service create&lt;/code&gt; command.&lt;/p&gt;
+&lt;p&gt;Such a pity story: the &lt;code&gt;dab&lt;/code&gt; bundle format looks promising, but currently is totally useless (at least in Docker 1.12).&lt;/p&gt;
+&lt;h2 id=&#34;deploy-multi-container-application---the-new-way&#34;&gt;Deploy multi-container application - the &amp;ldquo;new&amp;rdquo; way&lt;/h2&gt;
+&lt;p&gt;With Docker 1.13, the &amp;ldquo;new&amp;rdquo; way to deploy a multi-container composed application is to use &lt;code&gt;docker-compose.yml&lt;/code&gt; again (&lt;em&gt;hurrah!&lt;/em&gt;). Kudos to Docker team!&lt;/p&gt;
+&lt;p&gt;*&lt;strong&gt;Note&lt;/strong&gt;: And you do not need the &lt;code&gt;docker-compose&lt;/code&gt; tool, only &lt;code&gt;yaml&lt;/code&gt; file in &lt;strong&gt;docker-compose&lt;/strong&gt; format (&lt;code&gt;version: &amp;quot;3&amp;quot;&lt;/code&gt;)&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ docker deploy --compose-file docker-compose.yml myapp
+&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;docker-compose-v3-version-3&#34;&gt;Docker compose v3 (&lt;code&gt;version: &amp;quot;3&amp;quot;&lt;/code&gt;)&lt;/h2&gt;
+&lt;p&gt;&lt;em&gt;So, what&#39;s new in docker compose version 3?&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;First, I suggest you take a deeper look at &lt;a href=&#34;https://github.com/aanand/compose-file/blob/master/schema/data/config_schema_v3.0.json&#34;&gt;docker-compose schema&lt;/a&gt;. It is an extension of well-known &lt;code&gt;docker-compose&lt;/code&gt; format.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Note:&lt;/strong&gt; &lt;code&gt;docker-compose&lt;/code&gt; tool (&lt;code&gt;ver. 1.9.0&lt;/code&gt;) does not support &lt;code&gt;docker-compose.yaml version: &amp;quot;3&amp;quot;&lt;/code&gt; yet.&lt;/p&gt;
+&lt;p&gt;The most visible change is around &lt;strong&gt;swarm&lt;/strong&gt; ***service deployment.
+Now you can specify all options supported by &lt;code&gt;docker service create/update&lt;/code&gt; commands:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;number of service replicas (or global service)&lt;/li&gt;
+&lt;li&gt;service labels&lt;/li&gt;
+&lt;li&gt;hard and soft limits for service (container) CPU and memory&lt;/li&gt;
+&lt;li&gt;service restart policy&lt;/li&gt;
+&lt;li&gt;service rolling update policy&lt;/li&gt;
+&lt;li&gt;deployment placement constraints &lt;a href=&#34;https://github.com/docker/docker/blob/master/docs/reference/commandline/service_create.md#specify-service-constraints---constraint&#34;&gt;link&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;docker-compose-v3-example&#34;&gt;Docker compose v3 example&lt;/h3&gt;
+&lt;p&gt;I&#39;ve created a &amp;ldquo;new&amp;rdquo; compose file (v3) for classic &amp;ldquo;Cats vs. Dogs&amp;rdquo; example. This example application contains 5 services with following deployment configurations:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;code&gt;voting-app&lt;/code&gt; - a Python webapp which lets you vote between two options; requires &lt;code&gt;redis&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;redis&lt;/code&gt; - Redis queue which collects new votes; deployed on &lt;code&gt;swarm manager&lt;/code&gt; node&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;worker&lt;/code&gt; .NET worker which consumes votes and stores them in &lt;code&gt;db&lt;/code&gt;;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;# of replicas:&lt;/strong&gt; 2 replicas&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;hard limit:&lt;/strong&gt; max 25% CPU and 512MB memory&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;soft limit:&lt;/strong&gt; max 25% CPU and 256MB memory&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;placement:&lt;/strong&gt; on &lt;code&gt;swarm worker&lt;/code&gt; nodes only&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;restart policy:&lt;/strong&gt; restart on-failure, with 5 seconds delay, up to 3 attempts&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;update policy:&lt;/strong&gt; one by one, with 10 seconds delay and 0.3 failure rate to tolerate during the update&lt;/li&gt;
+&lt;/ul&gt;
+&lt;ol start=&#34;4&#34;&gt;
+&lt;li&gt;&lt;code&gt;db&lt;/code&gt; - Postgres database backed by a Docker volume; deployed on &lt;code&gt;swarm manager&lt;/code&gt; node&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;result-app&lt;/code&gt; Node.js webapp which shows the results of the voting in real time; 2 replicas, deployed on &lt;code&gt;swarm worker&lt;/code&gt; nodes&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Run the &lt;code&gt;docker deploy --compose-file docker-compose.yml&lt;/code&gt; command to deploy my version of &amp;ldquo;Cats vs. Dogs&amp;rdquo; application on a swarm cluster.&lt;/p&gt;
+&lt;script type=&#34;application/javascript&#34; src=&#34;https://gist.github.com/alexei-led/a4d31ee446a0fbcab845b93fe4a9b09d.js?file=docker-compose.yml&#34;&gt;&lt;/script&gt;
+
+&lt;hr&gt;
+&lt;p&gt;Hope you find this post useful. I look forward to your comments and any questions you have.&lt;/p&gt;
+</description>
     </item>
     
     <item>
       <title>Docker Swarm cluster with docker-in-docker on MacOS</title>
       <link>https://alexei-led.github.io/post/swarm_dind/</link>
       <pubDate>Thu, 06 Oct 2016 16:00:00 +0200</pubDate>
-      
       <guid>https://alexei-led.github.io/post/swarm_dind/</guid>
-      <description>TL;DR  Docker-in-Docker dind can help you to run Docker Swarm cluster on your Macbook only with Docker for Mac (v1.12+). No virtualbox, docker-machine, vagrant or other app is required.
- The Beginning One day, I&#39;ve decided to try running Docker 1.12 Swarm cluster on my MacBook Pro. Docker team did a great job releasing Docker for Mac, and from that time I forgot all problems I used to have with boot2docker.</description>
+      <description>&lt;h2 id=&#34;tldr&#34;&gt;TL;DR&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Docker-in-Docker &lt;a href=&#34;https://hub.docker.com/_/docker/&#34;&gt;dind&lt;/a&gt; can help you to run Docker Swarm cluster on your Macbook only with Docker for Mac (v1.12+). No &lt;code&gt;virtualbox&lt;/code&gt;, &lt;code&gt;docker-machine&lt;/code&gt;, &lt;code&gt;vagrant&lt;/code&gt; or other app is required.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&#34;the-beginning&#34;&gt;The Beginning&lt;/h2&gt;
+&lt;p&gt;One day, I&#39;ve decided to try running Docker 1.12 Swarm cluster on my MacBook Pro. Docker team did a great job releasing Docker for Mac, and from that time I forgot all problems I used to have with &lt;code&gt;boot2docker&lt;/code&gt;. I really like Docker for Mac: it’s fast, lightweight, tightly integrated with MacOS and significantly simplifies my life when working in changing network environment. The only missing thing is that it&#39;s possible to create and work with single Docker daemon running inside &lt;code&gt;xhyve&lt;/code&gt; VM. Shit! I want a cluster.&lt;/p&gt;
+&lt;p&gt;Of cause, it&#39;s possible to create Swarm cluster with &lt;code&gt;docker-machine&lt;/code&gt; tool, but it&#39;s not MacOS friendly and requires to install additional VM software, like VirtualBox or Parallels (why? I already have &lt;code&gt;xhyve&lt;/code&gt;!). I have different network for work office and home. At work I&#39;m behind corporate proxy with multiple firewall filters. At home, of cause, life is better. &lt;code&gt;docker-machine&lt;/code&gt; requires to create dedicated VMs for each environment and thus force me juggling with different shell scripts when I switch from one to another. It&#39;s possible, but it&#39;s not fun.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;I just want to have multi-node Swarm cluster with Docker for Mac (and &lt;code&gt;xhyve&lt;/code&gt; VM). As simple as it is.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;I’m a lazy person and if there is an already existing solution, I will alway choose one, even if it’s not ideal. So, after googling for a while, I&#39;ve failed to find any suitable solution or blog post. So, I’ve decided to create my own and share it with you.&lt;/p&gt;
+&lt;h2 id=&#34;the-idea&#34;&gt;The Idea&lt;/h2&gt;
+&lt;p&gt;The basic idea is to use Docker for Mac for running Swam master and several &lt;a href=&#34;https://hub.docker.com/_/docker/&#34;&gt;Docker-in-Docker containers&lt;/a&gt; for running Swarm worker nodes.&lt;/p&gt;
+&lt;p&gt;First, lets init our Swarm master:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;# init Swarm master
+docker swarm init
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&amp;hellip; keep Swarm join token:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;# get join token
+SWARM_TOKEN=$(docker swarm join-token -q worker)
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&amp;hellip; and Docker &lt;code&gt;xhyve&lt;/code&gt; VM IP:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;# get Swarm master IP (Docker for Mac xhyve VM IP)
+SWARM_MASTER=$(docker info | grep -w &#39;Node Address&#39; | awk &#39;{print $3}&#39;)
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&amp;hellip; now let&#39;s create 3 worker nodes and join these nodes to our cluster&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;# run NUM_WORKERS workers with SWARM_TOKEN
+NUM_WORKERS=3
+for i in $(seq “${NUM_WORKERS}&amp;quot;); do
+  docker run -d --privileged --name worker-${i} --hostname=worker-${i} -p ${i}2375:2375 docker:1.12.1-dind
+  docker --host=localhost:${i}2375 swarm join --token ${SWARM_TOKEN} ${SWARM_MASTER}:2377
+done
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Listing all our Swarm cluster nodes:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;# list Swarm nodes :)
+docker node ls
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&amp;hellip; you should see something like this:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;ID                           HOSTNAME  STATUS  AVAILABILITY  MANAGER STATUS
+1f6z8pioh3vuaz84gyp0biqt0    worker-2  Ready   Active
+35z72o6zjhs9u1h99lrwzvx5n    worker-3  Ready   Active
+d9ph5cmc604wp1vhhs754nnxx *  moby      Ready   Active        Leader
+dj3gnpv86uqrw4b9mo9ux4jb5    worker-1  Ready   Active
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;That&#39;s all folks! Now, you have running Swarm cluster on your Macbook and your Docker client is talking with Swarm master.&lt;/p&gt;
+&lt;h3 id=&#34;nice-tip&#34;&gt;Nice tip:&lt;/h3&gt;
+&lt;p&gt;You can use very nice [Swarm visualizer] (&lt;a href=&#34;https://github.com/ManoMarks/docker-swarm-visualizer&#34;&gt;https://github.com/ManoMarks/docker-swarm-visualizer&lt;/a&gt;) by Mano Marks to see your Swarm cluster &amp;ldquo;in action&amp;rdquo;.&lt;/p&gt;
+&lt;p&gt;Run it with following command:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;docker run -it -d -p 8000:8000 -e HOST=localhost -e PORT=8000 -v /var/run/docker.sock:/var/run/docker.sock manomarks/visualizer
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;And you should be able to see something like this (after you deploy some demo app):&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://alexei-led.github.io/img/docker_visualizer.png&#34; alt=&#34;Docker Swarm visualizer: Voting App&#34;&gt;&lt;/p&gt;
+</description>
     </item>
     
   </channel>

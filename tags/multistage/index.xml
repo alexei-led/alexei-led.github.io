@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>multistage on Terra Nullius</title>
@@ -8,18 +8,157 @@
     <language>en-us</language>
     <copyright>This work is licensed under a Creative Commons Attribution 4.0 International License</copyright>
     <lastBuildDate>Tue, 25 Apr 2017 18:00:00 +0200</lastBuildDate>
-    
-	<atom:link href="https://alexei-led.github.io/tags/multistage/index.xml" rel="self" type="application/rss+xml" />
-    
+    <atom:link href="https://alexei-led.github.io/tags/multistage/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>Create lean Node.js image with Docker multi-stage build</title>
       <link>https://alexei-led.github.io/post/node_docker_multistage/</link>
       <pubDate>Tue, 25 Apr 2017 18:00:00 +0200</pubDate>
-      
       <guid>https://alexei-led.github.io/post/node_docker_multistage/</guid>
-      <description>TL;DR Starting from Docker 17.05+, you can create a single Dockerfile that can build multiple helper images with compilers, tools, and tests and use files from above images to produce the final Docker image.
-The &amp;ldquo;core principle&amp;rdquo; of Dockerfile Docker can build images by reading the instructions from a Dockerfile. A Dockerfile is a text file that contains a list of all the commands needed to build a new Docker image.</description>
+      <description>&lt;h2 id=&#34;tldr&#34;&gt;TL;DR&lt;/h2&gt;
+&lt;p&gt;Starting from Docker 17.05+, you can create a single &lt;code&gt;Dockerfile&lt;/code&gt; that can build multiple helper images with compilers, tools, and tests and use files from above images to produce the &lt;strong&gt;final&lt;/strong&gt; Docker image.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://alexei-led.github.io/img/multi_stage_build.png&#34; alt=&#34;Multi-stage Docker Build&#34;&gt;&lt;/p&gt;
+&lt;h2 id=&#34;the-core-principle-of-dockerfile&#34;&gt;The &amp;ldquo;core principle&amp;rdquo; of Dockerfile&lt;/h2&gt;
+&lt;p&gt;Docker can build images by reading the instructions from a &lt;code&gt;Dockerfile&lt;/code&gt;. A &lt;code&gt;Dockerfile&lt;/code&gt; is a text file that contains a list of all the commands needed to build a new Docker image. The syntax of &lt;code&gt;Dockerfile&lt;/code&gt; is pretty simple and the Docker team tries to keep it intact between Docker engine releases.&lt;/p&gt;
+&lt;p&gt;The core principle is very simple: &lt;code&gt;1 Dockerfile -&amp;gt; 1 Docker Image&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;This principle works just fine for basic use cases, where you just need to demonstrate Docker capabilities or put some &amp;ldquo;static&amp;rdquo; content into a Docker image.&lt;/p&gt;
+&lt;p&gt;Once you advance with Docker and would like to create secure and lean Docker images, singe &lt;code&gt;Dockerfile&lt;/code&gt; is not enough.&lt;/p&gt;
+&lt;p&gt;People who insist on following the above principle find themselves with slow Docker builds, huge Docker images (several GB size images), slow deployment time and lots of CVE violations embedded into these images.&lt;/p&gt;
+&lt;h2 id=&#34;the-docker-build-container-pattern&#34;&gt;The Docker Build Container pattern&lt;/h2&gt;
+&lt;p&gt;&lt;a href=&#34;https://medium.com/@alexeiled/docker-pattern-the-build-container-b0d0e86ad601&#34;&gt;Docker Pattern: The Build Container&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;The basic idea behind &lt;strong&gt;Build Container&lt;/strong&gt; pattern is simple:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Create additional Docker images with required tools (compilers, linters, testing tools) and use these images to produce lean, secure and production ready Docker image.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;=============&lt;/p&gt;
+&lt;p&gt;An example of the &lt;strong&gt;Build Container&lt;/strong&gt; pattern for typical Node.js application:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Derive &lt;code&gt;FROM&lt;/code&gt; a Node base image (for example &lt;code&gt;node:6.10-alpine&lt;/code&gt;) &lt;code&gt;node&lt;/code&gt; and &lt;code&gt;npm&lt;/code&gt; installed (&lt;code&gt;Dockerfile.build&lt;/code&gt;)&lt;/li&gt;
+&lt;li&gt;Add &lt;code&gt;package.json&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Install all node modules from &lt;code&gt;dependency&lt;/code&gt; and &lt;code&gt;devDependency&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Copy application code&lt;/li&gt;
+&lt;li&gt;Run compilers, code coverage, linters, code analysis and testing tools&lt;/li&gt;
+&lt;li&gt;Create the &lt;strong&gt;production&lt;/strong&gt; Docker image; derive &lt;code&gt;FROM&lt;/code&gt; same or other Node base image&lt;/li&gt;
+&lt;li&gt;install node modules required for runtime (&lt;code&gt;npm install --only=production&lt;/code&gt;)&lt;/li&gt;
+&lt;li&gt;expose &lt;code&gt;PORT&lt;/code&gt; and define default &lt;code&gt;CMD&lt;/code&gt; (command to run your application)&lt;/li&gt;
+&lt;li&gt;Push the &lt;strong&gt;production&lt;/strong&gt; image to some Docker registry&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;This flow assumes that you are using two or more separate &lt;code&gt;Dockerfile&lt;/code&gt;s and a shell script or flow tool to orchestrate all steps above.&lt;/p&gt;
+&lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
+&lt;p&gt;I use a fork of &lt;a href=&#34;https://github.com/sdelements/lets-chat&#34;&gt;Let&#39;s Chat&lt;/a&gt; node.js application.&lt;/p&gt;
+&lt;h4 id=&#34;builder-docker-image-with-eslint-mocha-and-gulp&#34;&gt;Builder Docker image with eslint, mocha and gulp&lt;/h4&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-Dockerfile&#34; data-lang=&#34;Dockerfile&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;FROM&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt; alpine:3.5&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# install node &lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;RUN&lt;/span&gt; apk add --no-cache nodejs&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# set working directory&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;WORKDIR&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt; /root/chat&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# copy project file&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;COPY&lt;/span&gt; package.json .&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# install node packages&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;RUN&lt;/span&gt; npm set progress&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;false &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;&lt;/span&gt;    npm config set depth &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;&lt;/span&gt;    npm install&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# copy app files&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;COPY&lt;/span&gt; . .&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# run linter, setup and tests&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;CMD&lt;/span&gt; npm run lint &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; npm run setup &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; npm run test&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;production-docker-image-with-production-node-modules-only&#34;&gt;Production Docker image with &amp;lsquo;production&amp;rsquo; node modules only&lt;/h4&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-Dockerfile&#34; data-lang=&#34;Dockerfile&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;FROM&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt; alpine:3.5&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# install node&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;RUN&lt;/span&gt; apk add --no-cache nodejs tini&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# set working directory&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;WORKDIR&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt; /root/chat&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# copy project file&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;COPY&lt;/span&gt; package.json .&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# install node packages&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;RUN&lt;/span&gt; npm set progress&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;false &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;&lt;/span&gt;    npm config set depth &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;&lt;/span&gt;    npm install --only&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;production &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;&lt;/span&gt;    npm cache clean&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# copy app files&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;COPY&lt;/span&gt; . .&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# Set tini as entrypoint&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;ENTRYPOINT&lt;/span&gt; [&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;/sbin/tini&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;--&amp;#34;&lt;/span&gt;]&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# application server port&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;EXPOSE&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt; 5000&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# default run command&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;CMD&lt;/span&gt; npm run start&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;what-is-docker-multi-stage-build&#34;&gt;What is Docker multi-stage build?&lt;/h2&gt;
+&lt;p&gt;Docker 17.0.5 extends &lt;code&gt;Dockerfile&lt;/code&gt; syntax to support new &lt;strong&gt;multi-stage&lt;/strong&gt; build, by extending two commands: &lt;code&gt;FROM&lt;/code&gt; and &lt;code&gt;COPY&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;The &lt;strong&gt;multi-stage&lt;/strong&gt; build allows using multiple &lt;code&gt;FROM&lt;/code&gt; commands in the same Dockerfile. The last &lt;code&gt;FROM&lt;/code&gt; command produces the final Docker image, all other images are intermediate images (no final Docker image is produced, but &lt;em&gt;all layers are cached&lt;/em&gt;).&lt;/p&gt;
+&lt;p&gt;The &lt;code&gt;FROM&lt;/code&gt; syntax also supports &lt;code&gt;AS&lt;/code&gt; keyword. Use &lt;code&gt;AS&lt;/code&gt; keyword to give the current image a logical name and reference to it later by this name.&lt;/p&gt;
+&lt;p&gt;To copy files from intermediate images use &lt;code&gt;COPY --from=&amp;lt;image_AS_name|image_number&amp;gt;&lt;/code&gt;, where number starts from &lt;code&gt;0&lt;/code&gt; (but better to use logical name through &lt;code&gt;AS&lt;/code&gt; keyword).&lt;/p&gt;
+&lt;h2 id=&#34;creating-a-multi-stage-dockerfile-for-nodejs-application&#34;&gt;Creating a multi-stage Dockerfile for Node.js application&lt;/h2&gt;
+&lt;p&gt;The &lt;code&gt;Dockerfile&lt;/code&gt; below makes the &lt;strong&gt;Build Container&lt;/strong&gt; pattern obsolete, allowing to achieve the same result with the single file.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-Dockerfile&#34; data-lang=&#34;Dockerfile&#34;&gt;&lt;span style=&#34;color:#75715e&#34;&gt;#&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# ---- Base Node ----&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;FROM&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt; alpine:3.5 AS base&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# install node&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;RUN&lt;/span&gt; apk add --no-cache nodejs-npm tini&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# set working directory&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;WORKDIR&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt; /root/chat&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# Set tini as entrypoint&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;ENTRYPOINT&lt;/span&gt; [&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;/sbin/tini&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;--&amp;#34;&lt;/span&gt;]&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# copy project file&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;COPY&lt;/span&gt; package.json .&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;#&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# ---- Dependencies ----&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;FROM&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt; base AS dependencies&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# install node packages&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;RUN&lt;/span&gt; npm set progress&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;false &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; npm config set depth &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;RUN&lt;/span&gt; npm install --only&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;production &lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# copy production node_modules aside&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;RUN&lt;/span&gt; cp -R node_modules prod_node_modules&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# install ALL node_modules, including &amp;#39;devDependencies&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;RUN&lt;/span&gt; npm install&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;#&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# ---- Test ----&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# run linters, setup and tests&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;FROM&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt; dependencies AS test&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;COPY&lt;/span&gt; . .&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;RUN&lt;/span&gt;  npm run lint &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; npm run setup &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; npm run test&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;#&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# ---- Release ----&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;FROM&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt; base AS release&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# copy production node_modules&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;COPY&lt;/span&gt; --from&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;dependencies /root/chat/prod_node_modules ./node_modules&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# copy app sources&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;COPY&lt;/span&gt; . .&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# expose port and define CMD&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;EXPOSE&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt; 5000&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;CMD&lt;/span&gt; npm run start&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The above &lt;code&gt;Dockerfile&lt;/code&gt; creates 3 intermediate Docker images and single &lt;strong&gt;release&lt;/strong&gt; Docker image (the final &lt;code&gt;FROM&lt;/code&gt;).&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;First image &lt;code&gt;FROM alpine:3.5 AS bas&lt;/code&gt; - is a base Node image with: &lt;code&gt;node&lt;/code&gt;, &lt;code&gt;npm&lt;/code&gt;, &lt;code&gt;tini&lt;/code&gt; (init app) and &lt;code&gt;package.json&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Second image &lt;code&gt;FROM base AS dependencies&lt;/code&gt; - contains all node modules from &lt;code&gt;dependencies&lt;/code&gt; and &lt;code&gt;devDependencies&lt;/code&gt; with additional copy of &lt;code&gt;dependencies&lt;/code&gt; required for final image only&lt;/li&gt;
+&lt;li&gt;Third image &lt;code&gt;FROM dependencies AS test&lt;/code&gt; - runs linters, setup and tests (with &lt;code&gt;mocha&lt;/code&gt;); if this run command fail not final image is produced&lt;/li&gt;
+&lt;li&gt;The final image &lt;code&gt;FROM base AS release&lt;/code&gt; - is a base Node image with application code and all node modules from &lt;code&gt;dependencies&lt;/code&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;try-docker-multi-stage-build-today&#34;&gt;Try Docker multi-stage build today&lt;/h2&gt;
+&lt;p&gt;In order to try Docker &lt;strong&gt;multi-stage&lt;/strong&gt; build, you need to get Docker 17.0.5, which is going to be released in May and currently available on the &lt;em&gt;beta&lt;/em&gt; channel.&lt;/p&gt;
+&lt;p&gt;So, you have two options:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Use &lt;em&gt;beta&lt;/em&gt; channel to get Docker 17.0.5&lt;/li&gt;
+&lt;li&gt;Run &lt;em&gt;dind&lt;/em&gt; container (docker-in-docker)&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;running-docker-in-docker-1705-beta&#34;&gt;Running Docker-in-Docker 17.0.5 (beta)&lt;/h3&gt;
+&lt;p&gt;Running Docker 17.0.5 (beta) in docker container (&lt;code&gt;--privileged&lt;/code&gt; is required):&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ docker run -d --rm --privileged -p 23751:2375 --name dind docker:17.05.0-ce-dind --storage-driver overlay2
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Try &lt;strong&gt;mult-stage&lt;/strong&gt; build. Add &lt;code&gt;--host=:23751&lt;/code&gt; to every Docker command, or set &lt;code&gt;DOCKER_HOST&lt;/code&gt; environment variable.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ # using --host
+$ docker --host=:23751 build -t local/chat:multi-stage .
+
+$ # OR: setting DOCKER_HOST
+$ export DOCKER_HOST=localhost:23751
+$ docker build -t local/chat:multi-stage .
+&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;summary&#34;&gt;Summary&lt;/h2&gt;
+&lt;p&gt;With Docker &lt;strong&gt;multi-stage&lt;/strong&gt; build feature, it&#39;s possible to implement an advanced Docker image build pipeline using a single &lt;code&gt;Dockerfile&lt;/code&gt;. Kudos to Docker team!&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;Hope, you find this post useful. I look forward to your comments and any questions you have.&lt;/p&gt;
+</description>
     </item>
     
   </channel>

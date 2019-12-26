@@ -1,190 +1,101 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html class="nojs" lang="en" dir="ltr">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CI/CD &middot; Terra Nullius</title>
-
-    <meta name="description" content="The Programming Blog">
-
-    <meta name="generator" content="Hugo 0.62.0" />
-    <meta name="twitter:card" content="summary">
-    <meta name="twitter:site" content="alexeiled" />
-    <meta name="twitter:title" content="CI/CD &middot; Terra Nullius">
-    <meta name="twitter:description" content="The Programming Blog">
-
-    <meta property="og:type" content="article">
-    <meta property="og:title" content="CI/CD &middot; Terra Nullius">
-    <meta property="og:description" content="The Programming Blog">
-
-    <link href='//fonts.googleapis.com/css?family=Source+Sans+Pro:400,700|Oxygen:400,700' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/pure-min.css">
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/grids-responsive-min.css">
-
-    <link rel="stylesheet" href="https://alexei-led.github.io/css/all.min.css">
-    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
-
-    <link rel="alternate" type="application/rss+xml" title="Terra Nullius" href="https://alexei-led.github.io/index.xml" />
-    <link rel="canonical" href="">
-</head>
-<body>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+<title>CI/CD – Terra Nullius</title>
+<link rel="alternate" type="application/rss+xml" title="RSS" href="https://alexei-led.github.io/tags/ci/cd/index.xml">
+<meta name="description" content="">
+<meta name="created" content="2019-03-08T10:00:00+0200">
+<meta name="modified" content="2019-03-08T10:00:00+0200">
 
 
-<div id="layout" class="pure-g">
-    <div class="sidebar pure-u-1 pure-u-md-1-4">
-    <div class="header">
-        <hgroup>
-            <h1 class="brand-title"><a href="https://alexei-led.github.io">Terra Nullius</a></h1>
-            <h2 class="brand-tagline"> The Programming Blog </h2>
-        </hgroup>
+<meta property="og:site_name" content="Terra Nullius">
+<meta property="og:title" content="CI/CD">
+<meta property="og:url" content="https://alexei-led.github.io/tags/ci/cd/">
+<meta property="og:type" content="website">
 
-        <nav class="nav">
-            <ul class="nav-list">
-                
-                <li class="nav-item">
-                    <a class="pure-button" href="https://twitter.com/alexeiled"><i class="fa fa-twitter"></i> Twitter</a>
-                </li>
-                
-                
-                <li class="nav-item">
-                    <a class="pure-button" href="https://github.com/alexei-led "><i class="fa fa-github-alt"></i> github</a>
-                </li>
-                
-                <li class="nav-item">
-                    <a class="pure-button" href="https://alexei-led.github.io/index.xml"><i class="fa fa-rss"></i> rss</a>
-                </li>
-            </ul>
-        </nav>
-    </div>
-</div>
+<meta name="generator" content="Hugo 0.62.0" />
+<meta name="msapplication-TileColor" content="#ffffff">
+<meta name="theme-color" content="#ffffff">
 
 
-    <div class="content pure-u-1 pure-u-md-3-4">
-        <div>
-            
-            <div class="posts">
-                
-                <h1 class="content-subhead">08 Mar 2019, 10:00</h1>
-                <section class="post">
-                    <header class="post-header">
+<link rel="canonical" href="https://alexei-led.github.io/tags/ci/cd/">
+<link rel="apple-touch-icon" href="https://alexei-led.github.io/apple-touch-icon.png">
 
-                        <a href="https://alexei-led.github.io/post/kubernetes_continuous_integration/" class="post-title">Kubernetes Continuous Integration</a>
+<link rel="stylesheet" href="https://alexei-led.github.io/css/styles.9a3856451d3f4911845551d6f046455bd8cbf120441071c76e7438ba3ac163e1.css">
+<link rel="stylesheet" href="https://alexei-led.github.io/css/print.27fc184f8670f41a2690985390779e7b20335a8fadff8fa015cf9417ffe50c36.css" media="print">
 
-                        <p class="post-meta">
-                            
-                            
-                                under 
-                                
-                                <a class="post-category post-category-Development" href="https://alexei-led.github.io/categories/development">Development</a>
-                            
-                        </p>
-                    </header>
-
-                    <div class="post-description">
-                        <h1 id="kubernetes-configuration-as-code">Kubernetes configuration as Code</h1>
-<p>Complex Kubernetes application consists from multiple Kubernetes resources, defined in YAML files. Authoring a properly formatted YAML files that are also a valid Kubernetes specification, that should also comply to some policy can be a challenging task.</p>
-<p>These YAML files are your application deployment and configuration code and should be addressed as code.</p>
-<p>As with code, Continuous Integration approach should be applied to a Kubernetes configuration files.</p>
-<h2 id="git-repository">Git Repository</h2>
-<p>Create a separate Git repository that contains Kubernetes configuration files. Define a Continuous Integration pipeline that is triggered automatically for for every change and can validate it without human intervention.</p>
-<h2 id="helm">Helm</h2>
-<p>Helm helps you manage complex Kubernetes applications. Using Helm Charts you define, install, test and upgrade Kubernetes application.</p>
-<p>Here I'm going to focus on using Helm for authoring complex Kubernetes application.</p>
-<p>The same Kubernetes application can be installed in multiple environments: development, testing, staging and production. Helm template helps to separate application structure from environment configuration by keeping environment specific values in external files.</p>
-<h3 id="dependency-management">Dependency Management</h3>
-<p>Helm also helps with dependency management. A typical Kubernetes application can be composed from multiple services developed by other teams and open source community.</p>
-<p>A <code>requirements.yaml</code> file is a YAML file in which developers can declare Helm chart dependencies, along with the location of the chart and the desired version. For example, this requirements file declares two dependencies:</p>
-<p>Where possible, use version ranges instead of pinning to an exact version. The suggested default is to use a patch-level version match:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-txt" data-lang="txt">version: ~1.2.3
-</code></pre></div><p>This will match version 1.2.3 and any patches to that release. In other words, ~1.2.3 is equivalent to &gt;= 1.2.3, &lt; 1.3.0</p>
-<h2 id="yaml">YAML</h2>
-<p>YAML is the most convenient way to write Kubernetes configuration files. YAML is easier for humans to read and write than other common data formats like XML or JSON. Still it's recommended to use automatic YAML linters to avoid syntax and formatting errors.</p>
-<p><a href="https://github.com/adrienverge/yamllint">yamlint</a></p>
-<h3 id="helm-chart-validation">Helm Chart Validation</h3>
-<p>Helm has a <code>helm lint</code> command that runs a series of tests to verify that the chart is well-formed. The <code>helm lint</code> also converts YAML to JSON, and this ways is able to detect some YAML errors.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">helm lint mychart
-
-==&gt; Linting mychart
-[ERROR] templates/deployment.yaml: unable to parse YAML
-    error converting YAML to JSON: yaml: line 53: did not find expected &#39;-&#39; indicator
-</code></pre></div><p>There are few issues with <code>helm lint</code>, you should be aware of:
-- no real YAML validation is done: only YAML to JSON conversion errors are detected
-- it shows wrong error line number: no the actual line in a template that contains the detected error</p>
-<p>So, I recommend also to use YAML linter, like <code>yamllint</code> to perform YAML validation.</p>
-<p>First, you need to generate Kubernetes YAML files from a Helm chart. The <code>helm template</code> renders chart templates locally and prints the output to the <code>stdout</code>.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">helm template --namespace test --values dev-values.yaml
-</code></pre></div><p>Pipe <code>helm template</code> and <code>yamllint</code> together to validate rendered YAML files.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">helm template mychart | yamllint -
-
-stdin
-  41:81     error    line too long <span style="color:#f92672">(</span><span style="color:#ae81ff">93</span> &gt; <span style="color:#ae81ff">80</span> characters<span style="color:#f92672">)</span>  <span style="color:#f92672">(</span>line-length<span style="color:#f92672">)</span>
-  43:1      error    trailing spaces  <span style="color:#f92672">(</span>trailing-spaces<span style="color:#f92672">)</span>
-  151:9     error    wrong indentation: expected <span style="color:#ae81ff">10</span> but found <span style="color:#ae81ff">8</span>  <span style="color:#f92672">(</span>indentation<span style="color:#f92672">)</span>
-  245:10    error    syntax error: expected &lt;block end&gt;, but found <span style="color:#e6db74">&#39;&lt;block sequence start&gt;&#39;</span>
-  293:1     error    too many blank lines <span style="color:#f92672">(</span><span style="color:#ae81ff">1</span> &gt; 0<span style="color:#f92672">)</span>  <span style="color:#f92672">(</span>empty-lines<span style="color:#f92672">)</span>
-</code></pre></div><p>Now there are multiple ways to inspect these errors:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh"><span style="color:#75715e"># using vim editor</span>
-vim &lt;<span style="color:#f92672">(</span>helm template mychart<span style="color:#f92672">)</span>
-
-<span style="color:#75715e"># using cat command (with line number)</span>
-cat -n &lt;<span style="color:#f92672">(</span>helm template mychart<span style="color:#f92672">)</span>
-
-<span style="color:#75715e"># printing error line and few lines around it, replacing spaces with dots</span>
-helm template hermes | sed -n 240,250p | tr <span style="color:#e6db74">&#39; &#39;</span> <span style="color:#e6db74">&#39;⋅&#39;</span>
-</code></pre></div><h2 id="valid-kubernetes-configuration">Valid Kubernetes Configuration</h2>
-<p>When authoring Kubernetes configuration files, it's important not only check if they are valid YAML files, but if they are valid Kubernetes files.</p>
-<p>It turns out that the Kubernetes supports OpenAPI specification and it's possible to generate Kubernetes JSON schema for every Kubernetes API version.</p>
-<p><a href="https://github.com/garethr">Gareth Rushgrove</a> wrote a <a href="https://www.morethanseven.net/2017/06/26/schemas-for-kubernetes-types/">blog post</a> on this topic and maintains the <a href="https://github.com/garethr/kubernetes-json-schema">garethr/kubernetes-json-schema</a> GitHub repository with most recent Kubernetes and OpenShift JSON schemas for all API versions. What a great contribution to the community!</p>
-<p>Now, with Kubernetes API JSON schema, it's possible to validate any YAML file if it's a valid Kubernetes configuration file.</p>
-<p>The <a href="https://github.com/garethr/kubeval">kubeval</a> tool (also authored by Gareth Rushgrove) is to help.</p>
-<p>Run <code>kubeval</code> piped with <code>helm template</code> command.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">helm template mychart | kubeval
-</code></pre></div><p>The output below sows single detected error in <code>Service</code> definition: invalid annotation. The <code>kubeval</code> could be more specific, by providing <code>Service</code> name, but event AS IS it is a valuable output for detecting Kubernetes configuration errors.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">The document stdin contains a valid Secret
-The document stdin contains a valid Secret
-The document stdin contains a valid ConfigMap
-The document stdin contains a valid ConfigMap
-The document stdin contains a valid PersistentVolumeClaim
-The document stdin contains an invalid Service
----&gt; metadata.annotations: Invalid type. Expected: object, given: null
-The document stdin contains a valid Service
-The document stdin contains a valid Deployment
-The document stdin contains a valid Deployment
-The document stdin is empty
-The document stdin is empty
-The document stdin is empty
-The document stdin is empty
-</code></pre></div><p><a href="https://github.com/garethr/kubetest">https://github.com/garethr/kubetest</a></p>
-
-                    </div>
-                </section>
-                
-            </div>
-            
-
-            <div class="footer">
-    <div class="pure-menu pure-menu-horizontal pure-menu-open">
-        <ul>
-            <li>Powered by <a class="hugo" href="https://gohugo.io/" target="_blank">hugo</a></li>
-        </ul>
-    </div>
-</div>
-<script src="https://alexei-led.github.io/js/all.min.js"></script>
-
-        </div>
-    </div>
-</div>
-
-<script>
-(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-ga('create', 'UA-71802462-1', 'auto');
-ga('send', 'pageview');
-
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "url" : "https://alexei-led.github.io/tags/ci/cd/",
+    "name": "CI/CD",
+    "description": "The Programming Blog",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https://alexei-led.github.io"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Terra Nullius",
+      "url": "https://alexei-led.github.io"
+    }
+  }
 </script>
 
+<script defer src="https://alexei-led.github.io/js/umbrella.min.b426107371d121c9a56a27aac9e9058ff592a021e2f4c3c94827fe70920d3cbb.js"></script>
+<script defer src="https://alexei-led.github.io/js/script.min.8e4d91ebe0d9226621e408b7205bd7b009e4935608e4b29c4275116490cc836d.js"></script>
+
+
+</head>
+
+<body>
+<div class="page layout__page layout__sidebar-second">
+<header class="header layout__header">
+<a href="https://alexei-led.github.io/" title="Home" rel="home" class="header__logo"><img src="https://alexei-led.github.io/images/logo.png" alt="Home" class="header__logo-image"></a>
+<h1 class="header__site-name">
+<a href="https://alexei-led.github.io/" title="Home" class="header__site-link" rel="home"><span>Terra Nullius</span></a>
+</h1>
+<div class="region header__region">
+</div>
+</header>
+
+<nav class="main-menu layout__navigation">
+<h2 class="visually-hidden">Main menu</h2>
+<ul class="navbar">
+<li><a class="active" href="https://alexei-led.github.io/">Home</a></li>
+<li><a class="" href="https://alexei-led.github.io/about/">about</a></li>
+<li><a class="" href="https://alexei-led.github.io/post/">Posts</a></li>
+</ul>
+</nav>
+
+
+<main class="main layout__main">
+<h1 class="title">CI/CD</h1>
+<article class="section-post list-view">
+<header>
+<h2 class="title "><a href="https://alexei-led.github.io/post/kubernetes_continuous_integration/">Kubernetes Continuous Integration</a></h2>
+
+</header>
+<div class="content">
+Kubernetes configuration as Code Complex Kubernetes application consists from multiple Kubernetes resources, defined in YAML files. Authoring a properly formatted YAML files that are also a valid Kubernetes specification, that should also comply to some policy can be a challenging task.
+These YAML files are your application deployment and configuration code and should be addressed as code.
+As with code, Continuous Integration approach should be applied to a Kubernetes configuration files.
+</div>
+</article>
+
+
+</main>
+
+
+<footer class="footer layout__footer">
+<p><span>© Terra Nullius</span></p>
+
+
+</footer>
+
+</div>
 </body>
 </html>

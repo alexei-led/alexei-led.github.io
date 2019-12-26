@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>MasOS on Terra Nullius</title>
@@ -8,18 +8,59 @@
     <language>en-us</language>
     <copyright>This work is licensed under a Creative Commons Attribution 4.0 International License</copyright>
     <lastBuildDate>Thu, 06 Oct 2016 16:00:00 +0200</lastBuildDate>
-    
-	<atom:link href="https://alexei-led.github.io/tags/masos/index.xml" rel="self" type="application/rss+xml" />
-    
+    <atom:link href="https://alexei-led.github.io/tags/masos/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>Docker Swarm cluster with docker-in-docker on MacOS</title>
       <link>https://alexei-led.github.io/post/swarm_dind/</link>
       <pubDate>Thu, 06 Oct 2016 16:00:00 +0200</pubDate>
-      
       <guid>https://alexei-led.github.io/post/swarm_dind/</guid>
-      <description>TL;DR  Docker-in-Docker dind can help you to run Docker Swarm cluster on your Macbook only with Docker for Mac (v1.12+). No virtualbox, docker-machine, vagrant or other app is required.
- The Beginning One day, I&#39;ve decided to try running Docker 1.12 Swarm cluster on my MacBook Pro. Docker team did a great job releasing Docker for Mac, and from that time I forgot all problems I used to have with boot2docker.</description>
+      <description>&lt;h2 id=&#34;tldr&#34;&gt;TL;DR&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Docker-in-Docker &lt;a href=&#34;https://hub.docker.com/_/docker/&#34;&gt;dind&lt;/a&gt; can help you to run Docker Swarm cluster on your Macbook only with Docker for Mac (v1.12+). No &lt;code&gt;virtualbox&lt;/code&gt;, &lt;code&gt;docker-machine&lt;/code&gt;, &lt;code&gt;vagrant&lt;/code&gt; or other app is required.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&#34;the-beginning&#34;&gt;The Beginning&lt;/h2&gt;
+&lt;p&gt;One day, I&#39;ve decided to try running Docker 1.12 Swarm cluster on my MacBook Pro. Docker team did a great job releasing Docker for Mac, and from that time I forgot all problems I used to have with &lt;code&gt;boot2docker&lt;/code&gt;. I really like Docker for Mac: it’s fast, lightweight, tightly integrated with MacOS and significantly simplifies my life when working in changing network environment. The only missing thing is that it&#39;s possible to create and work with single Docker daemon running inside &lt;code&gt;xhyve&lt;/code&gt; VM. Shit! I want a cluster.&lt;/p&gt;
+&lt;p&gt;Of cause, it&#39;s possible to create Swarm cluster with &lt;code&gt;docker-machine&lt;/code&gt; tool, but it&#39;s not MacOS friendly and requires to install additional VM software, like VirtualBox or Parallels (why? I already have &lt;code&gt;xhyve&lt;/code&gt;!). I have different network for work office and home. At work I&#39;m behind corporate proxy with multiple firewall filters. At home, of cause, life is better. &lt;code&gt;docker-machine&lt;/code&gt; requires to create dedicated VMs for each environment and thus force me juggling with different shell scripts when I switch from one to another. It&#39;s possible, but it&#39;s not fun.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;I just want to have multi-node Swarm cluster with Docker for Mac (and &lt;code&gt;xhyve&lt;/code&gt; VM). As simple as it is.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;I’m a lazy person and if there is an already existing solution, I will alway choose one, even if it’s not ideal. So, after googling for a while, I&#39;ve failed to find any suitable solution or blog post. So, I’ve decided to create my own and share it with you.&lt;/p&gt;
+&lt;h2 id=&#34;the-idea&#34;&gt;The Idea&lt;/h2&gt;
+&lt;p&gt;The basic idea is to use Docker for Mac for running Swam master and several &lt;a href=&#34;https://hub.docker.com/_/docker/&#34;&gt;Docker-in-Docker containers&lt;/a&gt; for running Swarm worker nodes.&lt;/p&gt;
+&lt;p&gt;First, lets init our Swarm master:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;# init Swarm master
+docker swarm init
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&amp;hellip; keep Swarm join token:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;# get join token
+SWARM_TOKEN=$(docker swarm join-token -q worker)
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&amp;hellip; and Docker &lt;code&gt;xhyve&lt;/code&gt; VM IP:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;# get Swarm master IP (Docker for Mac xhyve VM IP)
+SWARM_MASTER=$(docker info | grep -w &#39;Node Address&#39; | awk &#39;{print $3}&#39;)
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&amp;hellip; now let&#39;s create 3 worker nodes and join these nodes to our cluster&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;# run NUM_WORKERS workers with SWARM_TOKEN
+NUM_WORKERS=3
+for i in $(seq “${NUM_WORKERS}&amp;quot;); do
+  docker run -d --privileged --name worker-${i} --hostname=worker-${i} -p ${i}2375:2375 docker:1.12.1-dind
+  docker --host=localhost:${i}2375 swarm join --token ${SWARM_TOKEN} ${SWARM_MASTER}:2377
+done
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Listing all our Swarm cluster nodes:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;# list Swarm nodes :)
+docker node ls
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&amp;hellip; you should see something like this:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;ID                           HOSTNAME  STATUS  AVAILABILITY  MANAGER STATUS
+1f6z8pioh3vuaz84gyp0biqt0    worker-2  Ready   Active
+35z72o6zjhs9u1h99lrwzvx5n    worker-3  Ready   Active
+d9ph5cmc604wp1vhhs754nnxx *  moby      Ready   Active        Leader
+dj3gnpv86uqrw4b9mo9ux4jb5    worker-1  Ready   Active
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;That&#39;s all folks! Now, you have running Swarm cluster on your Macbook and your Docker client is talking with Swarm master.&lt;/p&gt;
+&lt;h3 id=&#34;nice-tip&#34;&gt;Nice tip:&lt;/h3&gt;
+&lt;p&gt;You can use very nice [Swarm visualizer] (&lt;a href=&#34;https://github.com/ManoMarks/docker-swarm-visualizer&#34;&gt;https://github.com/ManoMarks/docker-swarm-visualizer&lt;/a&gt;) by Mano Marks to see your Swarm cluster &amp;ldquo;in action&amp;rdquo;.&lt;/p&gt;
+&lt;p&gt;Run it with following command:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;docker run -it -d -p 8000:8000 -e HOST=localhost -e PORT=8000 -v /var/run/docker.sock:/var/run/docker.sock manomarks/visualizer
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;And you should be able to see something like this (after you deploy some demo app):&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://alexei-led.github.io/img/docker_visualizer.png&#34; alt=&#34;Docker Swarm visualizer: Voting App&#34;&gt;&lt;/p&gt;
+</description>
     </item>
     
   </channel>
