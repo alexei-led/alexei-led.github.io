@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width">
 <title>Testing Strategies for Docker Containers – Terra Nullius</title>
-<meta name="description" content="Congratulations! You know how to build a Docker image and are able to compose multiple containers into a meaningful application. Hopefully, you&#39;ve already created a …">
+<meta name="description" content="Congratulations! You know how to build a Docker image and are able to compose multiple containers into a meaningful application. Hopefully, you&amp;rsquo;ve already created a …">
 <meta name="created" content="2016-03-07T16:39:00+0200">
 <meta name="modified" content="2016-03-07T16:39:00+0200">
 
@@ -14,7 +14,7 @@
 <meta property="og:url" content="https://alexei-led.github.io/post/docker_testing/">
 <meta property="og:type" content="article">
 
-<meta name="generator" content="Hugo 0.62.0" />
+<meta name="generator" content="Hugo 0.64.1" />
 <meta name="msapplication-TileColor" content="#ffffff">
 <meta name="theme-color" content="#ffffff">
 
@@ -33,7 +33,7 @@
     "datePublished": "2016-03-07T16:39:00+02:00",
     "dateModified": "2016-03-07T16:39:00+02:00",
     "url" : "https://alexei-led.github.io/post/docker_testing/",
-    "description": "Congratulations! You know how to build a Docker image and are able to compose multiple containers into a meaningful application. Hopefully, you've already created a …",
+    "description": "Congratulations! You know how to build a Docker image and are able to compose multiple containers into a meaningful application. Hopefully, you\u0026rsquo;ve already created a …",
     "keywords": ["Docker","testing","integration test","Dockerfile"],
     "mainEntityOfPage": {
       "@type": "WebPage",
@@ -89,15 +89,15 @@ Tags:
 </div>
 </header>
 <div class="content">
-<p>Congratulations! You know how to build a Docker image and are able to compose multiple containers into a meaningful application. Hopefully, you've already created a Continuous Delivery pipeline and know how to push your newly created image into production or testing environment.</p>
+<p>Congratulations! You know how to build a Docker image and are able to compose multiple containers into a meaningful application. Hopefully, you&rsquo;ve already created a Continuous Delivery pipeline and know how to push your newly created image into production or testing environment.</p>
 <blockquote>
 <p>Now, the question is - <em>How do we test our Docker containers?</em></p>
 </blockquote>
-<p>There are multiple testing strategies we can apply. In this post, I'll highlight them presenting benefits and drawbacks for each.</p>
+<p>There are multiple testing strategies we can apply. In this post, I&rsquo;ll highlight them presenting benefits and drawbacks for each.</p>
 <h2 id="the-naive-approach">The &ldquo;Naive&rdquo; approach</h2>
 <p>This is the default approach for most people. It relies on a CI server to do the job. When taking this approach, the developer is using Docker as a package manager, a better option than the <strong>jar/rpm/deb</strong> approach.
 The CI server compiles the application code and executes tests (unit, service, functional, and others). The build artifacts are reused in Docker <strong>build</strong> to produce a new image. This becomes a core deployment artifact. The produced image contains not only application &ldquo;binaries&rdquo;, but also a required runtime including all dependencies and application configuration.</p>
-<p>We are getting application portability, however, we are loosing the development and testing portability. We're not able to reproduce exactly the same development and testing environment outside the CI. To create a new test environment we'll need to setup the testing tools (correct versions and plugins), configure runtime and OS settings, and get the same versions of test scripts as well as perhaps, the test data.</p>
+<p>We are getting application portability, however, we are loosing the development and testing portability. We&rsquo;re not able to reproduce exactly the same development and testing environment outside the CI. To create a new test environment we&rsquo;ll need to setup the testing tools (correct versions and plugins), configure runtime and OS settings, and get the same versions of test scripts as well as perhaps, the test data.</p>
 <p><img src="https://alexei-led.github.io/img/naive.png" alt="The Naive Testing Strategy"></p>
 <p>To resolve these problems leads us to the next one.</p>
 <h2 id="app--test-container-approach">App &amp; Test Container approach</h2>
@@ -114,7 +114,7 @@ The CI server compiles the application code and executes tests (unit, service, f
 <li>Pollutes image runtime environment with test specific configuration and may even introduce an unneeded dependency (required by integration testing)</li>
 <li>We also need to decide what to do with the test results and logs; how and where to export them</li>
 </ul>
-<p>Here's a simplified <code>Dockerfile</code>. It illustrates this approach.</p>
+<p>Here&rsquo;s a simplified <code>Dockerfile</code>. It illustrates this approach.</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-dockerfile" data-lang="dockerfile"><span style="color:#66d9ef">FROM</span><span style="color:#e6db74"> &#34;&lt;bases image&gt;&#34;:&#34;&lt;version&gt;&#34;</span><span style="color:#960050;background-color:#1e0010">
 </span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#960050;background-color:#1e0010">
 </span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">WORKDIR</span><span style="color:#e6db74"> &#34;&lt;path&gt;&#34;</span><span style="color:#960050;background-color:#1e0010">
@@ -146,15 +146,15 @@ The CI server compiles the application code and executes tests (unit, service, f
 <p><img src="https://alexei-led.github.io/img/app_test.png" alt="App & Test Container"></p>
 <p>There has to be a better way for in-container testing and there is.</p>
 <h2 id="test-aware-container-approach">Test Aware Container Approach</h2>
-<p>Today, Docker's promise is <strong>&ldquo;Build -&gt; Ship -&gt; Run&rdquo;</strong> - build the image, ship it to some registry, and run it anywhere. IMHO there's a critical missing step - <strong>Test</strong>. The right and complete sequence should be <strong>:Build -&gt; Test -&gt; Ship -&gt; Run</strong>.</p>
-<p>Let's look at a &ldquo;test-friendly&rdquo; Dockerfile syntax and extensions to Docker commands. This important step could be supported natively. It's not a real syntax, but bear with me. I'll define the &ldquo;ideal&rdquo; version and show how to implement something that's very close.</p>
+<p>Today, Docker&rsquo;s promise is <strong>&ldquo;Build -&gt; Ship -&gt; Run&rdquo;</strong> - build the image, ship it to some registry, and run it anywhere. IMHO there&rsquo;s a critical missing step - <strong>Test</strong>. The right and complete sequence should be <strong>:Build -&gt; Test -&gt; Ship -&gt; Run</strong>.</p>
+<p>Let&rsquo;s look at a &ldquo;test-friendly&rdquo; Dockerfile syntax and extensions to Docker commands. This important step could be supported natively. It&rsquo;s not a real syntax, but bear with me. I&rsquo;ll define the &ldquo;ideal&rdquo; version and show how to implement something that&rsquo;s very close.</p>
 <pre><code>ONTEST [INSTRUCTION]
-</code></pre><p>Let's define a special <code>ONTEST</code> instruction, similar to existing <a href="https://docs.docker.com/engine/reference/builder/#onbuild"><code>ONBUILD</code></a> instruction. The <code>ONTEST</code> instruction adds a trigger instruction to the image to be executed at a later time when the image is tested. Any build instruction can be registered as a trigger.</p>
+</code></pre><p>Let&rsquo;s define a special <code>ONTEST</code> instruction, similar to existing <a href="https://docs.docker.com/engine/reference/builder/#onbuild"><code>ONBUILD</code></a> instruction. The <code>ONTEST</code> instruction adds a trigger instruction to the image to be executed at a later time when the image is tested. Any build instruction can be registered as a trigger.</p>
 <p>The <code>ONTEST</code> instruction should be recognized by a new <code>docker test</code> command.</p>
 <pre><code>docker test [OPTIONS] IMAGE [COMMAND] [ARG...]
 </code></pre><p>The <code>docker test</code> command syntax will be similar to <code>docker run</code> command, with one significant difference: a new &ldquo;testable&rdquo; image will be automatically generated and even tagged with <code>&lt;image name&gt;:&lt;image tag&gt;-test</code> tag (&ldquo;test&rdquo; postfix added to the original image tag). This &ldquo;testable&rdquo; image will generated <code>FROM</code> the application image, executing all build instructions, defined after <code>ONTEST</code> command and executing <code>ONTEST CMD</code> (or <code>ONTEST ENTRYPOINT</code>).
 The <code>docker test</code> command should return a non-zero code if any tests fail. The test results should be written into an automatically generated <code>VOLUME</code> that points to <code>/var/tests/results</code> folder.</p>
-<p>Let's look at a modified <code>Dockerfile</code> below - it includes the new proposed <code>ONTEST</code> instruction.</p>
+<p>Let&rsquo;s look at a modified <code>Dockerfile</code> below - it includes the new proposed <code>ONTEST</code> instruction.</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-dockerfile" data-lang="dockerfile"><span style="color:#66d9ef">FROM</span><span style="color:#e6db74"> &#34;&lt;base image&gt;&#34;:&#34;&lt;version&gt;&#34;</span><span style="color:#960050;background-color:#1e0010">
 </span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#960050;background-color:#1e0010">
 </span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">WORKDIR</span><span style="color:#e6db74"> &#34;&lt;path&gt;&#34;</span><span style="color:#960050;background-color:#1e0010">
@@ -192,7 +192,7 @@ The <code>docker test</code> command should return a non-zero code if any tests 
 </span></code></pre></div><p><a href="https://gist.github.com/alexei-led/4f39cca8a03b1503978a">Dockerfile</a></p>
 <p><img src="https://alexei-led.github.io/img/test_aware.png" alt="Test Aware Container"></p>
 <h3 id="making-test-aware-container-real">Making &ldquo;Test Aware Container&rdquo; Real</h3>
-<p>We believe Docker should make <code>docker-test</code> part of the container management lifecycle. There is a need to have a simple working solution today and I'll describe one that's very close to the ideal state.</p>
+<p>We believe Docker should make <code>docker-test</code> part of the container management lifecycle. There is a need to have a simple working solution today and I&rsquo;ll describe one that&rsquo;s very close to the ideal state.</p>
 <p>As mentioned before, Docker has a very useful <code>ONBUILD</code> instruction. This instruction allows us to trigger another build instruction on succeeding builds. The basic idea is to use <code>ONBUILD</code> instruction when running <code>docker-test</code> command.</p>
 <p>The flow executed by <code>docker-test</code> command:</p>
 <ol>
@@ -203,9 +203,9 @@ The <code>docker test</code> command should return a non-zero code if any tests 
 <li>Remove <code>Dockerfile.test</code> file</li>
 </ol>
 <p>Why not create a new <code>Dockerfile.test</code> without requiring the <code>ONBUILD</code> instruction?</p>
-<p>Because in order to test right image (and tag) we'll need to keep <code>FROM</code> always updated to <strong>image:tag</strong> that we want to test. This is not trivial.</p>
-<p>There is a limitation in the described approach - it's not suitable for &ldquo;onbuild&rdquo; images (images used to automatically build your app), like <a href="https://hub.docker.com/_/maven/">Maven:onbuild</a></p>
-<p>Let's look at a simple implementation of <code>docker-test</code> command. It highlights the concept: the <code>docker-test</code> command should be able to handle <code>build</code> and <code>run</code> command options and be able to handle errors properly.</p>
+<p>Because in order to test right image (and tag) we&rsquo;ll need to keep <code>FROM</code> always updated to <strong>image:tag</strong> that we want to test. This is not trivial.</p>
+<p>There is a limitation in the described approach - it&rsquo;s not suitable for &ldquo;onbuild&rdquo; images (images used to automatically build your app), like <a href="https://hub.docker.com/_/maven/">Maven:onbuild</a></p>
+<p>Let&rsquo;s look at a simple implementation of <code>docker-test</code> command. It highlights the concept: the <code>docker-test</code> command should be able to handle <code>build</code> and <code>run</code> command options and be able to handle errors properly.</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh"><span style="color:#75715e">#!/bin/bash
 </span><span style="color:#75715e"></span>image<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;app&#34;</span>
 tag<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;latest&#34;</span>
@@ -214,9 +214,9 @@ echo <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">FROM </
 docker build -t <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>image<span style="color:#e6db74">}</span><span style="color:#e6db74">:</span><span style="color:#e6db74">${</span>tag<span style="color:#e6db74">}</span><span style="color:#e6db74">-test</span><span style="color:#e6db74">&#34;</span> -f Dockerfile.test . <span style="color:#f92672">&amp;&amp;</span>
 docker run -it --rm -v <span style="color:#66d9ef">$(</span>pwd<span style="color:#66d9ef">)</span>/tests/results:/var/tests/results <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>image<span style="color:#e6db74">}</span><span style="color:#e6db74">:</span><span style="color:#e6db74">${</span>tag<span style="color:#e6db74">}</span><span style="color:#e6db74">-test</span><span style="color:#e6db74">&#34;</span> <span style="color:#f92672">&amp;&amp;</span>
 rm Dockerfile.test
-</code></pre></div><p>Let's focus on the most interesting and relevant part.</p>
+</code></pre></div><p>Let&rsquo;s focus on the most interesting and relevant part.</p>
 <h2 id="integration-test-container">Integration Test Container</h2>
-<p>Let's say we have an application built from tens or hundreds of microservices. Let's say we have an automated CI/CD pipeline, where each microservice is built and tested by our CI and deployed into some environment (testing, staging or production) after the build and tests pass. Pretty cool, eh?
+<p>Let&rsquo;s say we have an application built from tens or hundreds of microservices. Let&rsquo;s say we have an automated CI/CD pipeline, where each microservice is built and tested by our CI and deployed into some environment (testing, staging or production) after the build and tests pass. Pretty cool, eh?
 Our CI tests are capable of testing each microservice in isolation - running unit and service tests (or API contract tests). Maybe even micro-integration tests - tests run on subsystem are created in ad-hoc manner (for example with <code>docker compose</code> help).</p>
 <p>This leads to some issues that we need to address:</p>
 <ul>

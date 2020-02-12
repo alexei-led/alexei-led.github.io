@@ -14,7 +14,7 @@
 <meta property="og:url" content="https://alexei-led.github.io/post/node_docker_multistage/">
 <meta property="og:type" content="article">
 
-<meta name="generator" content="Hugo 0.62.0" />
+<meta name="generator" content="Hugo 0.64.1" />
 <meta name="msapplication-TileColor" content="#ffffff">
 <meta name="theme-color" content="#ffffff">
 
@@ -123,7 +123,7 @@ Tags:
 </ol>
 <p>This flow assumes that you are using two or more separate <code>Dockerfile</code>s and a shell script or flow tool to orchestrate all steps above.</p>
 <h3 id="example">Example</h3>
-<p>I use a fork of <a href="https://github.com/sdelements/lets-chat">Let's Chat</a> node.js application.</p>
+<p>I use a fork of <a href="https://github.com/sdelements/lets-chat">Let&rsquo;s Chat</a> node.js application.</p>
 <h4 id="builder-docker-image-with-eslint-mocha-and-gulp">Builder Docker image with eslint, mocha and gulp</h4>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Dockerfile" data-lang="Dockerfile"><span style="color:#66d9ef">FROM</span><span style="color:#e6db74"> alpine:3.5</span><span style="color:#960050;background-color:#1e0010">
 </span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e"># install node </span><span style="color:#960050;background-color:#1e0010">
@@ -233,7 +233,7 @@ $ # OR: setting DOCKER_HOST
 $ export DOCKER_HOST=localhost:23751
 $ docker build -t local/chat:multi-stage .
 </code></pre><h2 id="summary">Summary</h2>
-<p>With Docker <strong>multi-stage</strong> build feature, it's possible to implement an advanced Docker image build pipeline using a single <code>Dockerfile</code>. Kudos to Docker team!</p>
+<p>With Docker <strong>multi-stage</strong> build feature, it&rsquo;s possible to implement an advanced Docker image build pipeline using a single <code>Dockerfile</code>. Kudos to Docker team!</p>
 <hr>
 <p>Hope, you find this post useful. I look forward to your comments and any questions you have.</p>
 

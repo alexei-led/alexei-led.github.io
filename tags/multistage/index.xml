@@ -45,7 +45,7 @@
 &lt;/ol&gt;
 &lt;p&gt;This flow assumes that you are using two or more separate &lt;code&gt;Dockerfile&lt;/code&gt;s and a shell script or flow tool to orchestrate all steps above.&lt;/p&gt;
 &lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
-&lt;p&gt;I use a fork of &lt;a href=&#34;https://github.com/sdelements/lets-chat&#34;&gt;Let&#39;s Chat&lt;/a&gt; node.js application.&lt;/p&gt;
+&lt;p&gt;I use a fork of &lt;a href=&#34;https://github.com/sdelements/lets-chat&#34;&gt;Let&amp;rsquo;s Chat&lt;/a&gt; node.js application.&lt;/p&gt;
 &lt;h4 id=&#34;builder-docker-image-with-eslint-mocha-and-gulp&#34;&gt;Builder Docker image with eslint, mocha and gulp&lt;/h4&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-Dockerfile&#34; data-lang=&#34;Dockerfile&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;FROM&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt; alpine:3.5&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
 &lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# install node &lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
@@ -155,7 +155,7 @@ $ # OR: setting DOCKER_HOST
 $ export DOCKER_HOST=localhost:23751
 $ docker build -t local/chat:multi-stage .
 &lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;summary&#34;&gt;Summary&lt;/h2&gt;
-&lt;p&gt;With Docker &lt;strong&gt;multi-stage&lt;/strong&gt; build feature, it&#39;s possible to implement an advanced Docker image build pipeline using a single &lt;code&gt;Dockerfile&lt;/code&gt;. Kudos to Docker team!&lt;/p&gt;
+&lt;p&gt;With Docker &lt;strong&gt;multi-stage&lt;/strong&gt; build feature, it&amp;rsquo;s possible to implement an advanced Docker image build pipeline using a single &lt;code&gt;Dockerfile&lt;/code&gt;. Kudos to Docker team!&lt;/p&gt;
 &lt;hr&gt;
 &lt;p&gt;Hope, you find this post useful. I look forward to your comments and any questions you have.&lt;/p&gt;
 </description>

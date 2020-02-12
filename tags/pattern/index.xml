@@ -15,8 +15,8 @@
       <link>https://alexei-led.github.io/post/docker_builder_pattern/</link>
       <pubDate>Thu, 14 Jan 2016 16:14:47 +0200</pubDate>
       <guid>https://alexei-led.github.io/post/docker_builder_pattern/</guid>
-      <description>&lt;p&gt;Let&#39;s say that you&#39;re developing a microservice in a compiled language or an interpreted language that requires some additional “build” steps to package and lint your application code. This is a useful docker pattern for the &amp;ldquo;build&amp;rdquo; container.&lt;/p&gt;
-&lt;p&gt;In our project, we&#39;re using Docker as our main deployment package: every microservice is delivered as a Docker image. Each microservice also has it’s own code repository (GitHub), and its own CI build job.&lt;/p&gt;
+      <description>&lt;p&gt;Let&amp;rsquo;s say that you&amp;rsquo;re developing a microservice in a compiled language or an interpreted language that requires some additional “build” steps to package and lint your application code. This is a useful docker pattern for the &amp;ldquo;build&amp;rdquo; container.&lt;/p&gt;
+&lt;p&gt;In our project, we&amp;rsquo;re using Docker as our main deployment package: every microservice is delivered as a Docker image. Each microservice also has it’s own code repository (GitHub), and its own CI build job.&lt;/p&gt;
 &lt;p&gt;Some of our services are written in Java. Java code requires additional tooling and processes before you get working code. This tooling and all associated packages are depended from and not required when a compiled program is running.&lt;/p&gt;
 &lt;p&gt;We have been trying to develop a repeatable process and uniform environment for deploying our services. We believe it’s good to package Java tools and packages into containers too. It allows us to build a Java-based microservice on any machine, including CI, without any specific environment requirements: JDK version, profiling and testing tools, OS, Maven, environment variables, etc.&lt;/p&gt;
 &lt;p&gt;For every service, we have two(2) Dockerfiles: one for service runtime and the second packed with tools required to build the service. We usually name these files as &lt;code&gt;Dockerfile&lt;/code&gt; and &lt;code&gt;Dockerfile.build&lt;/code&gt;. We are using &lt;code&gt;-f, --file=&amp;quot;&amp;quot;&lt;/code&gt; flag to specify Dockerfile file name for &lt;code&gt;docker build&lt;/code&gt; command.&lt;/p&gt;
@@ -41,7 +41,7 @@ ADD . $GAIA_HOME
 &lt;span style=&#34;color:#75715e&#34;&gt;# run maven verify&lt;/span&gt;
 RUN &lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;mvn&amp;#34;&lt;/span&gt;,&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;verify&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;]&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;As you can see, it’s a simple file with one little trick to speed up our Maven build.&lt;/p&gt;
-&lt;p&gt;Now, we have all the tools required to compile our service. We can run this Docker container on any machine without requiring to have JDK installed. We can run the same Docker container on a developer&#39;s laptop and on our CI server.&lt;/p&gt;
+&lt;p&gt;Now, we have all the tools required to compile our service. We can run this Docker container on any machine without requiring to have JDK installed. We can run the same Docker container on a developer&amp;rsquo;s laptop and on our CI server.&lt;/p&gt;
 &lt;p&gt;This trick greatly simplifies our CI process - we no longer require our CI to support any specific compiler, version, or tool. All we need is the Docker engine. Everything else, we bring ourselves.&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;BYOT - Bring Your Own Tooling! :-)&lt;/p&gt;
@@ -55,7 +55,7 @@ docker create --name build-cont build-img
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;docker cp build-cont:/usr/local/gaia/target/mgs.war ./target/mgs.war
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;As a result, we have a compiled service code, packaged into single WAR file. We get exactly the same WAR file on any machine just by running our &lt;strong&gt;builder&lt;/strong&gt; container, or by rebuilding the &lt;strong&gt;builder&lt;/strong&gt; container against the same code commit (using Git tag or specific commit ID) on any machine.&lt;/p&gt;
 &lt;p&gt;We can now create a Docker image with our service and required runtime, which is usually some version of JRE and servlet container.&lt;/p&gt;
-&lt;p&gt;Here is our &lt;code&gt;Dockerfile&lt;/code&gt; for the service. It&#39;s an image with Jetty JRE8 and our service WAR file.&lt;/p&gt;
+&lt;p&gt;Here is our &lt;code&gt;Dockerfile&lt;/code&gt; for the service. It&amp;rsquo;s an image with Jetty JRE8 and our service WAR file.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;FROM jetty:9.3.0-jre8
 
 RUN mkdir -p /home/jetty &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; chown jetty:jetty /home/jetty
@@ -69,7 +69,7 @@ COPY ./target/*.war $JETTY_BASE/webapps/
 &lt;li&gt;Keep both files with your service code.&lt;/li&gt;
 &lt;li&gt;Build a new &lt;strong&gt;builder&lt;/strong&gt; image, create a container from it and extract build artifacts, using volumes or &lt;code&gt;docker cp&lt;/code&gt; command.&lt;/li&gt;
 &lt;li&gt;Build the service image.&lt;/li&gt;
-&lt;li&gt;That&#39;s all folks!&lt;/li&gt;
+&lt;li&gt;That&amp;rsquo;s all folks!&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h2 id=&#34;summary&#34;&gt;Summary&lt;/h2&gt;
 &lt;p&gt;In our case, Java-based service, the difference between &lt;strong&gt;builder&lt;/strong&gt; container and service container is huge. Java JDK is much bigger package than JRE: it also requires all X Window packages installed inside your container. For the runtime, you can have a slim image with your service code, JRE, and some basic Linux packages, or even start from &lt;code&gt;scratch&lt;/code&gt;.&lt;/p&gt;

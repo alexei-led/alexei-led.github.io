@@ -14,7 +14,7 @@
 <meta property="og:url" content="https://alexei-led.github.io/post/docker_cd_cluster/">
 <meta property="og:type" content="article">
 
-<meta name="generator" content="Hugo 0.62.0" />
+<meta name="generator" content="Hugo 0.64.1" />
 <meta name="msapplication-TileColor" content="#ffffff">
 <meta name="theme-color" content="#ffffff">
 
@@ -100,7 +100,7 @@ Tags:
 <p>In this post, I would like to address one such problem:</p>
 <h3 id="how-to-automate-continuous-delivery-for-a-docker-cluster">How to automate Continuous Delivery for a Docker cluster?</h3>
 <p>In our application, every service is packaged as a Docker image. Docker image is our basic deployment unit. In a runtime environment (production, testing and others), we may have multiple containers, created from this image. For each service, we have a separate Git repository and one or more Dockerfile(s). We use this for building, testing, and packaging - will explain our project structure in the next blog post.</p>
-<p>We've setup an automated Continuous Integration(CI) process. We use CircleCI. For every push to some branch for the service in a Git repository, the CI service triggers a new Docker build process and creates a new Docker image for the service. As part of the build process, if everything compiles and all unit and component tests pass, we push a newly created Docker image to our DockerHub repository.</p>
+<p>We&rsquo;ve setup an automated Continuous Integration(CI) process. We use CircleCI. For every push to some branch for the service in a Git repository, the CI service triggers a new Docker build process and creates a new Docker image for the service. As part of the build process, if everything compiles and all unit and component tests pass, we push a newly created Docker image to our DockerHub repository.</p>
 <p>At the end of CI process, we have a newly tested and ‘kosher’ Docker image in our DockerHub repository. Very nice indeed! However, we are left with several questions:</p>
 <ul>
 <li>How to perform a rolling update of a modified service?</li>
@@ -114,7 +114,7 @@ Tags:
 <p>The basic idea is to create a Docker image that captures the system configuration. This image stores the configuration of all services at a specific point in time and from specific branches. The container created from this image should be run from within the target cluster. Besides captured configuration, we also have the deployment tool (<strong>fleetctl</strong> in our case), plus some code that detects services which need to be updated, deleted, or installed as a new service.</p>
 <p>This idea leads to another question:</p>
 <h3 id="how-do-you-define-and-capture-system-configuration">How do you define and capture system configuration?</h3>
-<p>In CoreOS, every service can be described in <strong>systemd unit</strong> files. This is a plain text file that describes how and when to launch your service. I’m not going to explain how to write such files. There is a lot of info online. What's important in our case, the service systemd unit file contains a <code>docker run</code> command with parameters and image name that needs to be downloaded and executed. We keep the service systemd unit file in the same repository as the service code.</p>
+<p>In CoreOS, every service can be described in <strong>systemd unit</strong> files. This is a plain text file that describes how and when to launch your service. I’m not going to explain how to write such files. There is a lot of info online. What&rsquo;s important in our case, the service systemd unit file contains a <code>docker run</code> command with parameters and image name that needs to be downloaded and executed. We keep the service systemd unit file in the same repository as the service code.</p>
 <p>The image name: usually defined as a <code>repository/image_name:tag</code> string. <strong>Tag</strong> is the most important thing in our solution. As explained above, our CI server automatically builds a new Docker image on every push of the service to the GitHub repository. The CI job also tags the newly created image with 2 tags:</p>
 <ol>
 <li><code>branch</code> tag — taken from GitHub branch that triggered the build (<code>master</code>, <code>develop</code>, <code>feature-*</code> braches in our case)</li>

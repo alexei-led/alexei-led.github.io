@@ -14,7 +14,7 @@
 <meta property="og:url" content="https://alexei-led.github.io/post/pumba_docker_netem/">
 <meta property="og:type" content="article">
 
-<meta name="generator" content="Hugo 0.62.0" />
+<meta name="generator" content="Hugo 0.64.1" />
 <meta name="msapplication-TileColor" content="#ffffff">
 <meta name="theme-color" content="#ffffff">
 
@@ -183,7 +183,7 @@ $ docker run -it --rm -v /var/run/docker.sock:/var/run/docker.sock gaiaadm/pumba
 </code></pre><p>It is generally understood that <em>packet loss</em> distribution in IP networks is “bursty”. To simulate more realistic <em>packet loss</em> events, different probability models are used.
 Pumba currently supports 3 different loss probability models for *packet loss&rdquo;. Pumba defines separate <em>loss</em> command for each probability model.</p>
 <ul>
-<li><code>loss</code> - independent probability loss model (Bernoulli model); it's the most widely used loss model where packet losses are modeled by a random process consisting of Bernoulli trails</li>
+<li><code>loss</code> - independent probability loss model (Bernoulli model); it&rsquo;s the most widely used loss model where packet losses are modeled by a random process consisting of Bernoulli trails</li>
 <li><code>loss-state</code> - 2-state, 3-state and 4-state State Markov models</li>
 <li><code>loss-gemodel</code> - Gilbert and Gilbert-Elliott models</li>
 </ul>

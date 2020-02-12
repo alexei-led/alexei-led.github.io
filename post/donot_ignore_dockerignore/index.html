@@ -14,7 +14,7 @@
 <meta property="og:url" content="https://alexei-led.github.io/post/donot_ignore_dockerignore/">
 <meta property="og:type" content="article">
 
-<meta name="generator" content="Hugo 0.62.0" />
+<meta name="generator" content="Hugo 0.64.1" />
 <meta name="msapplication-TileColor" content="#ffffff">
 <meta name="theme-color" content="#ffffff">
 
@@ -110,7 +110,7 @@ Step 1: FROM ...
 <p><strong>Tip:</strong> The <strong>rule of thumb</strong> is not adding files to the <strong>build context</strong>, if you do not need them in your Docker image.</p>
 </blockquote>
 <h1 id="the-dockerignore-file">The <strong>.dockerignore</strong> file</h1>
-<p>The <code>.dockerignore</code> file is the tool, that can help you to define the Docker <strong>build context</strong> you really need. Using this file, you can specify <strong>ignore rules</strong> and <strong>exceptions</strong> from these rules for files and folder, that won't be included in the <strong>build context</strong> and thus won't be packed into an archive and uploaded to the Docker server.</p>
+<p>The <code>.dockerignore</code> file is the tool, that can help you to define the Docker <strong>build context</strong> you really need. Using this file, you can specify <strong>ignore rules</strong> and <strong>exceptions</strong> from these rules for files and folder, that won&rsquo;t be included in the <strong>build context</strong> and thus won&rsquo;t be packed into an archive and uploaded to the Docker server.</p>
 <h1 id="why-should-you-care">Why should you care?</h1>
 <p>Indeed, why should you care? Computers today are fast, networks are also pretty fast (hopefully) and storage is cheap. So, this &ldquo;tax&rdquo; may be not that big, right?
 I will try to convince you, that you should care.</p>
@@ -124,12 +124,12 @@ I will try to convince you, that you should care.</p>
 <p>If you copy files into you Docker image with <code>ADD .</code> or <code>COPY .</code> command, you may unintendedly include your source files, whole <code>git</code> history (a <code>.git</code> folder), secret files (like <code>.aws</code>, <code>.env</code>, private keys), cache and other files not only into the Docker <strong>build context</strong>, but also into the final Docker image.</p>
 <p>There are multiple Docker images currently available on DockerHub, that expose application source code, passwords, keys and credentials (for example <a href="http://thehackernews.com/2016/07/vine-source-code.html">Twitter Vine</a>).</p>
 <h2 id="reason-3-the-docker-build---cache-invalidation">Reason #3: The Docker build - cache invalidation</h2>
-<p>A common pattern is to inject an application's entire codebase into an image using an instruction like this:</p>
+<p>A common pattern is to inject an application&rsquo;s entire codebase into an image using an instruction like this:</p>
 <pre><code>COPY . /usr/src/app
-</code></pre><p>In this case, we're copying the <strong>entire</strong> <strong>build context</strong> into the image. It's also important to understand, that every Dockerfile command generates a new layer. So, if any of included file changes in the entire build context, this change will invalidate the build cache for <code>COPY . /opt/myapp</code> layer and a new image layer will be generated on the next build.</p>
+</code></pre><p>In this case, we&rsquo;re copying the <strong>entire</strong> <strong>build context</strong> into the image. It&rsquo;s also important to understand, that every Dockerfile command generates a new layer. So, if any of included file changes in the entire build context, this change will invalidate the build cache for <code>COPY . /opt/myapp</code> layer and a new image layer will be generated on the next build.</p>
 <p>If your working directory contains files that are frequently updated (logs, test results, git history, temporary cache files and similar), you are going to regenerate this layer for every <code>docker build</code> run.</p>
 <h1 id="the-dockerignore-syntax">The <code>.dockerignore</code> syntax</h1>
-<p>The <code>.dockerignore</code> file is similar to <code>gitignore</code> file, used by <code>git</code> tool. similarly to <code>.gitignore</code> file, it allows you to specify a pattern for files and folders that should be ignored by the Docker client when generating a <strong>build context</strong>. While <code>.dockerignore</code> file syntax used to describe <strong>ignore patterns</strong> is similar to <code>.gitignore</code> it's not the same.</p>
+<p>The <code>.dockerignore</code> file is similar to <code>gitignore</code> file, used by <code>git</code> tool. similarly to <code>.gitignore</code> file, it allows you to specify a pattern for files and folders that should be ignored by the Docker client when generating a <strong>build context</strong>. While <code>.dockerignore</code> file syntax used to describe <strong>ignore patterns</strong> is similar to <code>.gitignore</code> it&rsquo;s not the same.</p>
 <p>The <code>.dockerignore</code> pattern matching syntax is based on Go <code>filepath.Match()</code> function and includes some additions.</p>
 <p>Here is the complete syntax for the <code>.dockerignore</code>:</p>
 <pre><code>pattern:

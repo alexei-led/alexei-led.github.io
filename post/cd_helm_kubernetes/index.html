@@ -14,7 +14,7 @@
 <meta property="og:url" content="https://alexei-led.github.io/post/cd_helm_kubernetes/">
 <meta property="og:type" content="article">
 
-<meta name="generator" content="Hugo 0.62.0" />
+<meta name="generator" content="Hugo 0.64.1" />
 <meta name="msapplication-TileColor" content="#ffffff">
 <meta name="theme-color" content="#ffffff">
 
@@ -100,30 +100,30 @@ Tags:
 <p>THIS IS A DRAFT VERSION OF POST TO COME, PLEASE DO NOT SHARE</p>
 </blockquote>
 <h2 id="starting-point">Starting Point</h2>
-<p>Over last years we've been adopting several concepts for our project, straggling to make them work together.</p>
+<p>Over last years we&rsquo;ve been adopting several concepts for our project, straggling to make them work together.</p>
 <p>The first one is the <em>Microservice Architecture</em>. We did not start it clean and by the book, rather applied it to the already existing project: splitting big services into smaller and breaking excessive coupling. The refactoring work is not finished yet. New services, we are building, starts looking more like &ldquo;microservices&rdquo;, while there are still few that, I would call &ldquo;micro-monoliths&rdquo;.
 I have a feeling that this is a typical situation for an already existing project, that tries to adopt this new architecture pattern: <em>you are almost there, but there is always a work to be done</em>.</p>
 <p>Another concept is using Docker for building, packaging and deploying application services. We bet on Docker from the very beginning and used it for most of our services and it happens to be a good bet.
 There are still few pure cloud services, that we are using when running our application on public cloud, thing like Databases, Error Analytics, Push Notifications and some others.</p>
 <p>And one of the latest bet we made was Kubernetes. Kubernetes became the main runtime platform for our application. Adopting Kubernetes, allowed us not only to hide away lots of operational complexity, achieving better availability and scalability, but also be able to run our application on any public cloud and on-premise deployment.</p>
 <p>With great flexibility, that Kubernetes provides, it brings an additional deployment complexity.
-Suddenly your services are not just plain Docker containers, but there are a lot of new (and useful) Kubernetes resources that you need to take care for: <em>ConfigMsaps</em>, <em>Secrets</em>, <em>Services</em>, <em>Deployments</em>, <em>StatefulSets</em>, <em>PVs</em>, <em>PVCs</em>, <em>Ingress</em>, <em>Jobs</em> and others. And it's not always obvious where to keep all these resources and how they are related to Docker images built by CI tool.</p>
+Suddenly your services are not just plain Docker containers, but there are a lot of new (and useful) Kubernetes resources that you need to take care for: <em>ConfigMsaps</em>, <em>Secrets</em>, <em>Services</em>, <em>Deployments</em>, <em>StatefulSets</em>, <em>PVs</em>, <em>PVCs</em>, <em>Ingress</em>, <em>Jobs</em> and others. And it&rsquo;s not always obvious where to keep all these resources and how they are related to Docker images built by CI tool.</p>
 <h2 id="continuous-delivery-vs-continuous-deployment">&ldquo;Continuous Delivery&rdquo; vs. &ldquo;Continuous Deployment&rdquo;</h2>
-<p>The ambiguity of <strong>CD</strong> term annoys me a lot. Different people mean different things when using this term. And it's not only about abbreviation meaning: <em>Continuous Deployment vs Continuous Delivery</em>, but also <em>what do people really mean</em>, when using this abbreviation.</p>
+<p>The ambiguity of <strong>CD</strong> term annoys me a lot. Different people mean different things when using this term. And it&rsquo;s not only about abbreviation meaning: <em>Continuous Deployment vs Continuous Delivery</em>, but also <em>what do people really mean</em>, when using this abbreviation.</p>
 <p>Still, it looks like there is a common agreement that <em>Continuous Deployment (CD)</em> is a super-set of <em>Continuous Delivery (CD)</em>. And the main difference, so far, is that <em>Continuous Deployment</em> is 100% automated, while in <em>Continuous Delivery</em> there are still some steps that should be done manually.</p>
 <p>In our project, for example, we succeeded to achieve <em>Continuous Delivery</em>, that serves us well both for SaaS and on-premise versions of our product. Our next goal is to create fluent <em>Continuous Deployment</em> for SaaS version. We would like to be able release a change automatically to production, without human intervention, and be able to rollback to the previous version if something went wrong.</p>
 <h2 id="kubernetes-application-and-release-content">Kubernetes Application and Release Content</h2>
-<p>Now let's talk about <em>Release</em> and try to define <em>what is a <strong>Release Content</strong>?</em>.</p>
-<p>When we are releasing a <em>change</em> to some runtime environment (<code>development</code>, <code>staging</code> or <code>production</code>), it's not always a <em>code change</em>, that is represented by a newly backed Docker image with some tag. Change can be done to application configurations, secrets, ingress rules, jobs we are running, volumes and other resources. It would be nice to be able to release all these changes in the same way as we release a <em>code change</em>. Actually, a change can be a mixture of both and in practice, it's not a rare use case.</p>
+<p>Now let&rsquo;s talk about <em>Release</em> and try to define <em>what is a <strong>Release Content</strong>?</em>.</p>
+<p>When we are releasing a <em>change</em> to some runtime environment (<code>development</code>, <code>staging</code> or <code>production</code>), it&rsquo;s not always a <em>code change</em>, that is represented by a newly backed Docker image with some tag. Change can be done to application configurations, secrets, ingress rules, jobs we are running, volumes and other resources. It would be nice to be able to release all these changes in the same way as we release a <em>code change</em>. Actually, a change can be a mixture of both and in practice, it&rsquo;s not a rare use case.</p>
 <p>So, we need to find a good methodology and supporting technology, that will allow us to release a new version of our Kubernetes application, that might be composed of multiple changes and these changes are not only new Docker image tags. This methodology should allow us to do it repeatedly on any runtime environment (Kubernetes cluster in our case) and be able to rollback <em>ALL</em> changes to the previous version if something went wrong.</p>
-<p>That's why we adopted <a href="https://www.helm.sh">Helm</a> as our main release management tool for Kubernetes.</p>
+<p>That&rsquo;s why we adopted <a href="https://www.helm.sh">Helm</a> as our main release management tool for Kubernetes.</p>
 <h2 id="helm-recap">Helm recap</h2>
-<p>This post is not about Helm, so Helm recap will be very short. I encourage you to read <a href="https://www.helm.sh">Helm</a> documentation, it's complete and well written.</p>
+<p>This post is not about Helm, so Helm recap will be very short. I encourage you to read <a href="https://www.helm.sh">Helm</a> documentation, it&rsquo;s complete and well written.</p>
 <p>Just to remind - core Helm concepts are:</p>
 <ul>
 <li><strong>(Helm) Chart</strong> - is a package (<code>tar</code> archive) with Kubernetes <code>YAML</code> templates (for different Kubernetes resources) and default values (also stored in <code>YAML</code> files). Helm uses <em>chart</em> to install a new or update an existing <em>(Helm) release</em>.</li>
 <li><strong>(Helm) Release</strong> - is a Kubernetes application instance, installed with Helm. It is possible to create multiple <em>releases</em> from the same <em>chart</em> version.</li>
-<li><strong>(Release) Revision</strong> - when updating an existing <em>release</em>, a new <em>revision</em> is created. Helm can rollback a <em>release</em> to the previous <em>revision</em>. Helm stores all <em>revisions</em> in <em>ConfigMap</em> and it's possible to list previous <em>releases</em> with <code>helm history</code> command.</li>
+<li><strong>(Release) Revision</strong> - when updating an existing <em>release</em>, a new <em>revision</em> is created. Helm can rollback a <em>release</em> to the previous <em>revision</em>. Helm stores all <em>revisions</em> in <em>ConfigMap</em> and it&rsquo;s possible to list previous <em>releases</em> with <code>helm history</code> command.</li>
 <li><strong>Chart Repository</strong> - is a location where packaged <em>charts</em> can be stored and shared. Any web server that can store and serve static files can be used as <em>Chart Repository</em> (Nginx, GitHub, AWS S3 and others).</li>
 </ul>
 <p>Helm consists of the server, called <em>Tiller</em> and the command line client, called <code>helm</code>. When releasing a new version (or updating an existing) <code>helm</code> client sends <em>chart</em> (template files and values) to the Helm server. <em>Tiller</em> server generates valid Kubernetes <code>yaml</code> files from templates and values and deploys them to Kubernetes, using Kubernetes API. <em>Tiller</em> also saves generated <code>yaml</code> files as a new revision inside <code>ConfigMaps</code> and can use previously saved revision for rollback operation.</p>
@@ -258,7 +258,7 @@ codefresh.yaml
 <p>Now, we can run <code>help upgrade --install</code> command creating a new <em>revision</em> for the application <em>release</em>. If something goes wrong, we can always rollback failed release to the previous <em>revision</em>. For the sake of safety, I suggest first to run <code>helm diff</code> (using <code>helm diff</code> plugin) or at least use a <code>--dry-run</code> flag for the first run, inspect the difference between a new <em>release</em> version and already installed <em>revision</em>. If you are ok with upcoming changes, accept them and run the <code>helm upgrade --install</code> command without <code>--dry-run</code> flag.</p>
 <h2 id="kubernetes-continuous-deployment-cd">Kubernetes Continuous Deployment (CD)</h2>
 <p>Based on above definition, to achieve <em>Continuous Deployment</em> we should try to avoid all manual steps, besides <code>git push</code> for code and configuration changes. All actions, running after <code>git push</code>, should be 100% automated and deliver all changes to a corresponding runtime environment.</p>
-<p>Let's take a look at manual steps from &ldquo;Continuous Delivery&rdquo; pipeline and think about <em>how can we automate them?</em></p>
+<p>Let&rsquo;s take a look at manual steps from &ldquo;Continuous Delivery&rdquo; pipeline and think about <em>how can we automate them?</em></p>
 <p><img src="https://alexei-led.github.io/img/k8s_cdd.png" alt="Kubernetes Continuous Deployment"></p>
 <h3 id="automate-update-microservice-imagetag-after-successful-docker-push">Automate: Update microservice imageTag after successful <code>docker push</code></h3>
 <p>After a new Docker image for some microservice pushed to a Docker Registry, we would like to update the microservice Helm <em>chart</em> with the new Docker image tag. There are two (at least) options to do this.</p>

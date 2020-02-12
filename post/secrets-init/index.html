@@ -14,7 +14,7 @@
 <meta property="og:url" content="https://alexei-led.github.io/post/secrets-init/">
 <meta property="og:type" content="article">
 
-<meta name="generator" content="Hugo 0.62.0" />
+<meta name="generator" content="Hugo 0.64.1" />
 <meta name="msapplication-TileColor" content="#ffffff">
 <meta name="theme-color" content="#ffffff">
 
@@ -99,14 +99,14 @@ Tags:
 <p>For example, a Kubernetes secret can be created with command <code>kubectl create secret</code>:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">kubectl create secret generic db-credentials -n default --from-literal<span style="color:#f92672">=</span>user<span style="color:#f92672">=</span>dbuser --from-literal<span style="color:#f92672">=</span>password<span style="color:#f92672">=</span>quick.fox.5312
 </code></pre></div><p>or Kubernetes <code>db-credentials.yaml</code> file, that describes the same secret:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">apiVersion: v1
-kind: Secret
-metadata:
-  name: db-credentials
-type: Opaque
-data:
-  password: cXVpY2suZm94LjUzMTI=
-  user: ZGJ1c2Vy
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: v1
+<span style="color:#66d9ef">kind</span>: Secret
+<span style="color:#66d9ef">metadata</span>:
+  <span style="color:#66d9ef">name</span>: db-credentials
+<span style="color:#66d9ef">type</span>: Opaque
+<span style="color:#66d9ef">data</span>:
+  <span style="color:#66d9ef">password</span>: cXVpY2suZm94LjUzMTI=
+  <span style="color:#66d9ef">user</span>: ZGJ1c2Vy
 </code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">kubectl create -f db-credentials.yaml
 </code></pre></div><p>Please note, that storing a sensitive data in a Kubernetes Secret does not make it secure. By default, all data in Kubernetes Secrets is stored as a plantext encoded with <code>base64</code>.</p>
 <p>Starting with version 1.13, Kubernetes supports <a href="https://kubernetes.io/docs/tasks/administer-cluster/encrypt-data/">encrypting Secrets data at rest</a>, using <code>EncryptionConfiguration</code> object with built-in or external encryption provider.</p>
@@ -171,46 +171,46 @@ You can use the <a href="https://hub.docker.com/r/doitintl/secrets-init">doitint
 <h3 id="integration-with-aws-secrets-manager">Integration with AWS Secrets Manager</h3>
 <p>To start using <code>secrets-init</code> with AWS Secrets Manager, user should put an AWS secret ARN as environment variable value. The <code>secrets-init</code> will resolve any environment value, using specified ARN, to a referenced secret value.</p>
 <p>Example, using <code>secrets-init</code> with Kubernetes Job:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">apiVersion: batch/v1
-kind: Job
-metadata:
-  name: printenv-job
-spec:
-  template:
-    spec:
-      restartPolicy: Never
-      serviceAccountName: iam-secrets-manager-ro
-      initContainers:
-        - name: secrets-init
-          image: doitintl/secrets-init:v0<span style="color:#ae81ff">.2</span><span style="color:#ae81ff">.1</span>
-          command:
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: batch/v1
+<span style="color:#66d9ef">kind</span>: Job
+<span style="color:#66d9ef">metadata</span>:
+  <span style="color:#66d9ef">name</span>: printenv-job
+<span style="color:#66d9ef">spec</span>:
+  <span style="color:#66d9ef">template</span>:
+    <span style="color:#66d9ef">spec</span>:
+      <span style="color:#66d9ef">restartPolicy</span>: Never
+      <span style="color:#66d9ef">serviceAccountName</span>: iam-secrets-manager-ro
+      <span style="color:#66d9ef">initContainers</span>:
+        - <span style="color:#66d9ef">name</span>: secrets-init
+          <span style="color:#66d9ef">image</span>: doitintl/secrets-init:v0<span style="color:#ae81ff">.2</span><span style="color:#ae81ff">.1</span>
+          <span style="color:#66d9ef">command</span>:
             - sh
-          args:
+          <span style="color:#66d9ef">args</span>:
             - -c
             - <span style="color:#e6db74">&#34;cp /usr/local/bin/secrets-init /secrets-init/bin/&#34;</span>
-          volumeMounts:
-          - mountPath: /secrets-init/bin
-            name: secrets-init-volume
-      containers:
-      - image: alpine:<span style="color:#ae81ff">3</span>
-        name: print-env
-        env:
-          - name: AWS_REGION
-            value: us-west<span style="color:#ae81ff">-2</span>
-          - name: TOP_SECRET
-            value: arn:aws:secretsmanager:us-west<span style="color:#ae81ff">-2</span>:<span style="color:#ae81ff">906364353610</span>:secret:topsecret-Acdaq8
-        command:
+          <span style="color:#66d9ef">volumeMounts</span>:
+          - <span style="color:#66d9ef">mountPath</span>: /secrets-init/bin
+            <span style="color:#66d9ef">name</span>: secrets-init-volume
+      <span style="color:#66d9ef">containers</span>:
+      - <span style="color:#66d9ef">image</span>: alpine:<span style="color:#ae81ff">3</span>
+        <span style="color:#66d9ef">name</span>: print-env
+        <span style="color:#66d9ef">env</span>:
+          - <span style="color:#66d9ef">name</span>: AWS_REGION
+            <span style="color:#66d9ef">value</span>: us-west<span style="color:#ae81ff">-2</span>
+          - <span style="color:#66d9ef">name</span>: TOP_SECRET
+            <span style="color:#66d9ef">value</span>: arn:aws:secretsmanager:us-west<span style="color:#ae81ff">-2</span>:<span style="color:#ae81ff">906364353610</span>:secret:topsecret-Acdaq8
+        <span style="color:#66d9ef">command</span>:
           - /secrets-init/bin/secrets-init
-        args:
+        <span style="color:#66d9ef">args</span>:
           - sh
           - -c
           - <span style="color:#e6db74">&#39;echo $TOP_SECRET&#39;</span>
-        volumeMounts:
-        - mountPath: /secrets-init/bin
-          name: secrets-init-volume
-      volumes:
-      - name: secrets-init-volume
-        emptyDir: {}
+        <span style="color:#66d9ef">volumeMounts</span>:
+        - <span style="color:#66d9ef">mountPath</span>: /secrets-init/bin
+          <span style="color:#66d9ef">name</span>: secrets-init-volume
+      <span style="color:#66d9ef">volumes</span>:
+      - <span style="color:#66d9ef">name</span>: secrets-init-volume
+        <span style="color:#66d9ef">emptyDir</span>: {}
 </code></pre></div><h3 id="integration-with-aws-systems-manager-parameter-store">Integration with AWS Systems Manager Parameter Store</h3>
 <p>It is possible to use AWS Systems Manager Parameter Store to store application parameters as plain text or encrypted (kind of secrets).</p>
 <p>As with the previous example, user can put AWS Parameter Store ARN as environment variable value. The <code>secrets-init</code> will resolve any environment value, using specified ARN, to a referenced parameter value.</p>
@@ -222,7 +222,7 @@ MY_API_KEY<span style="color:#f92672">=</span>arn:aws:ssm:$AWS_REGION:$AWS_ACCOU
 MY_API_KEY<span style="color:#f92672">=</span>key-123456789
 </code></pre></div><p>In order to resolve AWS secrets from AWS Secrets Manager and Parameter Store, <code>secrets-init</code> should run under IAM role that has permission to access desired secrets.</p>
 <p>This can be achieved by assigning IAM Role to Kubernetes Pod or ECS Task. See <a href="https://aws.amazon.com/blogs/opensource/introducing-fine-grained-iam-roles-service-accounts/">Introducing fine-grained IAM roles for service accounts</a> EKS blog post.</p>
-<p>It's possible to assign IAM Role to EC2 instance, where container is running, but this option is considerably less secure and not recommended.</p>
+<p>It&rsquo;s possible to assign IAM Role to EC2 instance, where container is running, but this option is considerably less secure and not recommended.</p>
 <h3 id="integration-with-google-secret-manager">Integration with Google Secret Manager</h3>
 <p>Google Cloud released recently a new service for managing secrets in the cloud: <a href="https://cloud.google.com/secret-manager">Google Secret Manager</a></p>
 <p>User can put Google secret name, using <code>secrets-init</code> recognizable prefix (<code>gcp:secretmanager:</code>), following secret name (<code>projects/{PROJECT_ID}/secrets/{SECRET_NAME}</code> or <code>projects/{PROJECT_ID}/secrets/{SECRET_NAME}/versions/{VERSION}</code>) as environment variable value. The <code>secrets-init</code> will resolve any environment value, using the specified name, to a referenced secret value.</p>
@@ -234,7 +234,7 @@ MY_DB_PASSWORD<span style="color:#f92672">=</span>gcp:secretmanager:projects/$PR
 <span style="color:#75715e"># environment variable passed to a child process, as resolved by `secrets-init`</span>
 MY_DB_PASSWORD<span style="color:#f92672">=</span>very-secret-password
 </code></pre></div><p>In order to resolve Google secrets from Google Secret Manager, <code>secrets-init</code> should run under IAM role that has permission to access desired secrets.</p>
-<p>This can be achieved by assigning IAM Role to Kubernetes Pod with <a href="https://cloud.google.com/kubernetes-engine/docs/how-to/workload-identity">Workload Identity</a>. It's possible to assign IAM Role to GCE instance, where container is running, but this option is less secure.</p>
+<p>This can be achieved by assigning IAM Role to Kubernetes Pod with <a href="https://cloud.google.com/kubernetes-engine/docs/how-to/workload-identity">Workload Identity</a>. It&rsquo;s possible to assign IAM Role to GCE instance, where container is running, but this option is less secure.</p>
 <h2 id="summary">Summary</h2>
 <p>Hope, you find this post useful. I look forward to your comments and any questions you have.</p>
 <hr>

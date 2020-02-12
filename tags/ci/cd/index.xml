@@ -23,7 +23,7 @@
 &lt;p&gt;Create a separate Git repository that contains Kubernetes configuration files. Define a Continuous Integration pipeline that is triggered automatically for for every change and can validate it without human intervention.&lt;/p&gt;
 &lt;h2 id=&#34;helm&#34;&gt;Helm&lt;/h2&gt;
 &lt;p&gt;Helm helps you manage complex Kubernetes applications. Using Helm Charts you define, install, test and upgrade Kubernetes application.&lt;/p&gt;
-&lt;p&gt;Here I&#39;m going to focus on using Helm for authoring complex Kubernetes application.&lt;/p&gt;
+&lt;p&gt;Here I&amp;rsquo;m going to focus on using Helm for authoring complex Kubernetes application.&lt;/p&gt;
 &lt;p&gt;The same Kubernetes application can be installed in multiple environments: development, testing, staging and production. Helm template helps to separate application structure from environment configuration by keeping environment specific values in external files.&lt;/p&gt;
 &lt;h3 id=&#34;dependency-management&#34;&gt;Dependency Management&lt;/h3&gt;
 &lt;p&gt;Helm also helps with dependency management. A typical Kubernetes application can be composed from multiple services developed by other teams and open source community.&lt;/p&gt;
@@ -32,7 +32,7 @@
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-txt&#34; data-lang=&#34;txt&#34;&gt;version: ~1.2.3
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;This will match version 1.2.3 and any patches to that release. In other words, ~1.2.3 is equivalent to &amp;gt;= 1.2.3, &amp;lt; 1.3.0&lt;/p&gt;
 &lt;h2 id=&#34;yaml&#34;&gt;YAML&lt;/h2&gt;
-&lt;p&gt;YAML is the most convenient way to write Kubernetes configuration files. YAML is easier for humans to read and write than other common data formats like XML or JSON. Still it&#39;s recommended to use automatic YAML linters to avoid syntax and formatting errors.&lt;/p&gt;
+&lt;p&gt;YAML is the most convenient way to write Kubernetes configuration files. YAML is easier for humans to read and write than other common data formats like XML or JSON. Still it&amp;rsquo;s recommended to use automatic YAML linters to avoid syntax and formatting errors.&lt;/p&gt;
 &lt;p&gt;&lt;a href=&#34;https://github.com/adrienverge/yamllint&#34;&gt;yamlint&lt;/a&gt;&lt;/p&gt;
 &lt;h3 id=&#34;helm-chart-validation&#34;&gt;Helm Chart Validation&lt;/h3&gt;
 &lt;p&gt;Helm has a &lt;code&gt;helm lint&lt;/code&gt; command that runs a series of tests to verify that the chart is well-formed. The &lt;code&gt;helm lint&lt;/code&gt; also converts YAML to JSON, and this ways is able to detect some YAML errors.&lt;/p&gt;
@@ -66,10 +66,10 @@ cat -n &amp;lt;&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;helm temp
 &lt;span style=&#34;color:#75715e&#34;&gt;# printing error line and few lines around it, replacing spaces with dots&lt;/span&gt;
 helm template hermes | sed -n 240,250p | tr &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39; &amp;#39;&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;⋅&amp;#39;&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;valid-kubernetes-configuration&#34;&gt;Valid Kubernetes Configuration&lt;/h2&gt;
-&lt;p&gt;When authoring Kubernetes configuration files, it&#39;s important not only check if they are valid YAML files, but if they are valid Kubernetes files.&lt;/p&gt;
-&lt;p&gt;It turns out that the Kubernetes supports OpenAPI specification and it&#39;s possible to generate Kubernetes JSON schema for every Kubernetes API version.&lt;/p&gt;
+&lt;p&gt;When authoring Kubernetes configuration files, it&amp;rsquo;s important not only check if they are valid YAML files, but if they are valid Kubernetes files.&lt;/p&gt;
+&lt;p&gt;It turns out that the Kubernetes supports OpenAPI specification and it&amp;rsquo;s possible to generate Kubernetes JSON schema for every Kubernetes API version.&lt;/p&gt;
 &lt;p&gt;&lt;a href=&#34;https://github.com/garethr&#34;&gt;Gareth Rushgrove&lt;/a&gt; wrote a &lt;a href=&#34;https://www.morethanseven.net/2017/06/26/schemas-for-kubernetes-types/&#34;&gt;blog post&lt;/a&gt; on this topic and maintains the &lt;a href=&#34;https://github.com/garethr/kubernetes-json-schema&#34;&gt;garethr/kubernetes-json-schema&lt;/a&gt; GitHub repository with most recent Kubernetes and OpenShift JSON schemas for all API versions. What a great contribution to the community!&lt;/p&gt;
-&lt;p&gt;Now, with Kubernetes API JSON schema, it&#39;s possible to validate any YAML file if it&#39;s a valid Kubernetes configuration file.&lt;/p&gt;
+&lt;p&gt;Now, with Kubernetes API JSON schema, it&amp;rsquo;s possible to validate any YAML file if it&amp;rsquo;s a valid Kubernetes configuration file.&lt;/p&gt;
 &lt;p&gt;The &lt;a href=&#34;https://github.com/garethr/kubeval&#34;&gt;kubeval&lt;/a&gt; tool (also authored by Gareth Rushgrove) is to help.&lt;/p&gt;
 &lt;p&gt;Run &lt;code&gt;kubeval&lt;/code&gt; piped with &lt;code&gt;helm template&lt;/code&gt; command.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;helm template mychart | kubeval

@@ -16,12 +16,12 @@
       <pubDate>Wed, 04 Oct 2017 18:00:00 +0200</pubDate>
       <guid>https://alexei-led.github.io/post/pumba_containercamp/</guid>
       <description>&lt;p&gt;What follows is the text of my presentation, &lt;em&gt;Chaos Testing for Docker Containers&lt;/em&gt; that I gave at &lt;a href=&#34;https://2017.container.camp/uk&#34;&gt;ContainerCamp&lt;/a&gt; in London this year.
-I&#39;ve also decided to turn the presentation into an article. I edited the text slightly for readability and added some links for more context. You can find the original video recording and slides at the end of this post.&lt;/p&gt;
+I&amp;rsquo;ve also decided to turn the presentation into an article. I edited the text slightly for readability and added some links for more context. You can find the original video recording and slides at the end of this post.&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;https://alexei-led.github.io/img/sink_cargo.jpg&#34; alt=&#34;Docker Chaos Testing&#34;&gt;&lt;/p&gt;
 &lt;h2 id=&#34;intro&#34;&gt;Intro&lt;/h2&gt;
 &lt;p&gt;Software development is about building software services that support business needs. More complex businesses processes we want to automate and integrate with. the more complex software system we are building. And solution complexity is tend to grown over time and scope.&lt;/p&gt;
 &lt;p&gt;The reasons for growing complexity can be different. Some systems just tend to handle too many concerns, or require a lot of integrations with external services and internal legacy systems. These systems are written and rewritten multiple times over several years by different people with different skills, trying to satisfy constantly changing business requirements, using different technologies, following different technology and architecture trends.&lt;/p&gt;
-&lt;p&gt;So, my point, is that building software, that unintentionally become more and more complex over time, is easy - we all done in the past it or doing it right now. Building a &amp;ldquo;good&amp;rdquo; software architecture for complex systems and preserving it&#39;s &amp;ldquo;good&amp;rdquo; abilities for some period of time, is really hard.&lt;/p&gt;
+&lt;p&gt;So, my point, is that building software, that unintentionally become more and more complex over time, is easy - we all done in the past it or doing it right now. Building a &amp;ldquo;good&amp;rdquo; software architecture for complex systems and preserving it&amp;rsquo;s &amp;ldquo;good&amp;rdquo; abilities for some period of time, is really hard.&lt;/p&gt;
 &lt;p&gt;When you have too many &amp;ldquo;moving&amp;rdquo; parts, integrations, constantly changing requirements, that lead to code changes, security upgrades, hardware modernization, multiple network communication channels and etc, it can become a &amp;ldquo;Mission Impossible&amp;rdquo; to avoid unexpected failures.&lt;/p&gt;
 &lt;h2 id=&#34;stuff-happens&#34;&gt;Stuff happens!&lt;/h2&gt;
 &lt;p&gt;All systems fail from time to time. And your software system will fail too. Take this as a fact of life. There will always be something that can — and will — go wrong. No matter how hard we try, we can’t build perfect software, nor can the companies we depend on. Even the most stable and respectful services from companies, that practice CI/CD, test driven development (TDD/BDD), have huge QA departments and well defined release procedures, fail.&lt;/p&gt;
@@ -29,25 +29,25 @@ I&#39;ve also decided to turn the presentation into an article. I edited the tex
 &lt;ol&gt;
 &lt;li&gt;&lt;strong&gt;BM, January 26&lt;/strong&gt;
 &lt;ul&gt;
-&lt;li&gt;IBM&#39;s cloud credibility took a hit at the start of the year when a management portal used by customers to access its Bluemix cloud infrastructure went down for several hours. While no underlying infrastructure actually failed, users were frustrated in finding they couldn&#39;t manage their applications or add or remove cloud resources powering workloads.&lt;/li&gt;
+&lt;li&gt;IBM&amp;rsquo;s cloud credibility took a hit at the start of the year when a management portal used by customers to access its Bluemix cloud infrastructure went down for several hours. While no underlying infrastructure actually failed, users were frustrated in finding they couldn&amp;rsquo;t manage their applications or add or remove cloud resources powering workloads.&lt;/li&gt;
 &lt;li&gt;IBM said the problem was intermittent and stemmed from a botched update to the interface.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;GitLab, January 31&lt;/strong&gt;
 &lt;ul&gt;
-&lt;li&gt;GitLab&#39;s popular online code repository, GibLab.com, suffered an 18-hour service outage that ultimately couldn&#39;t be fully remediated.&lt;/li&gt;
+&lt;li&gt;GitLab&amp;rsquo;s popular online code repository, GibLab.com, suffered an 18-hour service outage that ultimately couldn&amp;rsquo;t be fully remediated.&lt;/li&gt;
 &lt;li&gt;The problem resulted when an employee removed a database directory from the wrong database server during maintenance procedures.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;AWS, February 28&lt;/strong&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href=&#34;http://www.crn.com/news/cloud/300083958/aws-storage-outage-wreaking-havoc-on-web-services-providers.htm&#34;&gt;This was the outage&lt;/a&gt; that shook the industry.&lt;/li&gt;
-&lt;li&gt;An Amazon Web Services engineer trying to debug an S3 storage system in the provider&#39;s Virginia data center accidentally typed a command incorrectly, and much of the Internet – including many enterprise platforms like Slack, Quora and Trello – was down for four hours.&lt;/li&gt;
+&lt;li&gt;An Amazon Web Services engineer trying to debug an S3 storage system in the provider&amp;rsquo;s Virginia data center accidentally typed a command incorrectly, and much of the Internet – including many enterprise platforms like Slack, Quora and Trello – was down for four hours.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;Microsoft Azure, March 16&lt;/strong&gt;
 &lt;ul&gt;
-&lt;li&gt;Storage availability issues plagued Microsoft&#39;s Azure public cloud for more than eight hours, mostly affecting customers in the Eastern U.S.&lt;/li&gt;
+&lt;li&gt;Storage availability issues plagued Microsoft&amp;rsquo;s Azure public cloud for more than eight hours, mostly affecting customers in the Eastern U.S.&lt;/li&gt;
 &lt;li&gt;Some users had trouble provisioning new storage or accessing existing resources in the region. A Microsoft engineering team later identified the culprit as a storage cluster that lost power and became unavailable.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
@@ -57,7 +57,7 @@ I&#39;ve also decided to turn the presentation into an article. I edited the tex
 &lt;p&gt;As software engineers, we what to be proud of software systems we are building. We want theses systems to be of high quality, without functional bugs, security holes, providing exceptional performance, resilient to unexpected failures, self-healing, always available and easy to maintain and modernize.&lt;/p&gt;
 &lt;p&gt;Every new project starts with &amp;ldquo;high quality&amp;rdquo; picture in mind and none wants to create crappy software, but very few of us (or none) are able to achieve and keep intact all good &amp;ldquo;abilities&amp;rdquo;. So, what we can do to improve overall system quality? Should we do more testing?&lt;/p&gt;
 &lt;p&gt;I tend to say &amp;ldquo;Yes&amp;rdquo; - software testing is critical. But just running unit, functional and performance testing is not enough.&lt;/p&gt;
-&lt;p&gt;Today, building complex distributed system is much easier with all new amazing technology we have and experience we gathered. Microservice Architecture is a real trend nowadays and miscellaneous container technologies support this architecture. It&#39;s much easier to deploy, scale, link, monitor, update and manage distributed systems, composed from multiple &amp;ldquo;microservices&amp;rdquo;.
+&lt;p&gt;Today, building complex distributed system is much easier with all new amazing technology we have and experience we gathered. Microservice Architecture is a real trend nowadays and miscellaneous container technologies support this architecture. It&amp;rsquo;s much easier to deploy, scale, link, monitor, update and manage distributed systems, composed from multiple &amp;ldquo;microservices&amp;rdquo;.
 When we are building distributed systems, we are choosing &lt;strong&gt;P&lt;/strong&gt; (&lt;em&gt;Pratition Tolerance&lt;/em&gt;) from the &lt;a href=&#34;https://en.wikipedia.org/wiki/CAP_theorem&#34;&gt;CAP theorem&lt;/a&gt; and second to it either &lt;strong&gt;A&lt;/strong&gt; (&lt;em&gt;Availability&lt;/em&gt; - the most popular choice) or &lt;strong&gt;C&lt;/strong&gt; (&lt;em&gt;Consistency&lt;/em&gt;). So, we need to find a good approach for testing &lt;strong&gt;AP&lt;/strong&gt; or &lt;strong&gt;CP&lt;/strong&gt; systems.&lt;/p&gt;
 &lt;p&gt;Traditional testing disciplines and tools do not provide a good answer to &lt;em&gt;how does your distributed system behave when unexpected stuff happens in production?&lt;/em&gt;.
 Sure, you can learn from previous failures, after the fact, and you should definitely do it. But, learning from past experience should not be the only way to prepare for the future failures.&lt;/p&gt;
@@ -74,21 +74,21 @@ Chaos Engineering for distributed software systems was originally popularized by
 &lt;/ul&gt;
 &lt;p&gt;The harder it is to disrupt the steady state, the more confidence we have in the behavior of the system.  &lt;/p&gt;
 &lt;h2 id=&#34;chaos-engineering-tools&#34;&gt;Chaos Engineering tools&lt;/h2&gt;
-&lt;p&gt;Of cause it&#39;s possible to practice Chaos Engineering manually, or relay on automatic system updates, but we, as engineers like to automate boring manual tasks, so there are some nice tools to use.&lt;/p&gt;
+&lt;p&gt;Of cause it&amp;rsquo;s possible to practice Chaos Engineering manually, or relay on automatic system updates, but we, as engineers like to automate boring manual tasks, so there are some nice tools to use.&lt;/p&gt;
 &lt;p&gt;Netflix built a some &lt;a href=&#34;https://github.com/Netflix/SimianArmy/wiki&#34;&gt;useful tools&lt;/a&gt; for practicing Chaos Engineering in public cloud (AWS):&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;Chaos Monkey - kill EC2, kill processes, burn CPU, fill disk, detach volumes, add network latency, etc&lt;/li&gt;
 &lt;li&gt;Chaos Kong - remove whole AWS Regions&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;These are very good tools, I encourage you to use them. But when I&#39;ve started my new container based project (2 years ago), it looks like these tools provided just a &lt;em&gt;wrong&lt;/em&gt; granularity for &lt;em&gt;chaos&lt;/em&gt; I wanted to create, and I wanted to be able to create the &lt;em&gt;chaos&lt;/em&gt; not only in real cluster, but also on single developer machine, to be able to debug and tune my application. So, I&#39;ve searched Google for &lt;em&gt;Chaos Monkey for Docker&lt;/em&gt;, but did not find anything, besides some basic Bash scripts.
-So, I&#39;ve decided to create my own tool. And since it happens to be quite a useful tool from the very first version, I&#39;ve shared it with a community as an open source. It&#39;s a Chaos &lt;del&gt;Monkey&lt;/del&gt; Warthog for Docker - &lt;a href=&#34;https://github.com/gaia-adm/pumba&#34;&gt;Pumba&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;These are very good tools, I encourage you to use them. But when I&amp;rsquo;ve started my new container based project (2 years ago), it looks like these tools provided just a &lt;em&gt;wrong&lt;/em&gt; granularity for &lt;em&gt;chaos&lt;/em&gt; I wanted to create, and I wanted to be able to create the &lt;em&gt;chaos&lt;/em&gt; not only in real cluster, but also on single developer machine, to be able to debug and tune my application. So, I&amp;rsquo;ve searched Google for &lt;em&gt;Chaos Monkey for Docker&lt;/em&gt;, but did not find anything, besides some basic Bash scripts.
+So, I&amp;rsquo;ve decided to create my own tool. And since it happens to be quite a useful tool from the very first version, I&amp;rsquo;ve shared it with a community as an open source. It&amp;rsquo;s a Chaos &lt;del&gt;Monkey&lt;/del&gt; Warthog for Docker - &lt;a href=&#34;https://github.com/gaia-adm/pumba&#34;&gt;Pumba&lt;/a&gt;&lt;/p&gt;
 &lt;h2 id=&#34;pumba---chaos-testing-for-docker&#34;&gt;Pumba - Chaos Testing for Docker&lt;/h2&gt;
 &lt;p&gt;&lt;em&gt;What is Pumba(a)?&lt;/em&gt;&lt;/p&gt;
-&lt;p&gt;Those of us who have kids or was a kid in 90s should remember this character from Disney&#39;s animated film &lt;strong&gt;The Lion King&lt;/strong&gt;. In Swahili, &lt;strong&gt;pumbaa&lt;/strong&gt; means &amp;ldquo;&lt;em&gt;to be foolish, silly, weak-minded, careless, negligent&lt;/em&gt;&amp;quot;. I like the Swahili meaning of this word. It matched perfectly for the tool I wanted to create.&lt;/p&gt;
+&lt;p&gt;Those of us who have kids or was a kid in 90s should remember this character from Disney&amp;rsquo;s animated film &lt;strong&gt;The Lion King&lt;/strong&gt;. In Swahili, &lt;strong&gt;pumbaa&lt;/strong&gt; means &amp;ldquo;&lt;em&gt;to be foolish, silly, weak-minded, careless, negligent&lt;/em&gt;&amp;quot;. I like the Swahili meaning of this word. It matched perfectly for the tool I wanted to create.&lt;/p&gt;
 &lt;h3 id=&#34;what-pumba-can-do&#34;&gt;What Pumba can do?&lt;/h3&gt;
 &lt;p&gt;Pumba disturbs running Docker runtime environment by injecting different failures. Pumba can &lt;code&gt;kill&lt;/code&gt;, &lt;code&gt;stop&lt;/code&gt;, &lt;code&gt;remove&lt;/code&gt; or &lt;code&gt;pause&lt;/code&gt; Docker container.
 Pumba can also do a network emulation, simulating different network failures, like: delay, packet loss (using different probability loss models), bandwidth rate limits and more. For network emulation, Pumba uses Linux kernel traffic control &lt;code&gt;tc&lt;/code&gt; with &lt;code&gt;netem&lt;/code&gt; queueing discipline, read more &lt;a href=&#34;http://man7.org/linux/man-pages/man8/tc-netem.8.html&#34;&gt;here&lt;/a&gt;. If &lt;code&gt;tc&lt;/code&gt; is not available within target container, Pumba uses a &lt;em&gt;sidekick&lt;/em&gt; container with &lt;code&gt;tc&lt;/code&gt; on-board, attaching it to the target container network.&lt;/p&gt;
-&lt;p&gt;You can pass list of containers to the Pumba or just write a regular expression to select matching containers. If you will not specify containers, Pumba will try to disturb all running containers. Use &lt;code&gt;--random&lt;/code&gt; option, to randomly select only one target container from the provided list. It&#39;s also possible to define a repeatable time interval and duration parameters to better control the amount of &lt;em&gt;chaos&lt;/em&gt; you want to create.&lt;/p&gt;
+&lt;p&gt;You can pass list of containers to the Pumba or just write a regular expression to select matching containers. If you will not specify containers, Pumba will try to disturb all running containers. Use &lt;code&gt;--random&lt;/code&gt; option, to randomly select only one target container from the provided list. It&amp;rsquo;s also possible to define a repeatable time interval and duration parameters to better control the amount of &lt;em&gt;chaos&lt;/em&gt; you want to create.&lt;/p&gt;
 &lt;p&gt;Pumba is available as a single binary file for Linux, MacOS and Windows, or as a Docker container.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# Download binary from https://github.com/gaia-adm/pumba/releases&lt;/span&gt;
 curl https://github.com/gaia-adm/pumba/releases/download/0.4.6/pumba_linux_amd64 --output /usr/local/bin/pumba

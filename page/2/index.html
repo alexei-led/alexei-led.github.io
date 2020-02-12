@@ -6,8 +6,8 @@
 <title>Terra Nullius</title>
 <link rel="alternate" type="application/rss+xml" title="RSS" href="https://alexei-led.github.io/index.xml">
 <meta name="description" content="">
-<meta name="created" content="2019-12-23T10:00:00+0200">
-<meta name="modified" content="2019-12-23T10:00:00+0200">
+<meta name="created" content="2020-02-12T10:00:00+0200">
+<meta name="modified" content="2020-02-12T10:00:00+0200">
 
 
 <meta property="og:site_name" content="Terra Nullius">
@@ -15,7 +15,7 @@
 <meta property="og:url" content="https://alexei-led.github.io/">
 <meta property="og:type" content="website">
 
-<meta name="generator" content="Hugo 0.62.0" />
+<meta name="generator" content="Hugo 0.64.1" />
 <meta name="msapplication-TileColor" content="#ffffff">
 <meta name="theme-color" content="#ffffff">
 
@@ -82,6 +82,17 @@
 
 <article class="section-post list-view">
 <header>
+<h2 class="title "><a href="https://alexei-led.github.io/post/everyday_hacks/">Everyday hacks for Docker</a></h2>
+
+</header>
+<div class="content">
+In this post, I&rsquo;ve decided to share with you some useful commands and tools, I&rsquo;m frequently using, working with amazing Docker technology. There is no particular order or &ldquo;coolness level&rdquo; for every &ldquo;hack&rdquo;. I will try to present the use case and how does specific command or tool help me with my work.
+Cleaning up Working with Docker for some time, you start to accumulate development junk: unused volumes, networks, exited containers and unused images.
+</div>
+</article>
+
+<article class="section-post list-view">
+<header>
 <h2 class="title "><a href="https://alexei-led.github.io/post/composev3_swarm/">Deploy Docker Compose (v3) to Swarm (mode) Cluster</a></h2>
 
 </header>
@@ -111,7 +122,7 @@ So, what is the Docker build context?
 </header>
 <div class="content">
 TL;DR  Docker-in-Docker dind can help you to run Docker Swarm cluster on your Macbook only with Docker for Mac (v1.12+). No virtualbox, docker-machine, vagrant or other app is required.
- The Beginning One day, I've decided to try running Docker 1.12 Swarm cluster on my MacBook Pro. Docker team did a great job releasing Docker for Mac, and from that time I forgot all problems I used to have with boot2docker.
+ The Beginning One day, I&rsquo;ve decided to try running Docker 1.12 Swarm cluster on my MacBook Pro. Docker team did a great job releasing Docker for Mac, and from that time I forgot all problems I used to have with boot2docker.
 </div>
 </article>
 
@@ -143,9 +154,9 @@ Introduction The best defense against unexpected failures is to build resilient 
 
 </header>
 <div class="content">
-Congratulations! You know how to build a Docker image and are able to compose multiple containers into a meaningful application. Hopefully, you've already created a Continuous Delivery pipeline and know how to push your newly created image into production or testing environment.
+Congratulations! You know how to build a Docker image and are able to compose multiple containers into a meaningful application. Hopefully, you&rsquo;ve already created a Continuous Delivery pipeline and know how to push your newly created image into production or testing environment.
  Now, the question is - How do we test our Docker containers?
- There are multiple testing strategies we can apply. In this post, I'll highlight them presenting benefits and drawbacks for each.
+ There are multiple testing strategies we can apply. In this post, I&rsquo;ll highlight them presenting benefits and drawbacks for each.
 </div>
 </article>
 
@@ -155,8 +166,8 @@ Congratulations! You know how to build a Docker image and are able to compose mu
 
 </header>
 <div class="content">
-Let's say that you're developing a microservice in a compiled language or an interpreted language that requires some additional “build” steps to package and lint your application code. This is a useful docker pattern for the &ldquo;build&rdquo; container.
-In our project, we're using Docker as our main deployment package: every microservice is delivered as a Docker image. Each microservice also has it’s own code repository (GitHub), and its own CI build job.
+Let&rsquo;s say that you&rsquo;re developing a microservice in a compiled language or an interpreted language that requires some additional “build” steps to package and lint your application code. This is a useful docker pattern for the &ldquo;build&rdquo; container.
+In our project, we&rsquo;re using Docker as our main deployment package: every microservice is delivered as a Docker image. Each microservice also has it’s own code repository (GitHub), and its own CI build job.
 </div>
 </article>
 

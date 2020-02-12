@@ -6,8 +6,8 @@
 <title>Terra Nullius</title>
 <link rel="alternate" type="application/rss+xml" title="RSS" href="https://alexei-led.github.io/index.xml">
 <meta name="description" content="">
-<meta name="created" content="2019-12-23T10:00:00+0200">
-<meta name="modified" content="2019-12-23T10:00:00+0200">
+<meta name="created" content="2020-02-12T10:00:00+0200">
+<meta name="modified" content="2020-02-12T10:00:00+0200">
 
 
 <meta property="og:site_name" content="Terra Nullius">
@@ -15,7 +15,7 @@
 <meta property="og:url" content="https://alexei-led.github.io/">
 <meta property="og:type" content="website">
 
-<meta name="generator" content="Hugo 0.62.0" />
+<meta name="generator" content="Hugo 0.64.1" />
 <meta name="msapplication-TileColor" content="#ffffff">
 <meta name="theme-color" content="#ffffff">
 
@@ -82,6 +82,16 @@
 
 <article class="section-post list-view">
 <header>
+<h2 class="title "><a href="https://alexei-led.github.io/post/gke_aws_access/">Securely access AWS from GKE</a></h2>
+
+</header>
+<div class="content">
+Securely access AWS from GKE It is not a rare case, when an application running on Google Kubernetes Engine (GKE) needs to access Amazon Web Services (AWS) APIs. Any application has needs. Maybe it needs to run an analytics query on Amazon Redshift, access data stored in Amazon S3 bucket, convert text to speech with Amazon Polly or use any other AWS service. This multi-cloud scenario is common nowadays, as companies are working with multiple cloud providers.
+</div>
+</article>
+
+<article class="section-post list-view">
+<header>
 <h2 class="title "><a href="https://alexei-led.github.io/post/secrets-init/">Kubernetes and Secrets Management in Cloud</a></h2>
 
 </header>
@@ -97,8 +107,8 @@ The problem becomes even harder, once company moves to a microservice architectu
 
 </header>
 <div class="content">
-Throughout the lifecycle of your Kubernetes cluster, you may need to access a cluster worker node. This access could be for maintenance, configuration inspection, log collection, or other troubleshooting operations. More than that, it would be nice, if you could enable this access whenever it's needed and disable when you finish your task.
-SSH Approach While it's possible to configure Kubernetes nodes with SSH access, this also makes worker nodes more vulnerable.
+Throughout the lifecycle of your Kubernetes cluster, you may need to access a cluster worker node. This access could be for maintenance, configuration inspection, log collection, or other troubleshooting operations. More than that, it would be nice, if you could enable this access whenever it&rsquo;s needed and disable when you finish your task.
+SSH Approach While it&rsquo;s possible to configure Kubernetes nodes with SSH access, this also makes worker nodes more vulnerable.
 </div>
 </article>
 
@@ -133,7 +143,7 @@ As with code, Continuous Integration approach should be applied to a Kubernetes 
 </header>
 <div class="content">
 Continuous Delivery and Continuous Deployment for Kubernetes microservices  THIS IS A DRAFT VERSION OF POST TO COME, PLEASE DO NOT SHARE
- Starting Point Over last years we've been adopting several concepts for our project, straggling to make them work together.
+ Starting Point Over last years we&rsquo;ve been adopting several concepts for our project, straggling to make them work together.
 The first one is the Microservice Architecture. We did not start it clean and by the book, rather applied it to the already existing project: splitting big services into smaller and breaking excessive coupling.
 </div>
 </article>
@@ -144,7 +154,7 @@ The first one is the Microservice Architecture. We did not start it clean and by
 
 </header>
 <div class="content">
-What follows is the text of my presentation, Chaos Testing for Docker Containers that I gave at ContainerCamp in London this year. I've also decided to turn the presentation into an article. I edited the text slightly for readability and added some links for more context. You can find the original video recording and slides at the end of this post.
+What follows is the text of my presentation, Chaos Testing for Docker Containers that I gave at ContainerCamp in London this year. I&rsquo;ve also decided to turn the presentation into an article. I edited the text slightly for readability and added some links for more context. You can find the original video recording and slides at the end of this post.
 Intro Software development is about building software services that support business needs.
 </div>
 </article>
@@ -156,7 +166,7 @@ Intro Software development is about building software services that support busi
 </header>
 <div class="content">
 Teaser Suppose you want to debug a Node.js application already running on a remote machine inside Docker container. And would like to do it without modifying command arguments (enabling debug mode) and opening remote Node.js debugger agent port to the whole world.
-I bet you didn't know that it's possible and also have no idea how to do it.
+I bet you didn&rsquo;t know that it&rsquo;s possible and also have no idea how to do it.
 I encourage you to continue reading this post if you are eager to learn some new cool stuff.
 </div>
 </article>
@@ -182,17 +192,6 @@ TL;DR  What is the bare minimum you need to build, test and run my Java applicat
   The recipe: Create a separate Docker image for each step and optimize the way you are running it.
  Introduction I started working with Java in 1998, and for a long time, it was my main programming language. It was a long love–hate relationship.
 DDuring my work career, I wrote a lot of code in Java.
-</div>
-</article>
-
-<article class="section-post list-view">
-<header>
-<h2 class="title "><a href="https://alexei-led.github.io/post/everyday_hacks/">Everyday hacks for Docker</a></h2>
-
-</header>
-<div class="content">
-In this post, I've decided to share with you some useful commands and tools, I'm frequently using, working with amazing Docker technology. There is no particular order or &ldquo;coolness level&rdquo; for every &ldquo;hack&rdquo;. I will try to present the use case and how does specific command or tool help me with my work.
-Cleaning up Working with Docker for some time, you start to accumulate development junk: unused volumes, networks, exited containers and unused images.
 </div>
 </article>
 

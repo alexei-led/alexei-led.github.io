@@ -16,9 +16,9 @@
       <pubDate>Sat, 27 Jul 2019 10:00:00 +0200</pubDate>
       <guid>https://alexei-led.github.io/post/k8s_node_shell/</guid>
       <description>&lt;p&gt;&lt;img src=&#34;https://alexei-led.github.io/img/linux_pinguin_terminal.jpg&#34; alt=&#34;Linux Shell&#34;&gt;&lt;/p&gt;
-&lt;p&gt;Throughout the lifecycle of your Kubernetes cluster, you may need to access a cluster worker node. This access could be for maintenance, configuration inspection, log collection, or other troubleshooting operations. More than that, it would be nice, if you could enable this access whenever it&#39;s needed and disable when you finish your task.&lt;/p&gt;
+&lt;p&gt;Throughout the lifecycle of your Kubernetes cluster, you may need to access a cluster worker node. This access could be for maintenance, configuration inspection, log collection, or other troubleshooting operations. More than that, it would be nice, if you could enable this access whenever it&amp;rsquo;s needed and disable when you finish your task.&lt;/p&gt;
 &lt;h2 id=&#34;ssh-approach&#34;&gt;SSH Approach&lt;/h2&gt;
-&lt;p&gt;While it&#39;s possible to configure Kubernetes nodes with SSH access, this also makes worker nodes more vulnerable. Using SSH requires a network connection between the engineer’s machine and the EC2 instance, something you may want to avoid. Some users set up a jump server (also called bastion host) as a typical pattern to minimize the attack surface from the Internet. But this approach still requires from you to manage access to the bastion servers and protect SSH keys. IMHO, managing supporting SSH infrastructure, is a high price to pay, especially if you just wanted to get a shell access to a worker node or to run some commands.&lt;/p&gt;
+&lt;p&gt;While it&amp;rsquo;s possible to configure Kubernetes nodes with SSH access, this also makes worker nodes more vulnerable. Using SSH requires a network connection between the engineer’s machine and the EC2 instance, something you may want to avoid. Some users set up a jump server (also called bastion host) as a typical pattern to minimize the attack surface from the Internet. But this approach still requires from you to manage access to the bastion servers and protect SSH keys. IMHO, managing supporting SSH infrastructure, is a high price to pay, especially if you just wanted to get a shell access to a worker node or to run some commands.&lt;/p&gt;
 &lt;h2 id=&#34;kubernetes-approach&#34;&gt;Kubernetes Approach&lt;/h2&gt;
 &lt;p&gt;The Kubernetes command line tool, &lt;code&gt;kubectl&lt;/code&gt;, allows you to run different commands against a Kubernetes cluster. You can manipulate Kubernetes API objects, manage worker nodes, inspect cluster, execute commands inside running container, and &lt;a href=&#34;https://kubernetes.io/docs/tasks/debug-application-cluster/get-shell-running-container/&#34;&gt;get an interactive shell to a running container&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;Suppose you have a &lt;code&gt;pod&lt;/code&gt;, named &lt;code&gt;shell-demo&lt;/code&gt;. To get a shell to the running container on this &lt;code&gt;pod&lt;/code&gt;, just run:&lt;/p&gt;
@@ -28,17 +28,17 @@
 root@shell-demo:/#
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;how-does-exec-work&#34;&gt;How Does &lt;code&gt;exec&lt;/code&gt; Work?&lt;/h3&gt;
 &lt;p&gt;&lt;code&gt;kubectl exec&lt;/code&gt; invokes Kubernetes API Server and it &amp;ldquo;asks&amp;rdquo; a &lt;code&gt;Kubelet&lt;/code&gt; &amp;ldquo;node agent&amp;rdquo; to run an &lt;code&gt;exec&lt;/code&gt; command against CRI (Container Runtime Interface), most frequently it is a Docker runtime.&lt;/p&gt;
-&lt;p&gt;The &lt;code&gt;docker exec&lt;/code&gt; API/command creates a new process, sets its namespaces to a target container&#39;s namespaces and then executes the requested command, handling also input and output streams for created process.&lt;/p&gt;
+&lt;p&gt;The &lt;code&gt;docker exec&lt;/code&gt; API/command creates a new process, sets its namespaces to a target container&amp;rsquo;s namespaces and then executes the requested command, handling also input and output streams for created process.&lt;/p&gt;
 &lt;h3 id=&#34;the-idea&#34;&gt;The Idea&lt;/h3&gt;
 &lt;blockquote&gt;
 &lt;p&gt;A Linux system starts out with a single namespace of each type (mount, process, ipc, network, UTS, and user), used by all processes.&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;p&gt;So, we need to do is to run a new &lt;code&gt;pod&lt;/code&gt;, and connect it to a worker node host namespaces.&lt;/p&gt;
 &lt;h3 id=&#34;a-helper-program&#34;&gt;A Helper Program&lt;/h3&gt;
-&lt;p&gt;It is possible to use any Docker image with shell on board as a &amp;ldquo;host shell&amp;rdquo; container. There is one limitation, you should be aware of - it&#39;s not possible to join &lt;code&gt;mount namespace&lt;/code&gt; of target container (or host).&lt;/p&gt;
+&lt;p&gt;It is possible to use any Docker image with shell on board as a &amp;ldquo;host shell&amp;rdquo; container. There is one limitation, you should be aware of - it&amp;rsquo;s not possible to join &lt;code&gt;mount namespace&lt;/code&gt; of target container (or host).&lt;/p&gt;
 &lt;p&gt;The &lt;a href=&#34;http://man7.org/linux/man-pages/man1/nsenter.1.html&#34;&gt;&lt;code&gt;nsenter&lt;/code&gt;&lt;/a&gt; is a small program from &lt;code&gt;util-linux&lt;/code&gt; package, that can run program with &lt;code&gt;namespaces&lt;/code&gt; (and &lt;code&gt;cgroups&lt;/code&gt;) of other processes. Exactly what we need!&lt;/p&gt;
 &lt;p&gt;Most Linux distros ship with an outdated version of &lt;code&gt;util-linux&lt;/code&gt;. So, I prepared the &lt;a href=&#34;https://hub.docker.com/r/alexeiled/nsenterr&#34;&gt;alexeiled/nsenter&lt;/a&gt; Docker image with &lt;code&gt;nsenter&lt;/code&gt; program on-board. This is a super small Docker image, of &lt;code&gt;900K&lt;/code&gt; size, created from &lt;code&gt;scratch&lt;/code&gt; image and a single statically linked &lt;code&gt;nsenter&lt;/code&gt; binary (&lt;code&gt;v2.34&lt;/code&gt;).&lt;/p&gt;
-&lt;p&gt;Use the helper script below, also available in &lt;a href=&#34;https://github.com/alexei-led/nsenter&#34;&gt;alexei-led/nsenter&lt;/a&gt; GitHub repository, to run a new &lt;code&gt;nsenter pod&lt;/code&gt; on specified Kubernetes worker node. This helper script create a &lt;em&gt;privileged&lt;/em&gt; &lt;code&gt;nsenter pod&lt;/code&gt; in a host&#39;s process and network namespaces, running &lt;code&gt;nsenter&lt;/code&gt; with &lt;code&gt;--all&lt;/code&gt; flag, joining all &lt;code&gt;namespaces&lt;/code&gt; and &lt;code&gt;cgroups&lt;/code&gt; and running a default shell as a &lt;em&gt;superuser&lt;/em&gt; (with &lt;code&gt;su -&lt;/code&gt; command).&lt;/p&gt;
+&lt;p&gt;Use the helper script below, also available in &lt;a href=&#34;https://github.com/alexei-led/nsenter&#34;&gt;alexei-led/nsenter&lt;/a&gt; GitHub repository, to run a new &lt;code&gt;nsenter pod&lt;/code&gt; on specified Kubernetes worker node. This helper script create a &lt;em&gt;privileged&lt;/em&gt; &lt;code&gt;nsenter pod&lt;/code&gt; in a host&amp;rsquo;s process and network namespaces, running &lt;code&gt;nsenter&lt;/code&gt; with &lt;code&gt;--all&lt;/code&gt; flag, joining all &lt;code&gt;namespaces&lt;/code&gt; and &lt;code&gt;cgroups&lt;/code&gt; and running a default shell as a &lt;em&gt;superuser&lt;/em&gt; (with &lt;code&gt;su -&lt;/code&gt; command).&lt;/p&gt;
 &lt;p&gt;The &lt;code&gt;nodeSelector&lt;/code&gt; makes it possible to specify a target Kubernetes node to run &lt;code&gt;nsenter pod&lt;/code&gt; on.
 The &lt;code&gt;&amp;quot;tolerations&amp;quot;: [{&amp;quot;operator&amp;quot;: &amp;quot;Exists&amp;quot;}]&lt;/code&gt; parameter helps to match any node &lt;code&gt;taint&lt;/code&gt;, if specified.&lt;/p&gt;
 &lt;h4 id=&#34;helper-script&#34;&gt;Helper script&lt;/h4&gt;
@@ -126,116 +126,116 @@ sh-4.2$ exit
 
 Exiting session with sessionId: ...
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;the-daemonsetyaml-file&#34;&gt;The &lt;code&gt;daemonset.yaml&lt;/code&gt; file&lt;/h4&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;apiVersion: apps/v1
-kind: DaemonSet
-metadata:
-  name: ssm-agent
-  labels:
-    k8s-app: ssm-agent
-  namespace: kube-system
-spec:
-  selector:
-    matchLabels:
-      name: ssm-agent
-  template:
-    metadata:
-      labels:
-        name: ssm-agent
-    spec:
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;apiVersion&lt;/span&gt;: apps/v1
+&lt;span style=&#34;color:#66d9ef&#34;&gt;kind&lt;/span&gt;: DaemonSet
+&lt;span style=&#34;color:#66d9ef&#34;&gt;metadata&lt;/span&gt;:
+  &lt;span style=&#34;color:#66d9ef&#34;&gt;name&lt;/span&gt;: ssm-agent
+  &lt;span style=&#34;color:#66d9ef&#34;&gt;labels&lt;/span&gt;:
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;k8s-app&lt;/span&gt;: ssm-agent
+  &lt;span style=&#34;color:#66d9ef&#34;&gt;namespace&lt;/span&gt;: kube-system
+&lt;span style=&#34;color:#66d9ef&#34;&gt;spec&lt;/span&gt;:
+  &lt;span style=&#34;color:#66d9ef&#34;&gt;selector&lt;/span&gt;:
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;matchLabels&lt;/span&gt;:
+      &lt;span style=&#34;color:#66d9ef&#34;&gt;name&lt;/span&gt;: ssm-agent
+  &lt;span style=&#34;color:#66d9ef&#34;&gt;template&lt;/span&gt;:
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;metadata&lt;/span&gt;:
+      &lt;span style=&#34;color:#66d9ef&#34;&gt;labels&lt;/span&gt;:
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;name&lt;/span&gt;: ssm-agent
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;spec&lt;/span&gt;:
       &lt;span style=&#34;color:#75715e&#34;&gt;# join host network namespace&lt;/span&gt;
-      hostNetwork: &lt;span style=&#34;color:#66d9ef&#34;&gt;true&lt;/span&gt;
+      &lt;span style=&#34;color:#66d9ef&#34;&gt;hostNetwork&lt;/span&gt;: &lt;span style=&#34;color:#66d9ef&#34;&gt;true&lt;/span&gt;
       &lt;span style=&#34;color:#75715e&#34;&gt;# join host process namespace&lt;/span&gt;
-      hostPID: &lt;span style=&#34;color:#66d9ef&#34;&gt;true&lt;/span&gt;
+      &lt;span style=&#34;color:#66d9ef&#34;&gt;hostPID&lt;/span&gt;: &lt;span style=&#34;color:#66d9ef&#34;&gt;true&lt;/span&gt;
       &lt;span style=&#34;color:#75715e&#34;&gt;# join host IPC namespace&lt;/span&gt;
-      hostIPC: &lt;span style=&#34;color:#66d9ef&#34;&gt;true&lt;/span&gt; 
+      &lt;span style=&#34;color:#66d9ef&#34;&gt;hostIPC&lt;/span&gt;: &lt;span style=&#34;color:#66d9ef&#34;&gt;true&lt;/span&gt; 
       &lt;span style=&#34;color:#75715e&#34;&gt;# tolerations&lt;/span&gt;
-      tolerations:
-      - effect: NoExecute
-        operator: Exists
-      - effect: NoSchedule
-        operator: Exists
-      containers:
-      - image: alexeiled/aws-ssm-agent:&lt;span style=&#34;color:#ae81ff&#34;&gt;2.3&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;.680&lt;/span&gt;
-        imagePullPolicy: Always
-        name: ssm-agent
-        securityContext:
-          runAsUser: &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;
-          privileged: &lt;span style=&#34;color:#66d9ef&#34;&gt;true&lt;/span&gt;
-        volumeMounts:
+      &lt;span style=&#34;color:#66d9ef&#34;&gt;tolerations&lt;/span&gt;:
+      - &lt;span style=&#34;color:#66d9ef&#34;&gt;effect&lt;/span&gt;: NoExecute
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;operator&lt;/span&gt;: Exists
+      - &lt;span style=&#34;color:#66d9ef&#34;&gt;effect&lt;/span&gt;: NoSchedule
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;operator&lt;/span&gt;: Exists
+      &lt;span style=&#34;color:#66d9ef&#34;&gt;containers&lt;/span&gt;:
+      - &lt;span style=&#34;color:#66d9ef&#34;&gt;image&lt;/span&gt;: alexeiled/aws-ssm-agent:&lt;span style=&#34;color:#ae81ff&#34;&gt;2.3&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;.680&lt;/span&gt;
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;imagePullPolicy&lt;/span&gt;: Always
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;name&lt;/span&gt;: ssm-agent
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;securityContext&lt;/span&gt;:
+          &lt;span style=&#34;color:#66d9ef&#34;&gt;runAsUser&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;
+          &lt;span style=&#34;color:#66d9ef&#34;&gt;privileged&lt;/span&gt;: &lt;span style=&#34;color:#66d9ef&#34;&gt;true&lt;/span&gt;
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;volumeMounts&lt;/span&gt;:
         &lt;span style=&#34;color:#75715e&#34;&gt;# Allows systemctl to communicate with the systemd running on the host&lt;/span&gt;
-        - name: dbus
-          mountPath: /var/run/dbus
-        - name: run-systemd
-          mountPath: /run/systemd
+        - &lt;span style=&#34;color:#66d9ef&#34;&gt;name&lt;/span&gt;: dbus
+          &lt;span style=&#34;color:#66d9ef&#34;&gt;mountPath&lt;/span&gt;: /var/run/dbus
+        - &lt;span style=&#34;color:#66d9ef&#34;&gt;name&lt;/span&gt;: run-systemd
+          &lt;span style=&#34;color:#66d9ef&#34;&gt;mountPath&lt;/span&gt;: /run/systemd
         &lt;span style=&#34;color:#75715e&#34;&gt;# Allows to peek into systemd units that are baked into the official EKS AMI&lt;/span&gt;
-        - name: etc-systemd
-          mountPath: /etc/systemd
+        - &lt;span style=&#34;color:#66d9ef&#34;&gt;name&lt;/span&gt;: etc-systemd
+          &lt;span style=&#34;color:#66d9ef&#34;&gt;mountPath&lt;/span&gt;: /etc/systemd
         &lt;span style=&#34;color:#75715e&#34;&gt;# This is needed in order to fetch logs NOT managed by journald&lt;/span&gt;
         &lt;span style=&#34;color:#75715e&#34;&gt;# journallog is stored only in memory by default, so we need&lt;/span&gt;
         &lt;span style=&#34;color:#75715e&#34;&gt;#&lt;/span&gt;
         &lt;span style=&#34;color:#75715e&#34;&gt;# If all you need is access to persistent journals, /var/log/journal/* would be enough&lt;/span&gt;
         &lt;span style=&#34;color:#75715e&#34;&gt;# FYI, the volatile log store /var/run/journal was empty on my nodes. Perhaps it isn&amp;#39;t used in Amazon Linux 2 / EKS AMI?&lt;/span&gt;
         &lt;span style=&#34;color:#75715e&#34;&gt;# See https://askubuntu.com/a/1082910 for more background&lt;/span&gt;
-        - name: var-log
-          mountPath: /var/log
-        - name: var-run
-          mountPath: /var/run
-        - name: run
-          mountPath: /run
-        - name: usr-lib-systemd
-          mountPath: /usr/lib/systemd
-        - name: etc-machine-id
-          mountPath: /etc/machine-id
-        - name: etc-sudoers
-          mountPath: /etc/sudoers.d
-      volumes:
+        - &lt;span style=&#34;color:#66d9ef&#34;&gt;name&lt;/span&gt;: var-log
+          &lt;span style=&#34;color:#66d9ef&#34;&gt;mountPath&lt;/span&gt;: /var/log
+        - &lt;span style=&#34;color:#66d9ef&#34;&gt;name&lt;/span&gt;: var-run
+          &lt;span style=&#34;color:#66d9ef&#34;&gt;mountPath&lt;/span&gt;: /var/run
+        - &lt;span style=&#34;color:#66d9ef&#34;&gt;name&lt;/span&gt;: run
+          &lt;span style=&#34;color:#66d9ef&#34;&gt;mountPath&lt;/span&gt;: /run
+        - &lt;span style=&#34;color:#66d9ef&#34;&gt;name&lt;/span&gt;: usr-lib-systemd
+          &lt;span style=&#34;color:#66d9ef&#34;&gt;mountPath&lt;/span&gt;: /usr/lib/systemd
+        - &lt;span style=&#34;color:#66d9ef&#34;&gt;name&lt;/span&gt;: etc-machine-id
+          &lt;span style=&#34;color:#66d9ef&#34;&gt;mountPath&lt;/span&gt;: /etc/machine-id
+        - &lt;span style=&#34;color:#66d9ef&#34;&gt;name&lt;/span&gt;: etc-sudoers
+          &lt;span style=&#34;color:#66d9ef&#34;&gt;mountPath&lt;/span&gt;: /etc/sudoers.d
+      &lt;span style=&#34;color:#66d9ef&#34;&gt;volumes&lt;/span&gt;:
       &lt;span style=&#34;color:#75715e&#34;&gt;# for systemctl to systemd access&lt;/span&gt;
-      - name: dbus
-        hostPath:
-          path: /var/run/dbus
-          type: Directory
-      - name: run-systemd
-        hostPath:
-          path: /run/systemd
-          type: Directory
-      - name: etc-systemd
-        hostPath:
-          path: /etc/systemd
-          type: Directory
-      - name: var-log
-        hostPath:
-          path: /var/log
-          type: Directory
+      - &lt;span style=&#34;color:#66d9ef&#34;&gt;name&lt;/span&gt;: dbus
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;hostPath&lt;/span&gt;:
+          &lt;span style=&#34;color:#66d9ef&#34;&gt;path&lt;/span&gt;: /var/run/dbus
+          &lt;span style=&#34;color:#66d9ef&#34;&gt;type&lt;/span&gt;: Directory
+      - &lt;span style=&#34;color:#66d9ef&#34;&gt;name&lt;/span&gt;: run-systemd
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;hostPath&lt;/span&gt;:
+          &lt;span style=&#34;color:#66d9ef&#34;&gt;path&lt;/span&gt;: /run/systemd
+          &lt;span style=&#34;color:#66d9ef&#34;&gt;type&lt;/span&gt;: Directory
+      - &lt;span style=&#34;color:#66d9ef&#34;&gt;name&lt;/span&gt;: etc-systemd
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;hostPath&lt;/span&gt;:
+          &lt;span style=&#34;color:#66d9ef&#34;&gt;path&lt;/span&gt;: /etc/systemd
+          &lt;span style=&#34;color:#66d9ef&#34;&gt;type&lt;/span&gt;: Directory
+      - &lt;span style=&#34;color:#66d9ef&#34;&gt;name&lt;/span&gt;: var-log
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;hostPath&lt;/span&gt;:
+          &lt;span style=&#34;color:#66d9ef&#34;&gt;path&lt;/span&gt;: /var/log
+          &lt;span style=&#34;color:#66d9ef&#34;&gt;type&lt;/span&gt;: Directory
       &lt;span style=&#34;color:#75715e&#34;&gt;# mainly for dockerd access via /var/run/docker.sock&lt;/span&gt;
-      - name: var-run
-        hostPath:
-          path: /var/run
-          type: Directory
+      - &lt;span style=&#34;color:#66d9ef&#34;&gt;name&lt;/span&gt;: var-run
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;hostPath&lt;/span&gt;:
+          &lt;span style=&#34;color:#66d9ef&#34;&gt;path&lt;/span&gt;: /var/run
+          &lt;span style=&#34;color:#66d9ef&#34;&gt;type&lt;/span&gt;: Directory
       &lt;span style=&#34;color:#75715e&#34;&gt;# var-run implies you also need this, because&lt;/span&gt;
       &lt;span style=&#34;color:#75715e&#34;&gt;# /var/run is a synmlink to /run&lt;/span&gt;
       &lt;span style=&#34;color:#75715e&#34;&gt;# sh-4.2$ ls -lah /var/run&lt;/span&gt;
       &lt;span style=&#34;color:#75715e&#34;&gt;# lrwxrwxrwx 1 root root 6 Nov 14 07:22 /var/run -&amp;gt; ../run&lt;/span&gt;
-      - name: run
-        hostPath:
-          path: /run
-          type: Directory
-      - name: usr-lib-systemd
-        hostPath:
-          path: /usr/lib/systemd
-          type: Directory
+      - &lt;span style=&#34;color:#66d9ef&#34;&gt;name&lt;/span&gt;: run
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;hostPath&lt;/span&gt;:
+          &lt;span style=&#34;color:#66d9ef&#34;&gt;path&lt;/span&gt;: /run
+          &lt;span style=&#34;color:#66d9ef&#34;&gt;type&lt;/span&gt;: Directory
+      - &lt;span style=&#34;color:#66d9ef&#34;&gt;name&lt;/span&gt;: usr-lib-systemd
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;hostPath&lt;/span&gt;:
+          &lt;span style=&#34;color:#66d9ef&#34;&gt;path&lt;/span&gt;: /usr/lib/systemd
+          &lt;span style=&#34;color:#66d9ef&#34;&gt;type&lt;/span&gt;: Directory
       &lt;span style=&#34;color:#75715e&#34;&gt;# Required by journalctl to locate the current boot.&lt;/span&gt;
       &lt;span style=&#34;color:#75715e&#34;&gt;# If omitted, journalctl is unable to locate host&amp;#39;s current boot journal&lt;/span&gt;
-      - name: etc-machine-id
-        hostPath:
-          path: /etc/machine-id
-          type: File
+      - &lt;span style=&#34;color:#66d9ef&#34;&gt;name&lt;/span&gt;: etc-machine-id
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;hostPath&lt;/span&gt;:
+          &lt;span style=&#34;color:#66d9ef&#34;&gt;path&lt;/span&gt;: /etc/machine-id
+          &lt;span style=&#34;color:#66d9ef&#34;&gt;type&lt;/span&gt;: File
       &lt;span style=&#34;color:#75715e&#34;&gt;# Avoid this error &amp;gt; ERROR [MessageGatewayService] Failed to add ssm-user to sudoers file: open /etc/sudoers.d/ssm-agent-users: no such file or directory&lt;/span&gt;
-      - name: etc-sudoers
-        hostPath:
-          path: /etc/sudoers.d
-          type: Directory
+      - &lt;span style=&#34;color:#66d9ef&#34;&gt;name&lt;/span&gt;: etc-sudoers
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;hostPath&lt;/span&gt;:
+          &lt;span style=&#34;color:#66d9ef&#34;&gt;path&lt;/span&gt;: /etc/sudoers.d
+          &lt;span style=&#34;color:#66d9ef&#34;&gt;type&lt;/span&gt;: Directory
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;summary&#34;&gt;Summary&lt;/h2&gt;
-&lt;p&gt;As you see, it&#39;s relatively easy to manage Kubernetes nodes in a pure Kubernetes way, without taking unnecessary risks and managing complex SSH infrastructure.&lt;/p&gt;
+&lt;p&gt;As you see, it&amp;rsquo;s relatively easy to manage Kubernetes nodes in a pure Kubernetes way, without taking unnecessary risks and managing complex SSH infrastructure.&lt;/p&gt;
 &lt;h2 id=&#34;reference&#34;&gt;Reference&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href=&#34;https://hub.docker.com/r/alexeiled/nsenter&#34;&gt;&lt;code&gt;alexeiled/nsenter&lt;/code&gt;&lt;/a&gt; Docker image&lt;/li&gt;

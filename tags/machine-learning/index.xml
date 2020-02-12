@@ -34,17 +34,17 @@ It is possible to pass all parameters to the tool as CLI flags or configuration 
 &lt;p&gt;Customize your cluster by using a config file. Just run&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;eksctl create cluster -f cluster.yaml
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;to apply a cluster.yaml file:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;apiVersion: eksctl.io/v1alpha5
-kind: ClusterConfig
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;apiVersion&lt;/span&gt;: eksctl.io/v1alpha5
+&lt;span style=&#34;color:#66d9ef&#34;&gt;kind&lt;/span&gt;: ClusterConfig
 
-metadata:
-name: test-cluster
-region: us-west&lt;span style=&#34;color:#ae81ff&#34;&gt;-2&lt;/span&gt;
+&lt;span style=&#34;color:#66d9ef&#34;&gt;metadata&lt;/span&gt;:
+&lt;span style=&#34;color:#66d9ef&#34;&gt;name&lt;/span&gt;: test-cluster
+&lt;span style=&#34;color:#66d9ef&#34;&gt;region&lt;/span&gt;: us-west&lt;span style=&#34;color:#ae81ff&#34;&gt;-2&lt;/span&gt;
 
-nodeGroups:
-  - name: ng
-    instanceType: m5.large
-    desiredCapacity: &lt;span style=&#34;color:#ae81ff&#34;&gt;10&lt;/span&gt;
+&lt;span style=&#34;color:#66d9ef&#34;&gt;nodeGroups&lt;/span&gt;:
+  - &lt;span style=&#34;color:#66d9ef&#34;&gt;name&lt;/span&gt;: ng
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;instanceType&lt;/span&gt;: m5.large
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;desiredCapacity&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;10&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;A new EKS cluster with 10 &lt;code&gt;m5.large&lt;/code&gt; On-Demand EC2 worker nodes will be created and cluster credentials will be added to &lt;code&gt;~/.kube/config&lt;/code&gt; file.&lt;/p&gt;
 &lt;h3 id=&#34;creating-node-groups&#34;&gt;Creating node groups&lt;/h3&gt;
 &lt;p&gt;As planned, we are going to create two node groups for Kubernetes worker nodes:&lt;/p&gt;
@@ -56,40 +56,40 @@ nodeGroups:
 &lt;h4 id=&#34;general-node-group&#34;&gt;General node group&lt;/h4&gt;
 &lt;p&gt;The &lt;code&gt;eksctl&lt;/code&gt; configuration file contains EKS cluster in &lt;code&gt;us-west-2&lt;/code&gt; across 3 Availability Zones and the first &lt;em&gt;General&lt;/em&gt; autoscaling (from 2 to 20 nodes) node group running on diversified Spot instances.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;---
-apiVersion: eksctl.io/v1alpha5
-kind: ClusterConfig
+&lt;span style=&#34;color:#66d9ef&#34;&gt;apiVersion&lt;/span&gt;: eksctl.io/v1alpha5
+&lt;span style=&#34;color:#66d9ef&#34;&gt;kind&lt;/span&gt;: ClusterConfig
 
-metadata:
-  name: gaia-kube
-  region: us-west&lt;span style=&#34;color:#ae81ff&#34;&gt;-2&lt;/span&gt;
+&lt;span style=&#34;color:#66d9ef&#34;&gt;metadata&lt;/span&gt;:
+  &lt;span style=&#34;color:#66d9ef&#34;&gt;name&lt;/span&gt;: gaia-kube
+  &lt;span style=&#34;color:#66d9ef&#34;&gt;region&lt;/span&gt;: us-west&lt;span style=&#34;color:#ae81ff&#34;&gt;-2&lt;/span&gt;
 
-availabilityZones: [&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;us-west-2a&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;us-west-2b&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;us-west-2c&amp;#34;&lt;/span&gt;]
+&lt;span style=&#34;color:#66d9ef&#34;&gt;availabilityZones&lt;/span&gt;: [&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;us-west-2a&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;us-west-2b&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;us-west-2c&amp;#34;&lt;/span&gt;]
 
-nodeGroups:
+&lt;span style=&#34;color:#66d9ef&#34;&gt;nodeGroups&lt;/span&gt;:
   &lt;span style=&#34;color:#75715e&#34;&gt;# spot workers NG - multi AZ, scale from 3&lt;/span&gt;
-  - name: spot-ng
-    ami: auto
-    instanceType: mixed
-    desiredCapacity: &lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;
-    minSize: &lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;
-    maxSize: &lt;span style=&#34;color:#ae81ff&#34;&gt;20&lt;/span&gt;
-    volumeSize: &lt;span style=&#34;color:#ae81ff&#34;&gt;100&lt;/span&gt;
-    volumeType: gp2
-    volumeEncrypted: &lt;span style=&#34;color:#66d9ef&#34;&gt;true&lt;/span&gt;
-    iam:
-      attachPolicyARNs:
+  - &lt;span style=&#34;color:#66d9ef&#34;&gt;name&lt;/span&gt;: spot-ng
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;ami&lt;/span&gt;: auto
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;instanceType&lt;/span&gt;: mixed
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;desiredCapacity&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;minSize&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;maxSize&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;20&lt;/span&gt;
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;volumeSize&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;100&lt;/span&gt;
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;volumeType&lt;/span&gt;: gp2
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;volumeEncrypted&lt;/span&gt;: &lt;span style=&#34;color:#66d9ef&#34;&gt;true&lt;/span&gt;
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;iam&lt;/span&gt;:
+      &lt;span style=&#34;color:#66d9ef&#34;&gt;attachPolicyARNs&lt;/span&gt;:
         - arn:aws:iam::aws:policy/service-role/AmazonEC2RoleforSSM
         - arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy
         - arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy
         - arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly
-      withAddonPolicies:
-        autoScaler: &lt;span style=&#34;color:#66d9ef&#34;&gt;true&lt;/span&gt;
-        ebs: &lt;span style=&#34;color:#66d9ef&#34;&gt;true&lt;/span&gt;
-        albIngress: &lt;span style=&#34;color:#66d9ef&#34;&gt;true&lt;/span&gt;
-        cloudWatch: &lt;span style=&#34;color:#66d9ef&#34;&gt;true&lt;/span&gt;
-    instancesDistribution:
-      onDemandPercentageAboveBaseCapacity: &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;
-      instanceTypes:
+      &lt;span style=&#34;color:#66d9ef&#34;&gt;withAddonPolicies&lt;/span&gt;:
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;autoScaler&lt;/span&gt;: &lt;span style=&#34;color:#66d9ef&#34;&gt;true&lt;/span&gt;
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;ebs&lt;/span&gt;: &lt;span style=&#34;color:#66d9ef&#34;&gt;true&lt;/span&gt;
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;albIngress&lt;/span&gt;: &lt;span style=&#34;color:#66d9ef&#34;&gt;true&lt;/span&gt;
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;cloudWatch&lt;/span&gt;: &lt;span style=&#34;color:#66d9ef&#34;&gt;true&lt;/span&gt;
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;instancesDistribution&lt;/span&gt;:
+      &lt;span style=&#34;color:#66d9ef&#34;&gt;onDemandPercentageAboveBaseCapacity&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;
+      &lt;span style=&#34;color:#66d9ef&#34;&gt;instanceTypes&lt;/span&gt;:
         - m4.2xlarge
         - m4.4xlarge
         - m5.2xlarge
@@ -100,13 +100,13 @@ nodeGroups:
         - c4.4xlarge
         - c5.2xlarge
         - c5.4xlarge
-      spotInstancePools: &lt;span style=&#34;color:#ae81ff&#34;&gt;15&lt;/span&gt;
-    tags:
-      k8s.io/cluster-autoscaler/enabled: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;true&amp;#39;&lt;/span&gt;
-    labels:
-      lifecycle: Ec2Spot
-    privateNetworking: &lt;span style=&#34;color:#66d9ef&#34;&gt;true&lt;/span&gt;
-    availabilityZones: [&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;us-west-2a&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;us-west-2b&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;us-west-2c&amp;#34;&lt;/span&gt;]
+      &lt;span style=&#34;color:#66d9ef&#34;&gt;spotInstancePools&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;15&lt;/span&gt;
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;tags&lt;/span&gt;:
+      &lt;span style=&#34;color:#66d9ef&#34;&gt;k8s.io/cluster-autoscaler/enabled&lt;/span&gt;: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;true&amp;#39;&lt;/span&gt;
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;labels&lt;/span&gt;:
+      &lt;span style=&#34;color:#66d9ef&#34;&gt;lifecycle&lt;/span&gt;: Ec2Spot
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;privateNetworking&lt;/span&gt;: &lt;span style=&#34;color:#66d9ef&#34;&gt;true&lt;/span&gt;
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;availabilityZones&lt;/span&gt;: [&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;us-west-2a&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;us-west-2b&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;us-west-2c&amp;#34;&lt;/span&gt;]
 
     &lt;span style=&#34;color:#75715e&#34;&gt;### next: GPU node groups ...&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Now it is time to explain some parameters used in the above configuration file.&lt;/p&gt;
@@ -129,56 +129,56 @@ nodeGroups:
 &lt;p&gt;The Spot instance diversification also increases worker nodes availability, typically not all &lt;em&gt;Spot Instance pools&lt;/em&gt; will be interrupted at the same time, so only a small portion of your workload will be interrupted and EC2 Auto-scaling group will replace interrupted instances from others &lt;em&gt;Spot Instance pools&lt;/em&gt;.&lt;/p&gt;
 &lt;h4 id=&#34;gpu-powered-node-group&#34;&gt;GPU-powered node group&lt;/h4&gt;
 &lt;p&gt;The next part of our &lt;code&gt;eksctl&lt;/code&gt; configuration file contains first &lt;em&gt;GPU&lt;/em&gt; autoscaling (from 0 to 10 nodes) node group running on diversified GPU-powered Spot instances.&lt;/p&gt;
-&lt;p&gt;When using GPU-powered Spot instances, it&#39;s recommended to create &lt;em&gt;GPU&lt;/em&gt; node group per Availability Zone and configure Kubernetes Cluster Autoscaler to avoid automatic &lt;a href=&#34;https://docs.aws.amazon.com/autoscaling/ec2/userguide/auto-scaling-benefits.html#arch-AutoScalingMultiAZ&#34;&gt;ASG rebalancing&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;When using GPU-powered Spot instances, it&amp;rsquo;s recommended to create &lt;em&gt;GPU&lt;/em&gt; node group per Availability Zone and configure Kubernetes Cluster Autoscaler to avoid automatic &lt;a href=&#34;https://docs.aws.amazon.com/autoscaling/ec2/userguide/auto-scaling-benefits.html#arch-AutoScalingMultiAZ&#34;&gt;ASG rebalancing&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;Why is it important?
 GPU-powered EC2 Spot Instances have relatively high &lt;em&gt;Frequency of interruption&lt;/em&gt; rate (&lt;code&gt;&amp;gt;20%&lt;/code&gt; for some GPU instance types) and using multiple AZ and disabling automatic Cluster Autoscaler balancing can help to minimize GPU workload interruptions.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;  &lt;span style=&#34;color:#75715e&#34;&gt;# ... EKS cluster and General node group ...&lt;/span&gt;
 
   &lt;span style=&#34;color:#75715e&#34;&gt;# spot GPU NG - west-2a AZ, scale from 0&lt;/span&gt;
-  - name: gpu-spot-ng-a
-    ami: auto
-    instanceType: mixed
-    desiredCapacity: &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;
-    minSize: &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;
-    maxSize: &lt;span style=&#34;color:#ae81ff&#34;&gt;10&lt;/span&gt;
-    volumeSize: &lt;span style=&#34;color:#ae81ff&#34;&gt;100&lt;/span&gt;
-    volumeType: gp2
-    volumeEncrypted: &lt;span style=&#34;color:#66d9ef&#34;&gt;true&lt;/span&gt;
-    iam:
-      attachPolicyARNs:
+  - &lt;span style=&#34;color:#66d9ef&#34;&gt;name&lt;/span&gt;: gpu-spot-ng-a
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;ami&lt;/span&gt;: auto
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;instanceType&lt;/span&gt;: mixed
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;desiredCapacity&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;minSize&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;maxSize&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;10&lt;/span&gt;
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;volumeSize&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;100&lt;/span&gt;
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;volumeType&lt;/span&gt;: gp2
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;volumeEncrypted&lt;/span&gt;: &lt;span style=&#34;color:#66d9ef&#34;&gt;true&lt;/span&gt;
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;iam&lt;/span&gt;:
+      &lt;span style=&#34;color:#66d9ef&#34;&gt;attachPolicyARNs&lt;/span&gt;:
         - arn:aws:iam::aws:policy/service-role/AmazonEC2RoleforSSM
         - arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy
         - arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy
         - arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly
-      withAddonPolicies:
-        autoScaler: &lt;span style=&#34;color:#66d9ef&#34;&gt;true&lt;/span&gt;
-        ebs: &lt;span style=&#34;color:#66d9ef&#34;&gt;true&lt;/span&gt;
-        fsx: &lt;span style=&#34;color:#66d9ef&#34;&gt;true&lt;/span&gt;
-        efs: &lt;span style=&#34;color:#66d9ef&#34;&gt;true&lt;/span&gt;
-        albIngress: &lt;span style=&#34;color:#66d9ef&#34;&gt;true&lt;/span&gt;
-        cloudWatch: &lt;span style=&#34;color:#66d9ef&#34;&gt;true&lt;/span&gt;
-    instancesDistribution:
-      onDemandPercentageAboveBaseCapacity: &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;
-      instanceTypes:
+      &lt;span style=&#34;color:#66d9ef&#34;&gt;withAddonPolicies&lt;/span&gt;:
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;autoScaler&lt;/span&gt;: &lt;span style=&#34;color:#66d9ef&#34;&gt;true&lt;/span&gt;
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;ebs&lt;/span&gt;: &lt;span style=&#34;color:#66d9ef&#34;&gt;true&lt;/span&gt;
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;fsx&lt;/span&gt;: &lt;span style=&#34;color:#66d9ef&#34;&gt;true&lt;/span&gt;
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;efs&lt;/span&gt;: &lt;span style=&#34;color:#66d9ef&#34;&gt;true&lt;/span&gt;
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;albIngress&lt;/span&gt;: &lt;span style=&#34;color:#66d9ef&#34;&gt;true&lt;/span&gt;
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;cloudWatch&lt;/span&gt;: &lt;span style=&#34;color:#66d9ef&#34;&gt;true&lt;/span&gt;
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;instancesDistribution&lt;/span&gt;:
+      &lt;span style=&#34;color:#66d9ef&#34;&gt;onDemandPercentageAboveBaseCapacity&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;
+      &lt;span style=&#34;color:#66d9ef&#34;&gt;instanceTypes&lt;/span&gt;:
         - p3.2xlarge
         - p3.8xlarge
         - p3.16xlarge
         - p2.xlarge
         - p2.8xlarge
         - p2.16xlarge
-      spotInstancePools: &lt;span style=&#34;color:#ae81ff&#34;&gt;5&lt;/span&gt;
-    tags:
-      k8s.io/cluster-autoscaler/node-template/taint/dedicated: nvidia.com/gpu=&lt;span style=&#34;color:#66d9ef&#34;&gt;true&lt;/span&gt;
-      k8s.io/cluster-autoscaler/node-template/label/nvidia.com/gpu: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;true&amp;#39;&lt;/span&gt;
-      k8s.io/cluster-autoscaler/enabled: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;true&amp;#39;&lt;/span&gt;
-    labels:
-      lifecycle: Ec2Spot
-      nvidia.com/gpu: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;true&amp;#39;&lt;/span&gt;
-      k8s.amazonaws.com/accelerator: nvidia-tesla
-    taints:
-      nvidia.com/gpu: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;true:NoSchedule&amp;#34;&lt;/span&gt;
-    privateNetworking: &lt;span style=&#34;color:#66d9ef&#34;&gt;true&lt;/span&gt;
-    availabilityZones: [&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;us-west-2a&amp;#34;&lt;/span&gt;]
+      &lt;span style=&#34;color:#66d9ef&#34;&gt;spotInstancePools&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;5&lt;/span&gt;
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;tags&lt;/span&gt;:
+      &lt;span style=&#34;color:#66d9ef&#34;&gt;k8s.io/cluster-autoscaler/node-template/taint/dedicated&lt;/span&gt;: nvidia.com/gpu=&lt;span style=&#34;color:#66d9ef&#34;&gt;true&lt;/span&gt;
+      &lt;span style=&#34;color:#66d9ef&#34;&gt;k8s.io/cluster-autoscaler/node-template/label/nvidia.com/gpu&lt;/span&gt;: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;true&amp;#39;&lt;/span&gt;
+      &lt;span style=&#34;color:#66d9ef&#34;&gt;k8s.io/cluster-autoscaler/enabled&lt;/span&gt;: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;true&amp;#39;&lt;/span&gt;
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;labels&lt;/span&gt;:
+      &lt;span style=&#34;color:#66d9ef&#34;&gt;lifecycle&lt;/span&gt;: Ec2Spot
+      &lt;span style=&#34;color:#66d9ef&#34;&gt;nvidia.com/gpu&lt;/span&gt;: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;true&amp;#39;&lt;/span&gt;
+      &lt;span style=&#34;color:#66d9ef&#34;&gt;k8s.amazonaws.com/accelerator&lt;/span&gt;: nvidia-tesla
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;taints&lt;/span&gt;:
+      &lt;span style=&#34;color:#66d9ef&#34;&gt;nvidia.com/gpu&lt;/span&gt;: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;true:NoSchedule&amp;#34;&lt;/span&gt;
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;privateNetworking&lt;/span&gt;: &lt;span style=&#34;color:#66d9ef&#34;&gt;true&lt;/span&gt;
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;availabilityZones&lt;/span&gt;: [&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;us-west-2a&amp;#34;&lt;/span&gt;]
 
     &lt;span style=&#34;color:#75715e&#34;&gt;# create additional node groups for other `us-west-2b` and `us-west-2c` availability zones ...&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Now, it is time to explain some parameters used to configure GPU-powered node group.&lt;/p&gt;
@@ -214,7 +214,7 @@ GPU-powered EC2 Spot Instances have relatively high &lt;em&gt;Frequency of inter
 &lt;p&gt;If you are using &lt;code&gt;nodeSelector&lt;/code&gt; you need to tag the ASG with a node-template key &lt;code&gt;k8s.io/cluster-autoscaler/node-template/label/&lt;/code&gt; and &lt;code&gt;k8s.io/cluster-autoscaler/node-template/taint/&lt;/code&gt; if you are using taints.&lt;/p&gt;
 &lt;h4 id=&#34;scheduling-gpu-workload&#34;&gt;Scheduling GPU workload&lt;/h4&gt;
 &lt;h5 id=&#34;schedule-based-on-gpu-resources&#34;&gt;Schedule based on GPU resources&lt;/h5&gt;
-&lt;p&gt;The &lt;a href=&#34;https://github.com/NVIDIA/k8s-device-plugin&#34;&gt;NVIDIA device plugin for Kubernetes&lt;/a&gt; exposes the number of GPUs on each nodes of your cluster. Once the plugin is installed, it&#39;s possible to use &lt;code&gt;nvidia/gpu&lt;/code&gt; Kubernetes resource on GPU nodes and for Kubernetes workloads.&lt;/p&gt;
+&lt;p&gt;The &lt;a href=&#34;https://github.com/NVIDIA/k8s-device-plugin&#34;&gt;NVIDIA device plugin for Kubernetes&lt;/a&gt; exposes the number of GPUs on each nodes of your cluster. Once the plugin is installed, it&amp;rsquo;s possible to use &lt;code&gt;nvidia/gpu&lt;/code&gt; Kubernetes resource on GPU nodes and for Kubernetes workloads.&lt;/p&gt;
 &lt;p&gt;Run this command to apply the Nvidia Kubernetes device plugin as a &lt;code&gt;daemonset&lt;/code&gt; running only on AWS GPU-powered worker nodes, using &lt;code&gt;tolerations&lt;/code&gt; and &lt;code&gt;nodeAffinity&lt;/code&gt;&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;kubectl create -f kubernetes/nvidia-device-plugin.yaml
 
@@ -226,45 +226,45 @@ kube-proxy                            &lt;span style=&#34;color:#ae81ff&#34;&gt;
 nvidia-device-plugin-daemonset-1.12   &lt;span style=&#34;color:#ae81ff&#34;&gt;3&lt;/span&gt;         &lt;span style=&#34;color:#ae81ff&#34;&gt;3&lt;/span&gt;         &lt;span style=&#34;color:#ae81ff&#34;&gt;3&lt;/span&gt;       &lt;span style=&#34;color:#ae81ff&#34;&gt;3&lt;/span&gt;            &lt;span style=&#34;color:#ae81ff&#34;&gt;3&lt;/span&gt;           &amp;lt;none&amp;gt;          8d
 ssm-agent                             &lt;span style=&#34;color:#ae81ff&#34;&gt;5&lt;/span&gt;         &lt;span style=&#34;color:#ae81ff&#34;&gt;5&lt;/span&gt;         &lt;span style=&#34;color:#ae81ff&#34;&gt;5&lt;/span&gt;       &lt;span style=&#34;color:#ae81ff&#34;&gt;5&lt;/span&gt;            &lt;span style=&#34;color:#ae81ff&#34;&gt;5&lt;/span&gt;           &amp;lt;none&amp;gt;          8d
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;using &lt;code&gt;nvidia-device-plugin.yaml&lt;/code&gt; Kubernetes resource file&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;apiVersion: extensions/v1beta1
-kind: DaemonSet
-metadata:
-  name: nvidia-device-plugin-daemonset&lt;span style=&#34;color:#ae81ff&#34;&gt;-1.12&lt;/span&gt;
-  namespace: kube-system
-spec:
-  updateStrategy:
-    type: RollingUpdate
-  template:
-    metadata:
-      labels:
-        name: nvidia-device-plugin-ds
-    spec:
-      tolerations:
-      - key: nvidia.com/gpu
-        operator: Exists
-        effect: NoSchedule
-      containers:
-      - image: nvidia/k8s-device-plugin:&lt;span style=&#34;color:#ae81ff&#34;&gt;1.11&lt;/span&gt;
-        name: nvidia-device-plugin-ctr
-        securityContext:
-          allowPrivilegeEscalation: &lt;span style=&#34;color:#66d9ef&#34;&gt;false&lt;/span&gt;
-          capabilities:
-            drop: [&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;ALL&amp;#34;&lt;/span&gt;]
-        volumeMounts:
-          - name: device-plugin
-            mountPath: /var/lib/kubelet/device-plugins
-      volumes:
-        - name: device-plugin
-          hostPath:
-            path: /var/lib/kubelet/device-plugins
-      affinity:
-        nodeAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-            nodeSelectorTerms:
-            - matchExpressions:
-              - key: beta.kubernetes.io/instance-type
-                operator: In
-                values:
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;apiVersion&lt;/span&gt;: extensions/v1beta1
+&lt;span style=&#34;color:#66d9ef&#34;&gt;kind&lt;/span&gt;: DaemonSet
+&lt;span style=&#34;color:#66d9ef&#34;&gt;metadata&lt;/span&gt;:
+  &lt;span style=&#34;color:#66d9ef&#34;&gt;name&lt;/span&gt;: nvidia-device-plugin-daemonset&lt;span style=&#34;color:#ae81ff&#34;&gt;-1.12&lt;/span&gt;
+  &lt;span style=&#34;color:#66d9ef&#34;&gt;namespace&lt;/span&gt;: kube-system
+&lt;span style=&#34;color:#66d9ef&#34;&gt;spec&lt;/span&gt;:
+  &lt;span style=&#34;color:#66d9ef&#34;&gt;updateStrategy&lt;/span&gt;:
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;type&lt;/span&gt;: RollingUpdate
+  &lt;span style=&#34;color:#66d9ef&#34;&gt;template&lt;/span&gt;:
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;metadata&lt;/span&gt;:
+      &lt;span style=&#34;color:#66d9ef&#34;&gt;labels&lt;/span&gt;:
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;name&lt;/span&gt;: nvidia-device-plugin-ds
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;spec&lt;/span&gt;:
+      &lt;span style=&#34;color:#66d9ef&#34;&gt;tolerations&lt;/span&gt;:
+      - &lt;span style=&#34;color:#66d9ef&#34;&gt;key&lt;/span&gt;: nvidia.com/gpu
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;operator&lt;/span&gt;: Exists
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;effect&lt;/span&gt;: NoSchedule
+      &lt;span style=&#34;color:#66d9ef&#34;&gt;containers&lt;/span&gt;:
+      - &lt;span style=&#34;color:#66d9ef&#34;&gt;image&lt;/span&gt;: nvidia/k8s-device-plugin:&lt;span style=&#34;color:#ae81ff&#34;&gt;1.11&lt;/span&gt;
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;name&lt;/span&gt;: nvidia-device-plugin-ctr
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;securityContext&lt;/span&gt;:
+          &lt;span style=&#34;color:#66d9ef&#34;&gt;allowPrivilegeEscalation&lt;/span&gt;: &lt;span style=&#34;color:#66d9ef&#34;&gt;false&lt;/span&gt;
+          &lt;span style=&#34;color:#66d9ef&#34;&gt;capabilities&lt;/span&gt;:
+            &lt;span style=&#34;color:#66d9ef&#34;&gt;drop&lt;/span&gt;: [&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;ALL&amp;#34;&lt;/span&gt;]
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;volumeMounts&lt;/span&gt;:
+          - &lt;span style=&#34;color:#66d9ef&#34;&gt;name&lt;/span&gt;: device-plugin
+            &lt;span style=&#34;color:#66d9ef&#34;&gt;mountPath&lt;/span&gt;: /var/lib/kubelet/device-plugins
+      &lt;span style=&#34;color:#66d9ef&#34;&gt;volumes&lt;/span&gt;:
+        - &lt;span style=&#34;color:#66d9ef&#34;&gt;name&lt;/span&gt;: device-plugin
+          &lt;span style=&#34;color:#66d9ef&#34;&gt;hostPath&lt;/span&gt;:
+            &lt;span style=&#34;color:#66d9ef&#34;&gt;path&lt;/span&gt;: /var/lib/kubelet/device-plugins
+      &lt;span style=&#34;color:#66d9ef&#34;&gt;affinity&lt;/span&gt;:
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;nodeAffinity&lt;/span&gt;:
+          &lt;span style=&#34;color:#66d9ef&#34;&gt;requiredDuringSchedulingIgnoredDuringExecution&lt;/span&gt;:
+            &lt;span style=&#34;color:#66d9ef&#34;&gt;nodeSelectorTerms&lt;/span&gt;:
+            - &lt;span style=&#34;color:#66d9ef&#34;&gt;matchExpressions&lt;/span&gt;:
+              - &lt;span style=&#34;color:#66d9ef&#34;&gt;key&lt;/span&gt;: beta.kubernetes.io/instance-type
+                &lt;span style=&#34;color:#66d9ef&#34;&gt;operator&lt;/span&gt;: In
+                &lt;span style=&#34;color:#66d9ef&#34;&gt;values&lt;/span&gt;:
                 - p3.2xlarge
                 - p3.8xlarge
                 - p3.16xlarge
@@ -277,36 +277,36 @@ spec:
 &lt;p&gt;See Kubernetes &lt;a href=&#34;https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/&#34;&gt;Taints and Tolerations&lt;/a&gt; documentation for more details.&lt;/p&gt;
 &lt;p&gt;In order to run GPU workload to run on GPU-powered Spot instance nodes, with &lt;code&gt;nvidia.com/gpu: &amp;quot;true:NoSchedule&amp;quot;&lt;/code&gt; taint, the workload must include both matching &lt;code&gt;tolerations&lt;/code&gt; and &lt;code&gt;nodeSelector&lt;/code&gt;.&lt;/p&gt;
 &lt;p&gt;Kubernetes deployment with &lt;code&gt;10&lt;/code&gt; pod replicas with &lt;code&gt;nvidia/gpu: 1&lt;/code&gt; limit:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: cuda-vector-add
-  labels:
-    app: cuda-vector-add
-spec:
-  replicas: &lt;span style=&#34;color:#ae81ff&#34;&gt;10&lt;/span&gt;
-  selector:
-    matchLabels:
-      app: cuda-vector-add
-  template:
-    metadata:
-      name: cuda-vector-add
-      labels:
-        app: cuda-vector-add
-    spec:
-      nodeSelector:
-        nvidia.com/gpu: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;true&amp;#34;&lt;/span&gt;
-      tolerations:
-      - key: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;nvidia.com/gpu&amp;#34;&lt;/span&gt;
-        operator: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Exists&amp;#34;&lt;/span&gt;
-        effect: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;NoSchedule&amp;#34;&lt;/span&gt;
-      containers:
-        - name: cuda-vector-add
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;apiVersion&lt;/span&gt;: apps/v1
+&lt;span style=&#34;color:#66d9ef&#34;&gt;kind&lt;/span&gt;: Deployment
+&lt;span style=&#34;color:#66d9ef&#34;&gt;metadata&lt;/span&gt;:
+  &lt;span style=&#34;color:#66d9ef&#34;&gt;name&lt;/span&gt;: cuda-vector-add
+  &lt;span style=&#34;color:#66d9ef&#34;&gt;labels&lt;/span&gt;:
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;app&lt;/span&gt;: cuda-vector-add
+&lt;span style=&#34;color:#66d9ef&#34;&gt;spec&lt;/span&gt;:
+  &lt;span style=&#34;color:#66d9ef&#34;&gt;replicas&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;10&lt;/span&gt;
+  &lt;span style=&#34;color:#66d9ef&#34;&gt;selector&lt;/span&gt;:
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;matchLabels&lt;/span&gt;:
+      &lt;span style=&#34;color:#66d9ef&#34;&gt;app&lt;/span&gt;: cuda-vector-add
+  &lt;span style=&#34;color:#66d9ef&#34;&gt;template&lt;/span&gt;:
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;metadata&lt;/span&gt;:
+      &lt;span style=&#34;color:#66d9ef&#34;&gt;name&lt;/span&gt;: cuda-vector-add
+      &lt;span style=&#34;color:#66d9ef&#34;&gt;labels&lt;/span&gt;:
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;app&lt;/span&gt;: cuda-vector-add
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;spec&lt;/span&gt;:
+      &lt;span style=&#34;color:#66d9ef&#34;&gt;nodeSelector&lt;/span&gt;:
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;nvidia.com/gpu&lt;/span&gt;: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;true&amp;#34;&lt;/span&gt;
+      &lt;span style=&#34;color:#66d9ef&#34;&gt;tolerations&lt;/span&gt;:
+      - &lt;span style=&#34;color:#66d9ef&#34;&gt;key&lt;/span&gt;: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;nvidia.com/gpu&amp;#34;&lt;/span&gt;
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;operator&lt;/span&gt;: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Exists&amp;#34;&lt;/span&gt;
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;effect&lt;/span&gt;: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;NoSchedule&amp;#34;&lt;/span&gt;
+      &lt;span style=&#34;color:#66d9ef&#34;&gt;containers&lt;/span&gt;:
+        - &lt;span style=&#34;color:#66d9ef&#34;&gt;name&lt;/span&gt;: cuda-vector-add
           &lt;span style=&#34;color:#75715e&#34;&gt;# https://github.com/kubernetes/kubernetes/blob/v1.7.11/test/images/nvidia-cuda/Dockerfile&lt;/span&gt;
-          image: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;k8s.gcr.io/cuda-vector-add:v0.1&amp;#34;&lt;/span&gt;
-          resources:
-            limits:
-              nvidia.com/gpu: &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt; &lt;span style=&#34;color:#75715e&#34;&gt;# requesting 1 GPU&lt;/span&gt;
+          &lt;span style=&#34;color:#66d9ef&#34;&gt;image&lt;/span&gt;: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;k8s.gcr.io/cuda-vector-add:v0.1&amp;#34;&lt;/span&gt;
+          &lt;span style=&#34;color:#66d9ef&#34;&gt;resources&lt;/span&gt;:
+            &lt;span style=&#34;color:#66d9ef&#34;&gt;limits&lt;/span&gt;:
+              &lt;span style=&#34;color:#66d9ef&#34;&gt;nvidia.com/gpu&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt; &lt;span style=&#34;color:#75715e&#34;&gt;# requesting 1 GPU&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Deploy &lt;code&gt;cuda-vector-add&lt;/code&gt; deployment and see how new GPU-powered nodes are added to the EKS cluster.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# list Kubernetes nodes before running GPU workload&lt;/span&gt;
 NAME                                            ID                                      TYPE

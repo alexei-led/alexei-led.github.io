@@ -14,7 +14,7 @@
 <meta property="og:url" content="https://alexei-led.github.io/post/perfect_docker_java/">
 <meta property="og:type" content="article">
 
-<meta name="generator" content="Hugo 0.62.0" />
+<meta name="generator" content="Hugo 0.64.1" />
 <meta name="msapplication-TileColor" content="#ffffff">
 <meta name="theme-color" content="#ffffff">
 
@@ -158,11 +158,11 @@ Tags:
 <p>When you deploy Java applications with Docker containers, the default Java deployment model changes.</p>
 <p>Originally, Java server-side deployment assumes that you have already pre-configured a Java Web Server (Tomcat, WebLogic, JBoss, or other) and you are deploying an application <strong>WAR</strong> (Web Archive) packaged Java application to this server and run it together with other applications, deployed on the same server.</p>
 <p>Lots of tools are developed around this concept, allowing you to update running applications without stopping the Java Application server, route traffic to the new application, resolve possible class loading conflicts and more.</p>
-<p>With Docker-based deployments, you do not need these tools anymore, you don't even need the fat &ldquo;enterprise-ready&rdquo; Java Application servers. The only thing that you need is a stable and scalable network server that can serve your API over HTTP/TCP or other protocol of your choice. Search Google for [“embedded Java server”](<a href="https://www.google.com/search?q=%22embedded">https://www.google.com/search?q=&quot;embedded</a> java server&rdquo;) and take one that you like most.</p>
-<p>For this demo, I forked <a href="https://github.com/khoubyari/spring-boot-rest-example">Spring Boot's REST example</a> and modified it a bit. The demo uses <a href="https://projects.spring.io/spring-boot/">Spring Boot</a> with an embedded <a href="http://tomcat.apache.org/">Tomcat</a> server. Here is my <a href="https://github.com/alexei-led/spring-boot-rest-example">fork</a> on GitHub repository (<code>blog</code> branch).</p>
+<p>With Docker-based deployments, you do not need these tools anymore, you don&rsquo;t even need the fat &ldquo;enterprise-ready&rdquo; Java Application servers. The only thing that you need is a stable and scalable network server that can serve your API over HTTP/TCP or other protocol of your choice. Search Google for [“embedded Java server”](<a href="https://www.google.com/search?q=%22embedded">https://www.google.com/search?q=&quot;embedded</a> java server&rdquo;) and take one that you like most.</p>
+<p>For this demo, I forked <a href="https://github.com/khoubyari/spring-boot-rest-example">Spring Boot&rsquo;s REST example</a> and modified it a bit. The demo uses <a href="https://projects.spring.io/spring-boot/">Spring Boot</a> with an embedded <a href="http://tomcat.apache.org/">Tomcat</a> server. Here is my <a href="https://github.com/alexei-led/spring-boot-rest-example">fork</a> on GitHub repository (<code>blog</code> branch).</p>
 <h3 id="building-a-java-application-docker-image">Building a Java Application Docker image</h3>
 <p>In order to run this demo, I need to create a Docker image with JRE, the compiled and packaged Java application, and all 3rd party libraries.</p>
-<p>Here is the <code>Dockerfile</code> I used to build my Docker image. This demo Docker image is based on slim Alpine Linux with OpenJDK JRE and contains the application WAR file with all dependencies embedded into it. It's just the bare minimum required to run the demo application.</p>
+<p>Here is the <code>Dockerfile</code> I used to build my Docker image. This demo Docker image is based on slim Alpine Linux with OpenJDK JRE and contains the application WAR file with all dependencies embedded into it. It&rsquo;s just the bare minimum required to run the demo application.</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-dockerfile" data-lang="dockerfile"><span style="color:#75715e"># Base Alpine Linux based image with OpenJDK JRE only</span><span style="color:#960050;background-color:#1e0010">
 </span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">FROM</span><span style="color:#e6db74"> openjdk:8-jre-alpine</span><span style="color:#960050;background-color:#1e0010">
 </span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#960050;background-color:#1e0010">
@@ -195,7 +195,7 @@ d85b17c6762e        2 months ago        /bin/sh -c set -x  &amp;&amp; apk add --
 </code></pre><h3 id="running-the-java-application-docker-container">Running the Java Application Docker container</h3>
 <p>In order to run the demo application, run following command:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ docker run -d --name demo-default -p 8090:8090 -p 8091:8091 blog/sbdemo:latest
-</code></pre></div><p>Let's check, that application is up and running (I’m using the <code>httpie</code> tool here):</p>
+</code></pre></div><p>Let&rsquo;s check, that application is up and running (I’m using the <code>httpie</code> tool here):</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ http http://localhost:8091/info
 
 HTTP/1.1 <span style="color:#ae81ff">200</span> OK
@@ -228,7 +228,7 @@ Transfer-Encoding: chunked
 <p>Anyway, <strong>Epsilon GC</strong> is not available yet, so it’s just an interesting theoretical use case for a moment.</p>
 <h2 id="building-java-applications-with-builder-container">Building Java applications with Builder container</h2>
 <p>As you can probably see, in the previous step, I did not explain how I’ve created the application WAR file.</p>
-<p>Of course, there is a Maven project file <code>pom.xml</code> which most Java developers should be familiar with. But, in order to actually build, you need to install the <em>same Java Build tools</em> (JDK and Maven) on <em>every machine</em>, where you are building the application. You need to have the same versions, use the same repositories and share the same configurations. While's tt’s possible, managing different projects that rely on different tools, versions, configurations, and development environments can quickly become a nightmare.</p>
+<p>Of course, there is a Maven project file <code>pom.xml</code> which most Java developers should be familiar with. But, in order to actually build, you need to install the <em>same Java Build tools</em> (JDK and Maven) on <em>every machine</em>, where you are building the application. You need to have the same versions, use the same repositories and share the same configurations. While&rsquo;s tt’s possible, managing different projects that rely on different tools, versions, configurations, and development environments can quickly become a nightmare.</p>
 <p>What if you might also want to run a build on a clean machine that does not have Java or Maven installed? <em>What should you do?</em></p>
 <h3 id="java-builder-container">Java Builder Container</h3>
 <p>Docker can help here too. With Docker, you can create and share portable development and build environments. The idea is to create a special <strong>Builder</strong> Docker image, that contains all tools you need to properly build your Java application, e.g.: JDK, Ant, Maven, Gradle, SBT or others.</p>
@@ -237,7 +237,7 @@ Transfer-Encoding: chunked
 <p>While most of these tools were created nearly a generation ago, they are still are very popular and widely used by Java developers.</p>
 <p>Java development life is hard to imagine without some extra build tools. There are multiple Java build tools out there, but most of them share similar concepts and serve the same targets - resolve cumbersome package dependencies, and run different build tasks, such as, <strong>compile, lint, test, package, and deploy</strong>.</p>
 <p>In this post, I will use <a href="https://maven.apache.org">Maven</a>, but the same approach can be applied to <a href="https://gradle.org/">Gradle</a>, <a href="http://www.scala-sbt.org/">SBT</a>, and other less popular Java Build tools.</p>
-<p>It’s important to learn how your Java Build tool works and how can it's tuned. Apply this knowledge, when creating a <strong>Builder</strong> Docker image and the way you are running a <strong>Builder</strong> Docker container.</p>
+<p>It’s important to learn how your Java Build tool works and how can it&rsquo;s tuned. Apply this knowledge, when creating a <strong>Builder</strong> Docker image and the way you are running a <strong>Builder</strong> Docker container.</p>
 <p>Maven uses the project level <code>pom.xml</code> file to resolve project dependencies. It downloads missing <code>JAR</code> files from private and public Maven repositories, and <em>caches</em> these files for future builds. Thus, next time you run your build, it won’t download anything if your dependency had not been changed.</p>
 <h4 id="official-maven-docker-image-should-you-use-it">Official Maven Docker image: should you use it?</h4>
 <p>The Maven team provides an official <a href="https://hub.docker.com/r/_/maven/">Docker images</a>. There are multiple images (under different tags) that allow you to select an image that can answer your needs. Take a deeper look at the <code>Dockerfile</code> files and <code>mvn-entrypoint.sh</code> shell scripts when selecting Maven image to use.</p>
@@ -249,7 +249,7 @@ Transfer-Encoding: chunked
 </code></pre></div><p>Maven local repository, for official Maven images, is placed inside a Docker <em>data volume</em>. That means, all downloaded dependencies <strong>are not part of the image</strong> and <strong>will disappear</strong> once the Maven container is destroyed. If you do not want to download dependencies on every build, mount Maven repository Docker volume to some persistent storage (at least local folder on the Docker host).</p>
 <p><strong>Example:</strong> running <code>mvn clean install</code> on local folder with properly mounted Maven local repository</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ docker run -it --rm --name my-maven-project -v <span style="color:#e6db74">&#34;</span>$PWD<span style="color:#e6db74">&#34;</span>:/usr/src/app -v <span style="color:#e6db74">&#34;</span>$HOME<span style="color:#e6db74">&#34;</span>/.m2:/root/.m2 -w /usr/src/app maven:3.2-jdk-7 mvn clean install
-</code></pre></div><p>Now, let's take a look at onbuild Maven Docker images.</p>
+</code></pre></div><p>Now, let&rsquo;s take a look at onbuild Maven Docker images.</p>
 <h5 id="what-is-maven-onbuild-image">What is Maven <code>onbuild</code> image?</h5>
 <p>Maven <code>onbuild</code> Docker image exists to <em>“simplify”</em> developer’s life, allowing him/er skip writing a <code>Dockerfile</code>. Actually, a developer should write a <code>Dockerfile</code>, but it’s usually enough to have the single line in it:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-dockerfile" data-lang="dockerfile"><span style="color:#66d9ef">FROM</span><span style="color:#e6db74"> maven:&lt;versions&gt;-onbuild</span><span style="color:#960050;background-color:#1e0010">
@@ -385,7 +385,7 @@ sbdemo/builder  mvn     2d325a403c5f <span style="color:#ae81ff">5</span> days a
 <h2 id="bonus-build-flow-automation">Bonus: Build flow automation</h2>
 <p>In this section, I will show how to use Docker build flow automation service to automate and orchestrate all steps from this post.</p>
 <h3 id="build-pipeline-steps">Build Pipeline Steps</h3>
-<p>I'm going to use <a href="https://codefresh.io">Codefresh.io</a> Docker CI/CD service (the company I'm working for) to create a <strong>Builder</strong> Docker image for Maven, run tests, create application WAR, build Docker image for application and deploy it to DockerHub.</p>
+<p>I&rsquo;m going to use <a href="https://codefresh.io">Codefresh.io</a> Docker CI/CD service (the company I&rsquo;m working for) to create a <strong>Builder</strong> Docker image for Maven, run tests, create application WAR, build Docker image for application and deploy it to DockerHub.</p>
 <p>The Codefresh automation flow <code>YAML</code> (also called <em>pipeline</em>) is pretty straight forward:</p>
 <ul>
 <li>it contains ordered list of steps</li>
@@ -414,7 +414,7 @@ sbdemo/builder  mvn     2d325a403c5f <span style="color:#ae81ff">5</span> days a
 <li>current working directory for each step is set to <code>/codefresh/volume/</code> by default (can be changed)</li>
 </ul>
 <p>For detailed description and other examples, take a look at the <a href="https://docs.codefresh.io/docs/steps">documentation</a>.</p>
-<p>For my demo flow I've created following automation steps:</p>
+<p>For my demo flow I&rsquo;ve created following automation steps:</p>
 <ol>
 <li><code>mvn_builder</code> - create Maven <strong>Builder</strong> Docker image</li>
 <li><code>mv_test</code> - execute tests in <strong>Builder</strong> container, place test results into <code>/codefresh/volume/target/surefire-reports/</code> <em>data volume</em> folder</li>
@@ -423,44 +423,44 @@ sbdemo/builder  mvn     2d325a403c5f <span style="color:#ae81ff">5</span> days a
 <li><code>push_image</code> - tag and push the application Docker image to DockerHub</li>
 </ol>
 <p>Here is the full Codefresh <code>YAML</code>:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">version: <span style="color:#e6db74">&#39;1.0&#39;</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">version</span>: <span style="color:#e6db74">&#39;1.0&#39;</span>
 
-steps:
+<span style="color:#66d9ef">steps</span>:
 
-  mvn_builder:
-    type: build
-    description: create Maven builder image
-    dockerfile: Dockerfile.build
-    image_name: &lt;put_you_repo_here&gt;/mvn-builder
+  <span style="color:#66d9ef">mvn_builder</span>:
+    <span style="color:#66d9ef">type</span>: build
+    <span style="color:#66d9ef">description</span>: create Maven builder image
+    <span style="color:#66d9ef">dockerfile</span>: Dockerfile.build
+    <span style="color:#66d9ef">image_name</span>: &lt;put_you_repo_here&gt;/mvn-builder
 
-  mvn_test:
-    description: run unit tests 
-    image: ${{mvn_builder}}
-    commands:
+  <span style="color:#66d9ef">mvn_test</span>:
+    <span style="color:#66d9ef">description</span>: run unit tests 
+    <span style="color:#66d9ef">image</span>: ${{mvn_builder}}
+    <span style="color:#66d9ef">commands</span>:
       - mvn -T 1C -o test
   
-  mvn_package:
-    description: package application and dependencies into WAR 
-    image: ${{mvn_builder}}
-    commands:
+  <span style="color:#66d9ef">mvn_package</span>:
+    <span style="color:#66d9ef">description</span>: package application and dependencies into WAR 
+    <span style="color:#66d9ef">image</span>: ${{mvn_builder}}
+    <span style="color:#66d9ef">commands</span>:
       - mvn package -T 1C -o -Dmaven.test.skip=<span style="color:#66d9ef">true</span>
 
-  build_image:
-    type: build
-    description: create Docker image with application WAR
-    dockerfile: Dockerfile
-    working_directory: ${{main_clone}}/target
-    image_name: &lt;put_you_repo_here&gt;/sbdemo
+  <span style="color:#66d9ef">build_image</span>:
+    <span style="color:#66d9ef">type</span>: build
+    <span style="color:#66d9ef">description</span>: create Docker image with application WAR
+    <span style="color:#66d9ef">dockerfile</span>: Dockerfile
+    <span style="color:#66d9ef">working_directory</span>: ${{main_clone}}/target
+    <span style="color:#66d9ef">image_name</span>: &lt;put_you_repo_here&gt;/sbdemo
 
-  push_image:
-    type: push
-    description: push application image to DockerHub
-    candidate: <span style="color:#e6db74">&#39;${{build_image}}&#39;</span>
-    tag: <span style="color:#e6db74">&#39;${{CF_BRANCH}}&#39;</span>
-    credentials:
+  <span style="color:#66d9ef">push_image</span>:
+    <span style="color:#66d9ef">type</span>: push
+    <span style="color:#66d9ef">description</span>: push application image to DockerHub
+    <span style="color:#66d9ef">candidate</span>: <span style="color:#e6db74">&#39;${{build_image}}&#39;</span>
+    <span style="color:#66d9ef">tag</span>: <span style="color:#e6db74">&#39;${{CF_BRANCH}}&#39;</span>
+    <span style="color:#66d9ef">credentials</span>:
       <span style="color:#75715e"># set docker registry credentials in project configuration</span>
-      username: <span style="color:#e6db74">&#39;${{DOCKER_USER}}&#39;</span>
-      password: <span style="color:#e6db74">&#39;${{DOCKER_PASS}}&#39;</span>
+      <span style="color:#66d9ef">username</span>: <span style="color:#e6db74">&#39;${{DOCKER_USER}}&#39;</span>
+      <span style="color:#66d9ef">password</span>: <span style="color:#e6db74">&#39;${{DOCKER_PASS}}&#39;</span>
 </code></pre></div><hr>
 <p>Hope, you find this post useful. I look forward to your comments and any questions you have.</p>
 <hr>

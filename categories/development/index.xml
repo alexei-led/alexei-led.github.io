@@ -23,14 +23,14 @@
 &lt;p&gt;For example, a Kubernetes secret can be created with command &lt;code&gt;kubectl create secret&lt;/code&gt;:&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;kubectl create secret generic db-credentials -n default --from-literal&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;user&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;dbuser --from-literal&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;password&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;quick.fox.5312
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;or Kubernetes &lt;code&gt;db-credentials.yaml&lt;/code&gt; file, that describes the same secret:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;apiVersion: v1
-kind: Secret
-metadata:
-  name: db-credentials
-type: Opaque
-data:
-  password: cXVpY2suZm94LjUzMTI=
-  user: ZGJ1c2Vy
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;apiVersion&lt;/span&gt;: v1
+&lt;span style=&#34;color:#66d9ef&#34;&gt;kind&lt;/span&gt;: Secret
+&lt;span style=&#34;color:#66d9ef&#34;&gt;metadata&lt;/span&gt;:
+  &lt;span style=&#34;color:#66d9ef&#34;&gt;name&lt;/span&gt;: db-credentials
+&lt;span style=&#34;color:#66d9ef&#34;&gt;type&lt;/span&gt;: Opaque
+&lt;span style=&#34;color:#66d9ef&#34;&gt;data&lt;/span&gt;:
+  &lt;span style=&#34;color:#66d9ef&#34;&gt;password&lt;/span&gt;: cXVpY2suZm94LjUzMTI=
+  &lt;span style=&#34;color:#66d9ef&#34;&gt;user&lt;/span&gt;: ZGJ1c2Vy
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;kubectl create -f db-credentials.yaml
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Please note, that storing a sensitive data in a Kubernetes Secret does not make it secure. By default, all data in Kubernetes Secrets is stored as a plantext encoded with &lt;code&gt;base64&lt;/code&gt;.&lt;/p&gt;
 &lt;p&gt;Starting with version 1.13, Kubernetes supports &lt;a href=&#34;https://kubernetes.io/docs/tasks/administer-cluster/encrypt-data/&#34;&gt;encrypting Secrets data at rest&lt;/a&gt;, using &lt;code&gt;EncryptionConfiguration&lt;/code&gt; object with built-in or external encryption provider.&lt;/p&gt;
@@ -95,46 +95,46 @@ You can use the &lt;a href=&#34;https://hub.docker.com/r/doitintl/secrets-init&#
 &lt;h3 id=&#34;integration-with-aws-secrets-manager&#34;&gt;Integration with AWS Secrets Manager&lt;/h3&gt;
 &lt;p&gt;To start using &lt;code&gt;secrets-init&lt;/code&gt; with AWS Secrets Manager, user should put an AWS secret ARN as environment variable value. The &lt;code&gt;secrets-init&lt;/code&gt; will resolve any environment value, using specified ARN, to a referenced secret value.&lt;/p&gt;
 &lt;p&gt;Example, using &lt;code&gt;secrets-init&lt;/code&gt; with Kubernetes Job:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;apiVersion: batch/v1
-kind: Job
-metadata:
-  name: printenv-job
-spec:
-  template:
-    spec:
-      restartPolicy: Never
-      serviceAccountName: iam-secrets-manager-ro
-      initContainers:
-        - name: secrets-init
-          image: doitintl/secrets-init:v0&lt;span style=&#34;color:#ae81ff&#34;&gt;.2&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;.1&lt;/span&gt;
-          command:
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;apiVersion&lt;/span&gt;: batch/v1
+&lt;span style=&#34;color:#66d9ef&#34;&gt;kind&lt;/span&gt;: Job
+&lt;span style=&#34;color:#66d9ef&#34;&gt;metadata&lt;/span&gt;:
+  &lt;span style=&#34;color:#66d9ef&#34;&gt;name&lt;/span&gt;: printenv-job
+&lt;span style=&#34;color:#66d9ef&#34;&gt;spec&lt;/span&gt;:
+  &lt;span style=&#34;color:#66d9ef&#34;&gt;template&lt;/span&gt;:
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;spec&lt;/span&gt;:
+      &lt;span style=&#34;color:#66d9ef&#34;&gt;restartPolicy&lt;/span&gt;: Never
+      &lt;span style=&#34;color:#66d9ef&#34;&gt;serviceAccountName&lt;/span&gt;: iam-secrets-manager-ro
+      &lt;span style=&#34;color:#66d9ef&#34;&gt;initContainers&lt;/span&gt;:
+        - &lt;span style=&#34;color:#66d9ef&#34;&gt;name&lt;/span&gt;: secrets-init
+          &lt;span style=&#34;color:#66d9ef&#34;&gt;image&lt;/span&gt;: doitintl/secrets-init:v0&lt;span style=&#34;color:#ae81ff&#34;&gt;.2&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;.1&lt;/span&gt;
+          &lt;span style=&#34;color:#66d9ef&#34;&gt;command&lt;/span&gt;:
             - sh
-          args:
+          &lt;span style=&#34;color:#66d9ef&#34;&gt;args&lt;/span&gt;:
             - -c
             - &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;cp /usr/local/bin/secrets-init /secrets-init/bin/&amp;#34;&lt;/span&gt;
-          volumeMounts:
-          - mountPath: /secrets-init/bin
-            name: secrets-init-volume
-      containers:
-      - image: alpine:&lt;span style=&#34;color:#ae81ff&#34;&gt;3&lt;/span&gt;
-        name: print-env
-        env:
-          - name: AWS_REGION
-            value: us-west&lt;span style=&#34;color:#ae81ff&#34;&gt;-2&lt;/span&gt;
-          - name: TOP_SECRET
-            value: arn:aws:secretsmanager:us-west&lt;span style=&#34;color:#ae81ff&#34;&gt;-2&lt;/span&gt;:&lt;span style=&#34;color:#ae81ff&#34;&gt;906364353610&lt;/span&gt;:secret:topsecret-Acdaq8
-        command:
+          &lt;span style=&#34;color:#66d9ef&#34;&gt;volumeMounts&lt;/span&gt;:
+          - &lt;span style=&#34;color:#66d9ef&#34;&gt;mountPath&lt;/span&gt;: /secrets-init/bin
+            &lt;span style=&#34;color:#66d9ef&#34;&gt;name&lt;/span&gt;: secrets-init-volume
+      &lt;span style=&#34;color:#66d9ef&#34;&gt;containers&lt;/span&gt;:
+      - &lt;span style=&#34;color:#66d9ef&#34;&gt;image&lt;/span&gt;: alpine:&lt;span style=&#34;color:#ae81ff&#34;&gt;3&lt;/span&gt;
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;name&lt;/span&gt;: print-env
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;env&lt;/span&gt;:
+          - &lt;span style=&#34;color:#66d9ef&#34;&gt;name&lt;/span&gt;: AWS_REGION
+            &lt;span style=&#34;color:#66d9ef&#34;&gt;value&lt;/span&gt;: us-west&lt;span style=&#34;color:#ae81ff&#34;&gt;-2&lt;/span&gt;
+          - &lt;span style=&#34;color:#66d9ef&#34;&gt;name&lt;/span&gt;: TOP_SECRET
+            &lt;span style=&#34;color:#66d9ef&#34;&gt;value&lt;/span&gt;: arn:aws:secretsmanager:us-west&lt;span style=&#34;color:#ae81ff&#34;&gt;-2&lt;/span&gt;:&lt;span style=&#34;color:#ae81ff&#34;&gt;906364353610&lt;/span&gt;:secret:topsecret-Acdaq8
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;command&lt;/span&gt;:
           - /secrets-init/bin/secrets-init
-        args:
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;args&lt;/span&gt;:
           - sh
           - -c
           - &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;echo $TOP_SECRET&amp;#39;&lt;/span&gt;
-        volumeMounts:
-        - mountPath: /secrets-init/bin
-          name: secrets-init-volume
-      volumes:
-      - name: secrets-init-volume
-        emptyDir: {}
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;volumeMounts&lt;/span&gt;:
+        - &lt;span style=&#34;color:#66d9ef&#34;&gt;mountPath&lt;/span&gt;: /secrets-init/bin
+          &lt;span style=&#34;color:#66d9ef&#34;&gt;name&lt;/span&gt;: secrets-init-volume
+      &lt;span style=&#34;color:#66d9ef&#34;&gt;volumes&lt;/span&gt;:
+      - &lt;span style=&#34;color:#66d9ef&#34;&gt;name&lt;/span&gt;: secrets-init-volume
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;emptyDir&lt;/span&gt;: {}
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;integration-with-aws-systems-manager-parameter-store&#34;&gt;Integration with AWS Systems Manager Parameter Store&lt;/h3&gt;
 &lt;p&gt;It is possible to use AWS Systems Manager Parameter Store to store application parameters as plain text or encrypted (kind of secrets).&lt;/p&gt;
 &lt;p&gt;As with the previous example, user can put AWS Parameter Store ARN as environment variable value. The &lt;code&gt;secrets-init&lt;/code&gt; will resolve any environment value, using specified ARN, to a referenced parameter value.&lt;/p&gt;
@@ -146,7 +146,7 @@ MY_API_KEY&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;arn:aws:ssm:$A
 MY_API_KEY&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;key-123456789
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;In order to resolve AWS secrets from AWS Secrets Manager and Parameter Store, &lt;code&gt;secrets-init&lt;/code&gt; should run under IAM role that has permission to access desired secrets.&lt;/p&gt;
 &lt;p&gt;This can be achieved by assigning IAM Role to Kubernetes Pod or ECS Task. See &lt;a href=&#34;https://aws.amazon.com/blogs/opensource/introducing-fine-grained-iam-roles-service-accounts/&#34;&gt;Introducing fine-grained IAM roles for service accounts&lt;/a&gt; EKS blog post.&lt;/p&gt;
-&lt;p&gt;It&#39;s possible to assign IAM Role to EC2 instance, where container is running, but this option is considerably less secure and not recommended.&lt;/p&gt;
+&lt;p&gt;It&amp;rsquo;s possible to assign IAM Role to EC2 instance, where container is running, but this option is considerably less secure and not recommended.&lt;/p&gt;
 &lt;h3 id=&#34;integration-with-google-secret-manager&#34;&gt;Integration with Google Secret Manager&lt;/h3&gt;
 &lt;p&gt;Google Cloud released recently a new service for managing secrets in the cloud: &lt;a href=&#34;https://cloud.google.com/secret-manager&#34;&gt;Google Secret Manager&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;User can put Google secret name, using &lt;code&gt;secrets-init&lt;/code&gt; recognizable prefix (&lt;code&gt;gcp:secretmanager:&lt;/code&gt;), following secret name (&lt;code&gt;projects/{PROJECT_ID}/secrets/{SECRET_NAME}&lt;/code&gt; or &lt;code&gt;projects/{PROJECT_ID}/secrets/{SECRET_NAME}/versions/{VERSION}&lt;/code&gt;) as environment variable value. The &lt;code&gt;secrets-init&lt;/code&gt; will resolve any environment value, using the specified name, to a referenced secret value.&lt;/p&gt;
@@ -158,7 +158,7 @@ MY_DB_PASSWORD&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;gcp:secret
 &lt;span style=&#34;color:#75715e&#34;&gt;# environment variable passed to a child process, as resolved by `secrets-init`&lt;/span&gt;
 MY_DB_PASSWORD&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;very-secret-password
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;In order to resolve Google secrets from Google Secret Manager, &lt;code&gt;secrets-init&lt;/code&gt; should run under IAM role that has permission to access desired secrets.&lt;/p&gt;
-&lt;p&gt;This can be achieved by assigning IAM Role to Kubernetes Pod with &lt;a href=&#34;https://cloud.google.com/kubernetes-engine/docs/how-to/workload-identity&#34;&gt;Workload Identity&lt;/a&gt;. It&#39;s possible to assign IAM Role to GCE instance, where container is running, but this option is less secure.&lt;/p&gt;
+&lt;p&gt;This can be achieved by assigning IAM Role to Kubernetes Pod with &lt;a href=&#34;https://cloud.google.com/kubernetes-engine/docs/how-to/workload-identity&#34;&gt;Workload Identity&lt;/a&gt;. It&amp;rsquo;s possible to assign IAM Role to GCE instance, where container is running, but this option is less secure.&lt;/p&gt;
 &lt;h2 id=&#34;summary&#34;&gt;Summary&lt;/h2&gt;
 &lt;p&gt;Hope, you find this post useful. I look forward to your comments and any questions you have.&lt;/p&gt;
 &lt;hr&gt;
@@ -190,17 +190,17 @@ It is possible to pass all parameters to the tool as CLI flags or configuration 
 &lt;p&gt;Customize your cluster by using a config file. Just run&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;eksctl create cluster -f cluster.yaml
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;to apply a cluster.yaml file:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;apiVersion: eksctl.io/v1alpha5
-kind: ClusterConfig
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;apiVersion&lt;/span&gt;: eksctl.io/v1alpha5
+&lt;span style=&#34;color:#66d9ef&#34;&gt;kind&lt;/span&gt;: ClusterConfig
 
-metadata:
-name: test-cluster
-region: us-west&lt;span style=&#34;color:#ae81ff&#34;&gt;-2&lt;/span&gt;
+&lt;span style=&#34;color:#66d9ef&#34;&gt;metadata&lt;/span&gt;:
+&lt;span style=&#34;color:#66d9ef&#34;&gt;name&lt;/span&gt;: test-cluster
+&lt;span style=&#34;color:#66d9ef&#34;&gt;region&lt;/span&gt;: us-west&lt;span style=&#34;color:#ae81ff&#34;&gt;-2&lt;/span&gt;
 
-nodeGroups:
-  - name: ng
-    instanceType: m5.large
-    desiredCapacity: &lt;span style=&#34;color:#ae81ff&#34;&gt;10&lt;/span&gt;
+&lt;span style=&#34;color:#66d9ef&#34;&gt;nodeGroups&lt;/span&gt;:
+  - &lt;span style=&#34;color:#66d9ef&#34;&gt;name&lt;/span&gt;: ng
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;instanceType&lt;/span&gt;: m5.large
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;desiredCapacity&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;10&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;A new EKS cluster with 10 &lt;code&gt;m5.large&lt;/code&gt; On-Demand EC2 worker nodes will be created and cluster credentials will be added to &lt;code&gt;~/.kube/config&lt;/code&gt; file.&lt;/p&gt;
 &lt;h3 id=&#34;creating-node-groups&#34;&gt;Creating node groups&lt;/h3&gt;
 &lt;p&gt;As planned, we are going to create two node groups for Kubernetes worker nodes:&lt;/p&gt;
@@ -212,40 +212,40 @@ nodeGroups:
 &lt;h4 id=&#34;general-node-group&#34;&gt;General node group&lt;/h4&gt;
 &lt;p&gt;The &lt;code&gt;eksctl&lt;/code&gt; configuration file contains EKS cluster in &lt;code&gt;us-west-2&lt;/code&gt; across 3 Availability Zones and the first &lt;em&gt;General&lt;/em&gt; autoscaling (from 2 to 20 nodes) node group running on diversified Spot instances.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;---
-apiVersion: eksctl.io/v1alpha5
-kind: ClusterConfig
+&lt;span style=&#34;color:#66d9ef&#34;&gt;apiVersion&lt;/span&gt;: eksctl.io/v1alpha5
+&lt;span style=&#34;color:#66d9ef&#34;&gt;kind&lt;/span&gt;: ClusterConfig
 
-metadata:
-  name: gaia-kube
-  region: us-west&lt;span style=&#34;color:#ae81ff&#34;&gt;-2&lt;/span&gt;
+&lt;span style=&#34;color:#66d9ef&#34;&gt;metadata&lt;/span&gt;:
+  &lt;span style=&#34;color:#66d9ef&#34;&gt;name&lt;/span&gt;: gaia-kube
+  &lt;span style=&#34;color:#66d9ef&#34;&gt;region&lt;/span&gt;: us-west&lt;span style=&#34;color:#ae81ff&#34;&gt;-2&lt;/span&gt;
 
-availabilityZones: [&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;us-west-2a&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;us-west-2b&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;us-west-2c&amp;#34;&lt;/span&gt;]
+&lt;span style=&#34;color:#66d9ef&#34;&gt;availabilityZones&lt;/span&gt;: [&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;us-west-2a&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;us-west-2b&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;us-west-2c&amp;#34;&lt;/span&gt;]
 
-nodeGroups:
+&lt;span style=&#34;color:#66d9ef&#34;&gt;nodeGroups&lt;/span&gt;:
   &lt;span style=&#34;color:#75715e&#34;&gt;# spot workers NG - multi AZ, scale from 3&lt;/span&gt;
-  - name: spot-ng
-    ami: auto
-    instanceType: mixed
-    desiredCapacity: &lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;
-    minSize: &lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;
-    maxSize: &lt;span style=&#34;color:#ae81ff&#34;&gt;20&lt;/span&gt;
-    volumeSize: &lt;span style=&#34;color:#ae81ff&#34;&gt;100&lt;/span&gt;
-    volumeType: gp2
-    volumeEncrypted: &lt;span style=&#34;color:#66d9ef&#34;&gt;true&lt;/span&gt;
-    iam:
-      attachPolicyARNs:
+  - &lt;span style=&#34;color:#66d9ef&#34;&gt;name&lt;/span&gt;: spot-ng
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;ami&lt;/span&gt;: auto
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;instanceType&lt;/span&gt;: mixed
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;desiredCapacity&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;minSize&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;maxSize&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;20&lt;/span&gt;
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;volumeSize&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;100&lt;/span&gt;
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;volumeType&lt;/span&gt;: gp2
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;volumeEncrypted&lt;/span&gt;: &lt;span style=&#34;color:#66d9ef&#34;&gt;true&lt;/span&gt;
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;iam&lt;/span&gt;:
+      &lt;span style=&#34;color:#66d9ef&#34;&gt;attachPolicyARNs&lt;/span&gt;:
         - arn:aws:iam::aws:policy/service-role/AmazonEC2RoleforSSM
         - arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy
         - arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy
         - arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly
-      withAddonPolicies:
-        autoScaler: &lt;span style=&#34;color:#66d9ef&#34;&gt;true&lt;/span&gt;
-        ebs: &lt;span style=&#34;color:#66d9ef&#34;&gt;true&lt;/span&gt;
-        albIngress: &lt;span style=&#34;color:#66d9ef&#34;&gt;true&lt;/span&gt;
-        cloudWatch: &lt;span style=&#34;color:#66d9ef&#34;&gt;true&lt;/span&gt;
-    instancesDistribution:
-      onDemandPercentageAboveBaseCapacity: &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;
-      instanceTypes:
+      &lt;span style=&#34;color:#66d9ef&#34;&gt;withAddonPolicies&lt;/span&gt;:
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;autoScaler&lt;/span&gt;: &lt;span style=&#34;color:#66d9ef&#34;&gt;true&lt;/span&gt;
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;ebs&lt;/span&gt;: &lt;span style=&#34;color:#66d9ef&#34;&gt;true&lt;/span&gt;
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;albIngress&lt;/span&gt;: &lt;span style=&#34;color:#66d9ef&#34;&gt;true&lt;/span&gt;
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;cloudWatch&lt;/span&gt;: &lt;span style=&#34;color:#66d9ef&#34;&gt;true&lt;/span&gt;
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;instancesDistribution&lt;/span&gt;:
+      &lt;span style=&#34;color:#66d9ef&#34;&gt;onDemandPercentageAboveBaseCapacity&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;
+      &lt;span style=&#34;color:#66d9ef&#34;&gt;instanceTypes&lt;/span&gt;:
         - m4.2xlarge
         - m4.4xlarge
         - m5.2xlarge
@@ -256,13 +256,13 @@ nodeGroups:
         - c4.4xlarge
         - c5.2xlarge
         - c5.4xlarge
-      spotInstancePools: &lt;span style=&#34;color:#ae81ff&#34;&gt;15&lt;/span&gt;
-    tags:
-      k8s.io/cluster-autoscaler/enabled: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;true&amp;#39;&lt;/span&gt;
-    labels:
-      lifecycle: Ec2Spot
-    privateNetworking: &lt;span style=&#34;color:#66d9ef&#34;&gt;true&lt;/span&gt;
-    availabilityZones: [&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;us-west-2a&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;us-west-2b&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;us-west-2c&amp;#34;&lt;/span&gt;]
+      &lt;span style=&#34;color:#66d9ef&#34;&gt;spotInstancePools&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;15&lt;/span&gt;
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;tags&lt;/span&gt;:
+      &lt;span style=&#34;color:#66d9ef&#34;&gt;k8s.io/cluster-autoscaler/enabled&lt;/span&gt;: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;true&amp;#39;&lt;/span&gt;
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;labels&lt;/span&gt;:
+      &lt;span style=&#34;color:#66d9ef&#34;&gt;lifecycle&lt;/span&gt;: Ec2Spot
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;privateNetworking&lt;/span&gt;: &lt;span style=&#34;color:#66d9ef&#34;&gt;true&lt;/span&gt;
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;availabilityZones&lt;/span&gt;: [&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;us-west-2a&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;us-west-2b&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;us-west-2c&amp;#34;&lt;/span&gt;]
 
     &lt;span style=&#34;color:#75715e&#34;&gt;### next: GPU node groups ...&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Now it is time to explain some parameters used in the above configuration file.&lt;/p&gt;
@@ -285,56 +285,56 @@ nodeGroups:
 &lt;p&gt;The Spot instance diversification also increases worker nodes availability, typically not all &lt;em&gt;Spot Instance pools&lt;/em&gt; will be interrupted at the same time, so only a small portion of your workload will be interrupted and EC2 Auto-scaling group will replace interrupted instances from others &lt;em&gt;Spot Instance pools&lt;/em&gt;.&lt;/p&gt;
 &lt;h4 id=&#34;gpu-powered-node-group&#34;&gt;GPU-powered node group&lt;/h4&gt;
 &lt;p&gt;The next part of our &lt;code&gt;eksctl&lt;/code&gt; configuration file contains first &lt;em&gt;GPU&lt;/em&gt; autoscaling (from 0 to 10 nodes) node group running on diversified GPU-powered Spot instances.&lt;/p&gt;
-&lt;p&gt;When using GPU-powered Spot instances, it&#39;s recommended to create &lt;em&gt;GPU&lt;/em&gt; node group per Availability Zone and configure Kubernetes Cluster Autoscaler to avoid automatic &lt;a href=&#34;https://docs.aws.amazon.com/autoscaling/ec2/userguide/auto-scaling-benefits.html#arch-AutoScalingMultiAZ&#34;&gt;ASG rebalancing&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;When using GPU-powered Spot instances, it&amp;rsquo;s recommended to create &lt;em&gt;GPU&lt;/em&gt; node group per Availability Zone and configure Kubernetes Cluster Autoscaler to avoid automatic &lt;a href=&#34;https://docs.aws.amazon.com/autoscaling/ec2/userguide/auto-scaling-benefits.html#arch-AutoScalingMultiAZ&#34;&gt;ASG rebalancing&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;Why is it important?
 GPU-powered EC2 Spot Instances have relatively high &lt;em&gt;Frequency of interruption&lt;/em&gt; rate (&lt;code&gt;&amp;gt;20%&lt;/code&gt; for some GPU instance types) and using multiple AZ and disabling automatic Cluster Autoscaler balancing can help to minimize GPU workload interruptions.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;  &lt;span style=&#34;color:#75715e&#34;&gt;# ... EKS cluster and General node group ...&lt;/span&gt;
 
   &lt;span style=&#34;color:#75715e&#34;&gt;# spot GPU NG - west-2a AZ, scale from 0&lt;/span&gt;
-  - name: gpu-spot-ng-a
-    ami: auto
-    instanceType: mixed
-    desiredCapacity: &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;
-    minSize: &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;
-    maxSize: &lt;span style=&#34;color:#ae81ff&#34;&gt;10&lt;/span&gt;
-    volumeSize: &lt;span style=&#34;color:#ae81ff&#34;&gt;100&lt;/span&gt;
-    volumeType: gp2
-    volumeEncrypted: &lt;span style=&#34;color:#66d9ef&#34;&gt;true&lt;/span&gt;
-    iam:
-      attachPolicyARNs:
+  - &lt;span style=&#34;color:#66d9ef&#34;&gt;name&lt;/span&gt;: gpu-spot-ng-a
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;ami&lt;/span&gt;: auto
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;instanceType&lt;/span&gt;: mixed
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;desiredCapacity&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;minSize&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;maxSize&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;10&lt;/span&gt;
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;volumeSize&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;100&lt;/span&gt;
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;volumeType&lt;/span&gt;: gp2
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;volumeEncrypted&lt;/span&gt;: &lt;span style=&#34;color:#66d9ef&#34;&gt;true&lt;/span&gt;
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;iam&lt;/span&gt;:
+      &lt;span style=&#34;color:#66d9ef&#34;&gt;attachPolicyARNs&lt;/span&gt;:
         - arn:aws:iam::aws:policy/service-role/AmazonEC2RoleforSSM
         - arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy
         - arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy
         - arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly
-      withAddonPolicies:
-        autoScaler: &lt;span style=&#34;color:#66d9ef&#34;&gt;true&lt;/span&gt;
-        ebs: &lt;span style=&#34;color:#66d9ef&#34;&gt;true&lt;/span&gt;
-        fsx: &lt;span style=&#34;color:#66d9ef&#34;&gt;true&lt;/span&gt;
-        efs: &lt;span style=&#34;color:#66d9ef&#34;&gt;true&lt;/span&gt;
-        albIngress: &lt;span style=&#34;color:#66d9ef&#34;&gt;true&lt;/span&gt;
-        cloudWatch: &lt;span style=&#34;color:#66d9ef&#34;&gt;true&lt;/span&gt;
-    instancesDistribution:
-      onDemandPercentageAboveBaseCapacity: &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;
-      instanceTypes:
+      &lt;span style=&#34;color:#66d9ef&#34;&gt;withAddonPolicies&lt;/span&gt;:
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;autoScaler&lt;/span&gt;: &lt;span style=&#34;color:#66d9ef&#34;&gt;true&lt;/span&gt;
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;ebs&lt;/span&gt;: &lt;span style=&#34;color:#66d9ef&#34;&gt;true&lt;/span&gt;
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;fsx&lt;/span&gt;: &lt;span style=&#34;color:#66d9ef&#34;&gt;true&lt;/span&gt;
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;efs&lt;/span&gt;: &lt;span style=&#34;color:#66d9ef&#34;&gt;true&lt;/span&gt;
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;albIngress&lt;/span&gt;: &lt;span style=&#34;color:#66d9ef&#34;&gt;true&lt;/span&gt;
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;cloudWatch&lt;/span&gt;: &lt;span style=&#34;color:#66d9ef&#34;&gt;true&lt;/span&gt;
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;instancesDistribution&lt;/span&gt;:
+      &lt;span style=&#34;color:#66d9ef&#34;&gt;onDemandPercentageAboveBaseCapacity&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;
+      &lt;span style=&#34;color:#66d9ef&#34;&gt;instanceTypes&lt;/span&gt;:
         - p3.2xlarge
         - p3.8xlarge
         - p3.16xlarge
         - p2.xlarge
         - p2.8xlarge
         - p2.16xlarge
-      spotInstancePools: &lt;span style=&#34;color:#ae81ff&#34;&gt;5&lt;/span&gt;
-    tags:
-      k8s.io/cluster-autoscaler/node-template/taint/dedicated: nvidia.com/gpu=&lt;span style=&#34;color:#66d9ef&#34;&gt;true&lt;/span&gt;
-      k8s.io/cluster-autoscaler/node-template/label/nvidia.com/gpu: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;true&amp;#39;&lt;/span&gt;
-      k8s.io/cluster-autoscaler/enabled: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;true&amp;#39;&lt;/span&gt;
-    labels:
-      lifecycle: Ec2Spot
-      nvidia.com/gpu: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;true&amp;#39;&lt;/span&gt;
-      k8s.amazonaws.com/accelerator: nvidia-tesla
-    taints:
-      nvidia.com/gpu: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;true:NoSchedule&amp;#34;&lt;/span&gt;
-    privateNetworking: &lt;span style=&#34;color:#66d9ef&#34;&gt;true&lt;/span&gt;
-    availabilityZones: [&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;us-west-2a&amp;#34;&lt;/span&gt;]
+      &lt;span style=&#34;color:#66d9ef&#34;&gt;spotInstancePools&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;5&lt;/span&gt;
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;tags&lt;/span&gt;:
+      &lt;span style=&#34;color:#66d9ef&#34;&gt;k8s.io/cluster-autoscaler/node-template/taint/dedicated&lt;/span&gt;: nvidia.com/gpu=&lt;span style=&#34;color:#66d9ef&#34;&gt;true&lt;/span&gt;
+      &lt;span style=&#34;color:#66d9ef&#34;&gt;k8s.io/cluster-autoscaler/node-template/label/nvidia.com/gpu&lt;/span&gt;: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;true&amp;#39;&lt;/span&gt;
+      &lt;span style=&#34;color:#66d9ef&#34;&gt;k8s.io/cluster-autoscaler/enabled&lt;/span&gt;: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;true&amp;#39;&lt;/span&gt;
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;labels&lt;/span&gt;:
+      &lt;span style=&#34;color:#66d9ef&#34;&gt;lifecycle&lt;/span&gt;: Ec2Spot
+      &lt;span style=&#34;color:#66d9ef&#34;&gt;nvidia.com/gpu&lt;/span&gt;: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;true&amp;#39;&lt;/span&gt;
+      &lt;span style=&#34;color:#66d9ef&#34;&gt;k8s.amazonaws.com/accelerator&lt;/span&gt;: nvidia-tesla
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;taints&lt;/span&gt;:
+      &lt;span style=&#34;color:#66d9ef&#34;&gt;nvidia.com/gpu&lt;/span&gt;: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;true:NoSchedule&amp;#34;&lt;/span&gt;
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;privateNetworking&lt;/span&gt;: &lt;span style=&#34;color:#66d9ef&#34;&gt;true&lt;/span&gt;
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;availabilityZones&lt;/span&gt;: [&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;us-west-2a&amp;#34;&lt;/span&gt;]
 
     &lt;span style=&#34;color:#75715e&#34;&gt;# create additional node groups for other `us-west-2b` and `us-west-2c` availability zones ...&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Now, it is time to explain some parameters used to configure GPU-powered node group.&lt;/p&gt;
@@ -370,7 +370,7 @@ GPU-powered EC2 Spot Instances have relatively high &lt;em&gt;Frequency of inter
 &lt;p&gt;If you are using &lt;code&gt;nodeSelector&lt;/code&gt; you need to tag the ASG with a node-template key &lt;code&gt;k8s.io/cluster-autoscaler/node-template/label/&lt;/code&gt; and &lt;code&gt;k8s.io/cluster-autoscaler/node-template/taint/&lt;/code&gt; if you are using taints.&lt;/p&gt;
 &lt;h4 id=&#34;scheduling-gpu-workload&#34;&gt;Scheduling GPU workload&lt;/h4&gt;
 &lt;h5 id=&#34;schedule-based-on-gpu-resources&#34;&gt;Schedule based on GPU resources&lt;/h5&gt;
-&lt;p&gt;The &lt;a href=&#34;https://github.com/NVIDIA/k8s-device-plugin&#34;&gt;NVIDIA device plugin for Kubernetes&lt;/a&gt; exposes the number of GPUs on each nodes of your cluster. Once the plugin is installed, it&#39;s possible to use &lt;code&gt;nvidia/gpu&lt;/code&gt; Kubernetes resource on GPU nodes and for Kubernetes workloads.&lt;/p&gt;
+&lt;p&gt;The &lt;a href=&#34;https://github.com/NVIDIA/k8s-device-plugin&#34;&gt;NVIDIA device plugin for Kubernetes&lt;/a&gt; exposes the number of GPUs on each nodes of your cluster. Once the plugin is installed, it&amp;rsquo;s possible to use &lt;code&gt;nvidia/gpu&lt;/code&gt; Kubernetes resource on GPU nodes and for Kubernetes workloads.&lt;/p&gt;
 &lt;p&gt;Run this command to apply the Nvidia Kubernetes device plugin as a &lt;code&gt;daemonset&lt;/code&gt; running only on AWS GPU-powered worker nodes, using &lt;code&gt;tolerations&lt;/code&gt; and &lt;code&gt;nodeAffinity&lt;/code&gt;&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;kubectl create -f kubernetes/nvidia-device-plugin.yaml
 
@@ -382,45 +382,45 @@ kube-proxy                            &lt;span style=&#34;color:#ae81ff&#34;&gt;
 nvidia-device-plugin-daemonset-1.12   &lt;span style=&#34;color:#ae81ff&#34;&gt;3&lt;/span&gt;         &lt;span style=&#34;color:#ae81ff&#34;&gt;3&lt;/span&gt;         &lt;span style=&#34;color:#ae81ff&#34;&gt;3&lt;/span&gt;       &lt;span style=&#34;color:#ae81ff&#34;&gt;3&lt;/span&gt;            &lt;span style=&#34;color:#ae81ff&#34;&gt;3&lt;/span&gt;           &amp;lt;none&amp;gt;          8d
 ssm-agent                             &lt;span style=&#34;color:#ae81ff&#34;&gt;5&lt;/span&gt;         &lt;span style=&#34;color:#ae81ff&#34;&gt;5&lt;/span&gt;         &lt;span style=&#34;color:#ae81ff&#34;&gt;5&lt;/span&gt;       &lt;span style=&#34;color:#ae81ff&#34;&gt;5&lt;/span&gt;            &lt;span style=&#34;color:#ae81ff&#34;&gt;5&lt;/span&gt;           &amp;lt;none&amp;gt;          8d
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;using &lt;code&gt;nvidia-device-plugin.yaml&lt;/code&gt; Kubernetes resource file&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;apiVersion: extensions/v1beta1
-kind: DaemonSet
-metadata:
-  name: nvidia-device-plugin-daemonset&lt;span style=&#34;color:#ae81ff&#34;&gt;-1.12&lt;/span&gt;
-  namespace: kube-system
-spec:
-  updateStrategy:
-    type: RollingUpdate
-  template:
-    metadata:
-      labels:
-        name: nvidia-device-plugin-ds
-    spec:
-      tolerations:
-      - key: nvidia.com/gpu
-        operator: Exists
-        effect: NoSchedule
-      containers:
-      - image: nvidia/k8s-device-plugin:&lt;span style=&#34;color:#ae81ff&#34;&gt;1.11&lt;/span&gt;
-        name: nvidia-device-plugin-ctr
-        securityContext:
-          allowPrivilegeEscalation: &lt;span style=&#34;color:#66d9ef&#34;&gt;false&lt;/span&gt;
-          capabilities:
-            drop: [&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;ALL&amp;#34;&lt;/span&gt;]
-        volumeMounts:
-          - name: device-plugin
-            mountPath: /var/lib/kubelet/device-plugins
-      volumes:
-        - name: device-plugin
-          hostPath:
-            path: /var/lib/kubelet/device-plugins
-      affinity:
-        nodeAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-            nodeSelectorTerms:
-            - matchExpressions:
-              - key: beta.kubernetes.io/instance-type
-                operator: In
-                values:
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;apiVersion&lt;/span&gt;: extensions/v1beta1
+&lt;span style=&#34;color:#66d9ef&#34;&gt;kind&lt;/span&gt;: DaemonSet
+&lt;span style=&#34;color:#66d9ef&#34;&gt;metadata&lt;/span&gt;:
+  &lt;span style=&#34;color:#66d9ef&#34;&gt;name&lt;/span&gt;: nvidia-device-plugin-daemonset&lt;span style=&#34;color:#ae81ff&#34;&gt;-1.12&lt;/span&gt;
+  &lt;span style=&#34;color:#66d9ef&#34;&gt;namespace&lt;/span&gt;: kube-system
+&lt;span style=&#34;color:#66d9ef&#34;&gt;spec&lt;/span&gt;:
+  &lt;span style=&#34;color:#66d9ef&#34;&gt;updateStrategy&lt;/span&gt;:
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;type&lt;/span&gt;: RollingUpdate
+  &lt;span style=&#34;color:#66d9ef&#34;&gt;template&lt;/span&gt;:
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;metadata&lt;/span&gt;:
+      &lt;span style=&#34;color:#66d9ef&#34;&gt;labels&lt;/span&gt;:
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;name&lt;/span&gt;: nvidia-device-plugin-ds
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;spec&lt;/span&gt;:
+      &lt;span style=&#34;color:#66d9ef&#34;&gt;tolerations&lt;/span&gt;:
+      - &lt;span style=&#34;color:#66d9ef&#34;&gt;key&lt;/span&gt;: nvidia.com/gpu
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;operator&lt;/span&gt;: Exists
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;effect&lt;/span&gt;: NoSchedule
+      &lt;span style=&#34;color:#66d9ef&#34;&gt;containers&lt;/span&gt;:
+      - &lt;span style=&#34;color:#66d9ef&#34;&gt;image&lt;/span&gt;: nvidia/k8s-device-plugin:&lt;span style=&#34;color:#ae81ff&#34;&gt;1.11&lt;/span&gt;
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;name&lt;/span&gt;: nvidia-device-plugin-ctr
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;securityContext&lt;/span&gt;:
+          &lt;span style=&#34;color:#66d9ef&#34;&gt;allowPrivilegeEscalation&lt;/span&gt;: &lt;span style=&#34;color:#66d9ef&#34;&gt;false&lt;/span&gt;
+          &lt;span style=&#34;color:#66d9ef&#34;&gt;capabilities&lt;/span&gt;:
+            &lt;span style=&#34;color:#66d9ef&#34;&gt;drop&lt;/span&gt;: [&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;ALL&amp;#34;&lt;/span&gt;]
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;volumeMounts&lt;/span&gt;:
+          - &lt;span style=&#34;color:#66d9ef&#34;&gt;name&lt;/span&gt;: device-plugin
+            &lt;span style=&#34;color:#66d9ef&#34;&gt;mountPath&lt;/span&gt;: /var/lib/kubelet/device-plugins
+      &lt;span style=&#34;color:#66d9ef&#34;&gt;volumes&lt;/span&gt;:
+        - &lt;span style=&#34;color:#66d9ef&#34;&gt;name&lt;/span&gt;: device-plugin
+          &lt;span style=&#34;color:#66d9ef&#34;&gt;hostPath&lt;/span&gt;:
+            &lt;span style=&#34;color:#66d9ef&#34;&gt;path&lt;/span&gt;: /var/lib/kubelet/device-plugins
+      &lt;span style=&#34;color:#66d9ef&#34;&gt;affinity&lt;/span&gt;:
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;nodeAffinity&lt;/span&gt;:
+          &lt;span style=&#34;color:#66d9ef&#34;&gt;requiredDuringSchedulingIgnoredDuringExecution&lt;/span&gt;:
+            &lt;span style=&#34;color:#66d9ef&#34;&gt;nodeSelectorTerms&lt;/span&gt;:
+            - &lt;span style=&#34;color:#66d9ef&#34;&gt;matchExpressions&lt;/span&gt;:
+              - &lt;span style=&#34;color:#66d9ef&#34;&gt;key&lt;/span&gt;: beta.kubernetes.io/instance-type
+                &lt;span style=&#34;color:#66d9ef&#34;&gt;operator&lt;/span&gt;: In
+                &lt;span style=&#34;color:#66d9ef&#34;&gt;values&lt;/span&gt;:
                 - p3.2xlarge
                 - p3.8xlarge
                 - p3.16xlarge
@@ -433,36 +433,36 @@ spec:
 &lt;p&gt;See Kubernetes &lt;a href=&#34;https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/&#34;&gt;Taints and Tolerations&lt;/a&gt; documentation for more details.&lt;/p&gt;
 &lt;p&gt;In order to run GPU workload to run on GPU-powered Spot instance nodes, with &lt;code&gt;nvidia.com/gpu: &amp;quot;true:NoSchedule&amp;quot;&lt;/code&gt; taint, the workload must include both matching &lt;code&gt;tolerations&lt;/code&gt; and &lt;code&gt;nodeSelector&lt;/code&gt;.&lt;/p&gt;
 &lt;p&gt;Kubernetes deployment with &lt;code&gt;10&lt;/code&gt; pod replicas with &lt;code&gt;nvidia/gpu: 1&lt;/code&gt; limit:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: cuda-vector-add
-  labels:
-    app: cuda-vector-add
-spec:
-  replicas: &lt;span style=&#34;color:#ae81ff&#34;&gt;10&lt;/span&gt;
-  selector:
-    matchLabels:
-      app: cuda-vector-add
-  template:
-    metadata:
-      name: cuda-vector-add
-      labels:
-        app: cuda-vector-add
-    spec:
-      nodeSelector:
-        nvidia.com/gpu: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;true&amp;#34;&lt;/span&gt;
-      tolerations:
-      - key: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;nvidia.com/gpu&amp;#34;&lt;/span&gt;
-        operator: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Exists&amp;#34;&lt;/span&gt;
-        effect: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;NoSchedule&amp;#34;&lt;/span&gt;
-      containers:
-        - name: cuda-vector-add
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;apiVersion&lt;/span&gt;: apps/v1
+&lt;span style=&#34;color:#66d9ef&#34;&gt;kind&lt;/span&gt;: Deployment
+&lt;span style=&#34;color:#66d9ef&#34;&gt;metadata&lt;/span&gt;:
+  &lt;span style=&#34;color:#66d9ef&#34;&gt;name&lt;/span&gt;: cuda-vector-add
+  &lt;span style=&#34;color:#66d9ef&#34;&gt;labels&lt;/span&gt;:
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;app&lt;/span&gt;: cuda-vector-add
+&lt;span style=&#34;color:#66d9ef&#34;&gt;spec&lt;/span&gt;:
+  &lt;span style=&#34;color:#66d9ef&#34;&gt;replicas&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;10&lt;/span&gt;
+  &lt;span style=&#34;color:#66d9ef&#34;&gt;selector&lt;/span&gt;:
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;matchLabels&lt;/span&gt;:
+      &lt;span style=&#34;color:#66d9ef&#34;&gt;app&lt;/span&gt;: cuda-vector-add
+  &lt;span style=&#34;color:#66d9ef&#34;&gt;template&lt;/span&gt;:
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;metadata&lt;/span&gt;:
+      &lt;span style=&#34;color:#66d9ef&#34;&gt;name&lt;/span&gt;: cuda-vector-add
+      &lt;span style=&#34;color:#66d9ef&#34;&gt;labels&lt;/span&gt;:
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;app&lt;/span&gt;: cuda-vector-add
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;spec&lt;/span&gt;:
+      &lt;span style=&#34;color:#66d9ef&#34;&gt;nodeSelector&lt;/span&gt;:
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;nvidia.com/gpu&lt;/span&gt;: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;true&amp;#34;&lt;/span&gt;
+      &lt;span style=&#34;color:#66d9ef&#34;&gt;tolerations&lt;/span&gt;:
+      - &lt;span style=&#34;color:#66d9ef&#34;&gt;key&lt;/span&gt;: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;nvidia.com/gpu&amp;#34;&lt;/span&gt;
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;operator&lt;/span&gt;: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Exists&amp;#34;&lt;/span&gt;
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;effect&lt;/span&gt;: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;NoSchedule&amp;#34;&lt;/span&gt;
+      &lt;span style=&#34;color:#66d9ef&#34;&gt;containers&lt;/span&gt;:
+        - &lt;span style=&#34;color:#66d9ef&#34;&gt;name&lt;/span&gt;: cuda-vector-add
           &lt;span style=&#34;color:#75715e&#34;&gt;# https://github.com/kubernetes/kubernetes/blob/v1.7.11/test/images/nvidia-cuda/Dockerfile&lt;/span&gt;
-          image: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;k8s.gcr.io/cuda-vector-add:v0.1&amp;#34;&lt;/span&gt;
-          resources:
-            limits:
-              nvidia.com/gpu: &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt; &lt;span style=&#34;color:#75715e&#34;&gt;# requesting 1 GPU&lt;/span&gt;
+          &lt;span style=&#34;color:#66d9ef&#34;&gt;image&lt;/span&gt;: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;k8s.gcr.io/cuda-vector-add:v0.1&amp;#34;&lt;/span&gt;
+          &lt;span style=&#34;color:#66d9ef&#34;&gt;resources&lt;/span&gt;:
+            &lt;span style=&#34;color:#66d9ef&#34;&gt;limits&lt;/span&gt;:
+              &lt;span style=&#34;color:#66d9ef&#34;&gt;nvidia.com/gpu&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt; &lt;span style=&#34;color:#75715e&#34;&gt;# requesting 1 GPU&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Deploy &lt;code&gt;cuda-vector-add&lt;/code&gt; deployment and see how new GPU-powered nodes are added to the EKS cluster.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# list Kubernetes nodes before running GPU workload&lt;/span&gt;
 NAME                                            ID                                      TYPE
@@ -510,7 +510,7 @@ ip-192-168-179-248.us-west-2.compute.internal   aws:///us-west-2c/i-0bc0853ef26c
 &lt;p&gt;Create a separate Git repository that contains Kubernetes configuration files. Define a Continuous Integration pipeline that is triggered automatically for for every change and can validate it without human intervention.&lt;/p&gt;
 &lt;h2 id=&#34;helm&#34;&gt;Helm&lt;/h2&gt;
 &lt;p&gt;Helm helps you manage complex Kubernetes applications. Using Helm Charts you define, install, test and upgrade Kubernetes application.&lt;/p&gt;
-&lt;p&gt;Here I&#39;m going to focus on using Helm for authoring complex Kubernetes application.&lt;/p&gt;
+&lt;p&gt;Here I&amp;rsquo;m going to focus on using Helm for authoring complex Kubernetes application.&lt;/p&gt;
 &lt;p&gt;The same Kubernetes application can be installed in multiple environments: development, testing, staging and production. Helm template helps to separate application structure from environment configuration by keeping environment specific values in external files.&lt;/p&gt;
 &lt;h3 id=&#34;dependency-management&#34;&gt;Dependency Management&lt;/h3&gt;
 &lt;p&gt;Helm also helps with dependency management. A typical Kubernetes application can be composed from multiple services developed by other teams and open source community.&lt;/p&gt;
@@ -519,7 +519,7 @@ ip-192-168-179-248.us-west-2.compute.internal   aws:///us-west-2c/i-0bc0853ef26c
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-txt&#34; data-lang=&#34;txt&#34;&gt;version: ~1.2.3
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;This will match version 1.2.3 and any patches to that release. In other words, ~1.2.3 is equivalent to &amp;gt;= 1.2.3, &amp;lt; 1.3.0&lt;/p&gt;
 &lt;h2 id=&#34;yaml&#34;&gt;YAML&lt;/h2&gt;
-&lt;p&gt;YAML is the most convenient way to write Kubernetes configuration files. YAML is easier for humans to read and write than other common data formats like XML or JSON. Still it&#39;s recommended to use automatic YAML linters to avoid syntax and formatting errors.&lt;/p&gt;
+&lt;p&gt;YAML is the most convenient way to write Kubernetes configuration files. YAML is easier for humans to read and write than other common data formats like XML or JSON. Still it&amp;rsquo;s recommended to use automatic YAML linters to avoid syntax and formatting errors.&lt;/p&gt;
 &lt;p&gt;&lt;a href=&#34;https://github.com/adrienverge/yamllint&#34;&gt;yamlint&lt;/a&gt;&lt;/p&gt;
 &lt;h3 id=&#34;helm-chart-validation&#34;&gt;Helm Chart Validation&lt;/h3&gt;
 &lt;p&gt;Helm has a &lt;code&gt;helm lint&lt;/code&gt; command that runs a series of tests to verify that the chart is well-formed. The &lt;code&gt;helm lint&lt;/code&gt; also converts YAML to JSON, and this ways is able to detect some YAML errors.&lt;/p&gt;
@@ -553,10 +553,10 @@ cat -n &amp;lt;&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;helm temp
 &lt;span style=&#34;color:#75715e&#34;&gt;# printing error line and few lines around it, replacing spaces with dots&lt;/span&gt;
 helm template hermes | sed -n 240,250p | tr &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39; &amp;#39;&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;⋅&amp;#39;&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;valid-kubernetes-configuration&#34;&gt;Valid Kubernetes Configuration&lt;/h2&gt;
-&lt;p&gt;When authoring Kubernetes configuration files, it&#39;s important not only check if they are valid YAML files, but if they are valid Kubernetes files.&lt;/p&gt;
-&lt;p&gt;It turns out that the Kubernetes supports OpenAPI specification and it&#39;s possible to generate Kubernetes JSON schema for every Kubernetes API version.&lt;/p&gt;
+&lt;p&gt;When authoring Kubernetes configuration files, it&amp;rsquo;s important not only check if they are valid YAML files, but if they are valid Kubernetes files.&lt;/p&gt;
+&lt;p&gt;It turns out that the Kubernetes supports OpenAPI specification and it&amp;rsquo;s possible to generate Kubernetes JSON schema for every Kubernetes API version.&lt;/p&gt;
 &lt;p&gt;&lt;a href=&#34;https://github.com/garethr&#34;&gt;Gareth Rushgrove&lt;/a&gt; wrote a &lt;a href=&#34;https://www.morethanseven.net/2017/06/26/schemas-for-kubernetes-types/&#34;&gt;blog post&lt;/a&gt; on this topic and maintains the &lt;a href=&#34;https://github.com/garethr/kubernetes-json-schema&#34;&gt;garethr/kubernetes-json-schema&lt;/a&gt; GitHub repository with most recent Kubernetes and OpenShift JSON schemas for all API versions. What a great contribution to the community!&lt;/p&gt;
-&lt;p&gt;Now, with Kubernetes API JSON schema, it&#39;s possible to validate any YAML file if it&#39;s a valid Kubernetes configuration file.&lt;/p&gt;
+&lt;p&gt;Now, with Kubernetes API JSON schema, it&amp;rsquo;s possible to validate any YAML file if it&amp;rsquo;s a valid Kubernetes configuration file.&lt;/p&gt;
 &lt;p&gt;The &lt;a href=&#34;https://github.com/garethr/kubeval&#34;&gt;kubeval&lt;/a&gt; tool (also authored by Gareth Rushgrove) is to help.&lt;/p&gt;
 &lt;p&gt;Run &lt;code&gt;kubeval&lt;/code&gt; piped with &lt;code&gt;helm template&lt;/code&gt; command.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;helm template mychart | kubeval
@@ -605,7 +605,7 @@ Step 1: FROM ...
 &lt;p&gt;&lt;strong&gt;Tip:&lt;/strong&gt; The &lt;strong&gt;rule of thumb&lt;/strong&gt; is not adding files to the &lt;strong&gt;build context&lt;/strong&gt;, if you do not need them in your Docker image.&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;h1 id=&#34;the-dockerignore-file&#34;&gt;The &lt;strong&gt;.dockerignore&lt;/strong&gt; file&lt;/h1&gt;
-&lt;p&gt;The &lt;code&gt;.dockerignore&lt;/code&gt; file is the tool, that can help you to define the Docker &lt;strong&gt;build context&lt;/strong&gt; you really need. Using this file, you can specify &lt;strong&gt;ignore rules&lt;/strong&gt; and &lt;strong&gt;exceptions&lt;/strong&gt; from these rules for files and folder, that won&#39;t be included in the &lt;strong&gt;build context&lt;/strong&gt; and thus won&#39;t be packed into an archive and uploaded to the Docker server.&lt;/p&gt;
+&lt;p&gt;The &lt;code&gt;.dockerignore&lt;/code&gt; file is the tool, that can help you to define the Docker &lt;strong&gt;build context&lt;/strong&gt; you really need. Using this file, you can specify &lt;strong&gt;ignore rules&lt;/strong&gt; and &lt;strong&gt;exceptions&lt;/strong&gt; from these rules for files and folder, that won&amp;rsquo;t be included in the &lt;strong&gt;build context&lt;/strong&gt; and thus won&amp;rsquo;t be packed into an archive and uploaded to the Docker server.&lt;/p&gt;
 &lt;h1 id=&#34;why-should-you-care&#34;&gt;Why should you care?&lt;/h1&gt;
 &lt;p&gt;Indeed, why should you care? Computers today are fast, networks are also pretty fast (hopefully) and storage is cheap. So, this &amp;ldquo;tax&amp;rdquo; may be not that big, right?
 I will try to convince you, that you should care.&lt;/p&gt;
@@ -619,12 +619,12 @@ I will try to convince you, that you should care.&lt;/p&gt;
 &lt;p&gt;If you copy files into you Docker image with &lt;code&gt;ADD .&lt;/code&gt; or &lt;code&gt;COPY .&lt;/code&gt; command, you may unintendedly include your source files, whole &lt;code&gt;git&lt;/code&gt; history (a &lt;code&gt;.git&lt;/code&gt; folder), secret files (like &lt;code&gt;.aws&lt;/code&gt;, &lt;code&gt;.env&lt;/code&gt;, private keys), cache and other files not only into the Docker &lt;strong&gt;build context&lt;/strong&gt;, but also into the final Docker image.&lt;/p&gt;
 &lt;p&gt;There are multiple Docker images currently available on DockerHub, that expose application source code, passwords, keys and credentials (for example &lt;a href=&#34;http://thehackernews.com/2016/07/vine-source-code.html&#34;&gt;Twitter Vine&lt;/a&gt;).&lt;/p&gt;
 &lt;h2 id=&#34;reason-3-the-docker-build---cache-invalidation&#34;&gt;Reason #3: The Docker build - cache invalidation&lt;/h2&gt;
-&lt;p&gt;A common pattern is to inject an application&#39;s entire codebase into an image using an instruction like this:&lt;/p&gt;
+&lt;p&gt;A common pattern is to inject an application&amp;rsquo;s entire codebase into an image using an instruction like this:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;COPY . /usr/src/app
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;In this case, we&#39;re copying the &lt;strong&gt;entire&lt;/strong&gt; &lt;strong&gt;build context&lt;/strong&gt; into the image. It&#39;s also important to understand, that every Dockerfile command generates a new layer. So, if any of included file changes in the entire build context, this change will invalidate the build cache for &lt;code&gt;COPY . /opt/myapp&lt;/code&gt; layer and a new image layer will be generated on the next build.&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;In this case, we&amp;rsquo;re copying the &lt;strong&gt;entire&lt;/strong&gt; &lt;strong&gt;build context&lt;/strong&gt; into the image. It&amp;rsquo;s also important to understand, that every Dockerfile command generates a new layer. So, if any of included file changes in the entire build context, this change will invalidate the build cache for &lt;code&gt;COPY . /opt/myapp&lt;/code&gt; layer and a new image layer will be generated on the next build.&lt;/p&gt;
 &lt;p&gt;If your working directory contains files that are frequently updated (logs, test results, git history, temporary cache files and similar), you are going to regenerate this layer for every &lt;code&gt;docker build&lt;/code&gt; run.&lt;/p&gt;
 &lt;h1 id=&#34;the-dockerignore-syntax&#34;&gt;The &lt;code&gt;.dockerignore&lt;/code&gt; syntax&lt;/h1&gt;
-&lt;p&gt;The &lt;code&gt;.dockerignore&lt;/code&gt; file is similar to &lt;code&gt;gitignore&lt;/code&gt; file, used by &lt;code&gt;git&lt;/code&gt; tool. similarly to &lt;code&gt;.gitignore&lt;/code&gt; file, it allows you to specify a pattern for files and folders that should be ignored by the Docker client when generating a &lt;strong&gt;build context&lt;/strong&gt;. While &lt;code&gt;.dockerignore&lt;/code&gt; file syntax used to describe &lt;strong&gt;ignore patterns&lt;/strong&gt; is similar to &lt;code&gt;.gitignore&lt;/code&gt; it&#39;s not the same.&lt;/p&gt;
+&lt;p&gt;The &lt;code&gt;.dockerignore&lt;/code&gt; file is similar to &lt;code&gt;gitignore&lt;/code&gt; file, used by &lt;code&gt;git&lt;/code&gt; tool. similarly to &lt;code&gt;.gitignore&lt;/code&gt; file, it allows you to specify a pattern for files and folders that should be ignored by the Docker client when generating a &lt;strong&gt;build context&lt;/strong&gt;. While &lt;code&gt;.dockerignore&lt;/code&gt; file syntax used to describe &lt;strong&gt;ignore patterns&lt;/strong&gt; is similar to &lt;code&gt;.gitignore&lt;/code&gt; it&amp;rsquo;s not the same.&lt;/p&gt;
 &lt;p&gt;The &lt;code&gt;.dockerignore&lt;/code&gt; pattern matching syntax is based on Go &lt;code&gt;filepath.Match()&lt;/code&gt; function and includes some additions.&lt;/p&gt;
 &lt;p&gt;Here is the complete syntax for the &lt;code&gt;.dockerignore&lt;/code&gt;:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;pattern:
@@ -677,12 +677,12 @@ README-secret.md
 &lt;p&gt;Docker-in-Docker &lt;a href=&#34;https://hub.docker.com/_/docker/&#34;&gt;dind&lt;/a&gt; can help you to run Docker Swarm cluster on your Macbook only with Docker for Mac (v1.12+). No &lt;code&gt;virtualbox&lt;/code&gt;, &lt;code&gt;docker-machine&lt;/code&gt;, &lt;code&gt;vagrant&lt;/code&gt; or other app is required.&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;h2 id=&#34;the-beginning&#34;&gt;The Beginning&lt;/h2&gt;
-&lt;p&gt;One day, I&#39;ve decided to try running Docker 1.12 Swarm cluster on my MacBook Pro. Docker team did a great job releasing Docker for Mac, and from that time I forgot all problems I used to have with &lt;code&gt;boot2docker&lt;/code&gt;. I really like Docker for Mac: it’s fast, lightweight, tightly integrated with MacOS and significantly simplifies my life when working in changing network environment. The only missing thing is that it&#39;s possible to create and work with single Docker daemon running inside &lt;code&gt;xhyve&lt;/code&gt; VM. Shit! I want a cluster.&lt;/p&gt;
-&lt;p&gt;Of cause, it&#39;s possible to create Swarm cluster with &lt;code&gt;docker-machine&lt;/code&gt; tool, but it&#39;s not MacOS friendly and requires to install additional VM software, like VirtualBox or Parallels (why? I already have &lt;code&gt;xhyve&lt;/code&gt;!). I have different network for work office and home. At work I&#39;m behind corporate proxy with multiple firewall filters. At home, of cause, life is better. &lt;code&gt;docker-machine&lt;/code&gt; requires to create dedicated VMs for each environment and thus force me juggling with different shell scripts when I switch from one to another. It&#39;s possible, but it&#39;s not fun.&lt;/p&gt;
+&lt;p&gt;One day, I&amp;rsquo;ve decided to try running Docker 1.12 Swarm cluster on my MacBook Pro. Docker team did a great job releasing Docker for Mac, and from that time I forgot all problems I used to have with &lt;code&gt;boot2docker&lt;/code&gt;. I really like Docker for Mac: it’s fast, lightweight, tightly integrated with MacOS and significantly simplifies my life when working in changing network environment. The only missing thing is that it&amp;rsquo;s possible to create and work with single Docker daemon running inside &lt;code&gt;xhyve&lt;/code&gt; VM. Shit! I want a cluster.&lt;/p&gt;
+&lt;p&gt;Of cause, it&amp;rsquo;s possible to create Swarm cluster with &lt;code&gt;docker-machine&lt;/code&gt; tool, but it&amp;rsquo;s not MacOS friendly and requires to install additional VM software, like VirtualBox or Parallels (why? I already have &lt;code&gt;xhyve&lt;/code&gt;!). I have different network for work office and home. At work I&amp;rsquo;m behind corporate proxy with multiple firewall filters. At home, of cause, life is better. &lt;code&gt;docker-machine&lt;/code&gt; requires to create dedicated VMs for each environment and thus force me juggling with different shell scripts when I switch from one to another. It&amp;rsquo;s possible, but it&amp;rsquo;s not fun.&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;I just want to have multi-node Swarm cluster with Docker for Mac (and &lt;code&gt;xhyve&lt;/code&gt; VM). As simple as it is.&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;p&gt;I’m a lazy person and if there is an already existing solution, I will alway choose one, even if it’s not ideal. So, after googling for a while, I&#39;ve failed to find any suitable solution or blog post. So, I’ve decided to create my own and share it with you.&lt;/p&gt;
+&lt;p&gt;I’m a lazy person and if there is an already existing solution, I will alway choose one, even if it’s not ideal. So, after googling for a while, I&amp;rsquo;ve failed to find any suitable solution or blog post. So, I’ve decided to create my own and share it with you.&lt;/p&gt;
 &lt;h2 id=&#34;the-idea&#34;&gt;The Idea&lt;/h2&gt;
 &lt;p&gt;The basic idea is to use Docker for Mac for running Swam master and several &lt;a href=&#34;https://hub.docker.com/_/docker/&#34;&gt;Docker-in-Docker containers&lt;/a&gt; for running Swarm worker nodes.&lt;/p&gt;
 &lt;p&gt;First, lets init our Swarm master:&lt;/p&gt;
@@ -694,7 +694,7 @@ SWARM_TOKEN=$(docker swarm join-token -q worker)
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&amp;hellip; and Docker &lt;code&gt;xhyve&lt;/code&gt; VM IP:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;# get Swarm master IP (Docker for Mac xhyve VM IP)
 SWARM_MASTER=$(docker info | grep -w &#39;Node Address&#39; | awk &#39;{print $3}&#39;)
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&amp;hellip; now let&#39;s create 3 worker nodes and join these nodes to our cluster&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&amp;hellip; now let&amp;rsquo;s create 3 worker nodes and join these nodes to our cluster&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;# run NUM_WORKERS workers with SWARM_TOKEN
 NUM_WORKERS=3
 for i in $(seq “${NUM_WORKERS}&amp;quot;); do
@@ -710,7 +710,7 @@ docker node ls
 35z72o6zjhs9u1h99lrwzvx5n    worker-3  Ready   Active
 d9ph5cmc604wp1vhhs754nnxx *  moby      Ready   Active        Leader
 dj3gnpv86uqrw4b9mo9ux4jb5    worker-1  Ready   Active
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;That&#39;s all folks! Now, you have running Swarm cluster on your Macbook and your Docker client is talking with Swarm master.&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;That&amp;rsquo;s all folks! Now, you have running Swarm cluster on your Macbook and your Docker client is talking with Swarm master.&lt;/p&gt;
 &lt;h3 id=&#34;nice-tip&#34;&gt;Nice tip:&lt;/h3&gt;
 &lt;p&gt;You can use very nice [Swarm visualizer] (&lt;a href=&#34;https://github.com/ManoMarks/docker-swarm-visualizer&#34;&gt;https://github.com/ManoMarks/docker-swarm-visualizer&lt;/a&gt;) by Mano Marks to see your Swarm cluster &amp;ldquo;in action&amp;rdquo;.&lt;/p&gt;
 &lt;p&gt;Run it with following command:&lt;/p&gt;
@@ -818,7 +818,7 @@ $ docker run -it --rm -v /var/run/docker.sock:/var/run/docker.sock gaiaadm/pumba
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;It is generally understood that &lt;em&gt;packet loss&lt;/em&gt; distribution in IP networks is “bursty”. To simulate more realistic &lt;em&gt;packet loss&lt;/em&gt; events, different probability models are used.
 Pumba currently supports 3 different loss probability models for *packet loss&amp;rdquo;. Pumba defines separate &lt;em&gt;loss&lt;/em&gt; command for each probability model.&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;&lt;code&gt;loss&lt;/code&gt; - independent probability loss model (Bernoulli model); it&#39;s the most widely used loss model where packet losses are modeled by a random process consisting of Bernoulli trails&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;loss&lt;/code&gt; - independent probability loss model (Bernoulli model); it&amp;rsquo;s the most widely used loss model where packet losses are modeled by a random process consisting of Bernoulli trails&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;loss-state&lt;/code&gt; - 2-state, 3-state and 4-state State Markov models&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;loss-gemodel&lt;/code&gt; - Gilbert and Gilbert-Elliott models&lt;/li&gt;
 &lt;/ul&gt;
@@ -880,12 +880,12 @@ Resilience of the system can be defined as its ability to continue functioning e
 Resilience testing is an approach where you intentionally inject different types of failures at the infrastructure level (VM, network, containers, and processes) and let the system try to recover from these unexpected failures that can happen in production. Simulating realistic failures at any time is the best way to enforce highly available and resilient systems.&lt;/p&gt;
 &lt;h2 id=&#34;what-is-pumba&#34;&gt;What is Pumba?&lt;/h2&gt;
 &lt;p&gt;&lt;img src=&#34;https://alexei-led.github.io/img/pumba_docker.png&#34; alt=&#34;Pumba&#34;&gt;&lt;/p&gt;
-&lt;p&gt;First of all, &lt;a href=&#34;https://en.wikipedia.org/wiki/Timon_and_Pumbaa&#34;&gt;Pumba&lt;/a&gt; (or Pumbaa) is a supporting character from Disney&#39;s animated film &lt;em&gt;The Lion King&lt;/em&gt;. In Swahili, &lt;em&gt;pumbaa&lt;/em&gt; means &amp;ldquo;to be foolish, silly, weak-minded, careless, negligent&amp;rdquo;. This reflects the unexpected behavior of the application.&lt;/p&gt;
+&lt;p&gt;First of all, &lt;a href=&#34;https://en.wikipedia.org/wiki/Timon_and_Pumbaa&#34;&gt;Pumba&lt;/a&gt; (or Pumbaa) is a supporting character from Disney&amp;rsquo;s animated film &lt;em&gt;The Lion King&lt;/em&gt;. In Swahili, &lt;em&gt;pumbaa&lt;/em&gt; means &amp;ldquo;to be foolish, silly, weak-minded, careless, negligent&amp;rdquo;. This reflects the unexpected behavior of the application.&lt;/p&gt;
 &lt;p&gt;Pumba is inspired by highly popular &lt;a href=&#34;https://github.com/Netflix/SimianArmy/wiki/Chaos-Monkey&#34;&gt;Netfix Chaos Monkey&lt;/a&gt; resilience testing tool for AWS cloud. Pumba takes a similar approach but applies it at the container level. It connects to the Docker daemon running on some machine (local or remote) and brings a level of chaos to it: &amp;ldquo;randomly&amp;rdquo; killing, stopping, and removing running containers.&lt;/p&gt;
 &lt;p&gt;If your system is designed to be resilient, it should be able to recover from such failures. &amp;ldquo;Failed&amp;rdquo; services should be restarted and lost connections should be recovered. This is not as trivial as it sounds. You need to design your services differently. Be aware that a service can fail (for whatever reason) or service it depends on can disappear at any point of time (but can reappear later). Expect the unexpected!&lt;/p&gt;
 &lt;h2 id=&#34;why-run-pumba&#34;&gt;Why run Pumba?&lt;/h2&gt;
-&lt;p&gt;Failures happen and they inevitably happen when least desired. If your application cannot recover from system failures, you are going to face angry customers and maybe even loose them. If you want to be sure that your system is able to recover from unexpected failures, it would be better to take charge of them and inject failures yourself instead of waiting till they happen. This is not a one time effort. In age of Continuous Delivery, you need to be sure that every change to any one of system services, does not compromise system availability. That&#39;s why you should practice &lt;strong&gt;continuous resilience testing&lt;/strong&gt;.
-With Docker gaining popularity as people are deploying and running clusters of containers in production. Using a container orchestration network (e.g. Kubernetes, Swarm, CoreOS fleet), it&#39;s possible to restart a &amp;ldquo;failed&amp;rdquo; container automatically. How can you be sure that restarted services and other system services can properly recover from failures? If you are not using container orchestration frameworks, life is even harder: you will need to handle container restarts by yourself.&lt;/p&gt;
+&lt;p&gt;Failures happen and they inevitably happen when least desired. If your application cannot recover from system failures, you are going to face angry customers and maybe even loose them. If you want to be sure that your system is able to recover from unexpected failures, it would be better to take charge of them and inject failures yourself instead of waiting till they happen. This is not a one time effort. In age of Continuous Delivery, you need to be sure that every change to any one of system services, does not compromise system availability. That&amp;rsquo;s why you should practice &lt;strong&gt;continuous resilience testing&lt;/strong&gt;.
+With Docker gaining popularity as people are deploying and running clusters of containers in production. Using a container orchestration network (e.g. Kubernetes, Swarm, CoreOS fleet), it&amp;rsquo;s possible to restart a &amp;ldquo;failed&amp;rdquo; container automatically. How can you be sure that restarted services and other system services can properly recover from failures? If you are not using container orchestration frameworks, life is even harder: you will need to handle container restarts by yourself.&lt;/p&gt;
 &lt;p&gt;This is where Pumba shines. You can run it on every Docker host, in your cluster, and Pumba will &amp;ldquo;randomly&amp;rdquo; stop running containers - matching specified name/s or name patterns. You can even specify the &lt;em&gt;signal&lt;/em&gt; that will be sent to &amp;ldquo;kill&amp;rdquo; the container.&lt;/p&gt;
 &lt;h2 id=&#34;what-pumba-can-do&#34;&gt;What Pumba can do?&lt;/h2&gt;
 &lt;p&gt;Pumba can create different failures for your running Docker containers. Pumba can kill, stop or remove running containers. It can also pause all processes withing running container for specified period of time.
@@ -1076,15 +1076,15 @@ pumba
       <link>https://alexei-led.github.io/post/docker_testing/</link>
       <pubDate>Mon, 07 Mar 2016 16:39:00 +0200</pubDate>
       <guid>https://alexei-led.github.io/post/docker_testing/</guid>
-      <description>&lt;p&gt;Congratulations! You know how to build a Docker image and are able to compose multiple containers into a meaningful application. Hopefully, you&#39;ve already created a Continuous Delivery pipeline and know how to push your newly created image into production or testing environment.&lt;/p&gt;
+      <description>&lt;p&gt;Congratulations! You know how to build a Docker image and are able to compose multiple containers into a meaningful application. Hopefully, you&amp;rsquo;ve already created a Continuous Delivery pipeline and know how to push your newly created image into production or testing environment.&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;Now, the question is - &lt;em&gt;How do we test our Docker containers?&lt;/em&gt;&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;p&gt;There are multiple testing strategies we can apply. In this post, I&#39;ll highlight them presenting benefits and drawbacks for each.&lt;/p&gt;
+&lt;p&gt;There are multiple testing strategies we can apply. In this post, I&amp;rsquo;ll highlight them presenting benefits and drawbacks for each.&lt;/p&gt;
 &lt;h2 id=&#34;the-naive-approach&#34;&gt;The &amp;ldquo;Naive&amp;rdquo; approach&lt;/h2&gt;
 &lt;p&gt;This is the default approach for most people. It relies on a CI server to do the job. When taking this approach, the developer is using Docker as a package manager, a better option than the &lt;strong&gt;jar/rpm/deb&lt;/strong&gt; approach.
 The CI server compiles the application code and executes tests (unit, service, functional, and others). The build artifacts are reused in Docker &lt;strong&gt;build&lt;/strong&gt; to produce a new image. This becomes a core deployment artifact. The produced image contains not only application &amp;ldquo;binaries&amp;rdquo;, but also a required runtime including all dependencies and application configuration.&lt;/p&gt;
-&lt;p&gt;We are getting application portability, however, we are loosing the development and testing portability. We&#39;re not able to reproduce exactly the same development and testing environment outside the CI. To create a new test environment we&#39;ll need to setup the testing tools (correct versions and plugins), configure runtime and OS settings, and get the same versions of test scripts as well as perhaps, the test data.&lt;/p&gt;
+&lt;p&gt;We are getting application portability, however, we are loosing the development and testing portability. We&amp;rsquo;re not able to reproduce exactly the same development and testing environment outside the CI. To create a new test environment we&amp;rsquo;ll need to setup the testing tools (correct versions and plugins), configure runtime and OS settings, and get the same versions of test scripts as well as perhaps, the test data.&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;https://alexei-led.github.io/img/naive.png&#34; alt=&#34;The Naive Testing Strategy&#34;&gt;&lt;/p&gt;
 &lt;p&gt;To resolve these problems leads us to the next one.&lt;/p&gt;
 &lt;h2 id=&#34;app--test-container-approach&#34;&gt;App &amp;amp; Test Container approach&lt;/h2&gt;
@@ -1101,7 +1101,7 @@ The CI server compiles the application code and executes tests (unit, service, f
 &lt;li&gt;Pollutes image runtime environment with test specific configuration and may even introduce an unneeded dependency (required by integration testing)&lt;/li&gt;
 &lt;li&gt;We also need to decide what to do with the test results and logs; how and where to export them&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;Here&#39;s a simplified &lt;code&gt;Dockerfile&lt;/code&gt;. It illustrates this approach.&lt;/p&gt;
+&lt;p&gt;Here&amp;rsquo;s a simplified &lt;code&gt;Dockerfile&lt;/code&gt;. It illustrates this approach.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-dockerfile&#34; data-lang=&#34;dockerfile&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;FROM&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt; &amp;#34;&amp;lt;bases image&amp;gt;&amp;#34;:&amp;#34;&amp;lt;version&amp;gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
 &lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
 &lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;WORKDIR&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt; &amp;#34;&amp;lt;path&amp;gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
@@ -1133,15 +1133,15 @@ The CI server compiles the application code and executes tests (unit, service, f
 &lt;p&gt;&lt;img src=&#34;https://alexei-led.github.io/img/app_test.png&#34; alt=&#34;App &amp; Test Container&#34;&gt;&lt;/p&gt;
 &lt;p&gt;There has to be a better way for in-container testing and there is.&lt;/p&gt;
 &lt;h2 id=&#34;test-aware-container-approach&#34;&gt;Test Aware Container Approach&lt;/h2&gt;
-&lt;p&gt;Today, Docker&#39;s promise is &lt;strong&gt;&amp;ldquo;Build -&amp;gt; Ship -&amp;gt; Run&amp;rdquo;&lt;/strong&gt; - build the image, ship it to some registry, and run it anywhere. IMHO there&#39;s a critical missing step - &lt;strong&gt;Test&lt;/strong&gt;. The right and complete sequence should be &lt;strong&gt;:Build -&amp;gt; Test -&amp;gt; Ship -&amp;gt; Run&lt;/strong&gt;.&lt;/p&gt;
-&lt;p&gt;Let&#39;s look at a &amp;ldquo;test-friendly&amp;rdquo; Dockerfile syntax and extensions to Docker commands. This important step could be supported natively. It&#39;s not a real syntax, but bear with me. I&#39;ll define the &amp;ldquo;ideal&amp;rdquo; version and show how to implement something that&#39;s very close.&lt;/p&gt;
+&lt;p&gt;Today, Docker&amp;rsquo;s promise is &lt;strong&gt;&amp;ldquo;Build -&amp;gt; Ship -&amp;gt; Run&amp;rdquo;&lt;/strong&gt; - build the image, ship it to some registry, and run it anywhere. IMHO there&amp;rsquo;s a critical missing step - &lt;strong&gt;Test&lt;/strong&gt;. The right and complete sequence should be &lt;strong&gt;:Build -&amp;gt; Test -&amp;gt; Ship -&amp;gt; Run&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;Let&amp;rsquo;s look at a &amp;ldquo;test-friendly&amp;rdquo; Dockerfile syntax and extensions to Docker commands. This important step could be supported natively. It&amp;rsquo;s not a real syntax, but bear with me. I&amp;rsquo;ll define the &amp;ldquo;ideal&amp;rdquo; version and show how to implement something that&amp;rsquo;s very close.&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;ONTEST [INSTRUCTION]
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Let&#39;s define a special &lt;code&gt;ONTEST&lt;/code&gt; instruction, similar to existing &lt;a href=&#34;https://docs.docker.com/engine/reference/builder/#onbuild&#34;&gt;&lt;code&gt;ONBUILD&lt;/code&gt;&lt;/a&gt; instruction. The &lt;code&gt;ONTEST&lt;/code&gt; instruction adds a trigger instruction to the image to be executed at a later time when the image is tested. Any build instruction can be registered as a trigger.&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Let&amp;rsquo;s define a special &lt;code&gt;ONTEST&lt;/code&gt; instruction, similar to existing &lt;a href=&#34;https://docs.docker.com/engine/reference/builder/#onbuild&#34;&gt;&lt;code&gt;ONBUILD&lt;/code&gt;&lt;/a&gt; instruction. The &lt;code&gt;ONTEST&lt;/code&gt; instruction adds a trigger instruction to the image to be executed at a later time when the image is tested. Any build instruction can be registered as a trigger.&lt;/p&gt;
 &lt;p&gt;The &lt;code&gt;ONTEST&lt;/code&gt; instruction should be recognized by a new &lt;code&gt;docker test&lt;/code&gt; command.&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;docker test [OPTIONS] IMAGE [COMMAND] [ARG...]
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The &lt;code&gt;docker test&lt;/code&gt; command syntax will be similar to &lt;code&gt;docker run&lt;/code&gt; command, with one significant difference: a new &amp;ldquo;testable&amp;rdquo; image will be automatically generated and even tagged with &lt;code&gt;&amp;lt;image name&amp;gt;:&amp;lt;image tag&amp;gt;-test&lt;/code&gt; tag (&amp;ldquo;test&amp;rdquo; postfix added to the original image tag). This &amp;ldquo;testable&amp;rdquo; image will generated &lt;code&gt;FROM&lt;/code&gt; the application image, executing all build instructions, defined after &lt;code&gt;ONTEST&lt;/code&gt; command and executing &lt;code&gt;ONTEST CMD&lt;/code&gt; (or &lt;code&gt;ONTEST ENTRYPOINT&lt;/code&gt;).
 The &lt;code&gt;docker test&lt;/code&gt; command should return a non-zero code if any tests fail. The test results should be written into an automatically generated &lt;code&gt;VOLUME&lt;/code&gt; that points to &lt;code&gt;/var/tests/results&lt;/code&gt; folder.&lt;/p&gt;
-&lt;p&gt;Let&#39;s look at a modified &lt;code&gt;Dockerfile&lt;/code&gt; below - it includes the new proposed &lt;code&gt;ONTEST&lt;/code&gt; instruction.&lt;/p&gt;
+&lt;p&gt;Let&amp;rsquo;s look at a modified &lt;code&gt;Dockerfile&lt;/code&gt; below - it includes the new proposed &lt;code&gt;ONTEST&lt;/code&gt; instruction.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-dockerfile&#34; data-lang=&#34;dockerfile&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;FROM&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt; &amp;#34;&amp;lt;base image&amp;gt;&amp;#34;:&amp;#34;&amp;lt;version&amp;gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
 &lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
 &lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;WORKDIR&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt; &amp;#34;&amp;lt;path&amp;gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
@@ -1179,7 +1179,7 @@ The &lt;code&gt;docker test&lt;/code&gt; command should return a non-zero code i
 &lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;a href=&#34;https://gist.github.com/alexei-led/4f39cca8a03b1503978a&#34;&gt;Dockerfile&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;https://alexei-led.github.io/img/test_aware.png&#34; alt=&#34;Test Aware Container&#34;&gt;&lt;/p&gt;
 &lt;h3 id=&#34;making-test-aware-container-real&#34;&gt;Making &amp;ldquo;Test Aware Container&amp;rdquo; Real&lt;/h3&gt;
-&lt;p&gt;We believe Docker should make &lt;code&gt;docker-test&lt;/code&gt; part of the container management lifecycle. There is a need to have a simple working solution today and I&#39;ll describe one that&#39;s very close to the ideal state.&lt;/p&gt;
+&lt;p&gt;We believe Docker should make &lt;code&gt;docker-test&lt;/code&gt; part of the container management lifecycle. There is a need to have a simple working solution today and I&amp;rsquo;ll describe one that&amp;rsquo;s very close to the ideal state.&lt;/p&gt;
 &lt;p&gt;As mentioned before, Docker has a very useful &lt;code&gt;ONBUILD&lt;/code&gt; instruction. This instruction allows us to trigger another build instruction on succeeding builds. The basic idea is to use &lt;code&gt;ONBUILD&lt;/code&gt; instruction when running &lt;code&gt;docker-test&lt;/code&gt; command.&lt;/p&gt;
 &lt;p&gt;The flow executed by &lt;code&gt;docker-test&lt;/code&gt; command:&lt;/p&gt;
 &lt;ol&gt;
@@ -1190,9 +1190,9 @@ The &lt;code&gt;docker test&lt;/code&gt; command should return a non-zero code i
 &lt;li&gt;Remove &lt;code&gt;Dockerfile.test&lt;/code&gt; file&lt;/li&gt;
 &lt;/ol&gt;
 &lt;p&gt;Why not create a new &lt;code&gt;Dockerfile.test&lt;/code&gt; without requiring the &lt;code&gt;ONBUILD&lt;/code&gt; instruction?&lt;/p&gt;
-&lt;p&gt;Because in order to test right image (and tag) we&#39;ll need to keep &lt;code&gt;FROM&lt;/code&gt; always updated to &lt;strong&gt;image:tag&lt;/strong&gt; that we want to test. This is not trivial.&lt;/p&gt;
-&lt;p&gt;There is a limitation in the described approach - it&#39;s not suitable for &amp;ldquo;onbuild&amp;rdquo; images (images used to automatically build your app), like &lt;a href=&#34;https://hub.docker.com/_/maven/&#34;&gt;Maven:onbuild&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;Let&#39;s look at a simple implementation of &lt;code&gt;docker-test&lt;/code&gt; command. It highlights the concept: the &lt;code&gt;docker-test&lt;/code&gt; command should be able to handle &lt;code&gt;build&lt;/code&gt; and &lt;code&gt;run&lt;/code&gt; command options and be able to handle errors properly.&lt;/p&gt;
+&lt;p&gt;Because in order to test right image (and tag) we&amp;rsquo;ll need to keep &lt;code&gt;FROM&lt;/code&gt; always updated to &lt;strong&gt;image:tag&lt;/strong&gt; that we want to test. This is not trivial.&lt;/p&gt;
+&lt;p&gt;There is a limitation in the described approach - it&amp;rsquo;s not suitable for &amp;ldquo;onbuild&amp;rdquo; images (images used to automatically build your app), like &lt;a href=&#34;https://hub.docker.com/_/maven/&#34;&gt;Maven:onbuild&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Let&amp;rsquo;s look at a simple implementation of &lt;code&gt;docker-test&lt;/code&gt; command. It highlights the concept: the &lt;code&gt;docker-test&lt;/code&gt; command should be able to handle &lt;code&gt;build&lt;/code&gt; and &lt;code&gt;run&lt;/code&gt; command options and be able to handle errors properly.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span style=&#34;color:#75715e&#34;&gt;#!/bin/bash
 &lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;image&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;app&amp;#34;&lt;/span&gt;
 tag&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;latest&amp;#34;&lt;/span&gt;
@@ -1201,9 +1201,9 @@ echo &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span st
 docker build -t &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;${&lt;/span&gt;image&lt;span style=&#34;color:#e6db74&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;${&lt;/span&gt;tag&lt;span style=&#34;color:#e6db74&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;-test&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt; -f Dockerfile.test . &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt;
 docker run -it --rm -v &lt;span style=&#34;color:#66d9ef&#34;&gt;$(&lt;/span&gt;pwd&lt;span style=&#34;color:#66d9ef&#34;&gt;)&lt;/span&gt;/tests/results:/var/tests/results &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;${&lt;/span&gt;image&lt;span style=&#34;color:#e6db74&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;${&lt;/span&gt;tag&lt;span style=&#34;color:#e6db74&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;-test&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt;
 rm Dockerfile.test
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Let&#39;s focus on the most interesting and relevant part.&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Let&amp;rsquo;s focus on the most interesting and relevant part.&lt;/p&gt;
 &lt;h2 id=&#34;integration-test-container&#34;&gt;Integration Test Container&lt;/h2&gt;
-&lt;p&gt;Let&#39;s say we have an application built from tens or hundreds of microservices. Let&#39;s say we have an automated CI/CD pipeline, where each microservice is built and tested by our CI and deployed into some environment (testing, staging or production) after the build and tests pass. Pretty cool, eh?
+&lt;p&gt;Let&amp;rsquo;s say we have an application built from tens or hundreds of microservices. Let&amp;rsquo;s say we have an automated CI/CD pipeline, where each microservice is built and tested by our CI and deployed into some environment (testing, staging or production) after the build and tests pass. Pretty cool, eh?
 Our CI tests are capable of testing each microservice in isolation - running unit and service tests (or API contract tests). Maybe even micro-integration tests - tests run on subsystem are created in ad-hoc manner (for example with &lt;code&gt;docker compose&lt;/code&gt; help).&lt;/p&gt;
 &lt;p&gt;This leads to some issues that we need to address:&lt;/p&gt;
 &lt;ul&gt;
@@ -1241,8 +1241,8 @@ Our CI tests are capable of testing each microservice in isolation - running uni
       <link>https://alexei-led.github.io/post/docker_builder_pattern/</link>
       <pubDate>Thu, 14 Jan 2016 16:14:47 +0200</pubDate>
       <guid>https://alexei-led.github.io/post/docker_builder_pattern/</guid>
-      <description>&lt;p&gt;Let&#39;s say that you&#39;re developing a microservice in a compiled language or an interpreted language that requires some additional “build” steps to package and lint your application code. This is a useful docker pattern for the &amp;ldquo;build&amp;rdquo; container.&lt;/p&gt;
-&lt;p&gt;In our project, we&#39;re using Docker as our main deployment package: every microservice is delivered as a Docker image. Each microservice also has it’s own code repository (GitHub), and its own CI build job.&lt;/p&gt;
+      <description>&lt;p&gt;Let&amp;rsquo;s say that you&amp;rsquo;re developing a microservice in a compiled language or an interpreted language that requires some additional “build” steps to package and lint your application code. This is a useful docker pattern for the &amp;ldquo;build&amp;rdquo; container.&lt;/p&gt;
+&lt;p&gt;In our project, we&amp;rsquo;re using Docker as our main deployment package: every microservice is delivered as a Docker image. Each microservice also has it’s own code repository (GitHub), and its own CI build job.&lt;/p&gt;
 &lt;p&gt;Some of our services are written in Java. Java code requires additional tooling and processes before you get working code. This tooling and all associated packages are depended from and not required when a compiled program is running.&lt;/p&gt;
 &lt;p&gt;We have been trying to develop a repeatable process and uniform environment for deploying our services. We believe it’s good to package Java tools and packages into containers too. It allows us to build a Java-based microservice on any machine, including CI, without any specific environment requirements: JDK version, profiling and testing tools, OS, Maven, environment variables, etc.&lt;/p&gt;
 &lt;p&gt;For every service, we have two(2) Dockerfiles: one for service runtime and the second packed with tools required to build the service. We usually name these files as &lt;code&gt;Dockerfile&lt;/code&gt; and &lt;code&gt;Dockerfile.build&lt;/code&gt;. We are using &lt;code&gt;-f, --file=&amp;quot;&amp;quot;&lt;/code&gt; flag to specify Dockerfile file name for &lt;code&gt;docker build&lt;/code&gt; command.&lt;/p&gt;
@@ -1267,7 +1267,7 @@ ADD . $GAIA_HOME
 &lt;span style=&#34;color:#75715e&#34;&gt;# run maven verify&lt;/span&gt;
 RUN &lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;mvn&amp;#34;&lt;/span&gt;,&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;verify&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;]&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;As you can see, it’s a simple file with one little trick to speed up our Maven build.&lt;/p&gt;
-&lt;p&gt;Now, we have all the tools required to compile our service. We can run this Docker container on any machine without requiring to have JDK installed. We can run the same Docker container on a developer&#39;s laptop and on our CI server.&lt;/p&gt;
+&lt;p&gt;Now, we have all the tools required to compile our service. We can run this Docker container on any machine without requiring to have JDK installed. We can run the same Docker container on a developer&amp;rsquo;s laptop and on our CI server.&lt;/p&gt;
 &lt;p&gt;This trick greatly simplifies our CI process - we no longer require our CI to support any specific compiler, version, or tool. All we need is the Docker engine. Everything else, we bring ourselves.&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;BYOT - Bring Your Own Tooling! :-)&lt;/p&gt;
@@ -1281,7 +1281,7 @@ docker create --name build-cont build-img
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;docker cp build-cont:/usr/local/gaia/target/mgs.war ./target/mgs.war
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;As a result, we have a compiled service code, packaged into single WAR file. We get exactly the same WAR file on any machine just by running our &lt;strong&gt;builder&lt;/strong&gt; container, or by rebuilding the &lt;strong&gt;builder&lt;/strong&gt; container against the same code commit (using Git tag or specific commit ID) on any machine.&lt;/p&gt;
 &lt;p&gt;We can now create a Docker image with our service and required runtime, which is usually some version of JRE and servlet container.&lt;/p&gt;
-&lt;p&gt;Here is our &lt;code&gt;Dockerfile&lt;/code&gt; for the service. It&#39;s an image with Jetty JRE8 and our service WAR file.&lt;/p&gt;
+&lt;p&gt;Here is our &lt;code&gt;Dockerfile&lt;/code&gt; for the service. It&amp;rsquo;s an image with Jetty JRE8 and our service WAR file.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;FROM jetty:9.3.0-jre8
 
 RUN mkdir -p /home/jetty &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; chown jetty:jetty /home/jetty
@@ -1295,7 +1295,7 @@ COPY ./target/*.war $JETTY_BASE/webapps/
 &lt;li&gt;Keep both files with your service code.&lt;/li&gt;
 &lt;li&gt;Build a new &lt;strong&gt;builder&lt;/strong&gt; image, create a container from it and extract build artifacts, using volumes or &lt;code&gt;docker cp&lt;/code&gt; command.&lt;/li&gt;
 &lt;li&gt;Build the service image.&lt;/li&gt;
-&lt;li&gt;That&#39;s all folks!&lt;/li&gt;
+&lt;li&gt;That&amp;rsquo;s all folks!&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h2 id=&#34;summary&#34;&gt;Summary&lt;/h2&gt;
 &lt;p&gt;In our case, Java-based service, the difference between &lt;strong&gt;builder&lt;/strong&gt; container and service container is huge. Java JDK is much bigger package than JRE: it also requires all X Window packages installed inside your container. For the runtime, you can have a slim image with your service code, JRE, and some basic Linux packages, or even start from &lt;code&gt;scratch&lt;/code&gt;.&lt;/p&gt;
@@ -1319,7 +1319,7 @@ COPY ./target/*.war $JETTY_BASE/webapps/
 &lt;p&gt;In this post, I would like to address one such problem:&lt;/p&gt;
 &lt;h3 id=&#34;how-to-automate-continuous-delivery-for-a-docker-cluster&#34;&gt;How to automate Continuous Delivery for a Docker cluster?&lt;/h3&gt;
 &lt;p&gt;In our application, every service is packaged as a Docker image. Docker image is our basic deployment unit. In a runtime environment (production, testing and others), we may have multiple containers, created from this image. For each service, we have a separate Git repository and one or more Dockerfile(s). We use this for building, testing, and packaging - will explain our project structure in the next blog post.&lt;/p&gt;
-&lt;p&gt;We&#39;ve setup an automated Continuous Integration(CI) process. We use CircleCI. For every push to some branch for the service in a Git repository, the CI service triggers a new Docker build process and creates a new Docker image for the service. As part of the build process, if everything compiles and all unit and component tests pass, we push a newly created Docker image to our DockerHub repository.&lt;/p&gt;
+&lt;p&gt;We&amp;rsquo;ve setup an automated Continuous Integration(CI) process. We use CircleCI. For every push to some branch for the service in a Git repository, the CI service triggers a new Docker build process and creates a new Docker image for the service. As part of the build process, if everything compiles and all unit and component tests pass, we push a newly created Docker image to our DockerHub repository.&lt;/p&gt;
 &lt;p&gt;At the end of CI process, we have a newly tested and ‘kosher’ Docker image in our DockerHub repository. Very nice indeed! However, we are left with several questions:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;How to perform a rolling update of a modified service?&lt;/li&gt;
@@ -1333,7 +1333,7 @@ COPY ./target/*.war $JETTY_BASE/webapps/
 &lt;p&gt;The basic idea is to create a Docker image that captures the system configuration. This image stores the configuration of all services at a specific point in time and from specific branches. The container created from this image should be run from within the target cluster. Besides captured configuration, we also have the deployment tool (&lt;strong&gt;fleetctl&lt;/strong&gt; in our case), plus some code that detects services which need to be updated, deleted, or installed as a new service.&lt;/p&gt;
 &lt;p&gt;This idea leads to another question:&lt;/p&gt;
 &lt;h3 id=&#34;how-do-you-define-and-capture-system-configuration&#34;&gt;How do you define and capture system configuration?&lt;/h3&gt;
-&lt;p&gt;In CoreOS, every service can be described in &lt;strong&gt;systemd unit&lt;/strong&gt; files. This is a plain text file that describes how and when to launch your service. I’m not going to explain how to write such files. There is a lot of info online. What&#39;s important in our case, the service systemd unit file contains a &lt;code&gt;docker run&lt;/code&gt; command with parameters and image name that needs to be downloaded and executed. We keep the service systemd unit file in the same repository as the service code.&lt;/p&gt;
+&lt;p&gt;In CoreOS, every service can be described in &lt;strong&gt;systemd unit&lt;/strong&gt; files. This is a plain text file that describes how and when to launch your service. I’m not going to explain how to write such files. There is a lot of info online. What&amp;rsquo;s important in our case, the service systemd unit file contains a &lt;code&gt;docker run&lt;/code&gt; command with parameters and image name that needs to be downloaded and executed. We keep the service systemd unit file in the same repository as the service code.&lt;/p&gt;
 &lt;p&gt;The image name: usually defined as a &lt;code&gt;repository/image_name:tag&lt;/code&gt; string. &lt;strong&gt;Tag&lt;/strong&gt; is the most important thing in our solution. As explained above, our CI server automatically builds a new Docker image on every push of the service to the GitHub repository. The CI job also tags the newly created image with 2 tags:&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;&lt;code&gt;branch&lt;/code&gt; tag — taken from GitHub branch that triggered the build (&lt;code&gt;master&lt;/code&gt;, &lt;code&gt;develop&lt;/code&gt;, &lt;code&gt;feature-*&lt;/code&gt; braches in our case)&lt;/li&gt;

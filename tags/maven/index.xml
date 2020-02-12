@@ -82,11 +82,11 @@
 &lt;p&gt;When you deploy Java applications with Docker containers, the default Java deployment model changes.&lt;/p&gt;
 &lt;p&gt;Originally, Java server-side deployment assumes that you have already pre-configured a Java Web Server (Tomcat, WebLogic, JBoss, or other) and you are deploying an application &lt;strong&gt;WAR&lt;/strong&gt; (Web Archive) packaged Java application to this server and run it together with other applications, deployed on the same server.&lt;/p&gt;
 &lt;p&gt;Lots of tools are developed around this concept, allowing you to update running applications without stopping the Java Application server, route traffic to the new application, resolve possible class loading conflicts and more.&lt;/p&gt;
-&lt;p&gt;With Docker-based deployments, you do not need these tools anymore, you don&#39;t even need the fat &amp;ldquo;enterprise-ready&amp;rdquo; Java Application servers. The only thing that you need is a stable and scalable network server that can serve your API over HTTP/TCP or other protocol of your choice. Search Google for [“embedded Java server”](&lt;a href=&#34;https://www.google.com/search?q=%22embedded&#34;&gt;https://www.google.com/search?q=&amp;quot;embedded&lt;/a&gt; java server&amp;rdquo;) and take one that you like most.&lt;/p&gt;
-&lt;p&gt;For this demo, I forked &lt;a href=&#34;https://github.com/khoubyari/spring-boot-rest-example&#34;&gt;Spring Boot&#39;s REST example&lt;/a&gt; and modified it a bit. The demo uses &lt;a href=&#34;https://projects.spring.io/spring-boot/&#34;&gt;Spring Boot&lt;/a&gt; with an embedded &lt;a href=&#34;http://tomcat.apache.org/&#34;&gt;Tomcat&lt;/a&gt; server. Here is my &lt;a href=&#34;https://github.com/alexei-led/spring-boot-rest-example&#34;&gt;fork&lt;/a&gt; on GitHub repository (&lt;code&gt;blog&lt;/code&gt; branch).&lt;/p&gt;
+&lt;p&gt;With Docker-based deployments, you do not need these tools anymore, you don&amp;rsquo;t even need the fat &amp;ldquo;enterprise-ready&amp;rdquo; Java Application servers. The only thing that you need is a stable and scalable network server that can serve your API over HTTP/TCP or other protocol of your choice. Search Google for [“embedded Java server”](&lt;a href=&#34;https://www.google.com/search?q=%22embedded&#34;&gt;https://www.google.com/search?q=&amp;quot;embedded&lt;/a&gt; java server&amp;rdquo;) and take one that you like most.&lt;/p&gt;
+&lt;p&gt;For this demo, I forked &lt;a href=&#34;https://github.com/khoubyari/spring-boot-rest-example&#34;&gt;Spring Boot&amp;rsquo;s REST example&lt;/a&gt; and modified it a bit. The demo uses &lt;a href=&#34;https://projects.spring.io/spring-boot/&#34;&gt;Spring Boot&lt;/a&gt; with an embedded &lt;a href=&#34;http://tomcat.apache.org/&#34;&gt;Tomcat&lt;/a&gt; server. Here is my &lt;a href=&#34;https://github.com/alexei-led/spring-boot-rest-example&#34;&gt;fork&lt;/a&gt; on GitHub repository (&lt;code&gt;blog&lt;/code&gt; branch).&lt;/p&gt;
 &lt;h3 id=&#34;building-a-java-application-docker-image&#34;&gt;Building a Java Application Docker image&lt;/h3&gt;
 &lt;p&gt;In order to run this demo, I need to create a Docker image with JRE, the compiled and packaged Java application, and all 3rd party libraries.&lt;/p&gt;
-&lt;p&gt;Here is the &lt;code&gt;Dockerfile&lt;/code&gt; I used to build my Docker image. This demo Docker image is based on slim Alpine Linux with OpenJDK JRE and contains the application WAR file with all dependencies embedded into it. It&#39;s just the bare minimum required to run the demo application.&lt;/p&gt;
+&lt;p&gt;Here is the &lt;code&gt;Dockerfile&lt;/code&gt; I used to build my Docker image. This demo Docker image is based on slim Alpine Linux with OpenJDK JRE and contains the application WAR file with all dependencies embedded into it. It&amp;rsquo;s just the bare minimum required to run the demo application.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-dockerfile&#34; data-lang=&#34;dockerfile&#34;&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# Base Alpine Linux based image with OpenJDK JRE only&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
 &lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;FROM&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt; openjdk:8-jre-alpine&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
 &lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
@@ -119,7 +119,7 @@ d85b17c6762e        2 months ago        /bin/sh -c set -x  &amp;amp;&amp;amp; ap
 &lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;running-the-java-application-docker-container&#34;&gt;Running the Java Application Docker container&lt;/h3&gt;
 &lt;p&gt;In order to run the demo application, run following command:&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;$ docker run -d --name demo-default -p 8090:8090 -p 8091:8091 blog/sbdemo:latest
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Let&#39;s check, that application is up and running (I’m using the &lt;code&gt;httpie&lt;/code&gt; tool here):&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Let&amp;rsquo;s check, that application is up and running (I’m using the &lt;code&gt;httpie&lt;/code&gt; tool here):&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;$ http http://localhost:8091/info
 
 HTTP/1.1 &lt;span style=&#34;color:#ae81ff&#34;&gt;200&lt;/span&gt; OK
@@ -152,7 +152,7 @@ Transfer-Encoding: chunked
 &lt;p&gt;Anyway, &lt;strong&gt;Epsilon GC&lt;/strong&gt; is not available yet, so it’s just an interesting theoretical use case for a moment.&lt;/p&gt;
 &lt;h2 id=&#34;building-java-applications-with-builder-container&#34;&gt;Building Java applications with Builder container&lt;/h2&gt;
 &lt;p&gt;As you can probably see, in the previous step, I did not explain how I’ve created the application WAR file.&lt;/p&gt;
-&lt;p&gt;Of course, there is a Maven project file &lt;code&gt;pom.xml&lt;/code&gt; which most Java developers should be familiar with. But, in order to actually build, you need to install the &lt;em&gt;same Java Build tools&lt;/em&gt; (JDK and Maven) on &lt;em&gt;every machine&lt;/em&gt;, where you are building the application. You need to have the same versions, use the same repositories and share the same configurations. While&#39;s tt’s possible, managing different projects that rely on different tools, versions, configurations, and development environments can quickly become a nightmare.&lt;/p&gt;
+&lt;p&gt;Of course, there is a Maven project file &lt;code&gt;pom.xml&lt;/code&gt; which most Java developers should be familiar with. But, in order to actually build, you need to install the &lt;em&gt;same Java Build tools&lt;/em&gt; (JDK and Maven) on &lt;em&gt;every machine&lt;/em&gt;, where you are building the application. You need to have the same versions, use the same repositories and share the same configurations. While&amp;rsquo;s tt’s possible, managing different projects that rely on different tools, versions, configurations, and development environments can quickly become a nightmare.&lt;/p&gt;
 &lt;p&gt;What if you might also want to run a build on a clean machine that does not have Java or Maven installed? &lt;em&gt;What should you do?&lt;/em&gt;&lt;/p&gt;
 &lt;h3 id=&#34;java-builder-container&#34;&gt;Java Builder Container&lt;/h3&gt;
 &lt;p&gt;Docker can help here too. With Docker, you can create and share portable development and build environments. The idea is to create a special &lt;strong&gt;Builder&lt;/strong&gt; Docker image, that contains all tools you need to properly build your Java application, e.g.: JDK, Ant, Maven, Gradle, SBT or others.&lt;/p&gt;
@@ -161,7 +161,7 @@ Transfer-Encoding: chunked
 &lt;p&gt;While most of these tools were created nearly a generation ago, they are still are very popular and widely used by Java developers.&lt;/p&gt;
 &lt;p&gt;Java development life is hard to imagine without some extra build tools. There are multiple Java build tools out there, but most of them share similar concepts and serve the same targets - resolve cumbersome package dependencies, and run different build tasks, such as, &lt;strong&gt;compile, lint, test, package, and deploy&lt;/strong&gt;.&lt;/p&gt;
 &lt;p&gt;In this post, I will use &lt;a href=&#34;https://maven.apache.org&#34;&gt;Maven&lt;/a&gt;, but the same approach can be applied to &lt;a href=&#34;https://gradle.org/&#34;&gt;Gradle&lt;/a&gt;, &lt;a href=&#34;http://www.scala-sbt.org/&#34;&gt;SBT&lt;/a&gt;, and other less popular Java Build tools.&lt;/p&gt;
-&lt;p&gt;It’s important to learn how your Java Build tool works and how can it&#39;s tuned. Apply this knowledge, when creating a &lt;strong&gt;Builder&lt;/strong&gt; Docker image and the way you are running a &lt;strong&gt;Builder&lt;/strong&gt; Docker container.&lt;/p&gt;
+&lt;p&gt;It’s important to learn how your Java Build tool works and how can it&amp;rsquo;s tuned. Apply this knowledge, when creating a &lt;strong&gt;Builder&lt;/strong&gt; Docker image and the way you are running a &lt;strong&gt;Builder&lt;/strong&gt; Docker container.&lt;/p&gt;
 &lt;p&gt;Maven uses the project level &lt;code&gt;pom.xml&lt;/code&gt; file to resolve project dependencies. It downloads missing &lt;code&gt;JAR&lt;/code&gt; files from private and public Maven repositories, and &lt;em&gt;caches&lt;/em&gt; these files for future builds. Thus, next time you run your build, it won’t download anything if your dependency had not been changed.&lt;/p&gt;
 &lt;h4 id=&#34;official-maven-docker-image-should-you-use-it&#34;&gt;Official Maven Docker image: should you use it?&lt;/h4&gt;
 &lt;p&gt;The Maven team provides an official &lt;a href=&#34;https://hub.docker.com/r/_/maven/&#34;&gt;Docker images&lt;/a&gt;. There are multiple images (under different tags) that allow you to select an image that can answer your needs. Take a deeper look at the &lt;code&gt;Dockerfile&lt;/code&gt; files and &lt;code&gt;mvn-entrypoint.sh&lt;/code&gt; shell scripts when selecting Maven image to use.&lt;/p&gt;
@@ -173,7 +173,7 @@ Transfer-Encoding: chunked
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Maven local repository, for official Maven images, is placed inside a Docker &lt;em&gt;data volume&lt;/em&gt;. That means, all downloaded dependencies &lt;strong&gt;are not part of the image&lt;/strong&gt; and &lt;strong&gt;will disappear&lt;/strong&gt; once the Maven container is destroyed. If you do not want to download dependencies on every build, mount Maven repository Docker volume to some persistent storage (at least local folder on the Docker host).&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;Example:&lt;/strong&gt; running &lt;code&gt;mvn clean install&lt;/code&gt; on local folder with properly mounted Maven local repository&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;$ docker run -it --rm --name my-maven-project -v &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;$PWD&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;:/usr/src/app -v &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;$HOME&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;/.m2:/root/.m2 -w /usr/src/app maven:3.2-jdk-7 mvn clean install
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Now, let&#39;s take a look at onbuild Maven Docker images.&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Now, let&amp;rsquo;s take a look at onbuild Maven Docker images.&lt;/p&gt;
 &lt;h5 id=&#34;what-is-maven-onbuild-image&#34;&gt;What is Maven &lt;code&gt;onbuild&lt;/code&gt; image?&lt;/h5&gt;
 &lt;p&gt;Maven &lt;code&gt;onbuild&lt;/code&gt; Docker image exists to &lt;em&gt;“simplify”&lt;/em&gt; developer’s life, allowing him/er skip writing a &lt;code&gt;Dockerfile&lt;/code&gt;. Actually, a developer should write a &lt;code&gt;Dockerfile&lt;/code&gt;, but it’s usually enough to have the single line in it:&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-dockerfile&#34; data-lang=&#34;dockerfile&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;FROM&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt; maven:&amp;lt;versions&amp;gt;-onbuild&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
@@ -309,7 +309,7 @@ sbdemo/builder  mvn     2d325a403c5f &lt;span style=&#34;color:#ae81ff&#34;&gt;5
 &lt;h2 id=&#34;bonus-build-flow-automation&#34;&gt;Bonus: Build flow automation&lt;/h2&gt;
 &lt;p&gt;In this section, I will show how to use Docker build flow automation service to automate and orchestrate all steps from this post.&lt;/p&gt;
 &lt;h3 id=&#34;build-pipeline-steps&#34;&gt;Build Pipeline Steps&lt;/h3&gt;
-&lt;p&gt;I&#39;m going to use &lt;a href=&#34;https://codefresh.io&#34;&gt;Codefresh.io&lt;/a&gt; Docker CI/CD service (the company I&#39;m working for) to create a &lt;strong&gt;Builder&lt;/strong&gt; Docker image for Maven, run tests, create application WAR, build Docker image for application and deploy it to DockerHub.&lt;/p&gt;
+&lt;p&gt;I&amp;rsquo;m going to use &lt;a href=&#34;https://codefresh.io&#34;&gt;Codefresh.io&lt;/a&gt; Docker CI/CD service (the company I&amp;rsquo;m working for) to create a &lt;strong&gt;Builder&lt;/strong&gt; Docker image for Maven, run tests, create application WAR, build Docker image for application and deploy it to DockerHub.&lt;/p&gt;
 &lt;p&gt;The Codefresh automation flow &lt;code&gt;YAML&lt;/code&gt; (also called &lt;em&gt;pipeline&lt;/em&gt;) is pretty straight forward:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;it contains ordered list of steps&lt;/li&gt;
@@ -338,7 +338,7 @@ sbdemo/builder  mvn     2d325a403c5f &lt;span style=&#34;color:#ae81ff&#34;&gt;5
 &lt;li&gt;current working directory for each step is set to &lt;code&gt;/codefresh/volume/&lt;/code&gt; by default (can be changed)&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;For detailed description and other examples, take a look at the &lt;a href=&#34;https://docs.codefresh.io/docs/steps&#34;&gt;documentation&lt;/a&gt;.&lt;/p&gt;
-&lt;p&gt;For my demo flow I&#39;ve created following automation steps:&lt;/p&gt;
+&lt;p&gt;For my demo flow I&amp;rsquo;ve created following automation steps:&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;&lt;code&gt;mvn_builder&lt;/code&gt; - create Maven &lt;strong&gt;Builder&lt;/strong&gt; Docker image&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;mv_test&lt;/code&gt; - execute tests in &lt;strong&gt;Builder&lt;/strong&gt; container, place test results into &lt;code&gt;/codefresh/volume/target/surefire-reports/&lt;/code&gt; &lt;em&gt;data volume&lt;/em&gt; folder&lt;/li&gt;
@@ -347,44 +347,44 @@ sbdemo/builder  mvn     2d325a403c5f &lt;span style=&#34;color:#ae81ff&#34;&gt;5
 &lt;li&gt;&lt;code&gt;push_image&lt;/code&gt; - tag and push the application Docker image to DockerHub&lt;/li&gt;
 &lt;/ol&gt;
 &lt;p&gt;Here is the full Codefresh &lt;code&gt;YAML&lt;/code&gt;:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;version: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;1.0&amp;#39;&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;version&lt;/span&gt;: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;1.0&amp;#39;&lt;/span&gt;
 
-steps:
+&lt;span style=&#34;color:#66d9ef&#34;&gt;steps&lt;/span&gt;:
 
-  mvn_builder:
-    type: build
-    description: create Maven builder image
-    dockerfile: Dockerfile.build
-    image_name: &amp;lt;put_you_repo_here&amp;gt;/mvn-builder
+  &lt;span style=&#34;color:#66d9ef&#34;&gt;mvn_builder&lt;/span&gt;:
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;type&lt;/span&gt;: build
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;description&lt;/span&gt;: create Maven builder image
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;dockerfile&lt;/span&gt;: Dockerfile.build
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;image_name&lt;/span&gt;: &amp;lt;put_you_repo_here&amp;gt;/mvn-builder
 
-  mvn_test:
-    description: run unit tests 
-    image: ${{mvn_builder}}
-    commands:
+  &lt;span style=&#34;color:#66d9ef&#34;&gt;mvn_test&lt;/span&gt;:
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;description&lt;/span&gt;: run unit tests 
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;image&lt;/span&gt;: ${{mvn_builder}}
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;commands&lt;/span&gt;:
       - mvn -T 1C -o test
   
-  mvn_package:
-    description: package application and dependencies into WAR 
-    image: ${{mvn_builder}}
-    commands:
+  &lt;span style=&#34;color:#66d9ef&#34;&gt;mvn_package&lt;/span&gt;:
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;description&lt;/span&gt;: package application and dependencies into WAR 
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;image&lt;/span&gt;: ${{mvn_builder}}
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;commands&lt;/span&gt;:
       - mvn package -T 1C -o -Dmaven.test.skip=&lt;span style=&#34;color:#66d9ef&#34;&gt;true&lt;/span&gt;
 
-  build_image:
-    type: build
-    description: create Docker image with application WAR
-    dockerfile: Dockerfile
-    working_directory: ${{main_clone}}/target
-    image_name: &amp;lt;put_you_repo_here&amp;gt;/sbdemo
+  &lt;span style=&#34;color:#66d9ef&#34;&gt;build_image&lt;/span&gt;:
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;type&lt;/span&gt;: build
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;description&lt;/span&gt;: create Docker image with application WAR
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;dockerfile&lt;/span&gt;: Dockerfile
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;working_directory&lt;/span&gt;: ${{main_clone}}/target
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;image_name&lt;/span&gt;: &amp;lt;put_you_repo_here&amp;gt;/sbdemo
 
-  push_image:
-    type: push
-    description: push application image to DockerHub
-    candidate: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;${{build_image}}&amp;#39;&lt;/span&gt;
-    tag: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;${{CF_BRANCH}}&amp;#39;&lt;/span&gt;
-    credentials:
+  &lt;span style=&#34;color:#66d9ef&#34;&gt;push_image&lt;/span&gt;:
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;type&lt;/span&gt;: push
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;description&lt;/span&gt;: push application image to DockerHub
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;candidate&lt;/span&gt;: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;${{build_image}}&amp;#39;&lt;/span&gt;
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;tag&lt;/span&gt;: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;${{CF_BRANCH}}&amp;#39;&lt;/span&gt;
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;credentials&lt;/span&gt;:
       &lt;span style=&#34;color:#75715e&#34;&gt;# set docker registry credentials in project configuration&lt;/span&gt;
-      username: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;${{DOCKER_USER}}&amp;#39;&lt;/span&gt;
-      password: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;${{DOCKER_PASS}}&amp;#39;&lt;/span&gt;
+      &lt;span style=&#34;color:#66d9ef&#34;&gt;username&lt;/span&gt;: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;${{DOCKER_USER}}&amp;#39;&lt;/span&gt;
+      &lt;span style=&#34;color:#66d9ef&#34;&gt;password&lt;/span&gt;: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;${{DOCKER_PASS}}&amp;#39;&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;hr&gt;
 &lt;p&gt;Hope, you find this post useful. I look forward to your comments and any questions you have.&lt;/p&gt;
 &lt;hr&gt;

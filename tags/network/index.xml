@@ -108,7 +108,7 @@ $ docker run -it --rm -v /var/run/docker.sock:/var/run/docker.sock gaiaadm/pumba
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;It is generally understood that &lt;em&gt;packet loss&lt;/em&gt; distribution in IP networks is “bursty”. To simulate more realistic &lt;em&gt;packet loss&lt;/em&gt; events, different probability models are used.
 Pumba currently supports 3 different loss probability models for *packet loss&amp;rdquo;. Pumba defines separate &lt;em&gt;loss&lt;/em&gt; command for each probability model.&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;&lt;code&gt;loss&lt;/code&gt; - independent probability loss model (Bernoulli model); it&#39;s the most widely used loss model where packet losses are modeled by a random process consisting of Bernoulli trails&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;loss&lt;/code&gt; - independent probability loss model (Bernoulli model); it&amp;rsquo;s the most widely used loss model where packet losses are modeled by a random process consisting of Bernoulli trails&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;loss-state&lt;/code&gt; - 2-state, 3-state and 4-state State Markov models&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;loss-gemodel&lt;/code&gt; - Gilbert and Gilbert-Elliott models&lt;/li&gt;
 &lt;/ul&gt;

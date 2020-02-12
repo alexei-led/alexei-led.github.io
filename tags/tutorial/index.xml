@@ -20,30 +20,30 @@
 &lt;p&gt;THIS IS A DRAFT VERSION OF POST TO COME, PLEASE DO NOT SHARE&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;h2 id=&#34;starting-point&#34;&gt;Starting Point&lt;/h2&gt;
-&lt;p&gt;Over last years we&#39;ve been adopting several concepts for our project, straggling to make them work together.&lt;/p&gt;
+&lt;p&gt;Over last years we&amp;rsquo;ve been adopting several concepts for our project, straggling to make them work together.&lt;/p&gt;
 &lt;p&gt;The first one is the &lt;em&gt;Microservice Architecture&lt;/em&gt;. We did not start it clean and by the book, rather applied it to the already existing project: splitting big services into smaller and breaking excessive coupling. The refactoring work is not finished yet. New services, we are building, starts looking more like &amp;ldquo;microservices&amp;rdquo;, while there are still few that, I would call &amp;ldquo;micro-monoliths&amp;rdquo;.
 I have a feeling that this is a typical situation for an already existing project, that tries to adopt this new architecture pattern: &lt;em&gt;you are almost there, but there is always a work to be done&lt;/em&gt;.&lt;/p&gt;
 &lt;p&gt;Another concept is using Docker for building, packaging and deploying application services. We bet on Docker from the very beginning and used it for most of our services and it happens to be a good bet.
 There are still few pure cloud services, that we are using when running our application on public cloud, thing like Databases, Error Analytics, Push Notifications and some others.&lt;/p&gt;
 &lt;p&gt;And one of the latest bet we made was Kubernetes. Kubernetes became the main runtime platform for our application. Adopting Kubernetes, allowed us not only to hide away lots of operational complexity, achieving better availability and scalability, but also be able to run our application on any public cloud and on-premise deployment.&lt;/p&gt;
 &lt;p&gt;With great flexibility, that Kubernetes provides, it brings an additional deployment complexity.
-Suddenly your services are not just plain Docker containers, but there are a lot of new (and useful) Kubernetes resources that you need to take care for: &lt;em&gt;ConfigMsaps&lt;/em&gt;, &lt;em&gt;Secrets&lt;/em&gt;, &lt;em&gt;Services&lt;/em&gt;, &lt;em&gt;Deployments&lt;/em&gt;, &lt;em&gt;StatefulSets&lt;/em&gt;, &lt;em&gt;PVs&lt;/em&gt;, &lt;em&gt;PVCs&lt;/em&gt;, &lt;em&gt;Ingress&lt;/em&gt;, &lt;em&gt;Jobs&lt;/em&gt; and others. And it&#39;s not always obvious where to keep all these resources and how they are related to Docker images built by CI tool.&lt;/p&gt;
+Suddenly your services are not just plain Docker containers, but there are a lot of new (and useful) Kubernetes resources that you need to take care for: &lt;em&gt;ConfigMsaps&lt;/em&gt;, &lt;em&gt;Secrets&lt;/em&gt;, &lt;em&gt;Services&lt;/em&gt;, &lt;em&gt;Deployments&lt;/em&gt;, &lt;em&gt;StatefulSets&lt;/em&gt;, &lt;em&gt;PVs&lt;/em&gt;, &lt;em&gt;PVCs&lt;/em&gt;, &lt;em&gt;Ingress&lt;/em&gt;, &lt;em&gt;Jobs&lt;/em&gt; and others. And it&amp;rsquo;s not always obvious where to keep all these resources and how they are related to Docker images built by CI tool.&lt;/p&gt;
 &lt;h2 id=&#34;continuous-delivery-vs-continuous-deployment&#34;&gt;&amp;ldquo;Continuous Delivery&amp;rdquo; vs. &amp;ldquo;Continuous Deployment&amp;rdquo;&lt;/h2&gt;
-&lt;p&gt;The ambiguity of &lt;strong&gt;CD&lt;/strong&gt; term annoys me a lot. Different people mean different things when using this term. And it&#39;s not only about abbreviation meaning: &lt;em&gt;Continuous Deployment vs Continuous Delivery&lt;/em&gt;, but also &lt;em&gt;what do people really mean&lt;/em&gt;, when using this abbreviation.&lt;/p&gt;
+&lt;p&gt;The ambiguity of &lt;strong&gt;CD&lt;/strong&gt; term annoys me a lot. Different people mean different things when using this term. And it&amp;rsquo;s not only about abbreviation meaning: &lt;em&gt;Continuous Deployment vs Continuous Delivery&lt;/em&gt;, but also &lt;em&gt;what do people really mean&lt;/em&gt;, when using this abbreviation.&lt;/p&gt;
 &lt;p&gt;Still, it looks like there is a common agreement that &lt;em&gt;Continuous Deployment (CD)&lt;/em&gt; is a super-set of &lt;em&gt;Continuous Delivery (CD)&lt;/em&gt;. And the main difference, so far, is that &lt;em&gt;Continuous Deployment&lt;/em&gt; is 100% automated, while in &lt;em&gt;Continuous Delivery&lt;/em&gt; there are still some steps that should be done manually.&lt;/p&gt;
 &lt;p&gt;In our project, for example, we succeeded to achieve &lt;em&gt;Continuous Delivery&lt;/em&gt;, that serves us well both for SaaS and on-premise versions of our product. Our next goal is to create fluent &lt;em&gt;Continuous Deployment&lt;/em&gt; for SaaS version. We would like to be able release a change automatically to production, without human intervention, and be able to rollback to the previous version if something went wrong.&lt;/p&gt;
 &lt;h2 id=&#34;kubernetes-application-and-release-content&#34;&gt;Kubernetes Application and Release Content&lt;/h2&gt;
-&lt;p&gt;Now let&#39;s talk about &lt;em&gt;Release&lt;/em&gt; and try to define &lt;em&gt;what is a &lt;strong&gt;Release Content&lt;/strong&gt;?&lt;/em&gt;.&lt;/p&gt;
-&lt;p&gt;When we are releasing a &lt;em&gt;change&lt;/em&gt; to some runtime environment (&lt;code&gt;development&lt;/code&gt;, &lt;code&gt;staging&lt;/code&gt; or &lt;code&gt;production&lt;/code&gt;), it&#39;s not always a &lt;em&gt;code change&lt;/em&gt;, that is represented by a newly backed Docker image with some tag. Change can be done to application configurations, secrets, ingress rules, jobs we are running, volumes and other resources. It would be nice to be able to release all these changes in the same way as we release a &lt;em&gt;code change&lt;/em&gt;. Actually, a change can be a mixture of both and in practice, it&#39;s not a rare use case.&lt;/p&gt;
+&lt;p&gt;Now let&amp;rsquo;s talk about &lt;em&gt;Release&lt;/em&gt; and try to define &lt;em&gt;what is a &lt;strong&gt;Release Content&lt;/strong&gt;?&lt;/em&gt;.&lt;/p&gt;
+&lt;p&gt;When we are releasing a &lt;em&gt;change&lt;/em&gt; to some runtime environment (&lt;code&gt;development&lt;/code&gt;, &lt;code&gt;staging&lt;/code&gt; or &lt;code&gt;production&lt;/code&gt;), it&amp;rsquo;s not always a &lt;em&gt;code change&lt;/em&gt;, that is represented by a newly backed Docker image with some tag. Change can be done to application configurations, secrets, ingress rules, jobs we are running, volumes and other resources. It would be nice to be able to release all these changes in the same way as we release a &lt;em&gt;code change&lt;/em&gt;. Actually, a change can be a mixture of both and in practice, it&amp;rsquo;s not a rare use case.&lt;/p&gt;
 &lt;p&gt;So, we need to find a good methodology and supporting technology, that will allow us to release a new version of our Kubernetes application, that might be composed of multiple changes and these changes are not only new Docker image tags. This methodology should allow us to do it repeatedly on any runtime environment (Kubernetes cluster in our case) and be able to rollback &lt;em&gt;ALL&lt;/em&gt; changes to the previous version if something went wrong.&lt;/p&gt;
-&lt;p&gt;That&#39;s why we adopted &lt;a href=&#34;https://www.helm.sh&#34;&gt;Helm&lt;/a&gt; as our main release management tool for Kubernetes.&lt;/p&gt;
+&lt;p&gt;That&amp;rsquo;s why we adopted &lt;a href=&#34;https://www.helm.sh&#34;&gt;Helm&lt;/a&gt; as our main release management tool for Kubernetes.&lt;/p&gt;
 &lt;h2 id=&#34;helm-recap&#34;&gt;Helm recap&lt;/h2&gt;
-&lt;p&gt;This post is not about Helm, so Helm recap will be very short. I encourage you to read &lt;a href=&#34;https://www.helm.sh&#34;&gt;Helm&lt;/a&gt; documentation, it&#39;s complete and well written.&lt;/p&gt;
+&lt;p&gt;This post is not about Helm, so Helm recap will be very short. I encourage you to read &lt;a href=&#34;https://www.helm.sh&#34;&gt;Helm&lt;/a&gt; documentation, it&amp;rsquo;s complete and well written.&lt;/p&gt;
 &lt;p&gt;Just to remind - core Helm concepts are:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;strong&gt;(Helm) Chart&lt;/strong&gt; - is a package (&lt;code&gt;tar&lt;/code&gt; archive) with Kubernetes &lt;code&gt;YAML&lt;/code&gt; templates (for different Kubernetes resources) and default values (also stored in &lt;code&gt;YAML&lt;/code&gt; files). Helm uses &lt;em&gt;chart&lt;/em&gt; to install a new or update an existing &lt;em&gt;(Helm) release&lt;/em&gt;.&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;(Helm) Release&lt;/strong&gt; - is a Kubernetes application instance, installed with Helm. It is possible to create multiple &lt;em&gt;releases&lt;/em&gt; from the same &lt;em&gt;chart&lt;/em&gt; version.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;(Release) Revision&lt;/strong&gt; - when updating an existing &lt;em&gt;release&lt;/em&gt;, a new &lt;em&gt;revision&lt;/em&gt; is created. Helm can rollback a &lt;em&gt;release&lt;/em&gt; to the previous &lt;em&gt;revision&lt;/em&gt;. Helm stores all &lt;em&gt;revisions&lt;/em&gt; in &lt;em&gt;ConfigMap&lt;/em&gt; and it&#39;s possible to list previous &lt;em&gt;releases&lt;/em&gt; with &lt;code&gt;helm history&lt;/code&gt; command.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;(Release) Revision&lt;/strong&gt; - when updating an existing &lt;em&gt;release&lt;/em&gt;, a new &lt;em&gt;revision&lt;/em&gt; is created. Helm can rollback a &lt;em&gt;release&lt;/em&gt; to the previous &lt;em&gt;revision&lt;/em&gt;. Helm stores all &lt;em&gt;revisions&lt;/em&gt; in &lt;em&gt;ConfigMap&lt;/em&gt; and it&amp;rsquo;s possible to list previous &lt;em&gt;releases&lt;/em&gt; with &lt;code&gt;helm history&lt;/code&gt; command.&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;Chart Repository&lt;/strong&gt; - is a location where packaged &lt;em&gt;charts&lt;/em&gt; can be stored and shared. Any web server that can store and serve static files can be used as &lt;em&gt;Chart Repository&lt;/em&gt; (Nginx, GitHub, AWS S3 and others).&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;Helm consists of the server, called &lt;em&gt;Tiller&lt;/em&gt; and the command line client, called &lt;code&gt;helm&lt;/code&gt;. When releasing a new version (or updating an existing) &lt;code&gt;helm&lt;/code&gt; client sends &lt;em&gt;chart&lt;/em&gt; (template files and values) to the Helm server. &lt;em&gt;Tiller&lt;/em&gt; server generates valid Kubernetes &lt;code&gt;yaml&lt;/code&gt; files from templates and values and deploys them to Kubernetes, using Kubernetes API. &lt;em&gt;Tiller&lt;/em&gt; also saves generated &lt;code&gt;yaml&lt;/code&gt; files as a new revision inside &lt;code&gt;ConfigMaps&lt;/code&gt; and can use previously saved revision for rollback operation.&lt;/p&gt;
@@ -178,7 +178,7 @@ codefresh.yaml
 &lt;p&gt;Now, we can run &lt;code&gt;help upgrade --install&lt;/code&gt; command creating a new &lt;em&gt;revision&lt;/em&gt; for the application &lt;em&gt;release&lt;/em&gt;. If something goes wrong, we can always rollback failed release to the previous &lt;em&gt;revision&lt;/em&gt;. For the sake of safety, I suggest first to run &lt;code&gt;helm diff&lt;/code&gt; (using &lt;code&gt;helm diff&lt;/code&gt; plugin) or at least use a &lt;code&gt;--dry-run&lt;/code&gt; flag for the first run, inspect the difference between a new &lt;em&gt;release&lt;/em&gt; version and already installed &lt;em&gt;revision&lt;/em&gt;. If you are ok with upcoming changes, accept them and run the &lt;code&gt;helm upgrade --install&lt;/code&gt; command without &lt;code&gt;--dry-run&lt;/code&gt; flag.&lt;/p&gt;
 &lt;h2 id=&#34;kubernetes-continuous-deployment-cd&#34;&gt;Kubernetes Continuous Deployment (CD)&lt;/h2&gt;
 &lt;p&gt;Based on above definition, to achieve &lt;em&gt;Continuous Deployment&lt;/em&gt; we should try to avoid all manual steps, besides &lt;code&gt;git push&lt;/code&gt; for code and configuration changes. All actions, running after &lt;code&gt;git push&lt;/code&gt;, should be 100% automated and deliver all changes to a corresponding runtime environment.&lt;/p&gt;
-&lt;p&gt;Let&#39;s take a look at manual steps from &amp;ldquo;Continuous Delivery&amp;rdquo; pipeline and think about &lt;em&gt;how can we automate them?&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;Let&amp;rsquo;s take a look at manual steps from &amp;ldquo;Continuous Delivery&amp;rdquo; pipeline and think about &lt;em&gt;how can we automate them?&lt;/em&gt;&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;https://alexei-led.github.io/img/k8s_cdd.png&#34; alt=&#34;Kubernetes Continuous Deployment&#34;&gt;&lt;/p&gt;
 &lt;h3 id=&#34;automate-update-microservice-imagetag-after-successful-docker-push&#34;&gt;Automate: Update microservice imageTag after successful &lt;code&gt;docker push&lt;/code&gt;&lt;/h3&gt;
 &lt;p&gt;After a new Docker image for some microservice pushed to a Docker Registry, we would like to update the microservice Helm &lt;em&gt;chart&lt;/em&gt; with the new Docker image tag. There are two (at least) options to do this.&lt;/p&gt;
@@ -214,11 +214,11 @@ Therefore, I recommend using a web server that supports nice API and allows to g
       <guid>https://alexei-led.github.io/post/debug_node_in_docker/</guid>
       <description>&lt;h2 id=&#34;teaser&#34;&gt;Teaser&lt;/h2&gt;
 &lt;p&gt;Suppose you want to debug a Node.js application already running on a remote machine inside Docker container. And would like to do it without modifying command arguments (enabling &lt;code&gt;debug&lt;/code&gt; mode) and opening remote Node.js debugger agent port to the whole world.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;I bet you didn&#39;t know that it&#39;s possible and also have no idea how to do it.&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;I bet you didn&amp;rsquo;t know that it&amp;rsquo;s possible and also have no idea how to do it.&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;I encourage you to continue reading this post if you are eager to learn some new cool stuff.&lt;/p&gt;
 &lt;h2 id=&#34;the-todomvc-demo-application&#34;&gt;The TodoMVC demo application&lt;/h2&gt;
-&lt;p&gt;I&#39;m using the &lt;a href=&#34;https://github.com/alexei-led/todomvc-express&#34;&gt;fork&lt;/a&gt; of &lt;strong&gt;TodoMVC&lt;/strong&gt; Node.js application (by Gleb Bahmutov) as a demo application for this blog post. Feel free to clone and play with this repository.&lt;/p&gt;
-&lt;p&gt;Here is the &lt;code&gt;Dockerfile&lt;/code&gt;, I&#39;ve added, for TodoMVC application. It allows to run TodoMVC application inside a Docker container.&lt;/p&gt;
+&lt;p&gt;I&amp;rsquo;m using the &lt;a href=&#34;https://github.com/alexei-led/todomvc-express&#34;&gt;fork&lt;/a&gt; of &lt;strong&gt;TodoMVC&lt;/strong&gt; Node.js application (by Gleb Bahmutov) as a demo application for this blog post. Feel free to clone and play with this repository.&lt;/p&gt;
+&lt;p&gt;Here is the &lt;code&gt;Dockerfile&lt;/code&gt;, I&amp;rsquo;ve added, for TodoMVC application. It allows to run TodoMVC application inside a Docker container.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-Dockerfile&#34; data-lang=&#34;Dockerfile&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;FROM&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt; alpine:3.5&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
 &lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
 &lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# install node&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
@@ -261,7 +261,7 @@ $ docker run -d -p 3000:3000 --name todomvc local/todomvc node src/start.js
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;the-plan&#34;&gt;The Plan&lt;/h2&gt;
 &lt;p&gt;&lt;strong&gt;Final Goal&lt;/strong&gt; - I would like to be able to attach a Node.js debugger to a Node.js application already up and running inside a Docker container, running on remote host machine in AWS cloud, without modifying the application, container, container configuration or restarting it with additional &lt;code&gt;debug&lt;/code&gt; flags. Imagine that the application is running and there is some problem happening right now - I want to connect to it with debugger and start looking at the problem.&lt;/p&gt;
 &lt;p&gt;So, I need a plan - a step by step flow that will help me to achieve the final goal.&lt;/p&gt;
-&lt;p&gt;Let&#39;s start with exploring the inventory. On the server (AWS EC2 VM) machine, I have a Node.js application running inside a Docker container. On the client (my laptop), I have an IDE (Visual Studio Code, in my case), Node.js application code (&lt;code&gt;git pull/clone&lt;/code&gt;) and a Node.js debugger.&lt;/p&gt;
+&lt;p&gt;Let&amp;rsquo;s start with exploring the inventory. On the server (AWS EC2 VM) machine, I have a Node.js application running inside a Docker container. On the client (my laptop), I have an IDE (Visual Studio Code, in my case), Node.js application code (&lt;code&gt;git pull/clone&lt;/code&gt;) and a Node.js debugger.&lt;/p&gt;
 &lt;p&gt;So, here is my plan:&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;Set already running application to &lt;code&gt;debug&lt;/code&gt; mode&lt;/li&gt;
@@ -275,20 +275,20 @@ $ docker run -d -p 3000:3000 --name todomvc local/todomvc node src/start.js
 &lt;blockquote&gt;
 &lt;p&gt;The V8 debugger can be enabled and accessed either by starting Node with the &lt;code&gt;--debug&lt;/code&gt; command-line flag or by signaling an existing Node process with &lt;code&gt;SIGUSR1&lt;/code&gt;. (Node API documentation)&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;p&gt;Cool! So, in order to switch on Node debugger agent, I just need to send the &lt;code&gt;SIGUSR1&lt;/code&gt; signal to the Node.js process of TodoMVC application. Remember, it&#39;s running inside a Docker container. What command can I use to send process signals to an application running in a Docker container?&lt;/p&gt;
+&lt;p&gt;Cool! So, in order to switch on Node debugger agent, I just need to send the &lt;code&gt;SIGUSR1&lt;/code&gt; signal to the Node.js process of TodoMVC application. Remember, it&amp;rsquo;s running inside a Docker container. What command can I use to send process signals to an application running in a Docker container?&lt;/p&gt;
 &lt;p&gt;The &lt;code&gt;docker kill&lt;/code&gt; - is my choice! This command does not actually &amp;ldquo;kill&amp;rdquo; the &lt;code&gt;PID 1&lt;/code&gt; process, running in a Docker container, but sends a &lt;a href=&#34;https://en.wikipedia.org/wiki/Unix_signal&#34;&gt;Unix signal&lt;/a&gt; to it (by default it sends &lt;code&gt;SIGKILL&lt;/code&gt;).&lt;/p&gt;
 &lt;h4 id=&#34;setting-todomvc-into-debug-mode&#34;&gt;Setting TodoMVC into &lt;code&gt;debug&lt;/code&gt; mode&lt;/h4&gt;
 &lt;p&gt;So, all I need to do is to send &lt;code&gt;SIGUSR1&lt;/code&gt; to my TodoMVC application running inside &lt;code&gt;todomvc&lt;/code&gt; Docker container.&lt;/p&gt;
 &lt;p&gt;There are two ways to do this:&lt;/p&gt;
 &lt;ol&gt;
-&lt;li&gt;Use &lt;code&gt;docker kill --signal&lt;/code&gt; command to send &lt;code&gt;SIGUSR1&lt;/code&gt; to &lt;code&gt;PID 1&lt;/code&gt; process running inside Docker container, and if it&#39;s a &amp;ldquo;proper&amp;rdquo; (signal forwarding done right) init application (like &lt;code&gt;tini&lt;/code&gt;), than this will work&lt;/li&gt;
+&lt;li&gt;Use &lt;code&gt;docker kill --signal&lt;/code&gt; command to send &lt;code&gt;SIGUSR1&lt;/code&gt; to &lt;code&gt;PID 1&lt;/code&gt; process running inside Docker container, and if it&amp;rsquo;s a &amp;ldquo;proper&amp;rdquo; (signal forwarding done right) init application (like &lt;code&gt;tini&lt;/code&gt;), than this will work&lt;/li&gt;
 &lt;li&gt;Or execute &lt;code&gt;kill -s SIGUSR1&lt;/code&gt; inside already running Docker container, sending &lt;code&gt;SIGUSR1&lt;/code&gt; signal to the main Node.js process.&lt;/li&gt;
 &lt;/ol&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ &lt;span style=&#34;color:#75715e&#34;&gt;# send SIGUSR1 with docker kill (if using proper init process)&lt;/span&gt;
 $ docker kill --signal SIGUSR1 todomvc 
 $ &lt;span style=&#34;color:#75715e&#34;&gt;# OR run kill command for node process inside todomvc container&lt;/span&gt;
 $ docker exec -it todomvc sh -c &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;kill -s SIGUSR1 $(pidof -s node)&amp;#39;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Let&#39;s verify that Node application is set into &lt;code&gt;debug&lt;/code&gt; mode.&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Let&amp;rsquo;s verify that Node application is set into &lt;code&gt;debug&lt;/code&gt; mode.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ docker logs todomvc
 
 TodoMVC server listening at http://:::3000
@@ -306,8 +306,8 @@ Debugger listening on 127.0.0.1:5858
 &lt;li&gt;Open port of Node.js debugger agent outside of Docker container&lt;/li&gt;
 &lt;/ol&gt;
 &lt;p&gt;How to do it when an application is already running in a Docker container and a Node.js debugger agent is ready to talk only with a Node.js debugger running on the same machine, plus a Node.js debugger agent port is not accessible from outside of the Docker container?&lt;/p&gt;
-&lt;p&gt;Of cause it&#39;s possible to start every Node.js Docker container with exposed debugger port and allow connection from any IP (using &lt;code&gt;--debug-port&lt;/code&gt; and &lt;code&gt;--debug&lt;/code&gt; Node.js flags), but we are not looking for easy ways :).&lt;/p&gt;
-&lt;p&gt;It&#39;s not a good idea from a security point of view (allowing unprotected access to a Node.js debugger). Also, if I restart an already running application with debug flags, I&#39;m going to loose the current execution context and may not be able to reproduce the problem I wanted to debug.&lt;/p&gt;
+&lt;p&gt;Of cause it&amp;rsquo;s possible to start every Node.js Docker container with exposed debugger port and allow connection from any IP (using &lt;code&gt;--debug-port&lt;/code&gt; and &lt;code&gt;--debug&lt;/code&gt; Node.js flags), but we are not looking for easy ways :).&lt;/p&gt;
+&lt;p&gt;It&amp;rsquo;s not a good idea from a security point of view (allowing unprotected access to a Node.js debugger). Also, if I restart an already running application with debug flags, I&amp;rsquo;m going to loose the current execution context and may not be able to reproduce the problem I wanted to debug.&lt;/p&gt;
 &lt;p&gt;I need a better solution!&lt;/p&gt;
 &lt;p&gt;Unfortunately, Docker does not allow to expose an additional port of already running Docker container. So, I need somehow connect to a running container network and expose a new port for Node.js debugger agent.&lt;/p&gt;
 &lt;p&gt;Also, it is not possible to tell a Node.js debugger agent to accept connections from different IP addresses, when Node.js process was already started.&lt;/p&gt;
@@ -329,7 +329,7 @@ Debugger listening on 127.0.0.1:5858
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ &lt;span style=&#34;color:#75715e&#34;&gt;# define local port forwarding&lt;/span&gt;
 $ docker run -d --name socat-nid --network&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;container:todomvc local/socat socat TCP-LISTEN:4848,fork TCP:127.0.0.1:5858
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Now any traffic that arrives at &lt;code&gt;4848&lt;/code&gt; port will be routed to the Node.js debugger agent listening on &lt;code&gt;127.0.0.1:5858&lt;/code&gt;. The &lt;code&gt;4848&lt;/code&gt; port can accept traffic from any IP.
-It&#39;s possible to use an IP range to restrict connection to the &lt;code&gt;socat&lt;/code&gt; listening port, adding &lt;code&gt;range=&amp;lt;ANY IP RANGE&amp;gt;&lt;/code&gt; option.&lt;/p&gt;
+It&amp;rsquo;s possible to use an IP range to restrict connection to the &lt;code&gt;socat&lt;/code&gt; listening port, adding &lt;code&gt;range=&amp;lt;ANY IP RANGE&amp;gt;&lt;/code&gt; option.&lt;/p&gt;
 &lt;h4 id=&#34;exposing-nodejs-debugger-port-from-docker-container&#34;&gt;Exposing Node.js debugger port from Docker container&lt;/h4&gt;
 &lt;p&gt;First, we will get IP of &lt;code&gt;todomvc&lt;/code&gt; Docker container.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ &lt;span style=&#34;color:#75715e&#34;&gt;# get IP of todomvc container&lt;/span&gt;
@@ -349,13 +349,13 @@ $ ssh -i &lt;span style=&#34;color:#e6db74&#34;&gt;${&lt;/span&gt;SSH_KEY_FILE&l
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Now all traffic to the &lt;code&gt;localhost:5858&lt;/code&gt; will be tunneled over &lt;code&gt;SSH&lt;/code&gt; to the remote Docker host machine and after some &lt;code&gt;socat&lt;/code&gt; forwarding to the Node.js debugger agent running inside the &lt;code&gt;todomvc&lt;/code&gt; container.&lt;/p&gt;
 &lt;h3 id=&#34;step-3-synchronizing-on-the-same-code-commit&#34;&gt;Step 3: Synchronizing on the same code commit&lt;/h3&gt;
 &lt;p&gt;In order to be able to debug a remote application, you need to make sure that you are using the same code in your IDE as one that is running on remote server.&lt;/p&gt;
-&lt;p&gt;I will try to automate this step too. Remember the &lt;code&gt;LABEL&lt;/code&gt; command, I&#39;ve used in TodoMVC &lt;code&gt;Dockerfile&lt;/code&gt;?&lt;/p&gt;
+&lt;p&gt;I will try to automate this step too. Remember the &lt;code&gt;LABEL&lt;/code&gt; command, I&amp;rsquo;ve used in TodoMVC &lt;code&gt;Dockerfile&lt;/code&gt;?&lt;/p&gt;
 &lt;p&gt;These labels help me to identify git repository and commit for the application Docker image:&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;&lt;code&gt;org.label-schema.vcs-ref&lt;/code&gt; - contains short SHA for a &lt;code&gt;HEAD&lt;/code&gt; commit&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;org.label-schema.vcs-url&lt;/code&gt; - contains an application git repository url (I can use in &lt;code&gt;clone/pull&lt;/code&gt;)&lt;/li&gt;
 &lt;/ol&gt;
-&lt;p&gt;I&#39;m using (Label Schema Convention)[http://label-schema.org/rc1/], since I really like it and find it useful, but you can select any other convention too.&lt;/p&gt;
+&lt;p&gt;I&amp;rsquo;m using (Label Schema Convention)[http://label-schema.org/rc1/], since I really like it and find it useful, but you can select any other convention too.&lt;/p&gt;
 &lt;p&gt;This approach allows me, for each, properly labeled, Docker image, to identify the application code repository and the commit it was created from.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ &lt;span style=&#34;color:#75715e&#34;&gt;# get git repository url form Docker image&lt;/span&gt;
 $ GIT_URL&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;$(&lt;/span&gt;docker inspect local/todomvc | jq -r &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;.[].ContainerConfig.Labels.&amp;#34;org.label-schema.vcs-url&amp;#34;&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;)&lt;/span&gt;
@@ -368,7 +368,7 @@ $ &lt;span style=&#34;color:#75715e&#34;&gt;# set HEAD to same commit as server&
 $ git checkout $GIT_COMMIT
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Now, both my local development environment and remote application are on the same git commit. And I can start to debug my code, finally!&lt;/p&gt;
 &lt;h3 id=&#34;step-4-attaching-local-nodejs-debugger-to-debugger-agent-port&#34;&gt;Step 4: Attaching local Node.js debugger to debugger agent port&lt;/h3&gt;
-&lt;p&gt;To start debugging, I need to configure my IDE. In my case, it&#39;s &lt;a href=&#34;https://code.visualstudio.com/&#34;&gt;Visual Studio Code&lt;/a&gt; and I need to add a new &lt;code&gt;Launch&lt;/code&gt; configuration.&lt;/p&gt;
+&lt;p&gt;To start debugging, I need to configure my IDE. In my case, it&amp;rsquo;s &lt;a href=&#34;https://code.visualstudio.com/&#34;&gt;Visual Studio Code&lt;/a&gt; and I need to add a new &lt;code&gt;Launch&lt;/code&gt; configuration.&lt;/p&gt;
 &lt;p&gt;This launch configuration specifies remote debugger server and port to attach and remote location for application source files, which should be in sync with local files (see the previous step).&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-json&#34; data-lang=&#34;json&#34;&gt;{
     &lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;/&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;/&lt;/span&gt; &lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;F&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;o&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;r&lt;/span&gt; &lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;m&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;o&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;r&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;e&lt;/span&gt; &lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;i&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;n&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;f&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;o&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;r&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;m&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;a&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;t&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;i&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;o&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;n&lt;/span&gt; &lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;a&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;b&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;o&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;u&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;t&lt;/span&gt; &lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;N&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;o&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;d&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;e&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;j&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;s&lt;/span&gt; &lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;d&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;e&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;b&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;u&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;g&lt;/span&gt; &lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;a&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;t&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;t&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;r&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;i&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;b&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;u&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;t&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;e&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;s&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;,&lt;/span&gt; &lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;v&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;i&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;s&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;i&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;t&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;h&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;t&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;t&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;p&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;s&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;/&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;/&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;g&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;o&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;m&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;i&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;c&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;r&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;o&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;s&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;o&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;f&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;t&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;c&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;o&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;m&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;/&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;f&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;w&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;l&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;i&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;n&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;k&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;/&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;?&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;l&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;i&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;n&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;k&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;i&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;d&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;8&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;3&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;0&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;3&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;8&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;7&lt;/span&gt;
@@ -387,9 +387,9 @@ $ git checkout $GIT_COMMIT
 }
 
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;summary&#34;&gt;Summary&lt;/h2&gt;
-&lt;p&gt;And finally, I&#39;ve met my goal: I&#39;m able to attach a Node.js debugger to a Node.js application, that is already up and running in a Docker container on a remote machine.&lt;/p&gt;
-&lt;p&gt;It was a long journey to find the proper solution, but after I found it, the process does not look complex at all. Now, once I met a new problem in our environment I can easily attach the Node.js debugger to the running application and start exploring the problem. Nice, isn&#39;t it?&lt;/p&gt;
-&lt;p&gt;I&#39;ve recorded a short movie, just to demonstrate all steps and prove that things are working fluently, exactly as I&#39;ve described in this post.&lt;/p&gt;
+&lt;p&gt;And finally, I&amp;rsquo;ve met my goal: I&amp;rsquo;m able to attach a Node.js debugger to a Node.js application, that is already up and running in a Docker container on a remote machine.&lt;/p&gt;
+&lt;p&gt;It was a long journey to find the proper solution, but after I found it, the process does not look complex at all. Now, once I met a new problem in our environment I can easily attach the Node.js debugger to the running application and start exploring the problem. Nice, isn&amp;rsquo;t it?&lt;/p&gt;
+&lt;p&gt;I&amp;rsquo;ve recorded a short movie, just to demonstrate all steps and prove that things are working fluently, exactly as I&amp;rsquo;ve described in this post.&lt;/p&gt;
 
 &lt;div style=&#34;position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;&#34;&gt;
   &lt;iframe src=&#34;https://www.youtube.com/embed/WYOfNTJmE_4&#34; style=&#34;position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;&#34; allowfullscreen title=&#34;YouTube Video&#34;&gt;&lt;/iframe&gt;
@@ -435,7 +435,7 @@ $ git checkout $GIT_COMMIT
 &lt;/ol&gt;
 &lt;p&gt;This flow assumes that you are using two or more separate &lt;code&gt;Dockerfile&lt;/code&gt;s and a shell script or flow tool to orchestrate all steps above.&lt;/p&gt;
 &lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
-&lt;p&gt;I use a fork of &lt;a href=&#34;https://github.com/sdelements/lets-chat&#34;&gt;Let&#39;s Chat&lt;/a&gt; node.js application.&lt;/p&gt;
+&lt;p&gt;I use a fork of &lt;a href=&#34;https://github.com/sdelements/lets-chat&#34;&gt;Let&amp;rsquo;s Chat&lt;/a&gt; node.js application.&lt;/p&gt;
 &lt;h4 id=&#34;builder-docker-image-with-eslint-mocha-and-gulp&#34;&gt;Builder Docker image with eslint, mocha and gulp&lt;/h4&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-Dockerfile&#34; data-lang=&#34;Dockerfile&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;FROM&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt; alpine:3.5&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
 &lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# install node &lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
@@ -545,7 +545,7 @@ $ # OR: setting DOCKER_HOST
 $ export DOCKER_HOST=localhost:23751
 $ docker build -t local/chat:multi-stage .
 &lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;summary&#34;&gt;Summary&lt;/h2&gt;
-&lt;p&gt;With Docker &lt;strong&gt;multi-stage&lt;/strong&gt; build feature, it&#39;s possible to implement an advanced Docker image build pipeline using a single &lt;code&gt;Dockerfile&lt;/code&gt;. Kudos to Docker team!&lt;/p&gt;
+&lt;p&gt;With Docker &lt;strong&gt;multi-stage&lt;/strong&gt; build feature, it&amp;rsquo;s possible to implement an advanced Docker image build pipeline using a single &lt;code&gt;Dockerfile&lt;/code&gt;. Kudos to Docker team!&lt;/p&gt;
 &lt;hr&gt;
 &lt;p&gt;Hope, you find this post useful. I look forward to your comments and any questions you have.&lt;/p&gt;
 </description>
@@ -623,11 +623,11 @@ $ docker build -t local/chat:multi-stage .
 &lt;p&gt;When you deploy Java applications with Docker containers, the default Java deployment model changes.&lt;/p&gt;
 &lt;p&gt;Originally, Java server-side deployment assumes that you have already pre-configured a Java Web Server (Tomcat, WebLogic, JBoss, or other) and you are deploying an application &lt;strong&gt;WAR&lt;/strong&gt; (Web Archive) packaged Java application to this server and run it together with other applications, deployed on the same server.&lt;/p&gt;
 &lt;p&gt;Lots of tools are developed around this concept, allowing you to update running applications without stopping the Java Application server, route traffic to the new application, resolve possible class loading conflicts and more.&lt;/p&gt;
-&lt;p&gt;With Docker-based deployments, you do not need these tools anymore, you don&#39;t even need the fat &amp;ldquo;enterprise-ready&amp;rdquo; Java Application servers. The only thing that you need is a stable and scalable network server that can serve your API over HTTP/TCP or other protocol of your choice. Search Google for [“embedded Java server”](&lt;a href=&#34;https://www.google.com/search?q=%22embedded&#34;&gt;https://www.google.com/search?q=&amp;quot;embedded&lt;/a&gt; java server&amp;rdquo;) and take one that you like most.&lt;/p&gt;
-&lt;p&gt;For this demo, I forked &lt;a href=&#34;https://github.com/khoubyari/spring-boot-rest-example&#34;&gt;Spring Boot&#39;s REST example&lt;/a&gt; and modified it a bit. The demo uses &lt;a href=&#34;https://projects.spring.io/spring-boot/&#34;&gt;Spring Boot&lt;/a&gt; with an embedded &lt;a href=&#34;http://tomcat.apache.org/&#34;&gt;Tomcat&lt;/a&gt; server. Here is my &lt;a href=&#34;https://github.com/alexei-led/spring-boot-rest-example&#34;&gt;fork&lt;/a&gt; on GitHub repository (&lt;code&gt;blog&lt;/code&gt; branch).&lt;/p&gt;
+&lt;p&gt;With Docker-based deployments, you do not need these tools anymore, you don&amp;rsquo;t even need the fat &amp;ldquo;enterprise-ready&amp;rdquo; Java Application servers. The only thing that you need is a stable and scalable network server that can serve your API over HTTP/TCP or other protocol of your choice. Search Google for [“embedded Java server”](&lt;a href=&#34;https://www.google.com/search?q=%22embedded&#34;&gt;https://www.google.com/search?q=&amp;quot;embedded&lt;/a&gt; java server&amp;rdquo;) and take one that you like most.&lt;/p&gt;
+&lt;p&gt;For this demo, I forked &lt;a href=&#34;https://github.com/khoubyari/spring-boot-rest-example&#34;&gt;Spring Boot&amp;rsquo;s REST example&lt;/a&gt; and modified it a bit. The demo uses &lt;a href=&#34;https://projects.spring.io/spring-boot/&#34;&gt;Spring Boot&lt;/a&gt; with an embedded &lt;a href=&#34;http://tomcat.apache.org/&#34;&gt;Tomcat&lt;/a&gt; server. Here is my &lt;a href=&#34;https://github.com/alexei-led/spring-boot-rest-example&#34;&gt;fork&lt;/a&gt; on GitHub repository (&lt;code&gt;blog&lt;/code&gt; branch).&lt;/p&gt;
 &lt;h3 id=&#34;building-a-java-application-docker-image&#34;&gt;Building a Java Application Docker image&lt;/h3&gt;
 &lt;p&gt;In order to run this demo, I need to create a Docker image with JRE, the compiled and packaged Java application, and all 3rd party libraries.&lt;/p&gt;
-&lt;p&gt;Here is the &lt;code&gt;Dockerfile&lt;/code&gt; I used to build my Docker image. This demo Docker image is based on slim Alpine Linux with OpenJDK JRE and contains the application WAR file with all dependencies embedded into it. It&#39;s just the bare minimum required to run the demo application.&lt;/p&gt;
+&lt;p&gt;Here is the &lt;code&gt;Dockerfile&lt;/code&gt; I used to build my Docker image. This demo Docker image is based on slim Alpine Linux with OpenJDK JRE and contains the application WAR file with all dependencies embedded into it. It&amp;rsquo;s just the bare minimum required to run the demo application.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-dockerfile&#34; data-lang=&#34;dockerfile&#34;&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# Base Alpine Linux based image with OpenJDK JRE only&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
 &lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;FROM&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt; openjdk:8-jre-alpine&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
 &lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
@@ -660,7 +660,7 @@ d85b17c6762e        2 months ago        /bin/sh -c set -x  &amp;amp;&amp;amp; ap
 &lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;running-the-java-application-docker-container&#34;&gt;Running the Java Application Docker container&lt;/h3&gt;
 &lt;p&gt;In order to run the demo application, run following command:&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;$ docker run -d --name demo-default -p 8090:8090 -p 8091:8091 blog/sbdemo:latest
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Let&#39;s check, that application is up and running (I’m using the &lt;code&gt;httpie&lt;/code&gt; tool here):&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Let&amp;rsquo;s check, that application is up and running (I’m using the &lt;code&gt;httpie&lt;/code&gt; tool here):&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;$ http http://localhost:8091/info
 
 HTTP/1.1 &lt;span style=&#34;color:#ae81ff&#34;&gt;200&lt;/span&gt; OK
@@ -693,7 +693,7 @@ Transfer-Encoding: chunked
 &lt;p&gt;Anyway, &lt;strong&gt;Epsilon GC&lt;/strong&gt; is not available yet, so it’s just an interesting theoretical use case for a moment.&lt;/p&gt;
 &lt;h2 id=&#34;building-java-applications-with-builder-container&#34;&gt;Building Java applications with Builder container&lt;/h2&gt;
 &lt;p&gt;As you can probably see, in the previous step, I did not explain how I’ve created the application WAR file.&lt;/p&gt;
-&lt;p&gt;Of course, there is a Maven project file &lt;code&gt;pom.xml&lt;/code&gt; which most Java developers should be familiar with. But, in order to actually build, you need to install the &lt;em&gt;same Java Build tools&lt;/em&gt; (JDK and Maven) on &lt;em&gt;every machine&lt;/em&gt;, where you are building the application. You need to have the same versions, use the same repositories and share the same configurations. While&#39;s tt’s possible, managing different projects that rely on different tools, versions, configurations, and development environments can quickly become a nightmare.&lt;/p&gt;
+&lt;p&gt;Of course, there is a Maven project file &lt;code&gt;pom.xml&lt;/code&gt; which most Java developers should be familiar with. But, in order to actually build, you need to install the &lt;em&gt;same Java Build tools&lt;/em&gt; (JDK and Maven) on &lt;em&gt;every machine&lt;/em&gt;, where you are building the application. You need to have the same versions, use the same repositories and share the same configurations. While&amp;rsquo;s tt’s possible, managing different projects that rely on different tools, versions, configurations, and development environments can quickly become a nightmare.&lt;/p&gt;
 &lt;p&gt;What if you might also want to run a build on a clean machine that does not have Java or Maven installed? &lt;em&gt;What should you do?&lt;/em&gt;&lt;/p&gt;
 &lt;h3 id=&#34;java-builder-container&#34;&gt;Java Builder Container&lt;/h3&gt;
 &lt;p&gt;Docker can help here too. With Docker, you can create and share portable development and build environments. The idea is to create a special &lt;strong&gt;Builder&lt;/strong&gt; Docker image, that contains all tools you need to properly build your Java application, e.g.: JDK, Ant, Maven, Gradle, SBT or others.&lt;/p&gt;
@@ -702,7 +702,7 @@ Transfer-Encoding: chunked
 &lt;p&gt;While most of these tools were created nearly a generation ago, they are still are very popular and widely used by Java developers.&lt;/p&gt;
 &lt;p&gt;Java development life is hard to imagine without some extra build tools. There are multiple Java build tools out there, but most of them share similar concepts and serve the same targets - resolve cumbersome package dependencies, and run different build tasks, such as, &lt;strong&gt;compile, lint, test, package, and deploy&lt;/strong&gt;.&lt;/p&gt;
 &lt;p&gt;In this post, I will use &lt;a href=&#34;https://maven.apache.org&#34;&gt;Maven&lt;/a&gt;, but the same approach can be applied to &lt;a href=&#34;https://gradle.org/&#34;&gt;Gradle&lt;/a&gt;, &lt;a href=&#34;http://www.scala-sbt.org/&#34;&gt;SBT&lt;/a&gt;, and other less popular Java Build tools.&lt;/p&gt;
-&lt;p&gt;It’s important to learn how your Java Build tool works and how can it&#39;s tuned. Apply this knowledge, when creating a &lt;strong&gt;Builder&lt;/strong&gt; Docker image and the way you are running a &lt;strong&gt;Builder&lt;/strong&gt; Docker container.&lt;/p&gt;
+&lt;p&gt;It’s important to learn how your Java Build tool works and how can it&amp;rsquo;s tuned. Apply this knowledge, when creating a &lt;strong&gt;Builder&lt;/strong&gt; Docker image and the way you are running a &lt;strong&gt;Builder&lt;/strong&gt; Docker container.&lt;/p&gt;
 &lt;p&gt;Maven uses the project level &lt;code&gt;pom.xml&lt;/code&gt; file to resolve project dependencies. It downloads missing &lt;code&gt;JAR&lt;/code&gt; files from private and public Maven repositories, and &lt;em&gt;caches&lt;/em&gt; these files for future builds. Thus, next time you run your build, it won’t download anything if your dependency had not been changed.&lt;/p&gt;
 &lt;h4 id=&#34;official-maven-docker-image-should-you-use-it&#34;&gt;Official Maven Docker image: should you use it?&lt;/h4&gt;
 &lt;p&gt;The Maven team provides an official &lt;a href=&#34;https://hub.docker.com/r/_/maven/&#34;&gt;Docker images&lt;/a&gt;. There are multiple images (under different tags) that allow you to select an image that can answer your needs. Take a deeper look at the &lt;code&gt;Dockerfile&lt;/code&gt; files and &lt;code&gt;mvn-entrypoint.sh&lt;/code&gt; shell scripts when selecting Maven image to use.&lt;/p&gt;
@@ -714,7 +714,7 @@ Transfer-Encoding: chunked
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Maven local repository, for official Maven images, is placed inside a Docker &lt;em&gt;data volume&lt;/em&gt;. That means, all downloaded dependencies &lt;strong&gt;are not part of the image&lt;/strong&gt; and &lt;strong&gt;will disappear&lt;/strong&gt; once the Maven container is destroyed. If you do not want to download dependencies on every build, mount Maven repository Docker volume to some persistent storage (at least local folder on the Docker host).&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;Example:&lt;/strong&gt; running &lt;code&gt;mvn clean install&lt;/code&gt; on local folder with properly mounted Maven local repository&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;$ docker run -it --rm --name my-maven-project -v &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;$PWD&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;:/usr/src/app -v &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;$HOME&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;/.m2:/root/.m2 -w /usr/src/app maven:3.2-jdk-7 mvn clean install
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Now, let&#39;s take a look at onbuild Maven Docker images.&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Now, let&amp;rsquo;s take a look at onbuild Maven Docker images.&lt;/p&gt;
 &lt;h5 id=&#34;what-is-maven-onbuild-image&#34;&gt;What is Maven &lt;code&gt;onbuild&lt;/code&gt; image?&lt;/h5&gt;
 &lt;p&gt;Maven &lt;code&gt;onbuild&lt;/code&gt; Docker image exists to &lt;em&gt;“simplify”&lt;/em&gt; developer’s life, allowing him/er skip writing a &lt;code&gt;Dockerfile&lt;/code&gt;. Actually, a developer should write a &lt;code&gt;Dockerfile&lt;/code&gt;, but it’s usually enough to have the single line in it:&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-dockerfile&#34; data-lang=&#34;dockerfile&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;FROM&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt; maven:&amp;lt;versions&amp;gt;-onbuild&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
@@ -850,7 +850,7 @@ sbdemo/builder  mvn     2d325a403c5f &lt;span style=&#34;color:#ae81ff&#34;&gt;5
 &lt;h2 id=&#34;bonus-build-flow-automation&#34;&gt;Bonus: Build flow automation&lt;/h2&gt;
 &lt;p&gt;In this section, I will show how to use Docker build flow automation service to automate and orchestrate all steps from this post.&lt;/p&gt;
 &lt;h3 id=&#34;build-pipeline-steps&#34;&gt;Build Pipeline Steps&lt;/h3&gt;
-&lt;p&gt;I&#39;m going to use &lt;a href=&#34;https://codefresh.io&#34;&gt;Codefresh.io&lt;/a&gt; Docker CI/CD service (the company I&#39;m working for) to create a &lt;strong&gt;Builder&lt;/strong&gt; Docker image for Maven, run tests, create application WAR, build Docker image for application and deploy it to DockerHub.&lt;/p&gt;
+&lt;p&gt;I&amp;rsquo;m going to use &lt;a href=&#34;https://codefresh.io&#34;&gt;Codefresh.io&lt;/a&gt; Docker CI/CD service (the company I&amp;rsquo;m working for) to create a &lt;strong&gt;Builder&lt;/strong&gt; Docker image for Maven, run tests, create application WAR, build Docker image for application and deploy it to DockerHub.&lt;/p&gt;
 &lt;p&gt;The Codefresh automation flow &lt;code&gt;YAML&lt;/code&gt; (also called &lt;em&gt;pipeline&lt;/em&gt;) is pretty straight forward:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;it contains ordered list of steps&lt;/li&gt;
@@ -879,7 +879,7 @@ sbdemo/builder  mvn     2d325a403c5f &lt;span style=&#34;color:#ae81ff&#34;&gt;5
 &lt;li&gt;current working directory for each step is set to &lt;code&gt;/codefresh/volume/&lt;/code&gt; by default (can be changed)&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;For detailed description and other examples, take a look at the &lt;a href=&#34;https://docs.codefresh.io/docs/steps&#34;&gt;documentation&lt;/a&gt;.&lt;/p&gt;
-&lt;p&gt;For my demo flow I&#39;ve created following automation steps:&lt;/p&gt;
+&lt;p&gt;For my demo flow I&amp;rsquo;ve created following automation steps:&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;&lt;code&gt;mvn_builder&lt;/code&gt; - create Maven &lt;strong&gt;Builder&lt;/strong&gt; Docker image&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;mv_test&lt;/code&gt; - execute tests in &lt;strong&gt;Builder&lt;/strong&gt; container, place test results into &lt;code&gt;/codefresh/volume/target/surefire-reports/&lt;/code&gt; &lt;em&gt;data volume&lt;/em&gt; folder&lt;/li&gt;
@@ -888,44 +888,44 @@ sbdemo/builder  mvn     2d325a403c5f &lt;span style=&#34;color:#ae81ff&#34;&gt;5
 &lt;li&gt;&lt;code&gt;push_image&lt;/code&gt; - tag and push the application Docker image to DockerHub&lt;/li&gt;
 &lt;/ol&gt;
 &lt;p&gt;Here is the full Codefresh &lt;code&gt;YAML&lt;/code&gt;:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;version: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;1.0&amp;#39;&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;version&lt;/span&gt;: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;1.0&amp;#39;&lt;/span&gt;
 
-steps:
+&lt;span style=&#34;color:#66d9ef&#34;&gt;steps&lt;/span&gt;:
 
-  mvn_builder:
-    type: build
-    description: create Maven builder image
-    dockerfile: Dockerfile.build
-    image_name: &amp;lt;put_you_repo_here&amp;gt;/mvn-builder
+  &lt;span style=&#34;color:#66d9ef&#34;&gt;mvn_builder&lt;/span&gt;:
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;type&lt;/span&gt;: build
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;description&lt;/span&gt;: create Maven builder image
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;dockerfile&lt;/span&gt;: Dockerfile.build
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;image_name&lt;/span&gt;: &amp;lt;put_you_repo_here&amp;gt;/mvn-builder
 
-  mvn_test:
-    description: run unit tests 
-    image: ${{mvn_builder}}
-    commands:
+  &lt;span style=&#34;color:#66d9ef&#34;&gt;mvn_test&lt;/span&gt;:
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;description&lt;/span&gt;: run unit tests 
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;image&lt;/span&gt;: ${{mvn_builder}}
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;commands&lt;/span&gt;:
       - mvn -T 1C -o test
   
-  mvn_package:
-    description: package application and dependencies into WAR 
-    image: ${{mvn_builder}}
-    commands:
+  &lt;span style=&#34;color:#66d9ef&#34;&gt;mvn_package&lt;/span&gt;:
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;description&lt;/span&gt;: package application and dependencies into WAR 
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;image&lt;/span&gt;: ${{mvn_builder}}
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;commands&lt;/span&gt;:
       - mvn package -T 1C -o -Dmaven.test.skip=&lt;span style=&#34;color:#66d9ef&#34;&gt;true&lt;/span&gt;
 
-  build_image:
-    type: build
-    description: create Docker image with application WAR
-    dockerfile: Dockerfile
-    working_directory: ${{main_clone}}/target
-    image_name: &amp;lt;put_you_repo_here&amp;gt;/sbdemo
+  &lt;span style=&#34;color:#66d9ef&#34;&gt;build_image&lt;/span&gt;:
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;type&lt;/span&gt;: build
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;description&lt;/span&gt;: create Docker image with application WAR
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;dockerfile&lt;/span&gt;: Dockerfile
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;working_directory&lt;/span&gt;: ${{main_clone}}/target
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;image_name&lt;/span&gt;: &amp;lt;put_you_repo_here&amp;gt;/sbdemo
 
-  push_image:
-    type: push
-    description: push application image to DockerHub
-    candidate: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;${{build_image}}&amp;#39;&lt;/span&gt;
-    tag: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;${{CF_BRANCH}}&amp;#39;&lt;/span&gt;
-    credentials:
+  &lt;span style=&#34;color:#66d9ef&#34;&gt;push_image&lt;/span&gt;:
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;type&lt;/span&gt;: push
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;description&lt;/span&gt;: push application image to DockerHub
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;candidate&lt;/span&gt;: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;${{build_image}}&amp;#39;&lt;/span&gt;
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;tag&lt;/span&gt;: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;${{CF_BRANCH}}&amp;#39;&lt;/span&gt;
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;credentials&lt;/span&gt;:
       &lt;span style=&#34;color:#75715e&#34;&gt;# set docker registry credentials in project configuration&lt;/span&gt;
-      username: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;${{DOCKER_USER}}&amp;#39;&lt;/span&gt;
-      password: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;${{DOCKER_PASS}}&amp;#39;&lt;/span&gt;
+      &lt;span style=&#34;color:#66d9ef&#34;&gt;username&lt;/span&gt;: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;${{DOCKER_USER}}&amp;#39;&lt;/span&gt;
+      &lt;span style=&#34;color:#66d9ef&#34;&gt;password&lt;/span&gt;: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;${{DOCKER_PASS}}&amp;#39;&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;hr&gt;
 &lt;p&gt;Hope, you find this post useful. I look forward to your comments and any questions you have.&lt;/p&gt;
 &lt;hr&gt;
@@ -938,14 +938,14 @@ steps:
       <link>https://alexei-led.github.io/post/everyday_hacks/</link>
       <pubDate>Mon, 02 Jan 2017 18:00:00 +0200</pubDate>
       <guid>https://alexei-led.github.io/post/everyday_hacks/</guid>
-      <description>&lt;p&gt;In this post, I&#39;ve decided to share with you some useful commands and tools, I&#39;m frequently using, working with amazing Docker technology.
+      <description>&lt;p&gt;In this post, I&amp;rsquo;ve decided to share with you some useful commands and tools, I&amp;rsquo;m frequently using, working with amazing Docker technology.
 There is no particular order or &amp;ldquo;coolness level&amp;rdquo; for every &amp;ldquo;hack&amp;rdquo;. I will try to present the use case and how does specific command or tool help me with my work.&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;https://alexei-led.github.io/img/docker_animals.png&#34; alt=&#34;Docker Hacks&#34;&gt;&lt;/p&gt;
 &lt;h2 id=&#34;cleaning-up&#34;&gt;Cleaning up&lt;/h2&gt;
 &lt;p&gt;Working with Docker for some time, you start to accumulate development junk: unused volumes, networks, exited containers and unused images.&lt;/p&gt;
 &lt;h3 id=&#34;one-command-to-rule-them-all&#34;&gt;One command to &amp;ldquo;rule them all&amp;rdquo;&lt;/h3&gt;
 &lt;pre&gt;&lt;code&gt;$ docker system  prune
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&lt;code&gt;prune&lt;/code&gt; is a very useful command (works also for &lt;code&gt;volume&lt;/code&gt; and &lt;code&gt;network&lt;/code&gt; sub-commands), but it&#39;s only available for Docker 1.13. So, if you are using older Docker versions, then following commands can help you to replace the &lt;code&gt;prune&lt;/code&gt; command.&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&lt;code&gt;prune&lt;/code&gt; is a very useful command (works also for &lt;code&gt;volume&lt;/code&gt; and &lt;code&gt;network&lt;/code&gt; sub-commands), but it&amp;rsquo;s only available for Docker 1.13. So, if you are using older Docker versions, then following commands can help you to replace the &lt;code&gt;prune&lt;/code&gt; command.&lt;/p&gt;
 &lt;h3 id=&#34;remove-dangling-volumes&#34;&gt;Remove dangling volumes&lt;/h3&gt;
 &lt;p&gt;&lt;code&gt;dangling&lt;/code&gt; volumes - volumes not in use by any container. To remove them, combine two commands: first, list volume IDs for &lt;code&gt;dangling&lt;/code&gt; volumes and then remove them.&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;$ docker volume rm $(docker volume ls -q -f &amp;quot;dangling=true&amp;quot;)
@@ -984,11 +984,11 @@ The &lt;code&gt;docker stats&lt;/code&gt; command, even with &lt;code&gt;--forma
 &lt;pre&gt;&lt;code&gt;# get a shell into Docker host
 $ docker run --rm -it --privileged --pid=host walkerlee/nsenter -t 1 -m -u -i -n sh
 &lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;enter-into-any-container&#34;&gt;Enter into ANY container&lt;/h3&gt;
-&lt;p&gt;It&#39;s also possible to enter into any container with &lt;code&gt;nsenter&lt;/code&gt; and &lt;code&gt;--pid=container:[id OR name]&lt;/code&gt;. But in most cases, it&#39;s better to use standard &lt;a href=&#34;https://docs.docker.com/engine/reference/commandline/exec/&#34;&gt;&lt;code&gt;docker exec&lt;/code&gt;&lt;/a&gt; command. The main difference is that &lt;code&gt;nsenter&lt;/code&gt; doesn&#39;t enter the &lt;em&gt;cgroups&lt;/em&gt;, and therefore evades resource limitations (can be useful for debugging).&lt;/p&gt;
+&lt;p&gt;It&amp;rsquo;s also possible to enter into any container with &lt;code&gt;nsenter&lt;/code&gt; and &lt;code&gt;--pid=container:[id OR name]&lt;/code&gt;. But in most cases, it&amp;rsquo;s better to use standard &lt;a href=&#34;https://docs.docker.com/engine/reference/commandline/exec/&#34;&gt;&lt;code&gt;docker exec&lt;/code&gt;&lt;/a&gt; command. The main difference is that &lt;code&gt;nsenter&lt;/code&gt; doesn&amp;rsquo;t enter the &lt;em&gt;cgroups&lt;/em&gt;, and therefore evades resource limitations (can be useful for debugging).&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;# get a shell into &#39;redis&#39; container namespace
 $ docker run --rm -it --privileged --pid=container:redis walkerlee/nsenter -t 1 -m -u -i -n sh
 &lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;heredoc-docker-container&#34;&gt;Heredoc Docker container&lt;/h2&gt;
-&lt;p&gt;Suppose you want to get some tool as a Docker image, but you do not want to search for a suitable image or to create a new &lt;code&gt;Dockerfile&lt;/code&gt; (no need to keep it for future use, for example). Sometimes storing a Docker image definition in a file looks like an overkill - you need to decide how do you edit, store and share this Dockerfile. Sometimes it&#39;s better just to have a single line command, that you can copy, share, embed into a shell script or create special command &lt;code&gt;alias&lt;/code&gt;.
+&lt;p&gt;Suppose you want to get some tool as a Docker image, but you do not want to search for a suitable image or to create a new &lt;code&gt;Dockerfile&lt;/code&gt; (no need to keep it for future use, for example). Sometimes storing a Docker image definition in a file looks like an overkill - you need to decide how do you edit, store and share this Dockerfile. Sometimes it&amp;rsquo;s better just to have a single line command, that you can copy, share, embed into a shell script or create special command &lt;code&gt;alias&lt;/code&gt;.
 So, when you want to create a new ad-hoc container with a single command, try a &lt;a href=&#34;http://www.tldp.org/LDP/abs/html/here-docs.html&#34;&gt;Heredoc&lt;/a&gt; approach.&lt;/p&gt;
 &lt;h3 id=&#34;create-alpine-based-container-with-htop-tool&#34;&gt;Create Alpine based container with &amp;lsquo;htop&amp;rsquo; tool&lt;/h3&gt;
 &lt;pre&gt;&lt;code&gt;$ docker build -t htop - &amp;lt;&amp;lt; EOF
@@ -996,7 +996,7 @@ FROM alpine
 RUN apk --no-cache add htop
 EOF
 &lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;docker-command-completion&#34;&gt;Docker command completion&lt;/h2&gt;
-&lt;p&gt;Docker CLI syntax is very rich and constantly growing: adding new commands and new options. It&#39;s hard to remember every possible command and option, so having a nice command completion for a terminal is a &lt;strong&gt;must have&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;Docker CLI syntax is very rich and constantly growing: adding new commands and new options. It&amp;rsquo;s hard to remember every possible command and option, so having a nice command completion for a terminal is a &lt;strong&gt;must have&lt;/strong&gt;.&lt;/p&gt;
 &lt;p&gt;Command completion is a kind of terminal plugin, that lets you auto-complete or auto-suggest what to type in next by hitting &lt;em&gt;tab&lt;/em&gt; key. Docker command completion works both for commands and options. Docker team prepared command completion for &lt;code&gt;docker&lt;/code&gt;, &lt;code&gt;docker-machine&lt;/code&gt; and &lt;code&gt;docker-compose&lt;/code&gt; commands, both for &lt;code&gt;Bash&lt;/code&gt; and &lt;code&gt;Zsh&lt;/code&gt;.&lt;/p&gt;
 &lt;p&gt;If you are using Mac and &lt;a href=&#34;http://brew.sh&#34;&gt;Homebrew&lt;/a&gt;, then installing Docker commands completion is pretty straight forward.&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;# Tap homebrew/completion to gain access to these
@@ -1008,8 +1008,8 @@ $ brew install docker-compose-completion
 $ brew install docker-machine-completion
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;For non-Mac install read official Docker documentation: &lt;a href=&#34;https://github.com/docker/docker/tree/master/contrib/completion&#34;&gt;docker engine&lt;/a&gt;, &lt;a href=&#34;https://docs.docker.com/compose/completion/&#34;&gt;docker-compose&lt;/a&gt; and &lt;a href=&#34;https://docs.docker.com/machine/completion/&#34;&gt;docker-machine&lt;/a&gt;&lt;/p&gt;
 &lt;h2 id=&#34;start-containers-automatically&#34;&gt;Start containers automatically&lt;/h2&gt;
-&lt;p&gt;When you are running process in Docker container, it may fail due to multiple reasons. Sometimes to fix this failure it&#39;s enough to rerun the failed container. If you are using Docker orchestration engine, like Swarm or Kubernetes, the failed service will be restarted automatically.
-But if you are using plain Docker and want to restart container, based on &lt;em&gt;exit code&lt;/em&gt; of container&#39;s main process or always (regardless the &lt;em&gt;exit code&lt;/em&gt;), Docker 1.12 introduced a very helpful option for &lt;code&gt;docker run&lt;/code&gt; command: &lt;a href=&#34;https://docs.docker.com/engine/reference/run/#restart-policies-restart#restart-policies---restart&#34;&gt;restart&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;When you are running process in Docker container, it may fail due to multiple reasons. Sometimes to fix this failure it&amp;rsquo;s enough to rerun the failed container. If you are using Docker orchestration engine, like Swarm or Kubernetes, the failed service will be restarted automatically.
+But if you are using plain Docker and want to restart container, based on &lt;em&gt;exit code&lt;/em&gt; of container&amp;rsquo;s main process or always (regardless the &lt;em&gt;exit code&lt;/em&gt;), Docker 1.12 introduced a very helpful option for &lt;code&gt;docker run&lt;/code&gt; command: &lt;a href=&#34;https://docs.docker.com/engine/reference/run/#restart-policies-restart#restart-policies---restart&#34;&gt;restart&lt;/a&gt;.&lt;/p&gt;
 &lt;h3 id=&#34;restart-always&#34;&gt;Restart always&lt;/h3&gt;
 &lt;p&gt;Restart the &lt;code&gt;redis&lt;/code&gt; container with a restart policy of &lt;strong&gt;always&lt;/strong&gt; so that if the container exits, Docker will restart it.&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;$ docker run --restart=always redis
@@ -1017,12 +1017,12 @@ But if you are using plain Docker and want to restart container, based on &lt;em
 &lt;p&gt;Restart the &lt;code&gt;redis&lt;/code&gt; container with a restart policy of &lt;strong&gt;on-failure&lt;/strong&gt; and a maximum restart count of &lt;code&gt;10&lt;/code&gt;.&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;$ docker run --restart=on-failure:10 redis
 &lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;network-tricks&#34;&gt;Network tricks&lt;/h2&gt;
-&lt;p&gt;There are cases when you want to create a new container and connect it to already existing network stack. It can be Docker host network or another container&#39;s network. This can be pretty useful for debugging and audition network issues.
+&lt;p&gt;There are cases when you want to create a new container and connect it to already existing network stack. It can be Docker host network or another container&amp;rsquo;s network. This can be pretty useful for debugging and audition network issues.
 The &lt;code&gt;docker run --network/net&lt;/code&gt; option support this use case.&lt;/p&gt;
 &lt;h3 id=&#34;use-docker-host-network-stack&#34;&gt;Use Docker host network stack&lt;/h3&gt;
 &lt;pre&gt;&lt;code&gt;$ docker run --net=host ...
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The new container will attach to same network interfaces as the Docker host.&lt;/p&gt;
-&lt;h3 id=&#34;use-another-containers-network-stack&#34;&gt;Use another container&#39;s network stack&lt;/h3&gt;
+&lt;h3 id=&#34;use-another-containers-network-stack&#34;&gt;Use another container&amp;rsquo;s network stack&lt;/h3&gt;
 &lt;pre&gt;&lt;code&gt;$ docker run --net=container:&amp;lt;name|id&amp;gt; ...
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The new container will attach to same network interfaces as another container. The target container can be specified with &lt;code&gt;id&lt;/code&gt; or &lt;code&gt;name&lt;/code&gt;.&lt;/p&gt;
 &lt;h3 id=&#34;attachable-overlay-network&#34;&gt;Attachable overlay network&lt;/h3&gt;
