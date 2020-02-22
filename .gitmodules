@@ -5,3 +5,6 @@
 	path = public
 	url = git@github.com:alexei-led.github.io.git
 	branch = master
+[submodule "themes/noteworthy"]
+	path = themes/noteworthy
+	url = https://github.com/kimcc/hugo-theme-noteworthy.git
