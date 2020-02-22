@@ -6,10 +6,9 @@ paginate = 10
 languageCode = "en-us"
 copyright = "This work is licensed under a Creative Commons Attribution 4.0 International License"
 disqusShortname = "gaia-blog"
+googleAnalytics = "UA-71802462-1"
 
 [params]
-  twitter = "alexeiled"
-  twitterName = "alexeiled"
-  githubName = "alexei-led"
-  description = "The Programming Blog"
-  google_analytics = "UA-71802462-1"
+  medium = "https://medium.com/@alexeiled"
+  twitter = "https://twitter.com/alexeiled"
+  github = "https://github.com/alexei-led"
