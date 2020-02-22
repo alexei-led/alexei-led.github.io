@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>network on Terra Nullius</title>
@@ -7,155 +7,19 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>This work is licensed under a Creative Commons Attribution 4.0 International License</copyright>
-    <lastBuildDate>Mon, 01 Aug 2016 20:00:00 +0200</lastBuildDate>
-    <atom:link href="https://alexei-led.github.io/tags/network/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 04 Oct 2017 18:00:00 +0200</lastBuildDate>
+    
+	<atom:link href="https://alexei-led.github.io/tags/network/index.xml" rel="self" type="application/rss+xml" />
+    
     
     <item>
       <title>Network emulation for Docker containers</title>
       <link>https://alexei-led.github.io/post/pumba_docker_netem/</link>
       <pubDate>Mon, 01 Aug 2016 20:00:00 +0200</pubDate>
+      
       <guid>https://alexei-led.github.io/post/pumba_docker_netem/</guid>
-      <description>&lt;h2 id=&#34;tldr&#34;&gt;TL;DR&lt;/h2&gt;
-&lt;blockquote&gt;
-&lt;p&gt;&lt;a href=&#34;https://github.com/gaia-adm/pumba&#34;&gt;Pumba&lt;/a&gt; &lt;code&gt;netem delay&lt;/code&gt; and &lt;code&gt;netem loss&lt;/code&gt; commands can emulate network &lt;em&gt;delay&lt;/em&gt; and &lt;em&gt;packet loss&lt;/em&gt; between Docker containers, even on single host. Give it a try!&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;h2 id=&#34;introduction&#34;&gt;Introduction&lt;/h2&gt;
-&lt;p&gt;Microservice architecture has been adopted by software teams as a way to deliver business value faster. Container technology enables delivery of microservices into any environment. Docker has accelerated this by providing an easy to use toolset for development teams to build, ship, and run distributed applications. These applications can be composed of hundreds of microservices packaged in Docker containers.&lt;/p&gt;
-&lt;p&gt;In a recent NGINX &lt;a href=&#34;https://www.nginx.com/resources/library/app-dev-survey/&#34;&gt;survey&lt;/a&gt; [Finding #7], the “biggest challenge holding back developers” is the trade-off between quality and speed. As Martin Fowler indicates, &lt;a href=&#34;http://martinfowler.com/articles/microservice-testing&#34;&gt;testing strategies in microservices architecture&lt;/a&gt; can be very complex. Creating a realistic and useful testing environment is an aspect of this complexity.&lt;/p&gt;
-&lt;p&gt;One challenge is &lt;strong&gt;simulating network failures&lt;/strong&gt; to ensure &lt;strong&gt;resiliency&lt;/strong&gt; of applications and services.&lt;/p&gt;
-&lt;p&gt;The network is a critical arterial system for ensuring reliability for any distributed application. Network conditions are different depending on where the application is accessed. Network behavior can greatly impact the overall application availability, stability, performance, and user experience (UX). It’s critical to simulate and understand these impacts before the user notices. Testing for these conditions requires conducting realistic network tests.&lt;/p&gt;
-&lt;p&gt;After Docker containers are deployed in a cluster, all communication between containers happen over the network. These containers run on a single host, different hosts, different networks, and in different datacenters.&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;How can we test for the impact of network behavior on the application? What can we do to emulate different network properties between containers on a single host or among clusters on multiple hosts?&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;h2 id=&#34;pumba-with-network-emulation&#34;&gt;Pumba with Network Emulation&lt;/h2&gt;
-&lt;p&gt;&lt;a href=&#34;https://github.com/gaia-adm/pumba&#34;&gt;Pumba&lt;/a&gt; is a chaos testing tool for Docker containers, inspired by &lt;a href=&#34;https://github.com/Netflix/SimianArmy/wiki/Chaos-Monkey&#34;&gt;Netflix Chaos Monkey&lt;/a&gt;. The main benefit is that it works with containers instead of VMs. Pumba can kill, stop, restart running Docker containers or pause processes within specified containers. We use it for resilience testing of our distributed applications. Resilience testing ensures reliability of the system. It allows the team to verify their application recovers correctly regardless of any event (expected or unexpected) without any loss of data or functionality. Pumba simulates these events for distributed and containerized applications.&lt;/p&gt;
-&lt;h3 id=&#34;pumba-netem&#34;&gt;Pumba &lt;code&gt;netem&lt;/code&gt;&lt;/h3&gt;
-&lt;p&gt;We enhanced &lt;a href=&#34;https://github.com/gaia-adm/pumba&#34;&gt;Pumba&lt;/a&gt; with network emulation capabilities starting with &lt;em&gt;delay&lt;/em&gt; and &lt;em&gt;packet loss&lt;/em&gt;. Using &lt;code&gt;pumba netem&lt;/code&gt; command we can apply &lt;em&gt;delay&lt;/em&gt; or &lt;em&gt;packet loss&lt;/em&gt; on any Docker container. Under the hood, &lt;strong&gt;Pumba&lt;/strong&gt; uses Linux kernel traffic control (&lt;a href=&#34;http://man7.org/linux/man-pages/man8/tc.8.html&#34;&gt;tc&lt;/a&gt;) with &lt;a href=&#34;http://man7.org/linux/man-pages/man8/tc-netem.8.html&#34;&gt;netem&lt;/a&gt; queueing discipline. To work, we need to add &lt;a href=&#34;https://wiki.linuxfoundation.org/networking/iproute2&#34;&gt;iproute2&lt;/a&gt; to Docker images, that we want to test. Some base Docker images already include &lt;a href=&#34;https://wiki.linuxfoundation.org/networking/iproute2&#34;&gt;iproute2&lt;/a&gt; package.&lt;/p&gt;
-&lt;p&gt;Pumba &lt;code&gt;netem delay&lt;/code&gt; and &lt;code&gt;netem loss&lt;/code&gt; commands can emulate network &lt;em&gt;delay&lt;/em&gt; and &lt;em&gt;packet loss&lt;/em&gt; between Docker containers, even on a single host.&lt;/p&gt;
-&lt;p&gt;Linux has a built-in network emulation capabilities, starting from kernel 2.6.7 (released 14 years ago). Linux allows us to manipulate traffic control settings, using &lt;a href=&#34;http://man7.org/linux/man-pages/man8/tc.8.html&#34;&gt;tc&lt;/a&gt; tool, available in &lt;a href=&#34;https://wiki.linuxfoundation.org/networking/iproute2&#34;&gt;iproute2&lt;/a&gt;; &lt;a href=&#34;http://man7.org/linux/man-pages/man8/tc-netem.8.html&#34;&gt;netem&lt;/a&gt; is an extension (&lt;em&gt;queueing discipline&lt;/em&gt;) of the tc tool. It allows emulation of network properties — &lt;em&gt;delay&lt;/em&gt;, &lt;em&gt;packet loss&lt;/em&gt;, &lt;em&gt;packer reorder&lt;/em&gt;, &lt;em&gt;duplication&lt;/em&gt;, &lt;em&gt;corruption&lt;/em&gt;, and &lt;em&gt;bandwidth rate&lt;/em&gt;.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Pumba&lt;/strong&gt; &lt;code&gt;netem&lt;/code&gt; commands can help development teams simulate realistic network conditions as they build, ship, and run microservices in Docker containers.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Pumba&lt;/strong&gt; with low level &lt;code&gt;netem&lt;/code&gt; options, greatly simplifies its usage. We have made it easier to emulate different network properties for running Docker containers.&lt;/p&gt;
-&lt;p&gt;In the current release, &lt;strong&gt;Pumba&lt;/strong&gt; modifies &lt;em&gt;egress&lt;/em&gt; traffic only by adding &lt;em&gt;delay&lt;/em&gt; or &lt;em&gt;packet loss&lt;/em&gt; for specified container(s). Target containers can be specified by name (single name or as a space separated list) or via regular expression (&lt;a href=&#34;https://github.com/google/re2/wiki/Syntax&#34;&gt;RE2&lt;/a&gt;). &lt;strong&gt;Pumba&lt;/strong&gt; modifies container network conditions for a specified duration. After a set time interval, &lt;strong&gt;Pumba&lt;/strong&gt; restores normal network conditions. &lt;strong&gt;Pumba&lt;/strong&gt; also restores the original connection with a graceful shutdown of the &lt;code&gt;pumba&lt;/code&gt; process &lt;code&gt;Ctrl-C&lt;/code&gt; or by stopping the &lt;strong&gt;Pumba&lt;/strong&gt; container with &lt;code&gt;docker stop&lt;/code&gt; command.
-An option is available to apply an IP range filter to the network emulation. With this option, &lt;strong&gt;Pumba&lt;/strong&gt; will modify outgoing traffic for specified IP and will leave other outgoing traffic unchanged. Using this option, we can change network properties for a specific inter-container connection(s) as well as specific Docker networks — each Docker network has its own IP range.&lt;/p&gt;
-&lt;h3 id=&#34;pumba-delay-netem-delay&#34;&gt;Pumba delay: &lt;code&gt;netem delay&lt;/code&gt;&lt;/h3&gt;
-&lt;p&gt;To demonstrate, we’ll run two Docker containers: one is running a &lt;code&gt;ping&lt;/code&gt; command and the other is &lt;strong&gt;Pumba&lt;/strong&gt; Docker container, that adds 3 seconds network &lt;em&gt;delay&lt;/em&gt; to the ping container for 1 minute. After 1 minute, &lt;strong&gt;Pumba&lt;/strong&gt; container restores the network connection properties of the ping container as it exits gracefully.&lt;/p&gt;
-&lt;p&gt;&lt;a href=&#34;https://asciinema.org/a/82428?t=7&#34;&gt;&lt;!-- raw HTML omitted --&gt;&lt;/a&gt;&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;# open two terminal windows: (1) and (2)
-
-# terminal (1)
-# create new &#39;tryme&#39; Alpine container (with iproute2) and ping `www.example.com`
-$ docker run -it --rm --name tryme alpine sh -c &amp;quot;apk add --update iproute2 &amp;amp;&amp;amp; ping www.example.com&amp;quot;
-
-# terminal (2)
-# run pumba: add 3s delay to `tryme` container for 1m
-$ docker run -it --rm -v /var/run/docker.sock:/var/run/docker.sock gaiaadm/pumba \
-         pumba netem --interface eth0 --duration 1m delay --time 3000 tryme
-
-# See `ping` delay increased by 3000ms for 1 minute
-# You can stop Pumba earlier with `Ctrl-C`
-&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;netem-delay-examples&#34;&gt;&lt;code&gt;netem delay&lt;/code&gt; examples&lt;/h3&gt;
-&lt;p&gt;This section contains more advanced network emulation examples for &lt;code&gt;delay&lt;/code&gt; command.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;# add 3 seconds delay for all outgoing packets on device `eth0` (default) of `mydb` Docker container for 5 minutes
-
-$ docker run -it --rm -v /var/run/docker.sock:/var/run/docker.sock gaiaadm/pumba \
-    pumba netem --duration 5m \
-      delay --time 3000 \
-      mydb
-&lt;/code&gt;&lt;/pre&gt;&lt;pre&gt;&lt;code&gt;# add a delay of 3000ms ± 30ms, with the next random element depending 20% on the last one,
-# for all outgoing packets on device `eth1` of all Docker container, with name start with `hp`
-# for 10 minutes
-
-$ docker run -it --rm -v /var/run/docker.sock:/var/run/docker.sock gaiaadm/pumba \
-    pumba netem --duration 5m --interface eth1 \
-      delay \
-        --time 3000 \
-        --jitter 30 \
-        --correlation 20 \
-      re2:^hp
-&lt;/code&gt;&lt;/pre&gt;&lt;pre&gt;&lt;code&gt;# add a delay of 3000ms ± 40ms, where variation in delay is described by `normal` distribution,
-# for all outgoing packets on device `eth0` of randomly chosen Docker container from the list
-# for 10 minutes
-
-$ docker run -it --rm -v /var/run/docker.sock:/var/run/docker.sock gaiaadm/pumba \
-    pumba --random \
-      netem --duration 5m \
-        delay \
-          --time 3000 \
-          --jitter 40 \
-          --distribution normal \
-        container1 container2 container3
-&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;pumba-packet-loss-netem-loss-netem-loss-state-netem-loss-gemodel&#34;&gt;Pumba packet loss: &lt;code&gt;netem loss&lt;/code&gt;, &lt;code&gt;netem loss-state&lt;/code&gt;, &lt;code&gt;netem loss-gemodel&lt;/code&gt;&lt;/h2&gt;
-&lt;p&gt;Lets start with &lt;em&gt;packet loss&lt;/em&gt; demo. Here we will run three Docker containers. &lt;code&gt;iperf&lt;/code&gt; &lt;strong&gt;server&lt;/strong&gt; and &lt;strong&gt;client&lt;/strong&gt; for sending data and Pumba Docker container, that will add packer loss on client container.
-We are using &lt;strong&gt;perform network throughput tests&lt;/strong&gt; tool &lt;a href=&#34;http://manpages.ubuntu.com/manpages/xenial/man1/iperf.1.html&#34;&gt;iperf&lt;/a&gt; to demonstrate &lt;em&gt;packet loss&lt;/em&gt;.&lt;/p&gt;
-&lt;p&gt;&lt;a href=&#34;https://asciinema.org/a/82430&#34;&gt;&lt;!-- raw HTML omitted --&gt;&lt;/a&gt;&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;# open three terminal windows
-
-# terminal (1) iperf server
-# server: `-s` run in server mode; `-u` use UDP;  `-i 1` report every second
-$ docker run -it --rm --name tryme-srv alpine sh -c &amp;quot;apk add --update iperf &amp;amp;&amp;amp; iperf -s -u -i 1&amp;quot;
-
-# terminal (2) iperf client
-# client: `-c` client connects to &amp;lt;server ip&amp;gt;; `-u` use UDP
-$ docker run -it --rm --name tryme alpine sh -c &amp;quot;apk add --update iproute2 iperf &amp;amp;&amp;amp; iperf -c 172.17.0.3 -u&amp;quot;
-
-# terminal (3)
-# run pumba: add 20% packet loss to `tryme` container for 1m
-$ docker run -it --rm -v /var/run/docker.sock:/var/run/docker.sock gaiaadm/pumba \
-         pumba netem --duration 1m loss --percent 20 tryme
-
-# See server report on terminal (1) &#39;Lost/Total Datagrams&#39; - should see lost packets there
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;It is generally understood that &lt;em&gt;packet loss&lt;/em&gt; distribution in IP networks is “bursty”. To simulate more realistic &lt;em&gt;packet loss&lt;/em&gt; events, different probability models are used.
-Pumba currently supports 3 different loss probability models for *packet loss&amp;rdquo;. Pumba defines separate &lt;em&gt;loss&lt;/em&gt; command for each probability model.&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;code&gt;loss&lt;/code&gt; - independent probability loss model (Bernoulli model); it&amp;rsquo;s the most widely used loss model where packet losses are modeled by a random process consisting of Bernoulli trails&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;loss-state&lt;/code&gt; - 2-state, 3-state and 4-state State Markov models&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;loss-gemodel&lt;/code&gt; - Gilbert and Gilbert-Elliott models&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;Papers on network packer loss models:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&amp;ldquo;Indepth: Packet Loss Burstiness&amp;rdquo; &lt;a href=&#34;http://www.voiptroubleshooter.com/indepth/burstloss.html&#34;&gt;link&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&amp;ldquo;Definition of a general and intuitive loss model for packet networks and its implementation in the Netem module in the Linux kernel.&amp;rdquo; &lt;a href=&#34;netgroup.uniroma2.it/TR/TR-loss-netem.pdf&#34;&gt;link&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;man netem&lt;/code&gt; &lt;a href=&#34;http://man7.org/linux/man-pages/man8/tc-netem.8.html&#34;&gt;link&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id=&#34;netem-loss-examples&#34;&gt;&lt;code&gt;netem loss&lt;/code&gt; examples&lt;/h3&gt;
-&lt;pre&gt;&lt;code&gt;# loss 0.3% of packets
-# apply for `eth0` network interface (default) of `mydb` Docker container for 5 minutes
-
-$ docker run -it --rm -v /var/run/docker.sock:/var/run/docker.sock gaiaadm/pumba \
-    pumba netem --duration 5m \
-      loss --percent 0.3 \
-      mydb
-&lt;/code&gt;&lt;/pre&gt;&lt;pre&gt;&lt;code&gt;# loss 1.4% of packets (14 packets from 1000 will be lost)
-# each successive probability (of loss) depends by a quarter on the last one
-#   Prob(n) = .25 * Prob(n-1) + .75 * Random
-# apply on `eth1` network interface  of Docker containers (name start with `hp`) for 15 minutes
-
-$ docker run -it --rm -v /var/run/docker.sock:/var/run/docker.sock gaiaadm/pumba \
-    pumba netem --interface eth1 --duration 15m \
-      loss --percent 1.4 --correlation 25 \
-      re2:^hp
-&lt;/code&gt;&lt;/pre&gt;&lt;pre&gt;&lt;code&gt;# use 2-state Markov model for packet loss probability: P13=15%, P31=85%
-# apply on `eth1` network interface of 3 Docker containers (c1, c2 and c3) for 12 minutes
-
-$ docker run -it --rm -v /var/run/docker.sock:/var/run/docker.sock gaiaadm/pumba \
-    pumba netem --interface eth1 --duration 12m \
-      loss-state -p13 15 -p31 85 \
-      c1 c2 c3
-&lt;/code&gt;&lt;/pre&gt;&lt;pre&gt;&lt;code&gt;# use Gilbert-Elliot model for packet loss probability: p=5%, r=90%, (1-h)=85%, (1-k)=7%
-# apply on `eth2` network interface of `mydb` Docker container for 9 minutes and 30 seconds
-
-$ docker run -it --rm -v /var/run/docker.sock:/var/run/docker.sock gaiaadm/pumba \
-    pumba netem --interface eth2 --duration 9m30s \
-      loss-gemodel --pg 5 --pb 90 --one-h 85 --one-k 7 \
-      mydb
-&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;contribution&#34;&gt;Contribution&lt;/h2&gt;
-&lt;p&gt;Special thanks to &lt;a href=&#34;https://medium.com/@GehaniNeil&#34;&gt;Neil Gehani&lt;/a&gt; for helping me with this post and to &lt;a href=&#34;https://github.com/inbarshani&#34;&gt;Inbar Shani&lt;/a&gt; for initial Pull Request with &lt;code&gt;netem&lt;/code&gt; command.&lt;/p&gt;
-&lt;h2 id=&#34;next&#34;&gt;Next&lt;/h2&gt;
-&lt;p&gt;To see more examples on how to use Pumba with [netem] commands, please refer to the &lt;a href=&#34;https://github.com/gaia-adm/pumba&#34;&gt;Pumba GitHub Repository&lt;/a&gt;. We have open sourced it. We gladly accept ideas, pull requests, issues, or any other contributions.&lt;/p&gt;
-&lt;p&gt;Pumba can be downloaded as precompiled binary (Windows, Linux and MacOS) from the &lt;a href=&#34;https://github.com/gaia-adm/pumba/releases&#34;&gt;GitHub project release page&lt;/a&gt;. It’s also available as a &lt;a href=&#34;https://hub.docker.com/r/gaiaadm/pumba/&#34;&gt;Docker image&lt;/a&gt;.&lt;/p&gt;
-&lt;p&gt;&lt;a href=&#34;https://github.com/gaia-adm/pumba&#34;&gt;Pumba GitHub Repository&lt;/a&gt;&lt;/p&gt;
-</description>
+      <description>TL;DR  Pumba netem delay and netem loss commands can emulate network delay and packet loss between Docker containers, even on single host. Give it a try!
+ Introduction Microservice architecture has been adopted by software teams as a way to deliver business value faster. Container technology enables delivery of microservices into any environment. Docker has accelerated this by providing an easy to use toolset for development teams to build, ship, and run distributed applications.</description>
     </item>
     
   </channel>

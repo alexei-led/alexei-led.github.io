@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>microservice on Terra Nullius</title>
@@ -8,203 +8,19 @@
     <language>en-us</language>
     <copyright>This work is licensed under a Creative Commons Attribution 4.0 International License</copyright>
     <lastBuildDate>Wed, 11 Oct 2017 18:00:00 +0200</lastBuildDate>
-    <atom:link href="https://alexei-led.github.io/tags/microservice/index.xml" rel="self" type="application/rss+xml" />
+    
+	<atom:link href="https://alexei-led.github.io/tags/microservice/index.xml" rel="self" type="application/rss+xml" />
+    
     
     <item>
       <title>Continuous Delivery and Continuous Deployment for Kubernetes microservices</title>
       <link>https://alexei-led.github.io/post/cd_helm_kubernetes/</link>
       <pubDate>Wed, 11 Oct 2017 18:00:00 +0200</pubDate>
+      
       <guid>https://alexei-led.github.io/post/cd_helm_kubernetes/</guid>
-      <description>&lt;h1 id=&#34;continuous-delivery-and-continuous-deployment-for-kubernetes-microservices&#34;&gt;Continuous Delivery and Continuous Deployment for Kubernetes microservices&lt;/h1&gt;
-&lt;blockquote&gt;
-&lt;p&gt;THIS IS A DRAFT VERSION OF POST TO COME, PLEASE DO NOT SHARE&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;h2 id=&#34;starting-point&#34;&gt;Starting Point&lt;/h2&gt;
-&lt;p&gt;Over last years we&amp;rsquo;ve been adopting several concepts for our project, straggling to make them work together.&lt;/p&gt;
-&lt;p&gt;The first one is the &lt;em&gt;Microservice Architecture&lt;/em&gt;. We did not start it clean and by the book, rather applied it to the already existing project: splitting big services into smaller and breaking excessive coupling. The refactoring work is not finished yet. New services, we are building, starts looking more like &amp;ldquo;microservices&amp;rdquo;, while there are still few that, I would call &amp;ldquo;micro-monoliths&amp;rdquo;.
-I have a feeling that this is a typical situation for an already existing project, that tries to adopt this new architecture pattern: &lt;em&gt;you are almost there, but there is always a work to be done&lt;/em&gt;.&lt;/p&gt;
-&lt;p&gt;Another concept is using Docker for building, packaging and deploying application services. We bet on Docker from the very beginning and used it for most of our services and it happens to be a good bet.
-There are still few pure cloud services, that we are using when running our application on public cloud, thing like Databases, Error Analytics, Push Notifications and some others.&lt;/p&gt;
-&lt;p&gt;And one of the latest bet we made was Kubernetes. Kubernetes became the main runtime platform for our application. Adopting Kubernetes, allowed us not only to hide away lots of operational complexity, achieving better availability and scalability, but also be able to run our application on any public cloud and on-premise deployment.&lt;/p&gt;
-&lt;p&gt;With great flexibility, that Kubernetes provides, it brings an additional deployment complexity.
-Suddenly your services are not just plain Docker containers, but there are a lot of new (and useful) Kubernetes resources that you need to take care for: &lt;em&gt;ConfigMsaps&lt;/em&gt;, &lt;em&gt;Secrets&lt;/em&gt;, &lt;em&gt;Services&lt;/em&gt;, &lt;em&gt;Deployments&lt;/em&gt;, &lt;em&gt;StatefulSets&lt;/em&gt;, &lt;em&gt;PVs&lt;/em&gt;, &lt;em&gt;PVCs&lt;/em&gt;, &lt;em&gt;Ingress&lt;/em&gt;, &lt;em&gt;Jobs&lt;/em&gt; and others. And it&amp;rsquo;s not always obvious where to keep all these resources and how they are related to Docker images built by CI tool.&lt;/p&gt;
-&lt;h2 id=&#34;continuous-delivery-vs-continuous-deployment&#34;&gt;&amp;ldquo;Continuous Delivery&amp;rdquo; vs. &amp;ldquo;Continuous Deployment&amp;rdquo;&lt;/h2&gt;
-&lt;p&gt;The ambiguity of &lt;strong&gt;CD&lt;/strong&gt; term annoys me a lot. Different people mean different things when using this term. And it&amp;rsquo;s not only about abbreviation meaning: &lt;em&gt;Continuous Deployment vs Continuous Delivery&lt;/em&gt;, but also &lt;em&gt;what do people really mean&lt;/em&gt;, when using this abbreviation.&lt;/p&gt;
-&lt;p&gt;Still, it looks like there is a common agreement that &lt;em&gt;Continuous Deployment (CD)&lt;/em&gt; is a super-set of &lt;em&gt;Continuous Delivery (CD)&lt;/em&gt;. And the main difference, so far, is that &lt;em&gt;Continuous Deployment&lt;/em&gt; is 100% automated, while in &lt;em&gt;Continuous Delivery&lt;/em&gt; there are still some steps that should be done manually.&lt;/p&gt;
-&lt;p&gt;In our project, for example, we succeeded to achieve &lt;em&gt;Continuous Delivery&lt;/em&gt;, that serves us well both for SaaS and on-premise versions of our product. Our next goal is to create fluent &lt;em&gt;Continuous Deployment&lt;/em&gt; for SaaS version. We would like to be able release a change automatically to production, without human intervention, and be able to rollback to the previous version if something went wrong.&lt;/p&gt;
-&lt;h2 id=&#34;kubernetes-application-and-release-content&#34;&gt;Kubernetes Application and Release Content&lt;/h2&gt;
-&lt;p&gt;Now let&amp;rsquo;s talk about &lt;em&gt;Release&lt;/em&gt; and try to define &lt;em&gt;what is a &lt;strong&gt;Release Content&lt;/strong&gt;?&lt;/em&gt;.&lt;/p&gt;
-&lt;p&gt;When we are releasing a &lt;em&gt;change&lt;/em&gt; to some runtime environment (&lt;code&gt;development&lt;/code&gt;, &lt;code&gt;staging&lt;/code&gt; or &lt;code&gt;production&lt;/code&gt;), it&amp;rsquo;s not always a &lt;em&gt;code change&lt;/em&gt;, that is represented by a newly backed Docker image with some tag. Change can be done to application configurations, secrets, ingress rules, jobs we are running, volumes and other resources. It would be nice to be able to release all these changes in the same way as we release a &lt;em&gt;code change&lt;/em&gt;. Actually, a change can be a mixture of both and in practice, it&amp;rsquo;s not a rare use case.&lt;/p&gt;
-&lt;p&gt;So, we need to find a good methodology and supporting technology, that will allow us to release a new version of our Kubernetes application, that might be composed of multiple changes and these changes are not only new Docker image tags. This methodology should allow us to do it repeatedly on any runtime environment (Kubernetes cluster in our case) and be able to rollback &lt;em&gt;ALL&lt;/em&gt; changes to the previous version if something went wrong.&lt;/p&gt;
-&lt;p&gt;That&amp;rsquo;s why we adopted &lt;a href=&#34;https://www.helm.sh&#34;&gt;Helm&lt;/a&gt; as our main release management tool for Kubernetes.&lt;/p&gt;
-&lt;h2 id=&#34;helm-recap&#34;&gt;Helm recap&lt;/h2&gt;
-&lt;p&gt;This post is not about Helm, so Helm recap will be very short. I encourage you to read &lt;a href=&#34;https://www.helm.sh&#34;&gt;Helm&lt;/a&gt; documentation, it&amp;rsquo;s complete and well written.&lt;/p&gt;
-&lt;p&gt;Just to remind - core Helm concepts are:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;(Helm) Chart&lt;/strong&gt; - is a package (&lt;code&gt;tar&lt;/code&gt; archive) with Kubernetes &lt;code&gt;YAML&lt;/code&gt; templates (for different Kubernetes resources) and default values (also stored in &lt;code&gt;YAML&lt;/code&gt; files). Helm uses &lt;em&gt;chart&lt;/em&gt; to install a new or update an existing &lt;em&gt;(Helm) release&lt;/em&gt;.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;(Helm) Release&lt;/strong&gt; - is a Kubernetes application instance, installed with Helm. It is possible to create multiple &lt;em&gt;releases&lt;/em&gt; from the same &lt;em&gt;chart&lt;/em&gt; version.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;(Release) Revision&lt;/strong&gt; - when updating an existing &lt;em&gt;release&lt;/em&gt;, a new &lt;em&gt;revision&lt;/em&gt; is created. Helm can rollback a &lt;em&gt;release&lt;/em&gt; to the previous &lt;em&gt;revision&lt;/em&gt;. Helm stores all &lt;em&gt;revisions&lt;/em&gt; in &lt;em&gt;ConfigMap&lt;/em&gt; and it&amp;rsquo;s possible to list previous &lt;em&gt;releases&lt;/em&gt; with &lt;code&gt;helm history&lt;/code&gt; command.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Chart Repository&lt;/strong&gt; - is a location where packaged &lt;em&gt;charts&lt;/em&gt; can be stored and shared. Any web server that can store and serve static files can be used as &lt;em&gt;Chart Repository&lt;/em&gt; (Nginx, GitHub, AWS S3 and others).&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;Helm consists of the server, called &lt;em&gt;Tiller&lt;/em&gt; and the command line client, called &lt;code&gt;helm&lt;/code&gt;. When releasing a new version (or updating an existing) &lt;code&gt;helm&lt;/code&gt; client sends &lt;em&gt;chart&lt;/em&gt; (template files and values) to the Helm server. &lt;em&gt;Tiller&lt;/em&gt; server generates valid Kubernetes &lt;code&gt;yaml&lt;/code&gt; files from templates and values and deploys them to Kubernetes, using Kubernetes API. &lt;em&gt;Tiller&lt;/em&gt; also saves generated &lt;code&gt;yaml&lt;/code&gt; files as a new revision inside &lt;code&gt;ConfigMaps&lt;/code&gt; and can use previously saved revision for rollback operation.&lt;/p&gt;
-&lt;p&gt;It was a short recap. Helm is a flexible release management system and can be extended with plugins and hooks.&lt;/p&gt;
-&lt;h2 id=&#34;helm-chart-management&#34;&gt;Helm Chart Management&lt;/h2&gt;
-&lt;p&gt;Typical Helm &lt;em&gt;chart&lt;/em&gt; contains a list of template files (&lt;code&gt;yaml&lt;/code&gt; files with &lt;code&gt;go templates&lt;/code&gt; commands) and values files (with configurations and secrets).&lt;/p&gt;
-&lt;p&gt;We use &lt;em&gt;Git&lt;/em&gt; to store all our Helm &lt;em&gt;chart&lt;/em&gt; files and Amazon S3 for &lt;em&gt;chart repository&lt;/em&gt;.&lt;/p&gt;
-&lt;p&gt;Short &lt;em&gt;How-To&lt;/em&gt; guide:&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;Adopt some Git management methodology. We use something very close to the &lt;a href=&#34;http://www.nicoespeon.com/en/2013/08/which-git-workflow-for-my-project/#the-github-flow&#34;&gt;GitHub Flow model&lt;/a&gt;
-&lt;img src=&#34;https://alexei-led.github.io/img/github-flow-branching-model.jpg&#34; alt=&#34;GitHub Flow&#34;&gt;&lt;/li&gt;
-&lt;li&gt;Have a &lt;code&gt;git&lt;/code&gt; repository for each microservice. Our typical project structure:
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# chart files&lt;/span&gt;
-chart/
-    &lt;span style=&#34;color:#75715e&#34;&gt;# chart templates&lt;/span&gt;
-    templates/
-    &lt;span style=&#34;color:#75715e&#34;&gt;# external dependency&lt;/span&gt;
-    requirements.yaml
-    &lt;span style=&#34;color:#75715e&#34;&gt;# default values&lt;/span&gt;
-    values.yaml
-    &lt;span style=&#34;color:#75715e&#34;&gt;# chart definition&lt;/span&gt;
-    Chart.yaml
-&lt;span style=&#34;color:#75715e&#34;&gt;# source code&lt;/span&gt;
-scr/
-&lt;span style=&#34;color:#75715e&#34;&gt;# test code&lt;/span&gt;
-test/
-&lt;span style=&#34;color:#75715e&#34;&gt;# build scripts&lt;/span&gt;
-hack/
-&lt;span style=&#34;color:#75715e&#34;&gt;# multi-stage Docker build file&lt;/span&gt;
-Dockerfile
-&lt;span style=&#34;color:#75715e&#34;&gt;# Codefresh CI/CD pipeline&lt;/span&gt;
-codefresh.yaml
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
-&lt;li&gt;We keep our application &lt;em&gt;chart&lt;/em&gt; in a separate &lt;code&gt;git&lt;/code&gt; repository. The application &lt;em&gt;chart&lt;/em&gt; does not contain templates, but only list of third party charts it needs (&lt;code&gt;requirements.yaml&lt;/code&gt; file) and values files for different runtime environments (&lt;code&gt;testing&lt;/code&gt;, &lt;code&gt;staging&lt;/code&gt; and &lt;code&gt;production&lt;/code&gt;)&lt;/li&gt;
-&lt;li&gt;All &lt;em&gt;secrets&lt;/em&gt; in values files are encrypted with &lt;a href=&#34;https://github.com/mozilla/sops&#34;&gt;sops&lt;/a&gt; tool and we defined a &lt;code&gt;.gitignore&lt;/code&gt; file and setup a &lt;code&gt;git pre-commit hook&lt;/code&gt; to avoid unintentional commit of decrypted secrets.&lt;/li&gt;
-&lt;/ol&gt;
-&lt;h2 id=&#34;docker-continuous-integration&#34;&gt;Docker Continuous Integration&lt;/h2&gt;
-&lt;p&gt;Building and testing code on &lt;code&gt;git push/tag&lt;/code&gt; event and packaging it into some build artifact is a common knowledge and there are tons of tools, services, and tutorials how to do it.&lt;/p&gt;
-&lt;p&gt;Codefresh is one of such services, which is tuned effectively build Docker images.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Codefresh Docker CI&lt;/strong&gt; has one significant benefit versus other similar services - besides just being fast CI for Docker, it maintains a traceability links between git commits, builds, Docker images and Helm Releases running on Kubernetes clusters.&lt;/p&gt;
-&lt;h3 id=&#34;typical-docker-ci-flow&#34;&gt;Typical Docker CI flow&lt;/h3&gt;
-&lt;p&gt;&lt;img src=&#34;https://alexei-led.github.io/img/docker_ci.png&#34; alt=&#34;Docker CI&#34;&gt;&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;Trigger CI pipeline on &lt;code&gt;push&lt;/code&gt; event&lt;/li&gt;
-&lt;li&gt;Build and test service code. &lt;em&gt;Tip:&lt;/em&gt; give a try to a Docker multi-stage build.&lt;/li&gt;
-&lt;li&gt;&lt;em&gt;Tip:&lt;/em&gt; Embed the &lt;code&gt;git commit&lt;/code&gt; details into the Docker image (using Docker labels). I suggest following &lt;a href=&#34;http://label-schema.org&#34;&gt;Label Schema convention&lt;/a&gt;.&lt;/li&gt;
-&lt;li&gt;Tag Docker image with &lt;code&gt;{branch}-{short SHA}&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;Push newly created Docker image into preferred Docker Registry&lt;/li&gt;
-&lt;/ol&gt;
-&lt;h3 id=&#34;docker-multistage-build&#34;&gt;Docker multistage build&lt;/h3&gt;
-&lt;p&gt;With a Docker &lt;a href=&#34;https://codefresh.io/blog/node_docker_multistage/&#34;&gt;multi-stage build&lt;/a&gt;, you can even remove a need to learn a custom CI DSL syntax, like Jenkins Job/Pipeline, or other &lt;code&gt;YAML&lt;/code&gt; based DSL. Just use a familiar &lt;code&gt;Dockerfile&lt;/code&gt; imperative syntax to describe all required CI stages (&lt;code&gt;build&lt;/code&gt;, &lt;code&gt;lint&lt;/code&gt;, &lt;code&gt;test&lt;/code&gt;, &lt;code&gt;package&lt;/code&gt;) and create a &lt;em&gt;thin and secure&lt;/em&gt; final Docker image, that contains only bare minimum, required to run the service.&lt;/p&gt;
-&lt;p&gt;Using multi-stage Docker build, has other benefits.&lt;/p&gt;
-&lt;p&gt;It allows you to use the same CI flow both on the developer machine and the CI server. It can help you to switch easily between different CI services, using the same &lt;code&gt;Dockerfile&lt;/code&gt;. The only thing you need is a right Docker daemon version (&amp;lsquo;&amp;gt; 17.05&amp;rsquo;). So, select CI service that supports latest Docker daemon versions.&lt;/p&gt;
-&lt;h4 id=&#34;example-nodejs-multi-stage-dockerfile&#34;&gt;Example: Node.js multi-stage Dockerfile&lt;/h4&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-dockerfile&#34; data-lang=&#34;dockerfile&#34;&gt;&lt;span style=&#34;color:#75715e&#34;&gt;#&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# ---- Base Node ----&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;FROM&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt; alpine:3.5 AS base&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# install node&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;RUN&lt;/span&gt; apk add --no-cache nodejs-npm tini&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# set working directory&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;WORKDIR&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt; /root/chat&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# Set tini as entrypoint&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;ENTRYPOINT&lt;/span&gt; [&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;/sbin/tini&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;--&amp;#34;&lt;/span&gt;]&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# copy project file&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;COPY&lt;/span&gt; package.json .&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;#&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# ---- Dependencies ----&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;FROM&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt; base AS dependencies&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# install node packages&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;RUN&lt;/span&gt; npm set progress&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;false &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; npm config set depth &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;RUN&lt;/span&gt; npm install --only&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;production &lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# copy production node_modules aside&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;RUN&lt;/span&gt; cp -R node_modules prod_node_modules&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# install ALL node_modules, including &amp;#39;devDependencies&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;RUN&lt;/span&gt; npm install&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;#&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# ---- Test ----&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# run linters, setup and tests&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;FROM&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt; dependencies AS test&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;COPY&lt;/span&gt; . .&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;RUN&lt;/span&gt;  npm run lint &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; npm run setup &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; npm run test&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;#&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# ---- Release ----&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;FROM&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt; base AS release&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# copy production node_modules&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;COPY&lt;/span&gt; --from&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;dependencies /root/chat/prod_node_modules ./node_modules&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# copy app sources&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;COPY&lt;/span&gt; . .&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# expose port and define CMD&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;EXPOSE&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt; 5000&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;CMD&lt;/span&gt; npm run start&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;kubernetes-continuous-delivery-cd&#34;&gt;Kubernetes Continuous Delivery (CD)&lt;/h2&gt;
-&lt;p&gt;Building Docker image on &lt;code&gt;git push&lt;/code&gt; is a very first step you need to automate, but &amp;hellip;&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;&lt;em&gt;Docker Continuous Integration&lt;/em&gt; is not a &lt;em&gt;Kubernetes Continuous Deployment/Delivery&lt;/em&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;After CI completes, you just have a new build artifact - a Docker image file.&lt;/p&gt;
-&lt;p&gt;Now, somehow you need to deploy it to a desired environment (Kubernetes cluster) and maybe also need to modify other Kubernetes resources, like configurations, secrets, volumes, policies, and others. Or maybe you do not have a &lt;em&gt;&amp;ldquo;pure&amp;rdquo;&lt;/em&gt; microservice architecture and some of your services still have some kind of inter-dependency and have to be released together. I know, this is not &lt;em&gt;&amp;ldquo;by the book&amp;rdquo;&lt;/em&gt;, but this is a very common use case: people are not perfect and not all architectures out there perfect too. Usually, you start from an already existing project and try to move it to a new &lt;em&gt;ideal&lt;/em&gt; architecture step by step.&lt;/p&gt;
-&lt;p&gt;So, on one side, you have one or more freshly backed Docker images. On the other side, there are one or more environments where you want to deploy these images with related configuration changes. And most likely, you would like to reduce required manual effort to the bare minimum or dismiss it completely, if possible.&lt;/p&gt;
-&lt;p&gt;&lt;em&gt;Continuous Delivery&lt;/em&gt; is the next step we are taking. Most of the CD tasks should be automated, while there still may be a few tasks that should be done manually. The reason for having manual tasks can be different: either you cannot achieve full automation or you want to have a feeling of control (deciding when to release by pressing some &amp;ldquo;Release&amp;rdquo; button), or there is some manual effort required (bring the new server and switch in on :) )&lt;/p&gt;
-&lt;p&gt;For our &lt;em&gt;Kubernetes Continuous Delivery&lt;/em&gt; pipeline, we manually update Codefresh application Helm &lt;em&gt;chart&lt;/em&gt; with appropriate image tags and sometimes we also update different Kubernetes &lt;code&gt;YAML&lt;/code&gt; template files too (defining a new &lt;em&gt;PVC&lt;/em&gt; or environment variable). Once changes to our application &lt;em&gt;chart&lt;/em&gt; are pushed into the git repository, an automated &lt;em&gt;Continuous Delivery&lt;/em&gt; pipeline execution is triggered.&lt;/p&gt;
-&lt;p&gt;Codefresh includes some helper steps that make building &lt;strong&gt;Kubernetes CD&lt;/strong&gt; pipeline easier. First, we have a built-in &lt;code&gt;helm update&lt;/code&gt; step that can install or update a Helm chart on specified Kubernetes cluster or namespace, using Kubernetes context, defined in Codefresh account.&lt;/p&gt;
-&lt;p&gt;Codefresh also provides a nice view of what is running in your Kubernetes cluster, where it comes from (release, build) and what does it contain: images, image metadata (quality, security, etc.), code commits.&lt;/p&gt;
-&lt;p&gt;We use our own service (Codefresh) to build an effective Kubernetes &lt;em&gt;Continuous Delivery&lt;/em&gt; pipeline for deploying Codefresh itself. We also constantly add new features and useful functionality that simplify our life (as developers) and hopefully help our customers too.&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://alexei-led.github.io/img/cf_helm_rel.png&#34; alt=&#34;Codefresh Helm Release View&#34;&gt;&lt;/p&gt;
-&lt;h3 id=&#34;typical-kubernetes-continuous-delivery-flow&#34;&gt;Typical Kubernetes Continuous Delivery flow&lt;/h3&gt;
-&lt;p&gt;&lt;img src=&#34;https://alexei-led.github.io/img/k8s_cd.png&#34; alt=&#34;Kubernetes Continuous Delivery&#34;&gt;&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;Setup a Docker CI for the application microservices&lt;/li&gt;
-&lt;li&gt;Update microservice/s code and &lt;em&gt;chart&lt;/em&gt; template files, if needed (adding ports, env variables, volumes, etc.)&lt;/li&gt;
-&lt;li&gt;Wait till Docker CI completes and you have a new Docker image for updated microservice/s&lt;/li&gt;
-&lt;li&gt;Manage the application Helm chart code in separate &lt;code&gt;git&lt;/code&gt; repository; use the same git branch methodology as for microservices&lt;/li&gt;
-&lt;li&gt;Manually update &lt;code&gt;imageTag&lt;/code&gt;s for updated microservice/s&lt;/li&gt;
-&lt;li&gt;Manually update the application Helm &lt;em&gt;chart&lt;/em&gt; version&lt;/li&gt;
-&lt;li&gt;Trigger CD pipeline on &lt;code&gt;git push&lt;/code&gt; event for the application Helm &lt;em&gt;chart&lt;/em&gt; git repository
-&lt;ul&gt;
-&lt;li&gt;validate Helm chart syntax: use &lt;code&gt;helm lint&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;convert Helm chart to Kubernetes template files (with &lt;code&gt;helm template&lt;/code&gt; plugin) and use &lt;a href=&#34;https://github.com/garethr/kubeval&#34;&gt;&lt;code&gt;kubeval&lt;/code&gt;&lt;/a&gt; to validate these files&lt;/li&gt;
-&lt;li&gt;package the application Helm &lt;code&gt;chart&lt;/code&gt; and push it to the Helm &lt;em&gt;chart repository&lt;/em&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;em&gt;Tip:&lt;/em&gt; create few chart repositories; I suggest having a &lt;em&gt;chart repository&lt;/em&gt; per environment: &lt;code&gt;production&lt;/code&gt;, &lt;code&gt;staging&lt;/code&gt;, &lt;code&gt;develop&lt;/code&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;Manually (or automatically) execute &lt;code&gt;helm upgrade --install&lt;/code&gt; from corresponding &lt;em&gt;chart repository&lt;/em&gt;&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;After CD completes, we have a new &lt;strong&gt;artifact&lt;/strong&gt; - an updated Helm &lt;em&gt;chart package&lt;/em&gt; (&lt;code&gt;tar&lt;/code&gt; archive) of our Kubernetes application with a new version number.&lt;/p&gt;
-&lt;p&gt;Now, we can run &lt;code&gt;help upgrade --install&lt;/code&gt; command creating a new &lt;em&gt;revision&lt;/em&gt; for the application &lt;em&gt;release&lt;/em&gt;. If something goes wrong, we can always rollback failed release to the previous &lt;em&gt;revision&lt;/em&gt;. For the sake of safety, I suggest first to run &lt;code&gt;helm diff&lt;/code&gt; (using &lt;code&gt;helm diff&lt;/code&gt; plugin) or at least use a &lt;code&gt;--dry-run&lt;/code&gt; flag for the first run, inspect the difference between a new &lt;em&gt;release&lt;/em&gt; version and already installed &lt;em&gt;revision&lt;/em&gt;. If you are ok with upcoming changes, accept them and run the &lt;code&gt;helm upgrade --install&lt;/code&gt; command without &lt;code&gt;--dry-run&lt;/code&gt; flag.&lt;/p&gt;
-&lt;h2 id=&#34;kubernetes-continuous-deployment-cd&#34;&gt;Kubernetes Continuous Deployment (CD)&lt;/h2&gt;
-&lt;p&gt;Based on above definition, to achieve &lt;em&gt;Continuous Deployment&lt;/em&gt; we should try to avoid all manual steps, besides &lt;code&gt;git push&lt;/code&gt; for code and configuration changes. All actions, running after &lt;code&gt;git push&lt;/code&gt;, should be 100% automated and deliver all changes to a corresponding runtime environment.&lt;/p&gt;
-&lt;p&gt;Let&amp;rsquo;s take a look at manual steps from &amp;ldquo;Continuous Delivery&amp;rdquo; pipeline and think about &lt;em&gt;how can we automate them?&lt;/em&gt;&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://alexei-led.github.io/img/k8s_cdd.png&#34; alt=&#34;Kubernetes Continuous Deployment&#34;&gt;&lt;/p&gt;
-&lt;h3 id=&#34;automate-update-microservice-imagetag-after-successful-docker-push&#34;&gt;Automate: Update microservice imageTag after successful &lt;code&gt;docker push&lt;/code&gt;&lt;/h3&gt;
-&lt;p&gt;After a new Docker image for some microservice pushed to a Docker Registry, we would like to update the microservice Helm &lt;em&gt;chart&lt;/em&gt; with the new Docker image tag. There are two (at least) options to do this.&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;Add a Docker Registry &lt;em&gt;WebHook&lt;/em&gt; handler (for example, using AWS Lambda). Take the new image tag from the DockerHub &lt;code&gt;push&lt;/code&gt; event payload and update corresponding &lt;code&gt;imageTag&lt;/code&gt; in the Application Helm &lt;em&gt;chart&lt;/em&gt;. For GitHub, we can use GitHub API to update a single file or bash scripting with mixture of &lt;code&gt;sed&lt;/code&gt; and &lt;code&gt;git&lt;/code&gt; commands.&lt;/li&gt;
-&lt;li&gt;Add an additional step to every microservice CI pipeline, after &lt;code&gt;docker push&lt;/code&gt; step, to update a corresponding &lt;code&gt;imageTag&lt;/code&gt; for the microservice Helm &lt;em&gt;chart&lt;/em&gt;&lt;/li&gt;
-&lt;/ol&gt;
-&lt;h3 id=&#34;automate-deploy-application-helm-chart&#34;&gt;Automate: Deploy Application Helm chart&lt;/h3&gt;
-&lt;p&gt;After a new &lt;em&gt;chart&lt;/em&gt; version uploaded to a &lt;em&gt;chart repository&lt;/em&gt;, we would like to deploy it automatically to &amp;ldquo;linked&amp;rdquo; runtime environment and rollback on failure.&lt;/p&gt;
-&lt;p&gt;Helm &lt;em&gt;chart repository&lt;/em&gt; is not a real server that aware of deployed &lt;em&gt;charts&lt;/em&gt;. It is possible to use any Web server that can serve static files as a Helm &lt;em&gt;chart repository&lt;/em&gt;. In general, I like simplicity, but sometimes it leads to naive design and lack of basic functionality. With Helm &lt;em&gt;chart repository&lt;/em&gt; it is the case.
-Therefore, I recommend using a web server that supports nice API and allows to get notifications about content change without &lt;em&gt;pull loop&lt;/em&gt;. Amazon S3 can be a good choice for Helm &lt;em&gt;chart repository&lt;/em&gt;&lt;/p&gt;
-&lt;p&gt;Once you have a &lt;em&gt;chart repository&lt;/em&gt; up and running and can get notifications about a content update (as &lt;code&gt;WebHook&lt;/code&gt; or with &lt;code&gt;pool loop&lt;/code&gt;), and make next steps towards Kubernetes &lt;em&gt;Continuous Deployment&lt;/em&gt;.&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;Get updates from Helm &lt;em&gt;chart repository&lt;/em&gt;: new &lt;em&gt;chart&lt;/em&gt; version&lt;/li&gt;
-&lt;li&gt;Run &lt;code&gt;helm update --install&lt;/code&gt; command to update/install a new application version on &amp;ldquo;linked&amp;rdquo; runtime environment&lt;/li&gt;
-&lt;li&gt;Run post-install and in-cluster integration tests&lt;/li&gt;
-&lt;li&gt;Rollback to the previous application revision on any &amp;ldquo;failure&amp;rdquo;&lt;/li&gt;
-&lt;/ol&gt;
-&lt;h2 id=&#34;summary&#34;&gt;Summary&lt;/h2&gt;
-&lt;p&gt;This post describes our current Kubernetes &lt;em&gt;Continuous Delivery&lt;/em&gt;&amp;rdquo; pipeline we succeeded to setup. There are still things we need to improve and change in order to achieve fully automated &lt;em&gt;Continuous Deployment&lt;/em&gt;.&lt;/p&gt;
-&lt;p&gt;We constantly change Codefresh to be the product that helps us and our customers to build and maintain effective Kubernetes CD pipelines. Give it a try and let us know how can we improve it.&lt;/p&gt;
-&lt;hr&gt;
-&lt;p&gt;Hope, you find this post useful. I look forward to your comments and any questions you have.&lt;/p&gt;
-&lt;hr&gt;
-&lt;p&gt;&lt;em&gt;This is a &lt;strong&gt;working draft&lt;/strong&gt; version. The final post version is published at &lt;a href=&#34;https://codefresh.io/blog/cd_helm_kubernetes_microservices/&#34;&gt;Codefresh Blog&lt;/a&gt; on December 4, 2018.&lt;/em&gt;&lt;/p&gt;
-</description>
+      <description>Continuous Delivery and Continuous Deployment for Kubernetes microservices  THIS IS A DRAFT VERSION OF POST TO COME, PLEASE DO NOT SHARE
+ Starting Point Over last years we&amp;rsquo;ve been adopting several concepts for our project, straggling to make them work together.
+The first one is the Microservice Architecture. We did not start it clean and by the book, rather applied it to the already existing project: splitting big services into smaller and breaking excessive coupling.</description>
     </item>
     
   </channel>

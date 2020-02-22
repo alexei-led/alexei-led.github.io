@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>fleet on Terra Nullius</title>
@@ -8,86 +8,19 @@
     <language>en-us</language>
     <copyright>This work is licensed under a Creative Commons Attribution 4.0 International License</copyright>
     <lastBuildDate>Wed, 30 Dec 2015 11:09:47 +0200</lastBuildDate>
-    <atom:link href="https://alexei-led.github.io/tags/fleet/index.xml" rel="self" type="application/rss+xml" />
+    
+	<atom:link href="https://alexei-led.github.io/tags/fleet/index.xml" rel="self" type="application/rss+xml" />
+    
     
     <item>
       <title>Docker Pattern: Deploy and update dockerized application on cluster</title>
       <link>https://alexei-led.github.io/post/docker_cd_cluster/</link>
       <pubDate>Wed, 30 Dec 2015 11:09:47 +0200</pubDate>
+      
       <guid>https://alexei-led.github.io/post/docker_cd_cluster/</guid>
-      <description>&lt;p&gt;Docker is great technology that simplifies development and deployment of distributed applications.&lt;/p&gt;
-&lt;p&gt;While Docker serves as a core technology, many issues remain to be solved. We find ourselves struggling with some of these issues. For example:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;How to create an elastic Docker cluster?&lt;/li&gt;
-&lt;li&gt;How to deploy and connect multiple containers together?&lt;/li&gt;
-&lt;li&gt;How to build CI/CD process?&lt;/li&gt;
-&lt;li&gt;How to register and discover system services and more?&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;For most, there are open source projects, or services available from the community as well as commercially, including from Docker, Inc.&lt;/p&gt;
-&lt;p&gt;In this post, I would like to address one such problem:&lt;/p&gt;
-&lt;h3 id=&#34;how-to-automate-continuous-delivery-for-a-docker-cluster&#34;&gt;How to automate Continuous Delivery for a Docker cluster?&lt;/h3&gt;
-&lt;p&gt;In our application, every service is packaged as a Docker image. Docker image is our basic deployment unit. In a runtime environment (production, testing and others), we may have multiple containers, created from this image. For each service, we have a separate Git repository and one or more Dockerfile(s). We use this for building, testing, and packaging - will explain our project structure in the next blog post.&lt;/p&gt;
-&lt;p&gt;We&amp;rsquo;ve setup an automated Continuous Integration(CI) process. We use CircleCI. For every push to some branch for the service in a Git repository, the CI service triggers a new Docker build process and creates a new Docker image for the service. As part of the build process, if everything compiles and all unit and component tests pass, we push a newly created Docker image to our DockerHub repository.&lt;/p&gt;
-&lt;p&gt;At the end of CI process, we have a newly tested and ‘kosher’ Docker image in our DockerHub repository. Very nice indeed! However, we are left with several questions:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;How to perform a rolling update of a modified service?&lt;/li&gt;
-&lt;li&gt;What is the target environment (i.e. some Docker cluster)?&lt;/li&gt;
-&lt;li&gt;How to find the ip of a dynamically created CoreOS host (we use AWS auto-scale groups)?&lt;/li&gt;
-&lt;li&gt;How to connect to it in a secure way without the need to expose the SSH keys or cloud credentials (we use AWS for infrastructure)?&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;Our application runs on a CoreOS cluster. We have automation scripts that creates the CoreOS cluster on multiple environments: developer machine, AWS, or some VM infrustructure. When we have a new service version (i.e. Docker image), we need to find a way to deploy this service to the cluster. CoreOS uses &lt;strong&gt;fleet&lt;/strong&gt; for cluster orchestration. &lt;strong&gt;Fleetctl&lt;/strong&gt; is a command line client that can talk with the &lt;strong&gt;fleet&lt;/strong&gt; backend and allows you to manage the CoreOS cluster. However, this only works in a local environment (machine or network). For some commands, &lt;strong&gt;fleetctl&lt;/strong&gt; uses HTTP API and for others an SSH connection. The HTTP API is not protected so it makes no sense to expose it from your cloud environment. The SSH connection does not work when your architecture assumes there is no direct SSH connection to the cluster. Connecting through some SSH bastion machine, requiring the use of multiple SSH keys, and creating SSH configuration files, are not supported by the &lt;strong&gt;fleetctl&lt;/strong&gt; program. I have no desire to store SSH keys or my cloud credentials for my production environment on any CI server due to security concerns.&lt;/p&gt;
-&lt;h3 id=&#34;so-what-do-we-do&#34;&gt;So, what do we do?&lt;/h3&gt;
-&lt;p&gt;First, we want to deploy a new service or update some service when there is a new Docker image or image version available. We also want to be selective and pick images created from code in a specific branch or even specific build.&lt;/p&gt;
-&lt;p&gt;The basic idea is to create a Docker image that captures the system configuration. This image stores the configuration of all services at a specific point in time and from specific branches. The container created from this image should be run from within the target cluster. Besides captured configuration, we also have the deployment tool (&lt;strong&gt;fleetctl&lt;/strong&gt; in our case), plus some code that detects services which need to be updated, deleted, or installed as a new service.&lt;/p&gt;
-&lt;p&gt;This idea leads to another question:&lt;/p&gt;
-&lt;h3 id=&#34;how-do-you-define-and-capture-system-configuration&#34;&gt;How do you define and capture system configuration?&lt;/h3&gt;
-&lt;p&gt;In CoreOS, every service can be described in &lt;strong&gt;systemd unit&lt;/strong&gt; files. This is a plain text file that describes how and when to launch your service. I’m not going to explain how to write such files. There is a lot of info online. What&amp;rsquo;s important in our case, the service systemd unit file contains a &lt;code&gt;docker run&lt;/code&gt; command with parameters and image name that needs to be downloaded and executed. We keep the service systemd unit file in the same repository as the service code.&lt;/p&gt;
-&lt;p&gt;The image name: usually defined as a &lt;code&gt;repository/image_name:tag&lt;/code&gt; string. &lt;strong&gt;Tag&lt;/strong&gt; is the most important thing in our solution. As explained above, our CI server automatically builds a new Docker image on every push of the service to the GitHub repository. The CI job also tags the newly created image with 2 tags:&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;&lt;code&gt;branch&lt;/code&gt; tag — taken from GitHub branch that triggered the build (&lt;code&gt;master&lt;/code&gt;, &lt;code&gt;develop&lt;/code&gt;, &lt;code&gt;feature-*&lt;/code&gt; braches in our case)&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;build_num-branch&lt;/code&gt; tag — where we add a running build number prefix, just before branch name
-As a result, in DockerHub, we have images for the latest build in any branch and also for every image we can identify the build job number and the branch it was created from.&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;As I said before, we keep service systemd unit file in the same repository as code. This file &lt;strong&gt;does not&lt;/strong&gt; contain an image tag, only the repository and image name. See example below:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;ExecStart=/usr/bin/docker run —name myservice -p 3000:3000 myrepo/myservice
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Our CI service build job generates a new service &lt;strong&gt;systemd&lt;/strong&gt; unit file for every successful build, replacing the above service invocation command with one that also contains a new tag. Using &lt;code&gt;build_num-branch&lt;/code&gt; pattern (&lt;code&gt;develop&lt;/code&gt; branch in our example), we use two simple utilities for this job: &lt;code&gt;cat&lt;/code&gt; and &lt;code&gt;sed&lt;/code&gt;. It’s possible to use a more advanced template engine.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;ExecStart=/usr/bin/docker run — name myservice -p 3000:3000 myrepo/myservice:58-develop
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;As a last step, the CI build job “deploys” this new unit file to the system configuration Git repository.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;git commit -am “Updating myservice tag to ‘58-develop’” myservice.service
-git push origin develop
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Another CI job that monitors changes in the system configuration repository will trigger a build and create a new Docker image that captures updated system configuration.&lt;/p&gt;
-&lt;p&gt;All we need to do now is to execute this Docker image on the Docker cluster. Something like this:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;docker run -it —-rm=true myrepo/mysysconfig:develop
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Our &lt;strong&gt;system configuration&lt;/strong&gt; Dockerfile:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;FROM alpine:3.2
-MAINTAINER Alexei Ledenev &amp;lt;alexei.led@gmail.com&amp;gt;
-
-ENV FLEET_VERSION 0.11.5
-
-ENV gaia /home/gaia
-RUN mkdir -p ${gaia}
-
-WORKDIR ${gaia}
-COPY *.service ./
-COPY deploy.sh ./
-RUN chmod +x deploy.sh
-
-# install packages and fleetctl client
-RUN apk update &amp;amp;&amp;amp; \
- apk add curl openssl bash &amp;amp;&amp;amp; \
- rm -rf /var/cache/apk/* &amp;amp;&amp;amp; \
- curl -L “https://github.com/coreos/fleet/releases/download/v${FLEET_VERSION}/fleet-v${FLEET_VERSION}-linux-amd64.tar.gz&amp;quot; | tar xz &amp;amp;&amp;amp; \
- mv fleet-v${FLEET_VERSION}-linux-amd64/fleetctl /usr/local/bin/ &amp;amp;&amp;amp; \
- rm -rf fleet-v${FLEET_VERSION}-linux-amd64
-
-CMD [“/bin/bash”, “deploy.sh”]
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&lt;code&gt;deploy.sh&lt;/code&gt; is a shell script for every service check. If it needs to be updated, created, or deleted, it executes the corresponding &lt;strong&gt;fleetctl&lt;/strong&gt; command.&lt;/p&gt;
-&lt;p&gt;The final step:&lt;/p&gt;
-&lt;h3 id=&#34;how-do-you-run-this-system-configuration-container&#34;&gt;How do you run this “system configuration” container?&lt;/h3&gt;
-&lt;p&gt;Currently, in our environment, we do this manually (from SSH shell) for development clusters and use systemd timers for CoreOS clusters on AWS. Systemd timer allows us to define a cron like job at the CoreOS cluster level.&lt;/p&gt;
-&lt;p&gt;We have plans to define a WebHook endpoint that will allow us to trigger deployment/update based on a WebHook event from the CI service.&lt;/p&gt;
-&lt;p&gt;Hope you find this post useful. I look forward to your comments and any questions you have.&lt;/p&gt;
-</description>
+      <description>Docker is great technology that simplifies development and deployment of distributed applications.
+While Docker serves as a core technology, many issues remain to be solved. We find ourselves struggling with some of these issues. For example:
+ How to create an elastic Docker cluster? How to deploy and connect multiple containers together? How to build CI/CD process? How to register and discover system services and more?  For most, there are open source projects, or services available from the community as well as commercially, including from Docker, Inc.</description>
     </item>
     
   </channel>

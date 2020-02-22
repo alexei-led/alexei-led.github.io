@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Tags on Terra Nullius</title>
@@ -8,12 +8,15 @@
     <language>en-us</language>
     <copyright>This work is licensed under a Creative Commons Attribution 4.0 International License</copyright>
     <lastBuildDate>Wed, 12 Feb 2020 10:00:00 +0200</lastBuildDate>
-    <atom:link href="https://alexei-led.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    
+	<atom:link href="https://alexei-led.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    
     
     <item>
       <title>AWS</title>
       <link>https://alexei-led.github.io/tags/aws/</link>
       <pubDate>Wed, 12 Feb 2020 10:00:00 +0200</pubDate>
+      
       <guid>https://alexei-led.github.io/tags/aws/</guid>
       <description></description>
     </item>
@@ -22,6 +25,7 @@
       <title>GCP</title>
       <link>https://alexei-led.github.io/tags/gcp/</link>
       <pubDate>Wed, 12 Feb 2020 10:00:00 +0200</pubDate>
+      
       <guid>https://alexei-led.github.io/tags/gcp/</guid>
       <description></description>
     </item>
@@ -30,6 +34,7 @@
       <title>GKE</title>
       <link>https://alexei-led.github.io/tags/gke/</link>
       <pubDate>Wed, 12 Feb 2020 10:00:00 +0200</pubDate>
+      
       <guid>https://alexei-led.github.io/tags/gke/</guid>
       <description></description>
     </item>
@@ -38,14 +43,16 @@
       <title>IAM</title>
       <link>https://alexei-led.github.io/tags/iam/</link>
       <pubDate>Wed, 12 Feb 2020 10:00:00 +0200</pubDate>
+      
       <guid>https://alexei-led.github.io/tags/iam/</guid>
       <description></description>
     </item>
     
     <item>
-      <title>Kubernetes</title>
+      <title>kubernetes</title>
       <link>https://alexei-led.github.io/tags/kubernetes/</link>
       <pubDate>Wed, 12 Feb 2020 10:00:00 +0200</pubDate>
+      
       <guid>https://alexei-led.github.io/tags/kubernetes/</guid>
       <description></description>
     </item>
@@ -54,6 +61,7 @@
       <title>security</title>
       <link>https://alexei-led.github.io/tags/security/</link>
       <pubDate>Wed, 12 Feb 2020 10:00:00 +0200</pubDate>
+      
       <guid>https://alexei-led.github.io/tags/security/</guid>
       <description></description>
     </item>
@@ -62,6 +70,7 @@
       <title>EKS</title>
       <link>https://alexei-led.github.io/tags/eks/</link>
       <pubDate>Mon, 23 Dec 2019 10:00:00 +0200</pubDate>
+      
       <guid>https://alexei-led.github.io/tags/eks/</guid>
       <description></description>
     </item>
@@ -70,6 +79,7 @@
       <title>Secrets Manager</title>
       <link>https://alexei-led.github.io/tags/secrets-manager/</link>
       <pubDate>Mon, 23 Dec 2019 10:00:00 +0200</pubDate>
+      
       <guid>https://alexei-led.github.io/tags/secrets-manager/</guid>
       <description></description>
     </item>
@@ -78,6 +88,7 @@
       <title>devops</title>
       <link>https://alexei-led.github.io/tags/devops/</link>
       <pubDate>Sat, 27 Jul 2019 10:00:00 +0200</pubDate>
+      
       <guid>https://alexei-led.github.io/tags/devops/</guid>
       <description></description>
     </item>
@@ -86,6 +97,7 @@
       <title>root</title>
       <link>https://alexei-led.github.io/tags/root/</link>
       <pubDate>Sat, 27 Jul 2019 10:00:00 +0200</pubDate>
+      
       <guid>https://alexei-led.github.io/tags/root/</guid>
       <description></description>
     </item>
@@ -94,6 +106,7 @@
       <title>SSH</title>
       <link>https://alexei-led.github.io/tags/ssh/</link>
       <pubDate>Sat, 27 Jul 2019 10:00:00 +0200</pubDate>
+      
       <guid>https://alexei-led.github.io/tags/ssh/</guid>
       <description></description>
     </item>
@@ -102,6 +115,7 @@
       <title>GPU</title>
       <link>https://alexei-led.github.io/tags/gpu/</link>
       <pubDate>Sat, 20 Jul 2019 10:00:00 +0200</pubDate>
+      
       <guid>https://alexei-led.github.io/tags/gpu/</guid>
       <description></description>
     </item>
@@ -110,6 +124,7 @@
       <title>Machine Learning</title>
       <link>https://alexei-led.github.io/tags/machine-learning/</link>
       <pubDate>Sat, 20 Jul 2019 10:00:00 +0200</pubDate>
+      
       <guid>https://alexei-led.github.io/tags/machine-learning/</guid>
       <description></description>
     </item>
@@ -118,15 +133,17 @@
       <title>Spot</title>
       <link>https://alexei-led.github.io/tags/spot/</link>
       <pubDate>Sat, 20 Jul 2019 10:00:00 +0200</pubDate>
+      
       <guid>https://alexei-led.github.io/tags/spot/</guid>
       <description></description>
     </item>
     
     <item>
-      <title>CI/CD</title>
-      <link>https://alexei-led.github.io/tags/ci/cd/</link>
+      <title>ci</title>
+      <link>https://alexei-led.github.io/tags/ci/</link>
       <pubDate>Fri, 08 Mar 2019 10:00:00 +0200</pubDate>
-      <guid>https://alexei-led.github.io/tags/ci/cd/</guid>
+      
+      <guid>https://alexei-led.github.io/tags/ci/</guid>
       <description></description>
     </item>
     
@@ -134,14 +151,16 @@
       <title>Continuous Integration</title>
       <link>https://alexei-led.github.io/tags/continuous-integration/</link>
       <pubDate>Fri, 08 Mar 2019 10:00:00 +0200</pubDate>
+      
       <guid>https://alexei-led.github.io/tags/continuous-integration/</guid>
       <description></description>
     </item>
     
     <item>
-      <title>Helm</title>
+      <title>helm</title>
       <link>https://alexei-led.github.io/tags/helm/</link>
       <pubDate>Fri, 08 Mar 2019 10:00:00 +0200</pubDate>
+      
       <guid>https://alexei-led.github.io/tags/helm/</guid>
       <description></description>
     </item>
@@ -150,15 +169,8 @@
       <title>cd</title>
       <link>https://alexei-led.github.io/tags/cd/</link>
       <pubDate>Wed, 11 Oct 2017 18:00:00 +0200</pubDate>
+      
       <guid>https://alexei-led.github.io/tags/cd/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>ci</title>
-      <link>https://alexei-led.github.io/tags/ci/</link>
-      <pubDate>Wed, 11 Oct 2017 18:00:00 +0200</pubDate>
-      <guid>https://alexei-led.github.io/tags/ci/</guid>
       <description></description>
     </item>
     
@@ -166,6 +178,7 @@
       <title>continuous delivery</title>
       <link>https://alexei-led.github.io/tags/continuous-delivery/</link>
       <pubDate>Wed, 11 Oct 2017 18:00:00 +0200</pubDate>
+      
       <guid>https://alexei-led.github.io/tags/continuous-delivery/</guid>
       <description></description>
     </item>
@@ -174,14 +187,16 @@
       <title>continuous deployment</title>
       <link>https://alexei-led.github.io/tags/continuous-deployment/</link>
       <pubDate>Wed, 11 Oct 2017 18:00:00 +0200</pubDate>
+      
       <guid>https://alexei-led.github.io/tags/continuous-deployment/</guid>
       <description></description>
     </item>
     
     <item>
-      <title>Docker</title>
+      <title>docker</title>
       <link>https://alexei-led.github.io/tags/docker/</link>
       <pubDate>Wed, 11 Oct 2017 18:00:00 +0200</pubDate>
+      
       <guid>https://alexei-led.github.io/tags/docker/</guid>
       <description></description>
     </item>
@@ -190,6 +205,7 @@
       <title>microservice</title>
       <link>https://alexei-led.github.io/tags/microservice/</link>
       <pubDate>Wed, 11 Oct 2017 18:00:00 +0200</pubDate>
+      
       <guid>https://alexei-led.github.io/tags/microservice/</guid>
       <description></description>
     </item>
@@ -198,6 +214,7 @@
       <title>tutorial</title>
       <link>https://alexei-led.github.io/tags/tutorial/</link>
       <pubDate>Wed, 11 Oct 2017 18:00:00 +0200</pubDate>
+      
       <guid>https://alexei-led.github.io/tags/tutorial/</guid>
       <description></description>
     </item>
@@ -206,6 +223,7 @@
       <title>chaos</title>
       <link>https://alexei-led.github.io/tags/chaos/</link>
       <pubDate>Wed, 04 Oct 2017 18:00:00 +0200</pubDate>
+      
       <guid>https://alexei-led.github.io/tags/chaos/</guid>
       <description></description>
     </item>
@@ -214,6 +232,7 @@
       <title>chaos engineering</title>
       <link>https://alexei-led.github.io/tags/chaos-engineering/</link>
       <pubDate>Wed, 04 Oct 2017 18:00:00 +0200</pubDate>
+      
       <guid>https://alexei-led.github.io/tags/chaos-engineering/</guid>
       <description></description>
     </item>
@@ -222,6 +241,7 @@
       <title>chaos monkey</title>
       <link>https://alexei-led.github.io/tags/chaos-monkey/</link>
       <pubDate>Wed, 04 Oct 2017 18:00:00 +0200</pubDate>
+      
       <guid>https://alexei-led.github.io/tags/chaos-monkey/</guid>
       <description></description>
     </item>
@@ -230,6 +250,7 @@
       <title>chaos testing</title>
       <link>https://alexei-led.github.io/tags/chaos-testing/</link>
       <pubDate>Wed, 04 Oct 2017 18:00:00 +0200</pubDate>
+      
       <guid>https://alexei-led.github.io/tags/chaos-testing/</guid>
       <description></description>
     </item>
@@ -238,7 +259,17 @@
       <title>netem</title>
       <link>https://alexei-led.github.io/tags/netem/</link>
       <pubDate>Wed, 04 Oct 2017 18:00:00 +0200</pubDate>
+      
       <guid>https://alexei-led.github.io/tags/netem/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>network</title>
+      <link>https://alexei-led.github.io/tags/network/</link>
+      <pubDate>Wed, 04 Oct 2017 18:00:00 +0200</pubDate>
+      
+      <guid>https://alexei-led.github.io/tags/network/</guid>
       <description></description>
     </item>
     
@@ -246,6 +277,7 @@
       <title>network emulation</title>
       <link>https://alexei-led.github.io/tags/network-emulation/</link>
       <pubDate>Wed, 04 Oct 2017 18:00:00 +0200</pubDate>
+      
       <guid>https://alexei-led.github.io/tags/network-emulation/</guid>
       <description></description>
     </item>
@@ -254,6 +286,7 @@
       <title>testing</title>
       <link>https://alexei-led.github.io/tags/testing/</link>
       <pubDate>Wed, 04 Oct 2017 18:00:00 +0200</pubDate>
+      
       <guid>https://alexei-led.github.io/tags/testing/</guid>
       <description></description>
     </item>
@@ -262,6 +295,7 @@
       <title>debug</title>
       <link>https://alexei-led.github.io/tags/debug/</link>
       <pubDate>Sat, 03 Jun 2017 18:00:00 +0200</pubDate>
+      
       <guid>https://alexei-led.github.io/tags/debug/</guid>
       <description></description>
     </item>
@@ -270,6 +304,7 @@
       <title>Dockerfile</title>
       <link>https://alexei-led.github.io/tags/dockerfile/</link>
       <pubDate>Sat, 03 Jun 2017 18:00:00 +0200</pubDate>
+      
       <guid>https://alexei-led.github.io/tags/dockerfile/</guid>
       <description></description>
     </item>
@@ -278,6 +313,7 @@
       <title>hacks</title>
       <link>https://alexei-led.github.io/tags/hacks/</link>
       <pubDate>Sat, 03 Jun 2017 18:00:00 +0200</pubDate>
+      
       <guid>https://alexei-led.github.io/tags/hacks/</guid>
       <description></description>
     </item>
@@ -286,6 +322,7 @@
       <title>node</title>
       <link>https://alexei-led.github.io/tags/node/</link>
       <pubDate>Sat, 03 Jun 2017 18:00:00 +0200</pubDate>
+      
       <guid>https://alexei-led.github.io/tags/node/</guid>
       <description></description>
     </item>
@@ -294,6 +331,7 @@
       <title>node.js</title>
       <link>https://alexei-led.github.io/tags/node.js/</link>
       <pubDate>Sat, 03 Jun 2017 18:00:00 +0200</pubDate>
+      
       <guid>https://alexei-led.github.io/tags/node.js/</guid>
       <description></description>
     </item>
@@ -302,6 +340,7 @@
       <title>multistage</title>
       <link>https://alexei-led.github.io/tags/multistage/</link>
       <pubDate>Tue, 25 Apr 2017 18:00:00 +0200</pubDate>
+      
       <guid>https://alexei-led.github.io/tags/multistage/</guid>
       <description></description>
     </item>
@@ -310,6 +349,7 @@
       <title>java</title>
       <link>https://alexei-led.github.io/tags/java/</link>
       <pubDate>Tue, 07 Mar 2017 18:00:00 +0200</pubDate>
+      
       <guid>https://alexei-led.github.io/tags/java/</guid>
       <description></description>
     </item>
@@ -318,6 +358,7 @@
       <title>maven</title>
       <link>https://alexei-led.github.io/tags/maven/</link>
       <pubDate>Tue, 07 Mar 2017 18:00:00 +0200</pubDate>
+      
       <guid>https://alexei-led.github.io/tags/maven/</guid>
       <description></description>
     </item>
@@ -326,6 +367,7 @@
       <title>cluster</title>
       <link>https://alexei-led.github.io/tags/cluster/</link>
       <pubDate>Sun, 18 Dec 2016 14:00:00 +0200</pubDate>
+      
       <guid>https://alexei-led.github.io/tags/cluster/</guid>
       <description></description>
     </item>
@@ -334,6 +376,7 @@
       <title>compose</title>
       <link>https://alexei-led.github.io/tags/compose/</link>
       <pubDate>Sun, 18 Dec 2016 14:00:00 +0200</pubDate>
+      
       <guid>https://alexei-led.github.io/tags/compose/</guid>
       <description></description>
     </item>
@@ -342,14 +385,16 @@
       <title>docker-compose</title>
       <link>https://alexei-led.github.io/tags/docker-compose/</link>
       <pubDate>Sun, 18 Dec 2016 14:00:00 +0200</pubDate>
+      
       <guid>https://alexei-led.github.io/tags/docker-compose/</guid>
       <description></description>
     </item>
     
     <item>
-      <title>Swarm</title>
+      <title>swarm</title>
       <link>https://alexei-led.github.io/tags/swarm/</link>
       <pubDate>Sun, 18 Dec 2016 14:00:00 +0200</pubDate>
+      
       <guid>https://alexei-led.github.io/tags/swarm/</guid>
       <description></description>
     </item>
@@ -358,6 +403,7 @@
       <title>build</title>
       <link>https://alexei-led.github.io/tags/build/</link>
       <pubDate>Sat, 26 Nov 2016 16:00:00 +0200</pubDate>
+      
       <guid>https://alexei-led.github.io/tags/build/</guid>
       <description></description>
     </item>
@@ -366,6 +412,7 @@
       <title>dockerignore</title>
       <link>https://alexei-led.github.io/tags/dockerignore/</link>
       <pubDate>Sat, 26 Nov 2016 16:00:00 +0200</pubDate>
+      
       <guid>https://alexei-led.github.io/tags/dockerignore/</guid>
       <description></description>
     </item>
@@ -374,6 +421,7 @@
       <title>1.12</title>
       <link>https://alexei-led.github.io/tags/1.12/</link>
       <pubDate>Thu, 06 Oct 2016 16:00:00 +0200</pubDate>
+      
       <guid>https://alexei-led.github.io/tags/1.12/</guid>
       <description></description>
     </item>
@@ -382,15 +430,8 @@
       <title>MasOS</title>
       <link>https://alexei-led.github.io/tags/masos/</link>
       <pubDate>Thu, 06 Oct 2016 16:00:00 +0200</pubDate>
+      
       <guid>https://alexei-led.github.io/tags/masos/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>network</title>
-      <link>https://alexei-led.github.io/tags/network/</link>
-      <pubDate>Mon, 01 Aug 2016 20:00:00 +0200</pubDate>
-      <guid>https://alexei-led.github.io/tags/network/</guid>
       <description></description>
     </item>
     
@@ -398,6 +439,7 @@
       <title>resilience</title>
       <link>https://alexei-led.github.io/tags/resilience/</link>
       <pubDate>Sat, 16 Apr 2016 20:00:00 +0200</pubDate>
+      
       <guid>https://alexei-led.github.io/tags/resilience/</guid>
       <description></description>
     </item>
@@ -406,6 +448,7 @@
       <title>integration test</title>
       <link>https://alexei-led.github.io/tags/integration-test/</link>
       <pubDate>Mon, 07 Mar 2016 16:39:00 +0200</pubDate>
+      
       <guid>https://alexei-led.github.io/tags/integration-test/</guid>
       <description></description>
     </item>
@@ -414,6 +457,7 @@
       <title>pattern</title>
       <link>https://alexei-led.github.io/tags/pattern/</link>
       <pubDate>Thu, 14 Jan 2016 16:14:47 +0200</pubDate>
+      
       <guid>https://alexei-led.github.io/tags/pattern/</guid>
       <description></description>
     </item>
@@ -422,6 +466,7 @@
       <title>CoreOS</title>
       <link>https://alexei-led.github.io/tags/coreos/</link>
       <pubDate>Wed, 30 Dec 2015 11:09:47 +0200</pubDate>
+      
       <guid>https://alexei-led.github.io/tags/coreos/</guid>
       <description></description>
     </item>
@@ -430,7 +475,17 @@
       <title>fleet</title>
       <link>https://alexei-led.github.io/tags/fleet/</link>
       <pubDate>Wed, 30 Dec 2015 11:09:47 +0200</pubDate>
+      
       <guid>https://alexei-led.github.io/tags/fleet/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>CI/CD</title>
+      <link>https://alexei-led.github.io/tags/ci/cd/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://alexei-led.github.io/tags/ci/cd/</guid>
       <description></description>
     </item>
     

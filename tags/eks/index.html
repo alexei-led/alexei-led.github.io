@@ -1,112 +1,621 @@
-<!DOCTYPE html>
-<html class="nojs" lang="en" dir="ltr">
+<!doctype html>
+<html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width">
-<title>EKS – Terra Nullius</title>
-<link rel="alternate" type="application/rss+xml" title="RSS" href="https://alexei-led.github.io/tags/eks/index.xml">
-<meta name="description" content="">
-<meta name="created" content="2019-12-23T10:00:00+0200">
-<meta name="modified" content="2019-12-23T10:00:00+0200">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EKS &middot; Terra Nullius</title>
+
+    <meta name="description" content="The Programming Blog">
+
+    <meta name="generator" content="Hugo 0.65.2" />
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="alexeiled" />
+    <meta name="twitter:title" content="EKS &middot; Terra Nullius">
+    <meta name="twitter:description" content="The Programming Blog">
+
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="EKS &middot; Terra Nullius">
+    <meta property="og:description" content="The Programming Blog">
+
+    <link href='//fonts.googleapis.com/css?family=Source+Sans+Pro:400,700|Oxygen:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/pure-min.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/grids-responsive-min.css">
+
+    <link rel="stylesheet" href='https://alexei-led.github.io/css/all.min.css'>
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+
+    <link rel="alternate" type="application/rss+xml" title="Terra Nullius" href='https://alexei-led.github.io/index.xml' />
+</head>
+<body>
 
 
-<meta property="og:site_name" content="Terra Nullius">
-<meta property="og:title" content="EKS">
-<meta property="og:url" content="https://alexei-led.github.io/tags/eks/">
-<meta property="og:type" content="website">
+<div id="layout" class="pure-g">
+    <div class="sidebar pure-u-1 pure-u-md-1-4">
+    <div class="header">
+        <hgroup>
+            <h1 class="brand-title"><a href="https://alexei-led.github.io">Terra Nullius</a></h1>
+            <h2 class="brand-tagline"> The Programming Blog </h2>
+        </hgroup>
 
-<meta name="generator" content="Hugo 0.64.1" />
-<meta name="msapplication-TileColor" content="#ffffff">
-<meta name="theme-color" content="#ffffff">
+        <nav class="nav">
+            <ul class="nav-list">
+                
+                <li class="nav-item">
+                    <a class="pure-button" href="https://twitter.com/alexeiled">
+                        <i class="fa fa-twitter"></i> Twitter
+                    </a>
+                </li>
+                
+                
+                <li class="nav-item">
+                    <a class="pure-button" href="https://github.com/alexei-led">
+                        <i class="fa fa-github-alt"></i> Github
+                    </a>
+                </li>
+                
+                
+                
+                <li class="nav-item">
+                    <a class="pure-button" href='https://alexei-led.github.io/index.xml'>
+                        <i class="fa fa-rss"></i> rss
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</div>
 
 
-<link rel="canonical" href="https://alexei-led.github.io/tags/eks/">
-<link rel="apple-touch-icon" href="https://alexei-led.github.io/apple-touch-icon.png">
+    <div class="content pure-u-1 pure-u-md-3-4">
+        <div>
+            
+            <div class="posts">
+                
+                <h1 class="content-subhead">23 Dec 2019, 10:00</h1>
+                <section class="post">
+                    <header class="post-header">
 
-<link rel="stylesheet" href="https://alexei-led.github.io/css/styles.9a3856451d3f4911845551d6f046455bd8cbf120441071c76e7438ba3ac163e1.css">
-<link rel="stylesheet" href="https://alexei-led.github.io/css/print.27fc184f8670f41a2690985390779e7b20335a8fadff8fa015cf9417ffe50c36.css" media="print">
+                        <a href="https://alexei-led.github.io/post/secrets-init/" class="post-title">Kubernetes and Secrets Management in Cloud</a>
 
-<script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "WebPage",
-    "url" : "https://alexei-led.github.io/tags/eks/",
-    "name": "EKS",
-    "description": "The Programming Blog",
-    "mainEntityOfPage": {
-      "@type": "WebPage",
-      "@id": "https://alexei-led.github.io"
-    },
-    "publisher": {
-      "@type": "Organization",
-      "name": "Terra Nullius",
-      "url": "https://alexei-led.github.io"
-    }
-  }
+                        <p class="post-meta">
+                            
+                            
+                                under 
+                                
+                                    <a class="post-category post-category-Development" href='https://alexei-led.github.io/categories/Development'>Development</a>
+                                
+                                    <a class="post-category post-category-Security" href='https://alexei-led.github.io/categories/Security'>Security</a>
+                                
+                                    <a class="post-category post-category-Kubernetes" href='https://alexei-led.github.io/categories/Kubernetes'>Kubernetes</a>
+                                
+                            
+                        </p>
+                    </header>
+
+                    <div class="post-description">
+                        <h2 id="introduction">Introduction</h2>
+<p>Secrets are essential for operation of many production systems. Unintended secrets exposure is one of the top risks that should be properly addressed. Developers should do their best to protect application secrets.</p>
+<p>The problem becomes even harder, once company moves to a microservice architecture and multiple services require an access to different secrets in order to properly work. And this leads to a new challenges: how to distribute, manage, monitor and rotate application secrets, avoiding unintended exposure?</p>
+<h2 id="kubernetes-secrets">Kubernetes Secrets</h2>
+<p>Kubernetes provides an object called Secret, which you can use to store application sensitive data, like passwords, SSH keys, API keys, tokens and others. Kubernetes Secret can be injected into a Pod container either as an environment variable or mounted as a file. Using Kubernetes Secrets, allows to abstract sensitive data and configuration from application deployment.</p>
+<p>For example, a Kubernetes secret can be created with command <code>kubectl create secret</code>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">kubectl create secret generic db-credentials -n default --from-literal<span style="color:#f92672">=</span>user<span style="color:#f92672">=</span>dbuser --from-literal<span style="color:#f92672">=</span>password<span style="color:#f92672">=</span>quick.fox.5312
+</code></pre></div><p>or Kubernetes <code>db-credentials.yaml</code> file, that describes the same secret:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: v1
+<span style="color:#66d9ef">kind</span>: Secret
+<span style="color:#66d9ef">metadata</span>:
+  <span style="color:#66d9ef">name</span>: db-credentials
+<span style="color:#66d9ef">type</span>: Opaque
+<span style="color:#66d9ef">data</span>:
+  <span style="color:#66d9ef">password</span>: cXVpY2suZm94LjUzMTI=
+  <span style="color:#66d9ef">user</span>: ZGJ1c2Vy
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">kubectl create -f db-credentials.yaml
+</code></pre></div><p>Please note, that storing a sensitive data in a Kubernetes Secret does not make it secure. By default, all data in Kubernetes Secrets is stored as a plantext encoded with <code>base64</code>.</p>
+<p>Starting with version 1.13, Kubernetes supports <a href="https://kubernetes.io/docs/tasks/administer-cluster/encrypt-data/">encrypting Secrets data at rest</a>, using <code>EncryptionConfiguration</code> object with built-in or external encryption provider.</p>
+<p>List of currently supported encryption providers:</p>
+<ul>
+<li><a href="https://kubernetes.io/docs/tasks/administer-cluster/encrypt-data/#providers">built-in providers</a>: <code>aescbc</code>, <code>aesgsm</code>, <code>secretbox</code></li>
+<li><a href="https://kubernetes.io/docs/tasks/administer-cluster/kms-provider/">KMS providers</a>:
+<ul>
+<li><a href="https://cloud.google.com/kubernetes-engine/docs/how-to/encrypting-secrets">Google KMS provider</a></li>
+<li><a href="https://github.com/kubernetes-sigs/aws-encryption-provider">AWS KMS provider</a></li>
+<li><a href="https://github.com/Azure/kubernetes-kms">Azure KMS provider</a></li>
+</ul>
+</li>
+</ul>
+<p>However Secrets encryption at rest is not enforced by default. And even when enabled, it is not sufficient and cannot be considered a complete secrets management solution.</p>
+<p>A complete secrets management solution must also support: secrets distribution, rotation, fine-grained access control, audit log, usage monitoring, versioning, strongly encrypted storage, convenient API and client SDK/s and probably some other useful features.</p>
+<h2 id="cloud-secrets-management">Cloud Secrets Management</h2>
+<p>Multiple cloud vendors provide secret management services, as part of their cloud platform offering, helping you to protect secrets needed to access applications, services, and APIs. Using these services eliminates the need to hardcode sensitive information in plain text and develop home-grown secrets management lifecycle. Secrets management services enable you to control access to application secrets using fine-grained permissions and auditing.</p>
+<h2 id="integrating-kubernetes-with-secrets-management-services">Integrating Kubernetes with Secrets Management services</h2>
+<p>In general, any application can use vendor-specific SDK/API to access secrets stored in a secrets management service. Usually this requires modifying application code or using some kind of bootstrap scripts or <a href="https://kubernetes.io/docs/concepts/workloads/pods/init-containers/">Init containers</a>, using client CLI tools or web APIs.</p>
+<h3 id="make-it-easy-with-secrets-init-tool">Make it easy with <code>secrets-init</code> tool</h3>
+<p>We release a <a href="https://github.com/doitintl/secrets-init">doitintl/secrets-init</a> open source tool (Apache License 2.0) that simplifies integration of cloud-native Secrets Management services with containerized workload running on cloud-managed or self-managed Kubernetes clusters.</p>
+<p>In its essence, the <code>secrets-init</code> is a minimalistic init system, designed to run as <code>PID 1</code> inside a container environment, similarly to <a href="https://github.com/Yelp/dumb-init">dumb-init</a>, and provides a fluent integration with multiple cloud-native Secrets Management services, like:</p>
+<ul>
+<li><a href="https://aws.amazon.com/secrets-manager/">AWS Secrets Manager</a></li>
+<li><a href="https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-parameter-store.html">AWS Systems Manager Parameter Store</a></li>
+<li><a href="https://cloud.google.com/secret-manager/docs/">Google Secret Manager (Beta)</a></li>
+</ul>
+<h3 id="why-you-need-an-init-system-in-docker-container">Why you need an init system in Docker container?</h3>
+<p>Please <a href="https://github.com/Yelp/dumb-init/blob/v1.2.0/README.md#why-you-need-an-init-system">read Yelp <em>dumb-init</em> repo explanation</a></p>
+<p>Summary:</p>
+<ul>
+<li>Proper signal forwarding</li>
+<li>Orphaned zombies reaping</li>
+</ul>
+<h3 id="what-secrets-init-does">What <code>secrets-init</code> does</h3>
+<p>The <code>secrets-init</code> runs as <code>PID 1</code>, acting like a simple init system serving as <code>ENTRYPOINT</code> or first container command, which is responsible to launch a child process, proxying all systems signals to a session rooted at that child process. This is the essence of init process. On the other hand, the <code>secrets-init</code> also passes <em>almost</em> all environment variables without modification, replacing special <em>secret variables</em> with values from Secret Management services.</p>
+<h3 id="integration-with-docker">Integration with Docker</h3>
+<p>The <code>secrets-init</code> is a statically compiled binary file (without external dependencies) and can be easily embedded included into any Docker image. Download <code>secrets-init</code> binary and use it as the Docker container <code>ENTRYPOINT</code>.</p>
+<p>For example:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-dockerfile" data-lang="dockerfile"><span style="color:#66d9ef">FROM</span><span style="color:#e6db74"> node:alpine</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e"># download secrets-init binary</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">ENV</span> SECRETS_INIT_VERSION<span style="color:#f92672">=</span>v0.2.1<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">ENV</span> SECRETS_INIT_URL<span style="color:#f92672">=</span>https://github.com/doitintl/secrets-init/releases/download/v0.2.1/secrets-init_Linux_amd64.tar.gz<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">ENV</span> SECRETS_INIT_SHA256<span style="color:#f92672">=</span>a2849460c650e9e7a29d9d0764e2b5fc679961e6667ad1c4416210fa791be29f
+<span style="color:#66d9ef">RUN</span> mkdir -p /opt/secrets-init <span style="color:#f92672">&amp;&amp;</span> cd /opt/secrets-init <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    <span style="color:#f92672">&amp;&amp;</span> wget -qO secrets-init.tar.gz <span style="color:#e6db74">&#34;</span>$SECRETS_INIT_URL<span style="color:#e6db74">&#34;</span> <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    <span style="color:#f92672">&amp;&amp;</span> echo <span style="color:#e6db74">&#34;</span>$SECRETS_INIT_SHA256<span style="color:#e6db74">  secrets-init.tar.gz&#34;</span> | sha256sum -c - <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    <span style="color:#f92672">&amp;&amp;</span> tar -xzvf secrets-init.tar.gz <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    <span style="color:#f92672">&amp;&amp;</span> mv secrets-init /usr/local/bin <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    <span style="color:#f92672">&amp;&amp;</span> rm secrets-init.tar.gz<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e"># set container entrypoint to secrets-init</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">ENTRYPOINT</span> [<span style="color:#e6db74">&#34;/usr/local/bin/secrets-init&#34;</span>]<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e"># ... copy app dependencies and code</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e"># ... define app CMD</span><span style="color:#960050;background-color:#1e0010">
+</span></code></pre></div><h3 id="integration-with-kubernetes">Integration with Kubernetes</h3>
+<p>In order to use <code>secrets-init</code> with Kubernetes object (Pod/Deployment/Job/etc) without modifying Docker image, consider injecting <code>secrets-init</code> into a target Pod through <a href="https://kubernetes.io/docs/concepts/workloads/pods/init-containers/">Init Container</a>.
+You can use the <a href="https://hub.docker.com/r/doitintl/secrets-init">doitint/secrets-init</a> Docker image or create your own. Copy <code>secrets-init</code> binary from init container to a common shared volume and change Pod <code>command</code> to run <code>secrets-init</code> as a first command.</p>
+<h3 id="integration-with-aws-secrets-manager">Integration with AWS Secrets Manager</h3>
+<p>To start using <code>secrets-init</code> with AWS Secrets Manager, user should put an AWS secret ARN as environment variable value. The <code>secrets-init</code> will resolve any environment value, using specified ARN, to a referenced secret value.</p>
+<p>Example, using <code>secrets-init</code> with Kubernetes Job:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: batch/v1
+<span style="color:#66d9ef">kind</span>: Job
+<span style="color:#66d9ef">metadata</span>:
+  <span style="color:#66d9ef">name</span>: printenv-job
+<span style="color:#66d9ef">spec</span>:
+  <span style="color:#66d9ef">template</span>:
+    <span style="color:#66d9ef">spec</span>:
+      <span style="color:#66d9ef">restartPolicy</span>: Never
+      <span style="color:#66d9ef">serviceAccountName</span>: iam-secrets-manager-ro
+      <span style="color:#66d9ef">initContainers</span>:
+        - <span style="color:#66d9ef">name</span>: secrets-init
+          <span style="color:#66d9ef">image</span>: doitintl/secrets-init:v0<span style="color:#ae81ff">.2.1</span>
+          <span style="color:#66d9ef">command</span>:
+            - sh
+          <span style="color:#66d9ef">args</span>:
+            - -c
+            - <span style="color:#e6db74">&#34;cp /usr/local/bin/secrets-init /secrets-init/bin/&#34;</span>
+          <span style="color:#66d9ef">volumeMounts</span>:
+          - <span style="color:#66d9ef">mountPath</span>: /secrets-init/bin
+            <span style="color:#66d9ef">name</span>: secrets-init-volume
+      <span style="color:#66d9ef">containers</span>:
+      - <span style="color:#66d9ef">image</span>: alpine:<span style="color:#ae81ff">3</span>
+        <span style="color:#66d9ef">name</span>: print-env
+        <span style="color:#66d9ef">env</span>:
+          - <span style="color:#66d9ef">name</span>: AWS_REGION
+            <span style="color:#66d9ef">value</span>: us-west<span style="color:#ae81ff">-2</span>
+          - <span style="color:#66d9ef">name</span>: TOP_SECRET
+            <span style="color:#66d9ef">value</span>: arn:aws:secretsmanager:us-west<span style="color:#ae81ff">-2</span>:<span style="color:#ae81ff">906364353610</span>:secret:topsecret-Acdaq8
+        <span style="color:#66d9ef">command</span>:
+          - /secrets-init/bin/secrets-init
+        <span style="color:#66d9ef">args</span>:
+          - sh
+          - -c
+          - <span style="color:#e6db74">&#39;echo $TOP_SECRET&#39;</span>
+        <span style="color:#66d9ef">volumeMounts</span>:
+        - <span style="color:#66d9ef">mountPath</span>: /secrets-init/bin
+          <span style="color:#66d9ef">name</span>: secrets-init-volume
+      <span style="color:#66d9ef">volumes</span>:
+      - <span style="color:#66d9ef">name</span>: secrets-init-volume
+        <span style="color:#66d9ef">emptyDir</span>: {}
+</code></pre></div><h3 id="integration-with-aws-systems-manager-parameter-store">Integration with AWS Systems Manager Parameter Store</h3>
+<p>It is possible to use AWS Systems Manager Parameter Store to store application parameters as plain text or encrypted (kind of secrets).</p>
+<p>As with the previous example, user can put AWS Parameter Store ARN as environment variable value. The <code>secrets-init</code> will resolve any environment value, using specified ARN, to a referenced parameter value.</p>
+<p>AWS Systems Manager Parameter Store format example:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh"><span style="color:#75715e"># environment variable referencing AWS Systems Manager Parameter Store secret</span>
+MY_API_KEY<span style="color:#f92672">=</span>arn:aws:ssm:$AWS_REGION:$AWS_ACCOUNT_ID:parameter/api/key
+
+<span style="color:#75715e"># environment variable passed to a child process, as resolved by `secrets-init`</span>
+MY_API_KEY<span style="color:#f92672">=</span>key-123456789
+</code></pre></div><p>In order to resolve AWS secrets from AWS Secrets Manager and Parameter Store, <code>secrets-init</code> should run under IAM role that has permission to access desired secrets.</p>
+<p>This can be achieved by assigning IAM Role to Kubernetes Pod or ECS Task. See <a href="https://aws.amazon.com/blogs/opensource/introducing-fine-grained-iam-roles-service-accounts/">Introducing fine-grained IAM roles for service accounts</a> EKS blog post.</p>
+<p>It&rsquo;s possible to assign IAM Role to EC2 instance, where container is running, but this option is considerably less secure and not recommended.</p>
+<h3 id="integration-with-google-secret-manager">Integration with Google Secret Manager</h3>
+<p>Google Cloud released recently a new service for managing secrets in the cloud: <a href="https://cloud.google.com/secret-manager">Google Secret Manager</a></p>
+<p>User can put Google secret name, using <code>secrets-init</code> recognizable prefix (<code>gcp:secretmanager:</code>), following secret name (<code>projects/{PROJECT_ID}/secrets/{SECRET_NAME}</code> or <code>projects/{PROJECT_ID}/secrets/{SECRET_NAME}/versions/{VERSION}</code>) as environment variable value. The <code>secrets-init</code> will resolve any environment value, using the specified name, to a referenced secret value.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh"><span style="color:#75715e"># environment variable referencing Google Secret Manager secret (without version)</span>
+MY_DB_PASSWORD<span style="color:#f92672">=</span>gcp:secretmanager:projects/$PROJECT_ID/secrets/mydbpassword
+<span style="color:#75715e"># OR versioned secret (with numeric version or &#39;latest&#39;)</span>
+MY_DB_PASSWORD<span style="color:#f92672">=</span>gcp:secretmanager:projects/$PROJECT_ID/secrets/mydbpassword/versions/2
+
+<span style="color:#75715e"># environment variable passed to a child process, as resolved by `secrets-init`</span>
+MY_DB_PASSWORD<span style="color:#f92672">=</span>very-secret-password
+</code></pre></div><p>In order to resolve Google secrets from Google Secret Manager, <code>secrets-init</code> should run under IAM role that has permission to access desired secrets.</p>
+<p>This can be achieved by assigning IAM Role to Kubernetes Pod with <a href="https://cloud.google.com/kubernetes-engine/docs/how-to/workload-identity">Workload Identity</a>. It&rsquo;s possible to assign IAM Role to GCE instance, where container is running, but this option is less secure.</p>
+<h2 id="summary">Summary</h2>
+<p>Hope, you find this post useful. I look forward to your comments and any questions you have.</p>
+<hr>
+<p><em>This is a <strong>working draft</strong> version. The final post version is published at <a href="https://blog.doit-intl.com/">DoiT Blog</a> .</em></p>
+
+                    </div>
+                </section>
+                
+                <h1 class="content-subhead">20 Jul 2019, 10:00</h1>
+                <section class="post">
+                    <header class="post-header">
+
+                        <a href="https://alexei-led.github.io/post/eks_gpu_spot/" class="post-title">EKS GPU Cluster from Zero to Hero</a>
+
+                        <p class="post-meta">
+                            
+                            
+                                under 
+                                
+                                    <a class="post-category post-category-Development" href='https://alexei-led.github.io/categories/Development'>Development</a>
+                                
+                            
+                        </p>
+                    </header>
+
+                    <div class="post-description">
+                        <h2 id="introduction">Introduction</h2>
+<p>If you ever tried to run a GPU workload on Kubernetes cluster, you know that this task requires non-trivial configuration and comes with high cost tag (GPU instances are quite expensive).</p>
+<p>This post shows how to run a GPU workload on Kubernetes cluster in cost effective way, using <a href="https://aws.amazon.com/eks/">AWS EKS</a> cluster, <a href="https://aws.amazon.com/autoscaling/">AWS Auto Scaling</a>, <a href="https://aws.amazon.com/ec2/spot/">Amazon EC2 Spot Instances</a> and some Kubernetes resources and configurations.</p>
+<p><img src="https://alexei-led.github.io/img/k8s_gpu.png" alt="Kubernetes with GPU Mixed ASG"></p>
+<h2 id="eks-cluster-plan">EKS Cluster Plan</h2>
+<p>First we need to create a Kubernetes cluster that consists from mixed nodes, non-GPU nodes for management and generic Kubernetes workload and more expensive GPU nodes to run GPU intensive tasks, like machine learning, medical analysis, seismic exploration, video transcoding and others.</p>
+<p>These node groups should be able to scale on demand (scale out and scale in) for generic nodes, and from 0 to required number and back to 0 for expensive GPU instances. More than that, in order to do it in cost effective way, we are going to use  <a href="https://aws.amazon.com/ec2/spot/">Amazon EC2 Spot Instances</a> both for generic nodes and GPU nodes.</p>
+<h3 id="aws-ec2-spot-instances">AWS EC2 Spot Instances</h3>
+<p>With <a href="https://aws.amazon.com/ec2/spot/">Amazon EC2 Spot Instances</a> instances you can save up to 90% comparing to On-Demand price. Previously, Spot instances were terminated in ascending order of bids. The market prices fluctuated frequently because of this. In the current model, the Spot prices are more predictable, updated less frequently, and are determined by Amazon EC2 spare capacity, not bid prices. AWS EC2 service can reclaim SPot instances when there is not enough capacity for specific instance in specific Availability Zone. Spot instances receive a 2 minute alert when are about to be reclaimed by Amazon EC2 service and can use this time for graceful shutdown and state change.</p>
+<h2 id="the-workflow">The Workflow</h2>
+<h3 id="create-eks-cluster">Create EKS Cluster</h3>
+<p>It is possible to create <a href="https://aws.amazon.com/eks/">AWS EKS</a> cluster, using <a href="https://docs.aws.amazon.com/cli/latest/reference/eks">AWS EKS CLI</a>, CloudFormation or Terraform, <a href="https://aws.amazon.com/cdk/">AWS CDK</a> or <a href="https://eksctl.io">eksctl</a>.</p>
+<h4 id="eksctl-cli-tool">eksctl CLI tool</h4>
+<p>In this post <code>eksctl</code> (a CLI tool for creating clusters on EKS) is used.
+It is possible to pass all parameters to the tool as CLI flags or configuration file. Using configuration file makes process more repeatable and automation friendly.</p>
+<p><code>eksctl</code> can create or update EKS cluster and additional required AWS resources, using CloudFormation stacks.</p>
+<p>Customize your cluster by using a config file. Just run</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">eksctl create cluster -f cluster.yaml
+</code></pre></div><p>to apply a cluster.yaml file:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: eksctl.io/v1alpha5
+<span style="color:#66d9ef">kind</span>: ClusterConfig
+
+<span style="color:#66d9ef">metadata</span>:
+<span style="color:#66d9ef">name</span>: test-cluster
+<span style="color:#66d9ef">region</span>: us-west<span style="color:#ae81ff">-2</span>
+
+<span style="color:#66d9ef">nodeGroups</span>:
+  - <span style="color:#66d9ef">name</span>: ng
+    <span style="color:#66d9ef">instanceType</span>: m5.large
+    <span style="color:#66d9ef">desiredCapacity</span>: <span style="color:#ae81ff">10</span>
+</code></pre></div><p>A new EKS cluster with 10 <code>m5.large</code> On-Demand EC2 worker nodes will be created and cluster credentials will be added to <code>~/.kube/config</code> file.</p>
+<h3 id="creating-node-groups">Creating node groups</h3>
+<p>As planned, we are going to create two node groups for Kubernetes worker nodes:</p>
+<ol>
+<li><em>General</em> node group - autoscaling group with Spot instances to run Kubernetes system workload and non-GPU workload</li>
+<li><em>GPU</em> node groups - autoscaling group with GPU-powered Spot Instances, that can scale from 0 to required number of instances and back to 0.</li>
+</ol>
+<p>Fortunately, the <code>eksctl</code> supports adding Kubernetes node groups to EKS cluster and these groups can be composed from  Spot-only instances or mixture of Spot and On-Demand instances.</p>
+<h4 id="general-node-group">General node group</h4>
+<p>The <code>eksctl</code> configuration file contains EKS cluster in <code>us-west-2</code> across 3 Availability Zones and the first <em>General</em> autoscaling (from 2 to 20 nodes) node group running on diversified Spot instances.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">---
+<span style="color:#66d9ef">apiVersion</span>: eksctl.io/v1alpha5
+<span style="color:#66d9ef">kind</span>: ClusterConfig
+
+<span style="color:#66d9ef">metadata</span>:
+  <span style="color:#66d9ef">name</span>: gaia-kube
+  <span style="color:#66d9ef">region</span>: us-west<span style="color:#ae81ff">-2</span>
+
+<span style="color:#66d9ef">availabilityZones</span>: [<span style="color:#e6db74">&#34;us-west-2a&#34;</span>, <span style="color:#e6db74">&#34;us-west-2b&#34;</span>, <span style="color:#e6db74">&#34;us-west-2c&#34;</span>]
+
+<span style="color:#66d9ef">nodeGroups</span>:
+  <span style="color:#75715e"># spot workers NG - multi AZ, scale from 3</span>
+  - <span style="color:#66d9ef">name</span>: spot-ng
+    <span style="color:#66d9ef">ami</span>: auto
+    <span style="color:#66d9ef">instanceType</span>: mixed
+    <span style="color:#66d9ef">desiredCapacity</span>: <span style="color:#ae81ff">2</span>
+    <span style="color:#66d9ef">minSize</span>: <span style="color:#ae81ff">2</span>
+    <span style="color:#66d9ef">maxSize</span>: <span style="color:#ae81ff">20</span>
+    <span style="color:#66d9ef">volumeSize</span>: <span style="color:#ae81ff">100</span>
+    <span style="color:#66d9ef">volumeType</span>: gp2
+    <span style="color:#66d9ef">volumeEncrypted</span>: <span style="color:#66d9ef">true</span>
+    <span style="color:#66d9ef">iam</span>:
+      <span style="color:#66d9ef">attachPolicyARNs</span>:
+        - arn:aws:iam::aws:policy/service-role/AmazonEC2RoleforSSM
+        - arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy
+        - arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy
+        - arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly
+      <span style="color:#66d9ef">withAddonPolicies</span>:
+        <span style="color:#66d9ef">autoScaler</span>: <span style="color:#66d9ef">true</span>
+        <span style="color:#66d9ef">ebs</span>: <span style="color:#66d9ef">true</span>
+        <span style="color:#66d9ef">albIngress</span>: <span style="color:#66d9ef">true</span>
+        <span style="color:#66d9ef">cloudWatch</span>: <span style="color:#66d9ef">true</span>
+    <span style="color:#66d9ef">instancesDistribution</span>:
+      <span style="color:#66d9ef">onDemandPercentageAboveBaseCapacity</span>: <span style="color:#ae81ff">0</span>
+      <span style="color:#66d9ef">instanceTypes</span>:
+        - m4.2xlarge
+        - m4.4xlarge
+        - m5.2xlarge
+        - m5.4xlarge
+        - m5a.2xlarge
+        - m5a.4xlarge
+        - c4.2xlarge
+        - c4.4xlarge
+        - c5.2xlarge
+        - c5.4xlarge
+      <span style="color:#66d9ef">spotInstancePools</span>: <span style="color:#ae81ff">15</span>
+    <span style="color:#66d9ef">tags</span>:
+      <span style="color:#66d9ef">k8s.io/cluster-autoscaler/enabled</span>: <span style="color:#e6db74">&#39;true&#39;</span>
+    <span style="color:#66d9ef">labels</span>:
+      <span style="color:#66d9ef">lifecycle</span>: Ec2Spot
+    <span style="color:#66d9ef">privateNetworking</span>: <span style="color:#66d9ef">true</span>
+    <span style="color:#66d9ef">availabilityZones</span>: [<span style="color:#e6db74">&#34;us-west-2a&#34;</span>, <span style="color:#e6db74">&#34;us-west-2b&#34;</span>, <span style="color:#e6db74">&#34;us-west-2c&#34;</span>]
+
+    <span style="color:#75715e">### next: GPU node groups ...</span>
+</code></pre></div><p>Now it is time to explain some parameters used in the above configuration file.</p>
+<ul>
+<li><code>ami: auto</code> - <code>eksctl</code> automatically discover latest EKS-Optimized AMI image for worker nodes, based on specified AWS region, EKS version and instance type. See <a href="https://docs.aws.amazon.com/eks/latest/userguide/eks-optimized-ami.html">Amazon EKS-Optimized AMI</a> chapter in User Guide</li>
+<li><code>instanceType: mixed</code> - specify that actual instance type will be one of instance types defined in <code>instancesDistribution</code> section</li>
+<li><code>iam</code> contains list of predefined and in-place IAM policies; <code>eksctl</code> creates a new <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/iam-roles-for-amazon-ec2.html">IAM Role</a> with specified policies and attaches this role to every EKS worker node. There are several IAM policies you are required to attach to every EKS worker node, read <a href="https://docs.aws.amazon.com/eks/latest/userguide/worker_node_IAM_role.html">Amazon EKS Worker Node IAM Role</a> section in User Guide and <a href="https://eksctl.io/usage/iam-policies/"><code>eksctl</code> IAM policies</a> documentation</li>
+<li><code>instancesDistribution</code> - specify mixed instance policy for EC2 Auto Scaling Groups, read AWS <a href="https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_MixedInstancesPolicy.html">MixedInstancesPolicy</a> documentation</li>
+<li><code>spotInstancePools</code> - specifies number of Spot instance pools to use, <a href="#Spot-Instance-Pools">read more</a></li>
+<li><code>tags</code> - AWS tags added to EKS worker nodes
+<ul>
+<li><code>k8s.io/cluster-autoscaler/enabled</code> will use this tag for Kubernetes Cluster Autoscaler auto-discovery</li>
+</ul>
+</li>
+<li><code>privateNetworking: true</code> - all EKS worker nodes will be placed into private subnets</li>
+</ul>
+<h5 id="spot-instance-pools">Spot Instance Pools</h5>
+<p>When you are using Spot instances as worker nodes you need to diversify usage to as many <em>Spot Instance pools</em> as possible. A <em>Spot Instance pool</em> is a set of unused EC2 instances with the same instance type (for example, <code>m5.large</code>), operating system, Availability Zone, and network platforms.</p>
+<p>The <code>eksctl</code> currently supports single Spot provisioning model: <code>lowestPrice</code> allocation strategy. This strategy allows creation of a fleet of Spot Instances that is both cheap and diversified. Spot Fleet automatically deploys the cheapest combination of instance types and Availability Zones based on the current Spot price across the number of Spot pools that you specify. This combination allows avoiding the most expensive Spot Instances.</p>
+<p>The Spot instance diversification also increases worker nodes availability, typically not all <em>Spot Instance pools</em> will be interrupted at the same time, so only a small portion of your workload will be interrupted and EC2 Auto-scaling group will replace interrupted instances from others <em>Spot Instance pools</em>.</p>
+<h4 id="gpu-powered-node-group">GPU-powered node group</h4>
+<p>The next part of our <code>eksctl</code> configuration file contains first <em>GPU</em> autoscaling (from 0 to 10 nodes) node group running on diversified GPU-powered Spot instances.</p>
+<p>When using GPU-powered Spot instances, it&rsquo;s recommended to create <em>GPU</em> node group per Availability Zone and configure Kubernetes Cluster Autoscaler to avoid automatic <a href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/auto-scaling-benefits.html#arch-AutoScalingMultiAZ">ASG rebalancing</a>.</p>
+<p>Why is it important?
+GPU-powered EC2 Spot Instances have relatively high <em>Frequency of interruption</em> rate (<code>&gt;20%</code> for some GPU instance types) and using multiple AZ and disabling automatic Cluster Autoscaler balancing can help to minimize GPU workload interruptions.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">  <span style="color:#75715e"># ... EKS cluster and General node group ...</span>
+
+  <span style="color:#75715e"># spot GPU NG - west-2a AZ, scale from 0</span>
+  - <span style="color:#66d9ef">name</span>: gpu-spot-ng-a
+    <span style="color:#66d9ef">ami</span>: auto
+    <span style="color:#66d9ef">instanceType</span>: mixed
+    <span style="color:#66d9ef">desiredCapacity</span>: <span style="color:#ae81ff">0</span>
+    <span style="color:#66d9ef">minSize</span>: <span style="color:#ae81ff">0</span>
+    <span style="color:#66d9ef">maxSize</span>: <span style="color:#ae81ff">10</span>
+    <span style="color:#66d9ef">volumeSize</span>: <span style="color:#ae81ff">100</span>
+    <span style="color:#66d9ef">volumeType</span>: gp2
+    <span style="color:#66d9ef">volumeEncrypted</span>: <span style="color:#66d9ef">true</span>
+    <span style="color:#66d9ef">iam</span>:
+      <span style="color:#66d9ef">attachPolicyARNs</span>:
+        - arn:aws:iam::aws:policy/service-role/AmazonEC2RoleforSSM
+        - arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy
+        - arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy
+        - arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly
+      <span style="color:#66d9ef">withAddonPolicies</span>:
+        <span style="color:#66d9ef">autoScaler</span>: <span style="color:#66d9ef">true</span>
+        <span style="color:#66d9ef">ebs</span>: <span style="color:#66d9ef">true</span>
+        <span style="color:#66d9ef">fsx</span>: <span style="color:#66d9ef">true</span>
+        <span style="color:#66d9ef">efs</span>: <span style="color:#66d9ef">true</span>
+        <span style="color:#66d9ef">albIngress</span>: <span style="color:#66d9ef">true</span>
+        <span style="color:#66d9ef">cloudWatch</span>: <span style="color:#66d9ef">true</span>
+    <span style="color:#66d9ef">instancesDistribution</span>:
+      <span style="color:#66d9ef">onDemandPercentageAboveBaseCapacity</span>: <span style="color:#ae81ff">0</span>
+      <span style="color:#66d9ef">instanceTypes</span>:
+        - p3.2xlarge
+        - p3.8xlarge
+        - p3.16xlarge
+        - p2.xlarge
+        - p2.8xlarge
+        - p2.16xlarge
+      <span style="color:#66d9ef">spotInstancePools</span>: <span style="color:#ae81ff">5</span>
+    <span style="color:#66d9ef">tags</span>:
+      <span style="color:#66d9ef">k8s.io/cluster-autoscaler/node-template/taint/dedicated</span>: nvidia.com/gpu=<span style="color:#66d9ef">true</span>
+      <span style="color:#66d9ef">k8s.io/cluster-autoscaler/node-template/label/nvidia.com/gpu</span>: <span style="color:#e6db74">&#39;true&#39;</span>
+      <span style="color:#66d9ef">k8s.io/cluster-autoscaler/enabled</span>: <span style="color:#e6db74">&#39;true&#39;</span>
+    <span style="color:#66d9ef">labels</span>:
+      <span style="color:#66d9ef">lifecycle</span>: Ec2Spot
+      <span style="color:#66d9ef">nvidia.com/gpu</span>: <span style="color:#e6db74">&#39;true&#39;</span>
+      <span style="color:#66d9ef">k8s.amazonaws.com/accelerator</span>: nvidia-tesla
+    <span style="color:#66d9ef">taints</span>:
+      <span style="color:#66d9ef">nvidia.com/gpu</span>: <span style="color:#e6db74">&#34;true:NoSchedule&#34;</span>
+    <span style="color:#66d9ef">privateNetworking</span>: <span style="color:#66d9ef">true</span>
+    <span style="color:#66d9ef">availabilityZones</span>: [<span style="color:#e6db74">&#34;us-west-2a&#34;</span>]
+
+    <span style="color:#75715e"># create additional node groups for other `us-west-2b` and `us-west-2c` availability zones ...</span>
+</code></pre></div><p>Now, it is time to explain some parameters used to configure GPU-powered node group.</p>
+<ul>
+<li><code>ami: auto</code> - <code>eksctl</code> automatically discover latest EKS-Optimized AMI image with GPU support for worker nodes, based on specified AWS region, EKS version and instance type. See <a href="https://docs.aws.amazon.com/eks/latest/userguide/gpu-ami.html">Amazon EKS-Optimized AMI with GPU support</a> User Guide</li>
+<li><code>iam: withAddonPolicies</code> - if a planned workload requires access to AWS storage services, it is important to include additional IAM policies (auto-generated by <code>eksctl</code>)
+<ul>
+<li><code>efs: true</code> - enable access to <a href="https://aws.amazon.com/efs/">Amazon EFS</a></li>
+<li><code>fsx: true</code> - enable access to <a href="https://aws.amazon.com/fsx/lustre/">Amazon FSx for Lustre</a></li>
+</ul>
+</li>
+<li><code>tags</code> - AWS tags added to EKS worker nodes
+<ul>
+<li><code>k8s.io/cluster-autoscaler/node-template/taint/dedicated: nvidia.com/gpu=true</code> - Kubernetes node taint</li>
+<li><code>k8s.io/cluster-autoscaler/node-template/label/nvidia.com/gpu: 'true'</code> - Kubernetes node label used by Cluster Autoscaler to scale ASG from/to 0</li>
+</ul>
+</li>
+<li><code>taints</code>
+<ul>
+<li><code>nvidia.com/gpu: &quot;true:NoSchedule&quot;</code> - Kubernetes GPU node taint; helps to avoid placement on non-GPU workload on expensive GPU nodes</li>
+</ul>
+</li>
+</ul>
+<h5 id="eks-optimized-ami-image-with-gpu-support">EKS Optimized AMI image with GPU support</h5>
+<p>In addition to the standard Amazon EKS-optimized AMI configuration, the GPU AMI includes the following:</p>
+<ul>
+<li>NVIDIA drivers</li>
+<li>The <code>nvidia-docker2</code> package</li>
+<li>The <code>nvidia-container-runtime</code> (as the default runtime)</li>
+</ul>
+<h5 id="scaling-a-node-group-tofrom-0">Scaling a node group to/from 0</h5>
+<p>From Kubernetes <a href="https://github.com/kubernetes/autoscaler/">Cluster Autoscaler</a> 0.6.1 - it is possible to scale a node group to/from 0, assuming that all scale-up and scale-down conditions are met.</p>
+<p>If you are using <code>nodeSelector</code> you need to tag the ASG with a node-template key <code>k8s.io/cluster-autoscaler/node-template/label/</code> and <code>k8s.io/cluster-autoscaler/node-template/taint/</code> if you are using taints.</p>
+<h4 id="scheduling-gpu-workload">Scheduling GPU workload</h4>
+<h5 id="schedule-based-on-gpu-resources">Schedule based on GPU resources</h5>
+<p>The <a href="https://github.com/NVIDIA/k8s-device-plugin">NVIDIA device plugin for Kubernetes</a> exposes the number of GPUs on each nodes of your cluster. Once the plugin is installed, it&rsquo;s possible to use <code>nvidia/gpu</code> Kubernetes resource on GPU nodes and for Kubernetes workloads.</p>
+<p>Run this command to apply the Nvidia Kubernetes device plugin as a <code>daemonset</code> running only on AWS GPU-powered worker nodes, using <code>tolerations</code> and <code>nodeAffinity</code></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">kubectl create -f kubernetes/nvidia-device-plugin.yaml
+
+kubectl get daemonset -nkube-system
+
+NAME                                  DESIRED   CURRENT   READY   UP-TO-DATE   AVAILABLE   NODE SELECTOR   AGE
+aws-node                              <span style="color:#ae81ff">5</span>         <span style="color:#ae81ff">5</span>         <span style="color:#ae81ff">5</span>       <span style="color:#ae81ff">5</span>            <span style="color:#ae81ff">5</span>           &lt;none&gt;          8d
+kube-proxy                            <span style="color:#ae81ff">5</span>         <span style="color:#ae81ff">5</span>         <span style="color:#ae81ff">5</span>       <span style="color:#ae81ff">5</span>            <span style="color:#ae81ff">5</span>           &lt;none&gt;          8d
+nvidia-device-plugin-daemonset-1.12   <span style="color:#ae81ff">3</span>         <span style="color:#ae81ff">3</span>         <span style="color:#ae81ff">3</span>       <span style="color:#ae81ff">3</span>            <span style="color:#ae81ff">3</span>           &lt;none&gt;          8d
+ssm-agent                             <span style="color:#ae81ff">5</span>         <span style="color:#ae81ff">5</span>         <span style="color:#ae81ff">5</span>       <span style="color:#ae81ff">5</span>            <span style="color:#ae81ff">5</span>           &lt;none&gt;          8d
+</code></pre></div><p>using <code>nvidia-device-plugin.yaml</code> Kubernetes resource file</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: extensions/v1beta1
+<span style="color:#66d9ef">kind</span>: DaemonSet
+<span style="color:#66d9ef">metadata</span>:
+  <span style="color:#66d9ef">name</span>: nvidia-device-plugin-daemonset<span style="color:#ae81ff">-1.12</span>
+  <span style="color:#66d9ef">namespace</span>: kube-system
+<span style="color:#66d9ef">spec</span>:
+  <span style="color:#66d9ef">updateStrategy</span>:
+    <span style="color:#66d9ef">type</span>: RollingUpdate
+  <span style="color:#66d9ef">template</span>:
+    <span style="color:#66d9ef">metadata</span>:
+      <span style="color:#66d9ef">labels</span>:
+        <span style="color:#66d9ef">name</span>: nvidia-device-plugin-ds
+    <span style="color:#66d9ef">spec</span>:
+      <span style="color:#66d9ef">tolerations</span>:
+      - <span style="color:#66d9ef">key</span>: nvidia.com/gpu
+        <span style="color:#66d9ef">operator</span>: Exists
+        <span style="color:#66d9ef">effect</span>: NoSchedule
+      <span style="color:#66d9ef">containers</span>:
+      - <span style="color:#66d9ef">image</span>: nvidia/k8s-device-plugin:<span style="color:#ae81ff">1.11</span>
+        <span style="color:#66d9ef">name</span>: nvidia-device-plugin-ctr
+        <span style="color:#66d9ef">securityContext</span>:
+          <span style="color:#66d9ef">allowPrivilegeEscalation</span>: <span style="color:#66d9ef">false</span>
+          <span style="color:#66d9ef">capabilities</span>:
+            <span style="color:#66d9ef">drop</span>: [<span style="color:#e6db74">&#34;ALL&#34;</span>]
+        <span style="color:#66d9ef">volumeMounts</span>:
+          - <span style="color:#66d9ef">name</span>: device-plugin
+            <span style="color:#66d9ef">mountPath</span>: /var/lib/kubelet/device-plugins
+      <span style="color:#66d9ef">volumes</span>:
+        - <span style="color:#66d9ef">name</span>: device-plugin
+          <span style="color:#66d9ef">hostPath</span>:
+            <span style="color:#66d9ef">path</span>: /var/lib/kubelet/device-plugins
+      <span style="color:#66d9ef">affinity</span>:
+        <span style="color:#66d9ef">nodeAffinity</span>:
+          <span style="color:#66d9ef">requiredDuringSchedulingIgnoredDuringExecution</span>:
+            <span style="color:#66d9ef">nodeSelectorTerms</span>:
+            - <span style="color:#66d9ef">matchExpressions</span>:
+              - <span style="color:#66d9ef">key</span>: beta.kubernetes.io/instance-type
+                <span style="color:#66d9ef">operator</span>: In
+                <span style="color:#66d9ef">values</span>:
+                - p3.2xlarge
+                - p3.8xlarge
+                - p3.16xlarge
+                - p3dn.24xlarge
+                - p2.xlarge
+                - p2.8xlarge
+                - p2.16xlarge
+</code></pre></div><h5 id="taints-and-tolerations">Taints and Tolerations</h5>
+<p>Kubernetes <em>taints</em>  allow a node to repel a set of pods. Taints and tolerations work together to ensure that pods are not scheduled onto inappropriate nodes. One or more taints are applied to a node; this marks that the node should not accept any pods that do not tolerate the taints. Tolerations are applied to pods, and allow (but do not require) the pods to schedule onto nodes with matching taints.</p>
+<p>See Kubernetes <a href="https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/">Taints and Tolerations</a> documentation for more details.</p>
+<p>In order to run GPU workload to run on GPU-powered Spot instance nodes, with <code>nvidia.com/gpu: &quot;true:NoSchedule&quot;</code> taint, the workload must include both matching <code>tolerations</code> and <code>nodeSelector</code>.</p>
+<p>Kubernetes deployment with <code>10</code> pod replicas with <code>nvidia/gpu: 1</code> limit:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: apps/v1
+<span style="color:#66d9ef">kind</span>: Deployment
+<span style="color:#66d9ef">metadata</span>:
+  <span style="color:#66d9ef">name</span>: cuda-vector-add
+  <span style="color:#66d9ef">labels</span>:
+    <span style="color:#66d9ef">app</span>: cuda-vector-add
+<span style="color:#66d9ef">spec</span>:
+  <span style="color:#66d9ef">replicas</span>: <span style="color:#ae81ff">10</span>
+  <span style="color:#66d9ef">selector</span>:
+    <span style="color:#66d9ef">matchLabels</span>:
+      <span style="color:#66d9ef">app</span>: cuda-vector-add
+  <span style="color:#66d9ef">template</span>:
+    <span style="color:#66d9ef">metadata</span>:
+      <span style="color:#66d9ef">name</span>: cuda-vector-add
+      <span style="color:#66d9ef">labels</span>:
+        <span style="color:#66d9ef">app</span>: cuda-vector-add
+    <span style="color:#66d9ef">spec</span>:
+      <span style="color:#66d9ef">nodeSelector</span>:
+        <span style="color:#66d9ef">nvidia.com/gpu</span>: <span style="color:#e6db74">&#34;true&#34;</span>
+      <span style="color:#66d9ef">tolerations</span>:
+      - <span style="color:#66d9ef">key</span>: <span style="color:#e6db74">&#34;nvidia.com/gpu&#34;</span>
+        <span style="color:#66d9ef">operator</span>: <span style="color:#e6db74">&#34;Exists&#34;</span>
+        <span style="color:#66d9ef">effect</span>: <span style="color:#e6db74">&#34;NoSchedule&#34;</span>
+      <span style="color:#66d9ef">containers</span>:
+        - <span style="color:#66d9ef">name</span>: cuda-vector-add
+          <span style="color:#75715e"># https://github.com/kubernetes/kubernetes/blob/v1.7.11/test/images/nvidia-cuda/Dockerfile</span>
+          <span style="color:#66d9ef">image</span>: <span style="color:#e6db74">&#34;k8s.gcr.io/cuda-vector-add:v0.1&#34;</span>
+          <span style="color:#66d9ef">resources</span>:
+            <span style="color:#66d9ef">limits</span>:
+              <span style="color:#66d9ef">nvidia.com/gpu</span>: <span style="color:#ae81ff">1</span> <span style="color:#75715e"># requesting 1 GPU</span>
+</code></pre></div><p>Deploy <code>cuda-vector-add</code> deployment and see how new GPU-powered nodes are added to the EKS cluster.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh"><span style="color:#75715e"># list Kubernetes nodes before running GPU workload</span>
+NAME                                            ID                                      TYPE
+ip-192-168-151-104.us-west-2.compute.internal   aws:///us-west-2b/i-01d4c83eaee18b7b3   c4.4xlarge
+ip-192-168-171-140.us-west-2.compute.internal   aws:///us-west-2c/i-07ec09fd128e1393f   c4.4xlarge
+
+
+<span style="color:#75715e"># deploy GPU workload on EKS cluster with tolerations for nvidia/gpu=true</span>
+kubectl create -f kubernetes/examples/vector/vector-add-dpl.yaml
+
+<span style="color:#75715e"># list Kubernetes nodes after several minutes to see new GPU nodes added to the cluster</span>
+kubectl get nodes --output<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;custom-columns=NAME:.metadata.name,ID:.spec.providerID,TYPE:.metadata.labels.beta\.kubernetes\.io\/instance-type&#34;</span>
+
+NAME                                            ID                                      TYPE
+ip-192-168-101-60.us-west-2.compute.internal    aws:///us-west-2a/i-037d1994fe96eeffc   p2.16xlarge
+ip-192-168-139-227.us-west-2.compute.internal   aws:///us-west-2b/i-0038eb8d2c795fb40   p2.16xlarge
+ip-192-168-151-104.us-west-2.compute.internal   aws:///us-west-2b/i-01d4c83eaee18b7b3   c4.4xlarge
+ip-192-168-171-140.us-west-2.compute.internal   aws:///us-west-2c/i-07ec09fd128e1393f   c4.4xlarge
+ip-192-168-179-248.us-west-2.compute.internal   aws:///us-west-2c/i-0bc0853ef26c0c054   p2.16xlarge
+</code></pre></div><p>As you can see, 3 new GPU-powered nodes (<code>p2.16xlarge</code>), across 3 AZ, had been added to the cluster. When you delete GPU workload, the cluster will scale down GPU node group to 0 after 10 minutes.</p>
+<h2 id="summary">Summary</h2>
+<p>Follow this tutorial to create an EKS (Kubernetes) cluster with GPU-powered node group, running on Spot instances and scalable from/to 0 nodes.</p>
+<h2 id="references">References</h2>
+<ul>
+<li><a href="https://github.com/alexei-led/eks-spot-cluster">EKS Spot Cluster</a> GitHub repository with code for this blog</li>
+<li><a href="https://itnext.io/the-definitive-guide-to-running-ec2-spot-instances-as-kubernetes-worker-nodes-68ef2095e767">The definitive guide to running EC2 Spot Instances as Kubernetes worker nodes</a> by Ran Sheinberg</li>
+<li><a href="https://github.com/kubernetes/autoscaler/tree/master/cluster-autoscaler">Kubernetes Cluster Autoscaler</a></li>
+<li><a href="https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/">Taints and Tolleratoins</a> Kubernetes documentation</li>
+</ul>
+<h2 id="disclaimer">Disclaimer</h2>
+<p>It does not matter where I work, all my opinions are my own.</p>
+
+                    </div>
+                </section>
+                
+            </div>
+            
+
+            <div class="footer">
+    <div class="pure-menu pure-menu-horizontal pure-menu-open">
+        <ul>
+            <li>Powered by <a class="hugo" href="https://gohugo.io/" target="_blank">hugo</a></li>
+        </ul>
+    </div>
+</div>
+<script src='https://alexei-led.github.io/js/all.min.js'></script>
+
+        </div>
+    </div>
+</div>
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-71802462-1', 'auto');
+ga('send', 'pageview');
+
 </script>
 
-<script defer src="https://alexei-led.github.io/js/umbrella.min.b426107371d121c9a56a27aac9e9058ff592a021e2f4c3c94827fe70920d3cbb.js"></script>
-<script defer src="https://alexei-led.github.io/js/script.min.8e4d91ebe0d9226621e408b7205bd7b009e4935608e4b29c4275116490cc836d.js"></script>
-
-
-</head>
-
-<body>
-<div class="page layout__page layout__sidebar-second">
-<header class="header layout__header">
-<a href="https://alexei-led.github.io/" title="Home" rel="home" class="header__logo"><img src="https://alexei-led.github.io/images/logo.png" alt="Home" class="header__logo-image"></a>
-<h1 class="header__site-name">
-<a href="https://alexei-led.github.io/" title="Home" class="header__site-link" rel="home"><span>Terra Nullius</span></a>
-</h1>
-<div class="region header__region">
-</div>
-</header>
-
-<nav class="main-menu layout__navigation">
-<h2 class="visually-hidden">Main menu</h2>
-<ul class="navbar">
-<li><a class="active" href="https://alexei-led.github.io/">Home</a></li>
-<li><a class="" href="https://alexei-led.github.io/about/">about</a></li>
-<li><a class="" href="https://alexei-led.github.io/post/">Posts</a></li>
-</ul>
-</nav>
-
-
-<main class="main layout__main">
-<h1 class="title">EKS</h1>
-<article class="section-post list-view">
-<header>
-<h2 class="title "><a href="https://alexei-led.github.io/post/secrets-init/">Kubernetes and Secrets Management in Cloud</a></h2>
-
-</header>
-<div class="content">
-Introduction Secrets are essential for operation of many production systems. Unintended secrets exposure is one of the top risks that should be properly addressed. Developers should do their best to protect application secrets.
-The problem becomes even harder, once company moves to a microservice architecture and multiple services require an access to different secrets in order to properly work. And this leads to a new challenges: how to distribute, manage, monitor and rotate application secrets, avoiding unintended exposure?
-</div>
-</article>
-
-<article class="section-post list-view">
-<header>
-<h2 class="title "><a href="https://alexei-led.github.io/post/eks_gpu_spot/">EKS GPU Cluster from Zero to Hero</a></h2>
-
-</header>
-<div class="content">
-Introduction If you ever tried to run a GPU workload on Kubernetes cluster, you know that this task requires non-trivial configuration and comes with high cost tag (GPU instances are quite expensive).
-This post shows how to run a GPU workload on Kubernetes cluster in cost effective way, using AWS EKS cluster, AWS Auto Scaling, Amazon EC2 Spot Instances and some Kubernetes resources and configurations.
-EKS Cluster Plan First we need to create a Kubernetes cluster that consists from mixed nodes, non-GPU nodes for management and generic Kubernetes workload and more expensive GPU nodes to run GPU intensive tasks, like machine learning, medical analysis, seismic exploration, video transcoding and others.
-</div>
-</article>
-
-
-</main>
-
-
-<footer class="footer layout__footer">
-<p><span>© Terra Nullius</span></p>
-
-
-</footer>
-
-</div>
 </body>
 </html>

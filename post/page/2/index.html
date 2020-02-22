@@ -1,195 +1,1219 @@
-<!DOCTYPE html>
-<html class="nojs" lang="en" dir="ltr">
+<!doctype html>
+<html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width">
-<title>Posts – Terra Nullius</title>
-<link rel="alternate" type="application/rss+xml" title="RSS" href="https://alexei-led.github.io/post/index.xml">
-<meta name="description" content="">
-<meta name="created" content="2020-02-12T10:00:00+0200">
-<meta name="modified" content="2020-02-12T10:00:00+0200">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Posts &middot; Terra Nullius</title>
+
+    <meta name="description" content="The Programming Blog">
+
+    <meta name="generator" content="Hugo 0.65.2" />
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="alexeiled" />
+    <meta name="twitter:title" content="Posts &middot; Terra Nullius">
+    <meta name="twitter:description" content="The Programming Blog">
+
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Posts &middot; Terra Nullius">
+    <meta property="og:description" content="The Programming Blog">
+
+    <link href='//fonts.googleapis.com/css?family=Source+Sans+Pro:400,700|Oxygen:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/pure-min.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/grids-responsive-min.css">
+
+    <link rel="stylesheet" href='https://alexei-led.github.io/css/all.min.css'>
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+
+    <link rel="alternate" type="application/rss+xml" title="Terra Nullius" href='https://alexei-led.github.io/index.xml' />
+</head>
+<body>
 
 
-<meta property="og:site_name" content="Terra Nullius">
-<meta property="og:title" content="Posts">
-<meta property="og:url" content="https://alexei-led.github.io/post/">
-<meta property="og:type" content="website">
+<div id="layout" class="pure-g">
+    <div class="sidebar pure-u-1 pure-u-md-1-4">
+    <div class="header">
+        <hgroup>
+            <h1 class="brand-title"><a href="https://alexei-led.github.io">Terra Nullius</a></h1>
+            <h2 class="brand-tagline"> The Programming Blog </h2>
+        </hgroup>
 
-<meta name="generator" content="Hugo 0.64.1" />
-<meta name="msapplication-TileColor" content="#ffffff">
-<meta name="theme-color" content="#ffffff">
+        <nav class="nav">
+            <ul class="nav-list">
+                
+                <li class="nav-item">
+                    <a class="pure-button" href="https://twitter.com/alexeiled">
+                        <i class="fa fa-twitter"></i> Twitter
+                    </a>
+                </li>
+                
+                
+                <li class="nav-item">
+                    <a class="pure-button" href="https://github.com/alexei-led">
+                        <i class="fa fa-github-alt"></i> Github
+                    </a>
+                </li>
+                
+                
+                
+                <li class="nav-item">
+                    <a class="pure-button" href='https://alexei-led.github.io/index.xml'>
+                        <i class="fa fa-rss"></i> rss
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</div>
 
 
-<link rel="canonical" href="https://alexei-led.github.io/post/">
-<link rel="apple-touch-icon" href="https://alexei-led.github.io/apple-touch-icon.png">
+    <div class="content pure-u-1 pure-u-md-3-4">
+        <div>
+            
+            <div class="posts">
+                
+                <h1 class="content-subhead">02 Jan 2017, 18:00</h1>
+                <section class="post">
+                    <header class="post-header">
 
-<link rel="stylesheet" href="https://alexei-led.github.io/css/styles.9a3856451d3f4911845551d6f046455bd8cbf120441071c76e7438ba3ac163e1.css">
-<link rel="stylesheet" href="https://alexei-led.github.io/css/print.27fc184f8670f41a2690985390779e7b20335a8fadff8fa015cf9417ffe50c36.css" media="print">
+                        <a href="https://alexei-led.github.io/post/everyday_hacks/" class="post-title">Everyday hacks for Docker</a>
 
-<script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "WebPage",
-    "url" : "https://alexei-led.github.io/post/",
-    "name": "Posts",
-    "description": "The Programming Blog",
-    "mainEntityOfPage": {
-      "@type": "WebPage",
-      "@id": "https://alexei-led.github.io"
-    },
-    "publisher": {
-      "@type": "Organization",
-      "name": "Terra Nullius",
-      "url": "https://alexei-led.github.io"
-    }
-  }
+                        <p class="post-meta">
+                            
+                            
+                                under 
+                                
+                                    <a class="post-category post-category-DevOps" href='https://alexei-led.github.io/categories/DevOps'>DevOps</a>
+                                
+                            
+                        </p>
+                    </header>
+
+                    <div class="post-description">
+                        <p>In this post, I&rsquo;ve decided to share with you some useful commands and tools, I&rsquo;m frequently using, working with amazing Docker technology.
+There is no particular order or &ldquo;coolness level&rdquo; for every &ldquo;hack&rdquo;. I will try to present the use case and how does specific command or tool help me with my work.</p>
+<p><img src="https://alexei-led.github.io/img/docker_animals.png" alt="Docker Hacks"></p>
+<h2 id="cleaning-up">Cleaning up</h2>
+<p>Working with Docker for some time, you start to accumulate development junk: unused volumes, networks, exited containers and unused images.</p>
+<h3 id="one-command-to-rule-them-all">One command to &ldquo;rule them all&rdquo;</h3>
+<pre><code>$ docker system  prune
+</code></pre><p><code>prune</code> is a very useful command (works also for <code>volume</code> and <code>network</code> sub-commands), but it&rsquo;s only available for Docker 1.13. So, if you are using older Docker versions, then following commands can help you to replace the <code>prune</code> command.</p>
+<h3 id="remove-dangling-volumes">Remove dangling volumes</h3>
+<p><code>dangling</code> volumes - volumes not in use by any container. To remove them, combine two commands: first, list volume IDs for <code>dangling</code> volumes and then remove them.</p>
+<pre><code>$ docker volume rm $(docker volume ls -q -f &quot;dangling=true&quot;)
+</code></pre><h3 id="remove-exited-containers">Remove exited containers</h3>
+<p>The same principle works here too: first, list containers (only IDs) you want to remove (with filter) and then remove them (consider <code>rm -f</code> to force remove).</p>
+<pre><code>$ docker rm $(docker ps -q -f &quot;status=exited&quot;)
+</code></pre><h3 id="remove-dangling-images">Remove dangling images</h3>
+<p><code>dangling</code> images are Docker untagged images, that are the leaves of the images tree (not intermediary layers).</p>
+<pre><code>docker rmi $(docker images -q -f &quot;dangling=true&quot;)
+</code></pre><h3 id="autoremove-interactive-containers">Autoremove interactive containers</h3>
+<p>When you run a new interactive container and want to avoid typing <code>rm</code> command after it exits, use <code>--rm</code> option. Then when you exit from created container, it will be automatically destroyed.</p>
+<pre><code>$ docker run -it --rm alpine sh
+</code></pre><h2 id="inspect-docker-resources">Inspect Docker resources</h2>
+<p><a href="https://stedolan.github.io/jq/">jq</a> - <code>jq</code> is a lightweight and flexible command-line <code>JSON</code> processor. It is like <code>sed</code> for JSON data - you can use it to slice and filter and map and transform structured data with the same ease that <code>sed</code>, <code>awk</code>, <code>grep</code> and friends let you play with text.</p>
+<p><a href="https://docs.docker.com/engine/reference/commandline/info/"><code>docker info</code></a> and <a href="https://docs.docker.com/engine/reference/commandline/inspect/"><code>docker inspect</code></a> commands can produce output in <code>JSON</code> format. Combine these commands with <code>jq</code> processor.</p>
+<h3 id="pretty-json-and-jq-processing">Pretty JSON and jq processing</h3>
+<pre><code># show whole Docker info
+$ docker info --format &quot;{{json .}}&quot; | jq .
+
+# show Plugins only
+$ docker info --format &quot;{{json .Plugins}}&quot; | jq .
+
+# list IP addresses for all containers connected to 'bridge' network
+$ docker network inspect bridge -f '{{json .Containers}}' | jq '.[] | {cont: .Name, ip: .IPv4Address}'
+</code></pre><h2 id="watching-containers-lifecycle">Watching containers lifecycle</h2>
+<p>Sometimes you want to see containers being activated and exited, when you run some docker commands or try different restart policies.
+<a href="http://man7.org/linux/man-pages/man1/watch.1.html"><code>watch</code></a> command combined with <a href="https://docs.docker.com/engine/reference/commandline/ps/"><code>docker ps</code></a> can be pretty useful here.
+The <code>docker stats</code> command, even with <code>--format</code> option is not useful for this use case since it does not allow you to see same info as you can see with <code>docker ps</code> command.</p>
+<h3 id="display-a-table-with-id-image-status-for-active-containers-and-refresh-it-every-2-seconds">Display a table with &lsquo;ID Image Status&rsquo; for active containers and refresh it every 2 seconds</h3>
+<pre><code>$ watch -n 2 'docker ps --format &quot;table {{.ID}}\t {{.Image}}\t {{.Status}}&quot;'
+</code></pre><h2 id="enter-into-hostcontainer-namespace">Enter into host/container Namespace</h2>
+<p>Sometimes you want to connect to the Docker host. The <code>ssh</code> command is the default option, but this option can be either not available, due to security settings, firewall rules or not documented (try to find how to <code>ssh</code> into Docker for Mac VM).</p>
+<p><a href="https://github.com/jpetazzo/nsenter"><code>nsenter</code></a>, by Jérôme Petazzoni, is a small and very useful tool for above cases. <code>nsenter</code> allows to <code>enter</code> into <code>n</code>ame<code>s</code>paces. I like to use minimalistic (<code>580 kB</code>) <a href="https://hub.docker.com/r/walkerlee/nsenter/">walkerlee/nsenter</a> Docker image.</p>
+<h3 id="enter-into-docker-host">Enter into Docker host</h3>
+<p>Use <code>--pid=host</code> to enter into Docker host namespaces</p>
+<pre><code># get a shell into Docker host
+$ docker run --rm -it --privileged --pid=host walkerlee/nsenter -t 1 -m -u -i -n sh
+</code></pre><h3 id="enter-into-any-container">Enter into ANY container</h3>
+<p>It&rsquo;s also possible to enter into any container with <code>nsenter</code> and <code>--pid=container:[id OR name]</code>. But in most cases, it&rsquo;s better to use standard <a href="https://docs.docker.com/engine/reference/commandline/exec/"><code>docker exec</code></a> command. The main difference is that <code>nsenter</code> doesn&rsquo;t enter the <em>cgroups</em>, and therefore evades resource limitations (can be useful for debugging).</p>
+<pre><code># get a shell into 'redis' container namespace
+$ docker run --rm -it --privileged --pid=container:redis walkerlee/nsenter -t 1 -m -u -i -n sh
+</code></pre><h2 id="heredoc-docker-container">Heredoc Docker container</h2>
+<p>Suppose you want to get some tool as a Docker image, but you do not want to search for a suitable image or to create a new <code>Dockerfile</code> (no need to keep it for future use, for example). Sometimes storing a Docker image definition in a file looks like an overkill - you need to decide how do you edit, store and share this Dockerfile. Sometimes it&rsquo;s better just to have a single line command, that you can copy, share, embed into a shell script or create special command <code>alias</code>.
+So, when you want to create a new ad-hoc container with a single command, try a <a href="http://www.tldp.org/LDP/abs/html/here-docs.html">Heredoc</a> approach.</p>
+<h3 id="create-alpine-based-container-with-htop-tool">Create Alpine based container with &lsquo;htop&rsquo; tool</h3>
+<pre><code>$ docker build -t htop - &lt;&lt; EOF
+FROM alpine
+RUN apk --no-cache add htop
+EOF
+</code></pre><h2 id="docker-command-completion">Docker command completion</h2>
+<p>Docker CLI syntax is very rich and constantly growing: adding new commands and new options. It&rsquo;s hard to remember every possible command and option, so having a nice command completion for a terminal is a <strong>must have</strong>.</p>
+<p>Command completion is a kind of terminal plugin, that lets you auto-complete or auto-suggest what to type in next by hitting <em>tab</em> key. Docker command completion works both for commands and options. Docker team prepared command completion for <code>docker</code>, <code>docker-machine</code> and <code>docker-compose</code> commands, both for <code>Bash</code> and <code>Zsh</code>.</p>
+<p>If you are using Mac and <a href="http://brew.sh">Homebrew</a>, then installing Docker commands completion is pretty straight forward.</p>
+<pre><code># Tap homebrew/completion to gain access to these
+$ brew tap homebrew/completions
+
+# Install completions for docker suite
+$ brew install docker-completion
+$ brew install docker-compose-completion
+$ brew install docker-machine-completion
+</code></pre><p>For non-Mac install read official Docker documentation: <a href="https://github.com/docker/docker/tree/master/contrib/completion">docker engine</a>, <a href="https://docs.docker.com/compose/completion/">docker-compose</a> and <a href="https://docs.docker.com/machine/completion/">docker-machine</a></p>
+<h2 id="start-containers-automatically">Start containers automatically</h2>
+<p>When you are running process in Docker container, it may fail due to multiple reasons. Sometimes to fix this failure it&rsquo;s enough to rerun the failed container. If you are using Docker orchestration engine, like Swarm or Kubernetes, the failed service will be restarted automatically.
+But if you are using plain Docker and want to restart container, based on <em>exit code</em> of container&rsquo;s main process or always (regardless the <em>exit code</em>), Docker 1.12 introduced a very helpful option for <code>docker run</code> command: <a href="https://docs.docker.com/engine/reference/run/#restart-policies-restart#restart-policies---restart">restart</a>.</p>
+<h3 id="restart-always">Restart always</h3>
+<p>Restart the <code>redis</code> container with a restart policy of <strong>always</strong> so that if the container exits, Docker will restart it.</p>
+<pre><code>$ docker run --restart=always redis
+</code></pre><h3 id="restart-container-on-failure">Restart container on failure</h3>
+<p>Restart the <code>redis</code> container with a restart policy of <strong>on-failure</strong> and a maximum restart count of <code>10</code>.</p>
+<pre><code>$ docker run --restart=on-failure:10 redis
+</code></pre><h2 id="network-tricks">Network tricks</h2>
+<p>There are cases when you want to create a new container and connect it to already existing network stack. It can be Docker host network or another container&rsquo;s network. This can be pretty useful for debugging and audition network issues.
+The <code>docker run --network/net</code> option support this use case.</p>
+<h3 id="use-docker-host-network-stack">Use Docker host network stack</h3>
+<pre><code>$ docker run --net=host ...
+</code></pre><p>The new container will attach to same network interfaces as the Docker host.</p>
+<h3 id="use-another-containers-network-stack">Use another container&rsquo;s network stack</h3>
+<pre><code>$ docker run --net=container:&lt;name|id&gt; ...
+</code></pre><p>The new container will attach to same network interfaces as another container. The target container can be specified with <code>id</code> or <code>name</code>.</p>
+<h3 id="attachable-overlay-network">Attachable overlay network</h3>
+<p>Using docker engine running in <strong>swarm mode</strong>, you can create a multi-host <code>overlay</code> network on a manager node. When you create a new <em>swarm service</em>, you can attach it to the previously created <code>overlay</code> network.</p>
+<p>Sometimes to inspect network configuration or debug network issues, you want to attach a new Docker container, filled with different network tools, to existing <code>overlay</code> network and do this with <code>docker run</code> command and not to create a new &ldquo;debug service&rdquo;.</p>
+<p>Docker 1.13 brings a new option to <code>docker network create</code> command: <code>attachable</code>. The <code>attachable</code> option enables manual container attachment.</p>
+<pre><code># create an attachable overlay network
+$ docker network create --driver overlay --attachable mynet
+# create net-tools container and attach it to mynet overlay network
+$ docker run -it --rm --net=mynet net-tools sh
+</code></pre>
+                    </div>
+                </section>
+                
+                <h1 class="content-subhead">18 Dec 2016, 14:00</h1>
+                <section class="post">
+                    <header class="post-header">
+
+                        <a href="https://alexei-led.github.io/post/composev3_swarm/" class="post-title">Deploy Docker Compose (v3) to Swarm (mode) Cluster</a>
+
+                        <p class="post-meta">
+                            
+                            
+                                under 
+                                
+                                    <a class="post-category post-category-DevOps" href='https://alexei-led.github.io/categories/DevOps'>DevOps</a>
+                                
+                            
+                        </p>
+                    </header>
+
+                    <div class="post-description">
+                        <blockquote>
+<p><strong>Disclaimer:</strong> all code snippets bellow are working only with <strong>Docker 1.13+</strong></p>
+</blockquote>
+<h1 id="tldr">TL;DR</h1>
+<p><strong>Docker 1.13</strong> simplifies deployment of composed application to a <strong>swarm</strong> (mode) cluster. And you can do it without creating a new <code>dab</code> (<em>Distribution Application Bundle</em>) file, but just using familiar and well-known <code>docker-compose.yml</code> syntax (with some additions) and <code>--compose-file</code> option.</p>
+<p><img src="https://alexei-led.github.io/img/compose_swarm.png" alt="Compose to Swarm"></p>
+<h1 id="swarm-cluster">Swarm cluster</h1>
+<p>Docker Engine 1.12 introduced a new <strong>swarm mode</strong> for natively managing a cluster of Docker Engines called a <strong>swarm</strong>. Docker <strong>swarm mode</strong> implements <a href="https://docs.docker.com/engine/swarm/raft/">Raft Consensus Algorithm</a> and does not require using external key value store anymore, such as <a href="https://www.consul.io/">Consul</a> or <a href="https://github.com/coreos/etcd">etcd</a>.</p>
+<p>If you want to run a <strong>swarm</strong> cluster on a developer&rsquo;s machine, there are several options.</p>
+<p>The first option and most widely known, is to use a <code>docker-machine</code> tool with some virtual driver (Virtualbox, Parallels or other).</p>
+<p>But, in this post I will use another approach: using <a href="https://hub.docker.com/_/docker/">docker-in-docker</a> Docker image with Docker for Mac, see more details in my <a href="../swarm_dind">Docker Swarm cluster with docker-in-docker on MacOS</a> post.</p>
+<h2 id="docker-registry-mirror">Docker Registry mirror</h2>
+<p>When you deploy a new service on local swarm cluster, I recommend to setup local Docker registry mirror and run all swarm nodes with <code>--registry-mirror</code> option, pointing to local Docker registry. By running a local Docker registry mirror, you can keep most of the redundant image fetch traffic on your local network and speedup service deployment.</p>
+<h3 id="docker-swarm-cluster-bootstrap-script">Docker Swarm cluster bootstrap script</h3>
+<p>I&rsquo;ve prepared a shell script to bootstrap 4 nodes swarm cluster with Docker registry mirror and very nice <a href="https://github.com/ManoMarks/docker-swarm-visualizer">swarm visualizer</a> application.</p>
+<p>The script initialize docker engine as a <strong>swarm master</strong>, then starts 3 new docker-in-docker containers and join them to the <strong>swarm</strong> cluster as worker nodes. All worker nodes run with <code>--registry-mirror</code> option.</p>
+<script type="application/javascript" src="https://gist.github.com/alexei-led/a4d31ee446a0fbcab845b93fe4a9b09d.js?file=create_swarm_cluster.sh"></script>
+
+<h2 id="deploy-multi-container-application---the-old-way">Deploy multi-container application - the &ldquo;old&rdquo; way</h2>
+<p>The Docker <code>compose</code> is a tool (and deployment specification format) for defining and running composed multi-container Docker applications. Before Docker 1.12, you could use <code>docker-compose</code> tool to deploy such applications to a <strong>swarm</strong> cluster. With 1.12 release, it&rsquo;s not possible anymore: <code>docker-compose</code> can deploy your application only on single Docker host.</p>
+<p>In order to deploy it to a <strong>swarm</strong> cluster, you need to create a special deployment specification file (also knows as <em>Distribution Application Bundle</em>) in <code>dab</code> format (see more <a href="https://github.com/docker/docker/blob/master/experimental/docker-stacks-and-bundles.md">here</a>).</p>
+<p>The way to create this file, is to run the <code>docker-compose bundle</code> command. The output of this command is a JSON file, that describes  multi-container composed application with Docker images referenced by <code>@sha256</code> instead of tags. Currently <code>dab</code> file format does not support multiple settings from <code>docker-compose.yml</code> and does not allow to use supported options from <code>docker service create</code> command.</p>
+<p>Such a pity story: the <code>dab</code> bundle format looks promising, but currently is totally useless (at least in Docker 1.12).</p>
+<h2 id="deploy-multi-container-application---the-new-way">Deploy multi-container application - the &ldquo;new&rdquo; way</h2>
+<p>With Docker 1.13, the &ldquo;new&rdquo; way to deploy a multi-container composed application is to use <code>docker-compose.yml</code> again (<em>hurrah!</em>). Kudos to Docker team!</p>
+<p>*<strong>Note</strong>: And you do not need the <code>docker-compose</code> tool, only <code>yaml</code> file in <strong>docker-compose</strong> format (<code>version: &quot;3&quot;</code>)</p>
+<pre><code>$ docker deploy --compose-file docker-compose.yml myapp
+</code></pre><h2 id="docker-compose-v3-version-3">Docker compose v3 (<code>version: &quot;3&quot;</code>)</h2>
+<p><em>So, what&rsquo;s new in docker compose version 3?</em></p>
+<p>First, I suggest you take a deeper look at <a href="https://github.com/aanand/compose-file/blob/master/schema/data/config_schema_v3.0.json">docker-compose schema</a>. It is an extension of well-known <code>docker-compose</code> format.</p>
+<p><strong>Note:</strong> <code>docker-compose</code> tool (<code>ver. 1.9.0</code>) does not support <code>docker-compose.yaml version: &quot;3&quot;</code> yet.</p>
+<p>The most visible change is around <strong>swarm</strong> ***service deployment.
+Now you can specify all options supported by <code>docker service create/update</code> commands:</p>
+<ul>
+<li>number of service replicas (or global service)</li>
+<li>service labels</li>
+<li>hard and soft limits for service (container) CPU and memory</li>
+<li>service restart policy</li>
+<li>service rolling update policy</li>
+<li>deployment placement constraints <a href="https://github.com/docker/docker/blob/master/docs/reference/commandline/service_create.md#specify-service-constraints---constraint">link</a></li>
+</ul>
+<h3 id="docker-compose-v3-example">Docker compose v3 example</h3>
+<p>I&rsquo;ve created a &ldquo;new&rdquo; compose file (v3) for classic &ldquo;Cats vs. Dogs&rdquo; example. This example application contains 5 services with following deployment configurations:</p>
+<ol>
+<li><code>voting-app</code> - a Python webapp which lets you vote between two options; requires <code>redis</code></li>
+<li><code>redis</code> - Redis queue which collects new votes; deployed on <code>swarm manager</code> node</li>
+<li><code>worker</code> .NET worker which consumes votes and stores them in <code>db</code>;</li>
+</ol>
+<ul>
+<li><strong># of replicas:</strong> 2 replicas</li>
+<li><strong>hard limit:</strong> max 25% CPU and 512MB memory</li>
+<li><strong>soft limit:</strong> max 25% CPU and 256MB memory</li>
+<li><strong>placement:</strong> on <code>swarm worker</code> nodes only</li>
+<li><strong>restart policy:</strong> restart on-failure, with 5 seconds delay, up to 3 attempts</li>
+<li><strong>update policy:</strong> one by one, with 10 seconds delay and 0.3 failure rate to tolerate during the update</li>
+</ul>
+<ol start="4">
+<li><code>db</code> - Postgres database backed by a Docker volume; deployed on <code>swarm manager</code> node</li>
+<li><code>result-app</code> Node.js webapp which shows the results of the voting in real time; 2 replicas, deployed on <code>swarm worker</code> nodes</li>
+</ol>
+<p>Run the <code>docker deploy --compose-file docker-compose.yml</code> command to deploy my version of &ldquo;Cats vs. Dogs&rdquo; application on a swarm cluster.</p>
+<script type="application/javascript" src="https://gist.github.com/alexei-led/a4d31ee446a0fbcab845b93fe4a9b09d.js?file=docker-compose.yml"></script>
+
+<hr>
+<p>Hope you find this post useful. I look forward to your comments and any questions you have.</p>
+
+                    </div>
+                </section>
+                
+                <h1 class="content-subhead">26 Nov 2016, 16:00</h1>
+                <section class="post">
+                    <header class="post-header">
+
+                        <a href="https://alexei-led.github.io/post/donot_ignore_dockerignore/" class="post-title">Do not ignore .dockerignore</a>
+
+                        <p class="post-meta">
+                            
+                            
+                                under 
+                                
+                                    <a class="post-category post-category-Development" href='https://alexei-led.github.io/categories/Development'>Development</a>
+                                
+                            
+                        </p>
+                    </header>
+
+                    <div class="post-description">
+                        <h1 id="tldr">TL;DR</h1>
+<blockquote>
+<p><strong>Tip:</strong> Consider to define and use <code>.dockerignore</code> file for every Docker image you are building. It can help you to reduce Docker image size, speedup <code>docker build</code> and avoid unintended secret exposure.</p>
+</blockquote>
+<p><img src="https://alexei-led.github.io/img/overloaded.jpg" alt="Overloaded container ship"></p>
+<h1 id="docker-build-context">Docker build context</h1>
+<p>The <code>docker build</code> command is used to build a new Docker image. There is one argument you can pass to the <code>build</code> command <strong>build context</strong>.</p>
+<p>So, what is the Docker <strong>build context</strong>?</p>
+<p>First, remember, that Docker is a client-server application, it consists from Docker client and Docker server (also known as <em>daemon</em>). The Docker client command line tool talks with Docker server and asks it do things. One of these things is <strong>build</strong>: building a new Docker image. The Docker server can run on the same machine as the client, remote machine or virtual machine, that also can be local, remote or even run on some cloud IaaS.</p>
+<p>Why is that important and how is the Docker <strong>build context</strong> related to this fact?</p>
+<p>In order to create a new Docker image, Docker server needs an access to files, you want to create the Docker image from. So, you need somehow to send these files to the Docker server. These files are the Docker <strong>build context</strong>. The Docker client packs all <strong>build context</strong> files into <code>tar</code> archive and uploads this archive to the Docker server. By default client will take all files (and folders) in current working directory and use them as the <strong>build context</strong>.
+It can also accept already created <code>tar</code> archive or <code>git</code> repository. In a case of <code>git</code> repository, the client will clone it with submodules into a temporary folder and will create a <strong>build context</strong> archive from it.</p>
+<h1 id="impact-on-docker-build">Impact on Docker build</h1>
+<p>The first output line, that you see, running the <code>docker build</code> command is:</p>
+<pre><code>Sending build context to Docker daemon 45.3 MB
+Step 1: FROM ...
+</code></pre><p>This should make things clear. Actually, <strong>every time</strong> you are running the <code>docker build</code> command, the Docker client creates a new <strong>build context</strong> archive and sends it to the Docker server. So, you are always paying this &ldquo;tax&rdquo;: the time it takes to create an archive, storage and network traffic and latency time.</p>
+<blockquote>
+<p><strong>Tip:</strong> The <strong>rule of thumb</strong> is not adding files to the <strong>build context</strong>, if you do not need them in your Docker image.</p>
+</blockquote>
+<h1 id="the-dockerignore-file">The <strong>.dockerignore</strong> file</h1>
+<p>The <code>.dockerignore</code> file is the tool, that can help you to define the Docker <strong>build context</strong> you really need. Using this file, you can specify <strong>ignore rules</strong> and <strong>exceptions</strong> from these rules for files and folder, that won&rsquo;t be included in the <strong>build context</strong> and thus won&rsquo;t be packed into an archive and uploaded to the Docker server.</p>
+<h1 id="why-should-you-care">Why should you care?</h1>
+<p>Indeed, why should you care? Computers today are fast, networks are also pretty fast (hopefully) and storage is cheap. So, this &ldquo;tax&rdquo; may be not that big, right?
+I will try to convince you, that you should care.</p>
+<h2 id="reason-1-docker-image-size">Reason #1: Docker image size</h2>
+<p>The world of software development is shifting lately towards <em>continuous delivery</em>, <em>elastic infrastructure</em> and <em>microservice architecture</em>.</p>
+<p>How is that related?</p>
+<p>Your systems are composed of multiple components (or <em>microservices</em>), each one of them running inside Linux container. There might be tens or hundreds of services and even more service instances. These service instances can be built and deployed independently of each other and this can be done for <strong>every single code commit</strong>. More than that, <em>elastic infrastructure</em> means that new compute nodes can be added or removed from the system and its microservices can move from node to node, to support scale or availability requirements. That means, your Docker images will be frequently built and transferred.</p>
+<p>When you practice continuous delivery and microservice architecture, image size and image build time <strong>do matter</strong>.</p>
+<h2 id="reason-2-unintended-secrets-exposure">Reason #2: Unintended secrets exposure</h2>
+<p>Not controlling your <strong>build context</strong>, can also lead to an unintended exposure of your code, commit history, and secrets (keys and credentials).</p>
+<p>If you copy files into you Docker image with <code>ADD .</code> or <code>COPY .</code> command, you may unintendedly include your source files, whole <code>git</code> history (a <code>.git</code> folder), secret files (like <code>.aws</code>, <code>.env</code>, private keys), cache and other files not only into the Docker <strong>build context</strong>, but also into the final Docker image.</p>
+<p>There are multiple Docker images currently available on DockerHub, that expose application source code, passwords, keys and credentials (for example <a href="http://thehackernews.com/2016/07/vine-source-code.html">Twitter Vine</a>).</p>
+<h2 id="reason-3-the-docker-build---cache-invalidation">Reason #3: The Docker build - cache invalidation</h2>
+<p>A common pattern is to inject an application&rsquo;s entire codebase into an image using an instruction like this:</p>
+<pre><code>COPY . /usr/src/app
+</code></pre><p>In this case, we&rsquo;re copying the <strong>entire</strong> <strong>build context</strong> into the image. It&rsquo;s also important to understand, that every Dockerfile command generates a new layer. So, if any of included file changes in the entire build context, this change will invalidate the build cache for <code>COPY . /opt/myapp</code> layer and a new image layer will be generated on the next build.</p>
+<p>If your working directory contains files that are frequently updated (logs, test results, git history, temporary cache files and similar), you are going to regenerate this layer for every <code>docker build</code> run.</p>
+<h1 id="the-dockerignore-syntax">The <code>.dockerignore</code> syntax</h1>
+<p>The <code>.dockerignore</code> file is similar to <code>gitignore</code> file, used by <code>git</code> tool. similarly to <code>.gitignore</code> file, it allows you to specify a pattern for files and folders that should be ignored by the Docker client when generating a <strong>build context</strong>. While <code>.dockerignore</code> file syntax used to describe <strong>ignore patterns</strong> is similar to <code>.gitignore</code> it&rsquo;s not the same.</p>
+<p>The <code>.dockerignore</code> pattern matching syntax is based on Go <code>filepath.Match()</code> function and includes some additions.</p>
+<p>Here is the complete syntax for the <code>.dockerignore</code>:</p>
+<pre><code>pattern:
+    { term }
+term:
+    '*'         matches any sequence of non-Separator characters
+    '?'         matches any single non-Separator character
+    '[' [ '^' ] { character-range } ']'
+                character class (must be non-empty)
+    c           matches character c (c != '*', '?', '\\', '[')
+    '\\' c      matches character c
+
+character-range:
+    c           matches character c (c != '\\', '-', ']')
+    '\\' c      matches character c
+    lo '-' hi   matches character c for lo &lt;= c &lt;= hi
+
+additions:
+  '**'        matches any number of directories (including zero)
+  '!'         lines starting with ! (exclamation mark) can be used to make exceptions to exclusions
+    '#'         lines starting with this character are ignored: use it for comments
+</code></pre><p><strong>Note:</strong> Using the <code>!</code> character is pretty tricky. The combination of it and patterns before and after line with the <code>!</code> character can be used to create more advanced rules.</p>
+<h2 id="examples">Examples</h2>
+<pre><code># ignore .git and .cache folders
+.git
+.cache
+</code></pre><pre><code># ignore all *.class files in all folders, including build root
+**/*.class
+</code></pre><pre><code># ignore all markdown files (md) beside all README*.md other than README-secret.md
+*.md
+!README*.md
+README-secret.md
+</code></pre><h1 id="next">Next</h1>
+<ul>
+<li>RTFM - <a href="https://docs.docker.com/engine/reference/builder/#/dockerignore-file">https://docs.docker.com/engine/reference/builder/#/dockerignore-file</a></li>
+<li>Use <code>.dockerignore</code> in every project, where you are building Docker images</li>
+</ul>
+<hr>
+<p>Hope you find this post useful. I look forward to your comments and any questions you have.</p>
+
+                    </div>
+                </section>
+                
+                <h1 class="content-subhead">06 Oct 2016, 16:00</h1>
+                <section class="post">
+                    <header class="post-header">
+
+                        <a href="https://alexei-led.github.io/post/swarm_dind/" class="post-title">Docker Swarm cluster with docker-in-docker on MacOS</a>
+
+                        <p class="post-meta">
+                            
+                            
+                                under 
+                                
+                                    <a class="post-category post-category-Development" href='https://alexei-led.github.io/categories/Development'>Development</a>
+                                
+                            
+                        </p>
+                    </header>
+
+                    <div class="post-description">
+                        <h2 id="tldr">TL;DR</h2>
+<blockquote>
+<p>Docker-in-Docker <a href="https://hub.docker.com/_/docker/">dind</a> can help you to run Docker Swarm cluster on your Macbook only with Docker for Mac (v1.12+). No <code>virtualbox</code>, <code>docker-machine</code>, <code>vagrant</code> or other app is required.</p>
+</blockquote>
+<h2 id="the-beginning">The Beginning</h2>
+<p>One day, I&rsquo;ve decided to try running Docker 1.12 Swarm cluster on my MacBook Pro. Docker team did a great job releasing Docker for Mac, and from that time I forgot all problems I used to have with <code>boot2docker</code>. I really like Docker for Mac: it’s fast, lightweight, tightly integrated with MacOS and significantly simplifies my life when working in changing network environment. The only missing thing is that it&rsquo;s possible to create and work with single Docker daemon running inside <code>xhyve</code> VM. Shit! I want a cluster.</p>
+<p>Of cause, it&rsquo;s possible to create Swarm cluster with <code>docker-machine</code> tool, but it&rsquo;s not MacOS friendly and requires to install additional VM software, like VirtualBox or Parallels (why? I already have <code>xhyve</code>!). I have different network for work office and home. At work I&rsquo;m behind corporate proxy with multiple firewall filters. At home, of cause, life is better. <code>docker-machine</code> requires to create dedicated VMs for each environment and thus force me juggling with different shell scripts when I switch from one to another. It&rsquo;s possible, but it&rsquo;s not fun.</p>
+<blockquote>
+<p>I just want to have multi-node Swarm cluster with Docker for Mac (and <code>xhyve</code> VM). As simple as it is.</p>
+</blockquote>
+<p>I’m a lazy person and if there is an already existing solution, I will alway choose one, even if it’s not ideal. So, after googling for a while, I&rsquo;ve failed to find any suitable solution or blog post. So, I’ve decided to create my own and share it with you.</p>
+<h2 id="the-idea">The Idea</h2>
+<p>The basic idea is to use Docker for Mac for running Swam master and several <a href="https://hub.docker.com/_/docker/">Docker-in-Docker containers</a> for running Swarm worker nodes.</p>
+<p>First, lets init our Swarm master:</p>
+<pre><code># init Swarm master
+docker swarm init
+</code></pre><p>&hellip; keep Swarm join token:</p>
+<pre><code># get join token
+SWARM_TOKEN=$(docker swarm join-token -q worker)
+</code></pre><p>&hellip; and Docker <code>xhyve</code> VM IP:</p>
+<pre><code># get Swarm master IP (Docker for Mac xhyve VM IP)
+SWARM_MASTER=$(docker info | grep -w 'Node Address' | awk '{print $3}')
+</code></pre><p>&hellip; now let&rsquo;s create 3 worker nodes and join these nodes to our cluster</p>
+<pre><code># run NUM_WORKERS workers with SWARM_TOKEN
+NUM_WORKERS=3
+for i in $(seq “${NUM_WORKERS}&quot;); do
+  docker run -d --privileged --name worker-${i} --hostname=worker-${i} -p ${i}2375:2375 docker:1.12.1-dind
+  docker --host=localhost:${i}2375 swarm join --token ${SWARM_TOKEN} ${SWARM_MASTER}:2377
+done
+</code></pre><p>Listing all our Swarm cluster nodes:</p>
+<pre><code># list Swarm nodes :)
+docker node ls
+</code></pre><p>&hellip; you should see something like this:</p>
+<pre><code>ID                           HOSTNAME  STATUS  AVAILABILITY  MANAGER STATUS
+1f6z8pioh3vuaz84gyp0biqt0    worker-2  Ready   Active
+35z72o6zjhs9u1h99lrwzvx5n    worker-3  Ready   Active
+d9ph5cmc604wp1vhhs754nnxx *  moby      Ready   Active        Leader
+dj3gnpv86uqrw4b9mo9ux4jb5    worker-1  Ready   Active
+</code></pre><p>That&rsquo;s all folks! Now, you have running Swarm cluster on your Macbook and your Docker client is talking with Swarm master.</p>
+<h3 id="nice-tip">Nice tip:</h3>
+<p>You can use very nice [Swarm visualizer] (<a href="https://github.com/ManoMarks/docker-swarm-visualizer">https://github.com/ManoMarks/docker-swarm-visualizer</a>) by Mano Marks to see your Swarm cluster &ldquo;in action&rdquo;.</p>
+<p>Run it with following command:</p>
+<pre><code>docker run -it -d -p 8000:8000 -e HOST=localhost -e PORT=8000 -v /var/run/docker.sock:/var/run/docker.sock manomarks/visualizer
+</code></pre><p>And you should be able to see something like this (after you deploy some demo app):</p>
+<p><img src="https://alexei-led.github.io/img/docker_visualizer.png" alt="Docker Swarm visualizer: Voting App"></p>
+
+                    </div>
+                </section>
+                
+                <h1 class="content-subhead">01 Aug 2016, 20:00</h1>
+                <section class="post">
+                    <header class="post-header">
+
+                        <a href="https://alexei-led.github.io/post/pumba_docker_netem/" class="post-title">Network emulation for Docker containers</a>
+
+                        <p class="post-meta">
+                            
+                            
+                                under 
+                                
+                                    <a class="post-category post-category-Development" href='https://alexei-led.github.io/categories/Development'>Development</a>
+                                
+                            
+                        </p>
+                    </header>
+
+                    <div class="post-description">
+                        <h2 id="tldr">TL;DR</h2>
+<blockquote>
+<p><a href="https://github.com/gaia-adm/pumba">Pumba</a> <code>netem delay</code> and <code>netem loss</code> commands can emulate network <em>delay</em> and <em>packet loss</em> between Docker containers, even on single host. Give it a try!</p>
+</blockquote>
+<h2 id="introduction">Introduction</h2>
+<p>Microservice architecture has been adopted by software teams as a way to deliver business value faster. Container technology enables delivery of microservices into any environment. Docker has accelerated this by providing an easy to use toolset for development teams to build, ship, and run distributed applications. These applications can be composed of hundreds of microservices packaged in Docker containers.</p>
+<p>In a recent NGINX <a href="https://www.nginx.com/resources/library/app-dev-survey/">survey</a> [Finding #7], the “biggest challenge holding back developers” is the trade-off between quality and speed. As Martin Fowler indicates, <a href="http://martinfowler.com/articles/microservice-testing">testing strategies in microservices architecture</a> can be very complex. Creating a realistic and useful testing environment is an aspect of this complexity.</p>
+<p>One challenge is <strong>simulating network failures</strong> to ensure <strong>resiliency</strong> of applications and services.</p>
+<p>The network is a critical arterial system for ensuring reliability for any distributed application. Network conditions are different depending on where the application is accessed. Network behavior can greatly impact the overall application availability, stability, performance, and user experience (UX). It’s critical to simulate and understand these impacts before the user notices. Testing for these conditions requires conducting realistic network tests.</p>
+<p>After Docker containers are deployed in a cluster, all communication between containers happen over the network. These containers run on a single host, different hosts, different networks, and in different datacenters.</p>
+<blockquote>
+<p>How can we test for the impact of network behavior on the application? What can we do to emulate different network properties between containers on a single host or among clusters on multiple hosts?</p>
+</blockquote>
+<h2 id="pumba-with-network-emulation">Pumba with Network Emulation</h2>
+<p><a href="https://github.com/gaia-adm/pumba">Pumba</a> is a chaos testing tool for Docker containers, inspired by <a href="https://github.com/Netflix/SimianArmy/wiki/Chaos-Monkey">Netflix Chaos Monkey</a>. The main benefit is that it works with containers instead of VMs. Pumba can kill, stop, restart running Docker containers or pause processes within specified containers. We use it for resilience testing of our distributed applications. Resilience testing ensures reliability of the system. It allows the team to verify their application recovers correctly regardless of any event (expected or unexpected) without any loss of data or functionality. Pumba simulates these events for distributed and containerized applications.</p>
+<h3 id="pumba-netem">Pumba <code>netem</code></h3>
+<p>We enhanced <a href="https://github.com/gaia-adm/pumba">Pumba</a> with network emulation capabilities starting with <em>delay</em> and <em>packet loss</em>. Using <code>pumba netem</code> command we can apply <em>delay</em> or <em>packet loss</em> on any Docker container. Under the hood, <strong>Pumba</strong> uses Linux kernel traffic control (<a href="http://man7.org/linux/man-pages/man8/tc.8.html">tc</a>) with <a href="http://man7.org/linux/man-pages/man8/tc-netem.8.html">netem</a> queueing discipline. To work, we need to add <a href="https://wiki.linuxfoundation.org/networking/iproute2">iproute2</a> to Docker images, that we want to test. Some base Docker images already include <a href="https://wiki.linuxfoundation.org/networking/iproute2">iproute2</a> package.</p>
+<p>Pumba <code>netem delay</code> and <code>netem loss</code> commands can emulate network <em>delay</em> and <em>packet loss</em> between Docker containers, even on a single host.</p>
+<p>Linux has a built-in network emulation capabilities, starting from kernel 2.6.7 (released 14 years ago). Linux allows us to manipulate traffic control settings, using <a href="http://man7.org/linux/man-pages/man8/tc.8.html">tc</a> tool, available in <a href="https://wiki.linuxfoundation.org/networking/iproute2">iproute2</a>; <a href="http://man7.org/linux/man-pages/man8/tc-netem.8.html">netem</a> is an extension (<em>queueing discipline</em>) of the tc tool. It allows emulation of network properties — <em>delay</em>, <em>packet loss</em>, <em>packer reorder</em>, <em>duplication</em>, <em>corruption</em>, and <em>bandwidth rate</em>.</p>
+<p><strong>Pumba</strong> <code>netem</code> commands can help development teams simulate realistic network conditions as they build, ship, and run microservices in Docker containers.</p>
+<p><strong>Pumba</strong> with low level <code>netem</code> options, greatly simplifies its usage. We have made it easier to emulate different network properties for running Docker containers.</p>
+<p>In the current release, <strong>Pumba</strong> modifies <em>egress</em> traffic only by adding <em>delay</em> or <em>packet loss</em> for specified container(s). Target containers can be specified by name (single name or as a space separated list) or via regular expression (<a href="https://github.com/google/re2/wiki/Syntax">RE2</a>). <strong>Pumba</strong> modifies container network conditions for a specified duration. After a set time interval, <strong>Pumba</strong> restores normal network conditions. <strong>Pumba</strong> also restores the original connection with a graceful shutdown of the <code>pumba</code> process <code>Ctrl-C</code> or by stopping the <strong>Pumba</strong> container with <code>docker stop</code> command.
+An option is available to apply an IP range filter to the network emulation. With this option, <strong>Pumba</strong> will modify outgoing traffic for specified IP and will leave other outgoing traffic unchanged. Using this option, we can change network properties for a specific inter-container connection(s) as well as specific Docker networks — each Docker network has its own IP range.</p>
+<h3 id="pumba-delay-netem-delay">Pumba delay: <code>netem delay</code></h3>
+<p>To demonstrate, we’ll run two Docker containers: one is running a <code>ping</code> command and the other is <strong>Pumba</strong> Docker container, that adds 3 seconds network <em>delay</em> to the ping container for 1 minute. After 1 minute, <strong>Pumba</strong> container restores the network connection properties of the ping container as it exits gracefully.</p>
+<p><a href="https://asciinema.org/a/82428?t=7"><!-- raw HTML omitted --></a></p>
+<pre><code># open two terminal windows: (1) and (2)
+
+# terminal (1)
+# create new 'tryme' Alpine container (with iproute2) and ping `www.example.com`
+$ docker run -it --rm --name tryme alpine sh -c &quot;apk add --update iproute2 &amp;&amp; ping www.example.com&quot;
+
+# terminal (2)
+# run pumba: add 3s delay to `tryme` container for 1m
+$ docker run -it --rm -v /var/run/docker.sock:/var/run/docker.sock gaiaadm/pumba \
+         pumba netem --interface eth0 --duration 1m delay --time 3000 tryme
+
+# See `ping` delay increased by 3000ms for 1 minute
+# You can stop Pumba earlier with `Ctrl-C`
+</code></pre><h3 id="netem-delay-examples"><code>netem delay</code> examples</h3>
+<p>This section contains more advanced network emulation examples for <code>delay</code> command.</p>
+<pre><code># add 3 seconds delay for all outgoing packets on device `eth0` (default) of `mydb` Docker container for 5 minutes
+
+$ docker run -it --rm -v /var/run/docker.sock:/var/run/docker.sock gaiaadm/pumba \
+    pumba netem --duration 5m \
+      delay --time 3000 \
+      mydb
+</code></pre><pre><code># add a delay of 3000ms ± 30ms, with the next random element depending 20% on the last one,
+# for all outgoing packets on device `eth1` of all Docker container, with name start with `hp`
+# for 10 minutes
+
+$ docker run -it --rm -v /var/run/docker.sock:/var/run/docker.sock gaiaadm/pumba \
+    pumba netem --duration 5m --interface eth1 \
+      delay \
+        --time 3000 \
+        --jitter 30 \
+        --correlation 20 \
+      re2:^hp
+</code></pre><pre><code># add a delay of 3000ms ± 40ms, where variation in delay is described by `normal` distribution,
+# for all outgoing packets on device `eth0` of randomly chosen Docker container from the list
+# for 10 minutes
+
+$ docker run -it --rm -v /var/run/docker.sock:/var/run/docker.sock gaiaadm/pumba \
+    pumba --random \
+      netem --duration 5m \
+        delay \
+          --time 3000 \
+          --jitter 40 \
+          --distribution normal \
+        container1 container2 container3
+</code></pre><h2 id="pumba-packet-loss-netem-loss-netem-loss-state-netem-loss-gemodel">Pumba packet loss: <code>netem loss</code>, <code>netem loss-state</code>, <code>netem loss-gemodel</code></h2>
+<p>Lets start with <em>packet loss</em> demo. Here we will run three Docker containers. <code>iperf</code> <strong>server</strong> and <strong>client</strong> for sending data and Pumba Docker container, that will add packer loss on client container.
+We are using <strong>perform network throughput tests</strong> tool <a href="http://manpages.ubuntu.com/manpages/xenial/man1/iperf.1.html">iperf</a> to demonstrate <em>packet loss</em>.</p>
+<p><a href="https://asciinema.org/a/82430"><!-- raw HTML omitted --></a></p>
+<pre><code># open three terminal windows
+
+# terminal (1) iperf server
+# server: `-s` run in server mode; `-u` use UDP;  `-i 1` report every second
+$ docker run -it --rm --name tryme-srv alpine sh -c &quot;apk add --update iperf &amp;&amp; iperf -s -u -i 1&quot;
+
+# terminal (2) iperf client
+# client: `-c` client connects to &lt;server ip&gt;; `-u` use UDP
+$ docker run -it --rm --name tryme alpine sh -c &quot;apk add --update iproute2 iperf &amp;&amp; iperf -c 172.17.0.3 -u&quot;
+
+# terminal (3)
+# run pumba: add 20% packet loss to `tryme` container for 1m
+$ docker run -it --rm -v /var/run/docker.sock:/var/run/docker.sock gaiaadm/pumba \
+         pumba netem --duration 1m loss --percent 20 tryme
+
+# See server report on terminal (1) 'Lost/Total Datagrams' - should see lost packets there
+</code></pre><p>It is generally understood that <em>packet loss</em> distribution in IP networks is “bursty”. To simulate more realistic <em>packet loss</em> events, different probability models are used.
+Pumba currently supports 3 different loss probability models for *packet loss&rdquo;. Pumba defines separate <em>loss</em> command for each probability model.</p>
+<ul>
+<li><code>loss</code> - independent probability loss model (Bernoulli model); it&rsquo;s the most widely used loss model where packet losses are modeled by a random process consisting of Bernoulli trails</li>
+<li><code>loss-state</code> - 2-state, 3-state and 4-state State Markov models</li>
+<li><code>loss-gemodel</code> - Gilbert and Gilbert-Elliott models</li>
+</ul>
+<p>Papers on network packer loss models:</p>
+<ul>
+<li>&ldquo;Indepth: Packet Loss Burstiness&rdquo; <a href="http://www.voiptroubleshooter.com/indepth/burstloss.html">link</a></li>
+<li>&ldquo;Definition of a general and intuitive loss model for packet networks and its implementation in the Netem module in the Linux kernel.&rdquo; <a href="netgroup.uniroma2.it/TR/TR-loss-netem.pdf">link</a></li>
+<li><code>man netem</code> <a href="http://man7.org/linux/man-pages/man8/tc-netem.8.html">link</a></li>
+</ul>
+<h3 id="netem-loss-examples"><code>netem loss</code> examples</h3>
+<pre><code># loss 0.3% of packets
+# apply for `eth0` network interface (default) of `mydb` Docker container for 5 minutes
+
+$ docker run -it --rm -v /var/run/docker.sock:/var/run/docker.sock gaiaadm/pumba \
+    pumba netem --duration 5m \
+      loss --percent 0.3 \
+      mydb
+</code></pre><pre><code># loss 1.4% of packets (14 packets from 1000 will be lost)
+# each successive probability (of loss) depends by a quarter on the last one
+#   Prob(n) = .25 * Prob(n-1) + .75 * Random
+# apply on `eth1` network interface  of Docker containers (name start with `hp`) for 15 minutes
+
+$ docker run -it --rm -v /var/run/docker.sock:/var/run/docker.sock gaiaadm/pumba \
+    pumba netem --interface eth1 --duration 15m \
+      loss --percent 1.4 --correlation 25 \
+      re2:^hp
+</code></pre><pre><code># use 2-state Markov model for packet loss probability: P13=15%, P31=85%
+# apply on `eth1` network interface of 3 Docker containers (c1, c2 and c3) for 12 minutes
+
+$ docker run -it --rm -v /var/run/docker.sock:/var/run/docker.sock gaiaadm/pumba \
+    pumba netem --interface eth1 --duration 12m \
+      loss-state -p13 15 -p31 85 \
+      c1 c2 c3
+</code></pre><pre><code># use Gilbert-Elliot model for packet loss probability: p=5%, r=90%, (1-h)=85%, (1-k)=7%
+# apply on `eth2` network interface of `mydb` Docker container for 9 minutes and 30 seconds
+
+$ docker run -it --rm -v /var/run/docker.sock:/var/run/docker.sock gaiaadm/pumba \
+    pumba netem --interface eth2 --duration 9m30s \
+      loss-gemodel --pg 5 --pb 90 --one-h 85 --one-k 7 \
+      mydb
+</code></pre><h2 id="contribution">Contribution</h2>
+<p>Special thanks to <a href="https://medium.com/@GehaniNeil">Neil Gehani</a> for helping me with this post and to <a href="https://github.com/inbarshani">Inbar Shani</a> for initial Pull Request with <code>netem</code> command.</p>
+<h2 id="next">Next</h2>
+<p>To see more examples on how to use Pumba with [netem] commands, please refer to the <a href="https://github.com/gaia-adm/pumba">Pumba GitHub Repository</a>. We have open sourced it. We gladly accept ideas, pull requests, issues, or any other contributions.</p>
+<p>Pumba can be downloaded as precompiled binary (Windows, Linux and MacOS) from the <a href="https://github.com/gaia-adm/pumba/releases">GitHub project release page</a>. It’s also available as a <a href="https://hub.docker.com/r/gaiaadm/pumba/">Docker image</a>.</p>
+<p><a href="https://github.com/gaia-adm/pumba">Pumba GitHub Repository</a></p>
+
+                    </div>
+                </section>
+                
+                <h1 class="content-subhead">16 Apr 2016, 20:00</h1>
+                <section class="post">
+                    <header class="post-header">
+
+                        <a href="https://alexei-led.github.io/post/pumba_docker_chaos_testing/" class="post-title">Pumba - Chaos Testing for Docker</a>
+
+                        <p class="post-meta">
+                            
+                            
+                                under 
+                                
+                                    <a class="post-category post-category-Development" href='https://alexei-led.github.io/categories/Development'>Development</a>
+                                
+                            
+                        </p>
+                    </header>
+
+                    <div class="post-description">
+                        <p><strong>Update (27-07-27):</strong> Updated post to latest <code>v0.2.0</code> Pumba version change.</p>
+<h2 id="introduction">Introduction</h2>
+<p>The best defense against unexpected failures is to build resilient services. Testing for resiliency enables the teams to learn where their apps fail before the customer does. By intentionally causing failures as part of resiliency testing, you can enforce your policy for building resilient systems.
+Resilience of the system can be defined as its ability to continue functioning even if some components of the system are failing - <a href="https://en.wikipedia.org/wiki/Ephemerality">ephemerality</a>. Growing popularity of distributed and microservice architecture makes resilience testing critical for applications that now require 24x7x365 operation.
+Resilience testing is an approach where you intentionally inject different types of failures at the infrastructure level (VM, network, containers, and processes) and let the system try to recover from these unexpected failures that can happen in production. Simulating realistic failures at any time is the best way to enforce highly available and resilient systems.</p>
+<h2 id="what-is-pumba">What is Pumba?</h2>
+<p><img src="https://alexei-led.github.io/img/pumba_docker.png" alt="Pumba"></p>
+<p>First of all, <a href="https://en.wikipedia.org/wiki/Timon_and_Pumbaa">Pumba</a> (or Pumbaa) is a supporting character from Disney&rsquo;s animated film <em>The Lion King</em>. In Swahili, <em>pumbaa</em> means &ldquo;to be foolish, silly, weak-minded, careless, negligent&rdquo;. This reflects the unexpected behavior of the application.</p>
+<p>Pumba is inspired by highly popular <a href="https://github.com/Netflix/SimianArmy/wiki/Chaos-Monkey">Netfix Chaos Monkey</a> resilience testing tool for AWS cloud. Pumba takes a similar approach but applies it at the container level. It connects to the Docker daemon running on some machine (local or remote) and brings a level of chaos to it: &ldquo;randomly&rdquo; killing, stopping, and removing running containers.</p>
+<p>If your system is designed to be resilient, it should be able to recover from such failures. &ldquo;Failed&rdquo; services should be restarted and lost connections should be recovered. This is not as trivial as it sounds. You need to design your services differently. Be aware that a service can fail (for whatever reason) or service it depends on can disappear at any point of time (but can reappear later). Expect the unexpected!</p>
+<h2 id="why-run-pumba">Why run Pumba?</h2>
+<p>Failures happen and they inevitably happen when least desired. If your application cannot recover from system failures, you are going to face angry customers and maybe even loose them. If you want to be sure that your system is able to recover from unexpected failures, it would be better to take charge of them and inject failures yourself instead of waiting till they happen. This is not a one time effort. In age of Continuous Delivery, you need to be sure that every change to any one of system services, does not compromise system availability. That&rsquo;s why you should practice <strong>continuous resilience testing</strong>.
+With Docker gaining popularity as people are deploying and running clusters of containers in production. Using a container orchestration network (e.g. Kubernetes, Swarm, CoreOS fleet), it&rsquo;s possible to restart a &ldquo;failed&rdquo; container automatically. How can you be sure that restarted services and other system services can properly recover from failures? If you are not using container orchestration frameworks, life is even harder: you will need to handle container restarts by yourself.</p>
+<p>This is where Pumba shines. You can run it on every Docker host, in your cluster, and Pumba will &ldquo;randomly&rdquo; stop running containers - matching specified name/s or name patterns. You can even specify the <em>signal</em> that will be sent to &ldquo;kill&rdquo; the container.</p>
+<h2 id="what-pumba-can-do">What Pumba can do?</h2>
+<p>Pumba can create different failures for your running Docker containers. Pumba can kill, stop or remove running containers. It can also pause all processes withing running container for specified period of time.
+Pumba can also do network emulation, simulating different network failures, like: delay, packet loss/corruption/reorder, bandwidth limits and more.
+<em>Disclaimer:</em> <code>netem</code> command is under development and only <code>delay</code> command is supported in Pumba <code>v0.2.0</code>.</p>
+<p>You can pass list of containers to Pumba or just write a regular expression to select matching containers. If you will not specify containers, Pumba will try to disturb all running containers. Use <code>--random</code> option, to randomly select only one target container from provided list.</p>
+<h2 id="how-to-run-pumba">How to run Pumba?</h2>
+<p>There are two ways to run Pumba.</p>
+<p>First, you can download Pumba application (single binary file) for your OS from project <a href="https://github.com/gaia-adm/pumba/releases">release page</a> and run <code>pumba help</code> to see list of supported commands and options.</p>
+<pre><code>$ pumba help
+
+Pumba version v0.2.0
+NAME:
+   Pumba - Pumba is a resilience testing tool, that helps applications tolerate random Docker container failures: process, network and performance.
+
+USAGE:
+   pumba [global options] command [command options] containers (name, list of names, RE2 regex)
+
+VERSION:
+   v0.2.0
+
+COMMANDS:
+     kill     kill specified containers
+     netem    emulate the properties of wide area networks
+     pause    pause all processes
+     stop     stop containers
+     rm       remove containers
+     help, h  Shows a list of commands or help for one command
+
+GLOBAL OPTIONS:
+   --host value, -H value      daemon socket to connect to (default: &quot;unix:///var/run/docker.sock&quot;) [$DOCKER_HOST]
+   --tls                       use TLS; implied by --tlsverify
+   --tlsverify                 use TLS and verify the remote [$DOCKER_TLS_VERIFY]
+   --tlscacert value           trust certs signed only by this CA (default: &quot;/etc/ssl/docker/ca.pem&quot;)
+   --tlscert value             client certificate for TLS authentication (default: &quot;/etc/ssl/docker/cert.pem&quot;)
+   --tlskey value              client key for TLS authentication (default: &quot;/etc/ssl/docker/key.pem&quot;)
+   --debug                     enable debug mode with verbose logging
+   --json                      produce log in JSON format: Logstash and Splunk friendly
+   --slackhook value           web hook url; send Pumba log events to Slack
+   --slackchannel value        Slack channel (default #pumba) (default: &quot;#pumba&quot;)
+   --interval value, -i value  recurrent interval for chaos command; use with optional unit suffix: 'ms/s/m/h'
+   --random, -r                randomly select single matching container from list of target containers
+   --dry                       dry runl does not create chaos, only logs planned chaos commands
+   --help, -h                  show help
+   --version, -v               print the version
+</code></pre><h3 id="kill-container-command">Kill Container command</h3>
+<pre><code>$ pumba kill -h
+
+NAME:
+   pumba kill - kill specified containers
+
+USAGE:
+   pumba kill [command options] containers (name, list of names, RE2 regex)
+
+DESCRIPTION:
+   send termination signal to the main process inside target container(s)
+
+OPTIONS:
+   --signal value, -s value  termination signal, that will be sent by Pumba to the main process inside target container(s) (default: &quot;SIGKILL&quot;)
+</code></pre><h3 id="pause-container-command">Pause Container command</h3>
+<pre><code>$ pumba pause -h
+
+NAME:
+   pumba pause - pause all processes
+
+USAGE:
+   pumba pause [command options] containers (name, list of names, RE2 regex)
+
+DESCRIPTION:
+   pause all running processes within target containers
+
+OPTIONS:
+   --duration value, -d value  pause duration: should be smaller than recurrent interval; use with optional unit suffix: 'ms/s/m/h'
+</code></pre><h3 id="stop-container-command">Stop Container command</h3>
+<pre><code>$ pumba stop -h
+NAME:
+   pumba stop - stop containers
+
+USAGE:
+   pumba stop [command options] containers (name, list of names, RE2 regex)
+
+DESCRIPTION:
+   stop the main process inside target containers, sending  SIGTERM, and then SIGKILL after a grace period
+
+OPTIONS:
+   --time value, -t value  seconds to wait for stop before killing container (default 10) (default: 10)
+</code></pre><h3 id="remove-rm-container-command">Remove (rm) Container command</h3>
+<pre><code>$ pumba rm -h
+
+NAME:
+   pumba rm - remove containers
+
+USAGE:
+   pumba rm [command options] containers (name, list of names, RE2 regex)
+
+DESCRIPTION:
+   remove target containers, with links and voluems
+
+OPTIONS:
+   --force, -f    force the removal of a running container (with SIGKILL)
+   --links, -l    remove container links
+   --volumes, -v  remove volumes associated with the container
+</code></pre><h3 id="network-emulation-netem-command">Network Emulation (netem) command</h3>
+<pre><code>$ pumba netem -h
+
+NAME:
+   Pumba netem - delay, loss, duplicate and re-order (run 'netem') packets, to emulate different network problems
+
+USAGE:
+   Pumba netem command [command options] [arguments...]
+
+COMMANDS:
+     delay      dealy egress traffic
+     loss
+     duplicate
+     corrupt
+
+OPTIONS:
+   --duration value, -d value   network emulation duration; should be smaller than recurrent interval; use with optional unit suffix: 'ms/s/m/h'
+   --interface value, -i value  network interface to apply delay on (default: &quot;eth0&quot;)
+   --target value, -t value     target IP filter; netem will impact only on traffic to target IP
+   --help, -h                   show help
+
+NAME:
+   Pumba netem - delay, loss, duplicate and re-order (run 'netem') packets, to emulate different network problems
+
+USAGE:
+   Pumba netem command [command options] [arguments...]
+
+COMMANDS:
+     delay      dealy egress traffic
+     loss       TODO: planned to implement ...
+     duplicate  TODO: planned to implement ...
+     corrupt    TODO: planned to implement ...
+
+OPTIONS:
+   --duration value, -d value   network emulation duration; should be smaller than recurrent interval; use with optional unit suffix: 'ms/s/m/h'
+   --interface value, -i value  network interface to apply delay on (default: &quot;eth0&quot;)
+   --target value, -t value     target IP filter; netem will impact only on traffic to target IP
+   --help, -h                   show help
+</code></pre><h4 id="network-emulation-delay-sub-command">Network Emulation Delay sub-command</h4>
+<pre><code>$ pumba netem delay -h
+
+NAME:
+   Pumba netem delay - dealy egress traffic
+
+USAGE:
+   Pumba netem delay [command options] containers (name, list of names, RE2 regex)
+
+DESCRIPTION:
+   dealy egress traffic for specified containers; networks show variability so it is possible to add random variation; delay variation isn't purely random, so to emulate that there is a correlation
+
+OPTIONS:
+   --amount value, -a value       delay amount; in milliseconds (default: 100)
+   --variation value, -v value    random delay variation; in milliseconds; example: 100ms ± 10ms (default: 10)
+   --correlation value, -c value  delay correlation; in percents (default: 20)
+</code></pre><h4 id="examples">Examples</h4>
+<pre><code># stop random container once in a 10 minutes
+$ ./pumba --random --interval 10m kill --signal SIGSTOP
+</code></pre><pre><code># every 15 minutes kill `mysql` container and every hour remove containers starting with &quot;hp&quot;
+$ ./pumba --interval 15m kill --signal SIGTERM mysql &amp;
+$ ./pumba --interval 1h rm re2:^hp &amp;
+</code></pre><pre><code># every 30 seconds kill &quot;worker1&quot; and &quot;worker2&quot; containers and every 3 minutes stop &quot;queue&quot; container
+$ ./pumba --interval 30s kill --signal SIGKILL worker1 worker2 &amp;
+$ ./pumba --interval 3m stop queue &amp;
+</code></pre><pre><code># Once in 5 minutes, Pumba will delay for 2 seconds (2000ms) egress traffic for some (randomly chosen) container,
+# named `result...` (matching `^result` regexp) on `eth2` network interface.
+# Pumba will restore normal connectivity after 2 minutes. Print debug trace to STDOUT too.
+$ ./pumba --debug --interval 5m --random netem --duration 2m --interface eth2 delay --amount 2000 re2:^result
+</code></pre><h3 id="running-pumba-in-docker-container">Running Pumba in Docker Container</h3>
+<p>The second approach to run it in a Docker container.</p>
+<p>In order to give Pumba access to Docker daemon on host machine, you will need to mount <code>var/run/docker.sock</code> unix socket.</p>
+<pre><code># run latest stable Pumba docker image (from master repository)
+$ docker run -d -v /var/run/docker.sock:/var/run/docker.sock gaiaadm/pumba:master pumba kill --interval 10s --signal SIGTERM ^hp
+</code></pre><p>Pumba will not kill its own container.</p>
+<p>Note: For Mac OSX - before you run Pumba, you may want to do the following after downloading the <a href="https://github.com/gaia-adm/pumba/releases">pumba_darwin_amd64</a> binary:</p>
+<pre><code>chmod +x pumba_darwin_amd64
+mv pumba_darwin_amd64 /usr/local/bin/pumba
+pumba
+</code></pre><h3 id="next">Next</h3>
+<p>The Pumba project is available for you to try out. We will gladly accept ideas, pull requests, issues, and contributions to the project.</p>
+<p><a href="https://github.com/gaia-adm/pumba">Pumba GitHub Repository</a></p>
+
+                    </div>
+                </section>
+                
+                <h1 class="content-subhead">07 Mar 2016, 16:39</h1>
+                <section class="post">
+                    <header class="post-header">
+
+                        <a href="https://alexei-led.github.io/post/docker_testing/" class="post-title">Testing Strategies for Docker Containers</a>
+
+                        <p class="post-meta">
+                            
+                            
+                                under 
+                                
+                                    <a class="post-category post-category-Development" href='https://alexei-led.github.io/categories/Development'>Development</a>
+                                
+                            
+                        </p>
+                    </header>
+
+                    <div class="post-description">
+                        <p>Congratulations! You know how to build a Docker image and are able to compose multiple containers into a meaningful application. Hopefully, you&rsquo;ve already created a Continuous Delivery pipeline and know how to push your newly created image into production or testing environment.</p>
+<blockquote>
+<p>Now, the question is - <em>How do we test our Docker containers?</em></p>
+</blockquote>
+<p>There are multiple testing strategies we can apply. In this post, I&rsquo;ll highlight them presenting benefits and drawbacks for each.</p>
+<h2 id="the-naive-approach">The &ldquo;Naive&rdquo; approach</h2>
+<p>This is the default approach for most people. It relies on a CI server to do the job. When taking this approach, the developer is using Docker as a package manager, a better option than the <strong>jar/rpm/deb</strong> approach.
+The CI server compiles the application code and executes tests (unit, service, functional, and others). The build artifacts are reused in Docker <strong>build</strong> to produce a new image. This becomes a core deployment artifact. The produced image contains not only application &ldquo;binaries&rdquo;, but also a required runtime including all dependencies and application configuration.</p>
+<p>We are getting application portability, however, we are loosing the development and testing portability. We&rsquo;re not able to reproduce exactly the same development and testing environment outside the CI. To create a new test environment we&rsquo;ll need to setup the testing tools (correct versions and plugins), configure runtime and OS settings, and get the same versions of test scripts as well as perhaps, the test data.</p>
+<p><img src="https://alexei-led.github.io/img/naive.png" alt="The Naive Testing Strategy"></p>
+<p>To resolve these problems leads us to the next one.</p>
+<h2 id="app--test-container-approach">App &amp; Test Container approach</h2>
+<p>Here, we try to create a single bundle with the application &ldquo;binaries&rdquo; including required packages, testing tools (specific versions), test tools plugins, test scripts, test environment with all required packages.</p>
+<p>The benefits of this approach:</p>
+<ul>
+<li>We have a repeatable test environment - we can run exactly the same tests using the same testing tools - in our CI, development, staging, or production environment</li>
+<li>We capture test scripts at a specific point in time so we can always reproduce them in any environment</li>
+<li>We do not need to setup and configure our testing tools - they are part of our image</li>
+</ul>
+<p>This approach has significant drawbacks:</p>
+<ul>
+<li>Increases the image size - because it contains testing tools, required packages, test scripts, and perhaps even test data</li>
+<li>Pollutes image runtime environment with test specific configuration and may even introduce an unneeded dependency (required by integration testing)</li>
+<li>We also need to decide what to do with the test results and logs; how and where to export them</li>
+</ul>
+<p>Here&rsquo;s a simplified <code>Dockerfile</code>. It illustrates this approach.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-dockerfile" data-lang="dockerfile"><span style="color:#66d9ef">FROM</span><span style="color:#e6db74"> &#34;&lt;bases image&gt;&#34;:&#34;&lt;version&gt;&#34;</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">WORKDIR</span><span style="color:#e6db74"> &#34;&lt;path&gt;&#34;</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e"># install packages required to run app and tests</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">RUN</span> apt-get update <span style="color:#f92672">&amp;&amp;</span> apt-get install -y <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    <span style="color:#e6db74">&#34;&lt;app runtime&gt; and &lt;dependencies&gt;&#34;</span> <span style="color:#ae81ff">\ </span> <span style="color:#75715e"># add app runtime and required packages</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span>    <span style="color:#e6db74">&#34;&lt;test tools&gt; and &lt;dependencies&gt;&#34;</span> <span style="color:#ae81ff">\ </span>    <span style="color:#75715e"># add testing tools and required packages</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span>    <span style="color:#f92672">&amp;&amp;</span> rm -rf /var/lib/apt/lists/*<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e"># copy app files</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">COPY</span> app app<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">COPY</span> run.sh run.sh<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e"># copy test scripts</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">COPY</span> tests tests<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e"># copy &#34;main&#34; test command</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">COPY</span> test.sh test.sh<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e"># ... EXPOSE, RUN, ADD ... for app and test environment</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e"># main app command</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">CMD</span> [<span style="color:#960050;background-color:#1e0010">run.sh</span>, <span style="color:#e6db74">&#34;&lt;app arguments&gt;&#34;</span>]<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e"># it&#39;s not possible to have multiple CMD commands, but this is the &#34;main&#34; test command</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e"># CMD [/test.sh, &#34;&lt;test arguments&gt;&#34;]</span><span style="color:#960050;background-color:#1e0010">
+</span></code></pre></div><p><a href="https://gist.github.com/alexei-led/cbb3d46fcf422a24aacd">Dockerfile</a></p>
+<p><img src="https://alexei-led.github.io/img/app_test.png" alt="App & Test Container"></p>
+<p>There has to be a better way for in-container testing and there is.</p>
+<h2 id="test-aware-container-approach">Test Aware Container Approach</h2>
+<p>Today, Docker&rsquo;s promise is <strong>&ldquo;Build -&gt; Ship -&gt; Run&rdquo;</strong> - build the image, ship it to some registry, and run it anywhere. IMHO there&rsquo;s a critical missing step - <strong>Test</strong>. The right and complete sequence should be <strong>:Build -&gt; Test -&gt; Ship -&gt; Run</strong>.</p>
+<p>Let&rsquo;s look at a &ldquo;test-friendly&rdquo; Dockerfile syntax and extensions to Docker commands. This important step could be supported natively. It&rsquo;s not a real syntax, but bear with me. I&rsquo;ll define the &ldquo;ideal&rdquo; version and show how to implement something that&rsquo;s very close.</p>
+<pre><code>ONTEST [INSTRUCTION]
+</code></pre><p>Let&rsquo;s define a special <code>ONTEST</code> instruction, similar to existing <a href="https://docs.docker.com/engine/reference/builder/#onbuild"><code>ONBUILD</code></a> instruction. The <code>ONTEST</code> instruction adds a trigger instruction to the image to be executed at a later time when the image is tested. Any build instruction can be registered as a trigger.</p>
+<p>The <code>ONTEST</code> instruction should be recognized by a new <code>docker test</code> command.</p>
+<pre><code>docker test [OPTIONS] IMAGE [COMMAND] [ARG...]
+</code></pre><p>The <code>docker test</code> command syntax will be similar to <code>docker run</code> command, with one significant difference: a new &ldquo;testable&rdquo; image will be automatically generated and even tagged with <code>&lt;image name&gt;:&lt;image tag&gt;-test</code> tag (&ldquo;test&rdquo; postfix added to the original image tag). This &ldquo;testable&rdquo; image will generated <code>FROM</code> the application image, executing all build instructions, defined after <code>ONTEST</code> command and executing <code>ONTEST CMD</code> (or <code>ONTEST ENTRYPOINT</code>).
+The <code>docker test</code> command should return a non-zero code if any tests fail. The test results should be written into an automatically generated <code>VOLUME</code> that points to <code>/var/tests/results</code> folder.</p>
+<p>Let&rsquo;s look at a modified <code>Dockerfile</code> below - it includes the new proposed <code>ONTEST</code> instruction.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-dockerfile" data-lang="dockerfile"><span style="color:#66d9ef">FROM</span><span style="color:#e6db74"> &#34;&lt;base image&gt;&#34;:&#34;&lt;version&gt;&#34;</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">WORKDIR</span><span style="color:#e6db74"> &#34;&lt;path&gt;&#34;</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e"># install packages required to run app</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">RUN</span> apt-get update <span style="color:#f92672">&amp;&amp;</span> apt-get install -y <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    <span style="color:#e6db74">&#34;&lt;app runtime&gt; and &lt;dependencies&gt;&#34;</span> <span style="color:#ae81ff">\ </span> <span style="color:#75715e"># add app runtime and required packages</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span>    <span style="color:#f92672">&amp;&amp;</span> rm -rf /var/lib/apt/lists/*<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e"># install packages required to run tests   </span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span>ONTEST RUN apt-get update <span style="color:#f92672">&amp;&amp;</span> apt-get install -y <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>           <span style="color:#e6db74">&#34;&lt;test tools&gt; and &lt;dependencies&gt;&#34;</span>    <span style="color:#ae81ff">\ </span>    <span style="color:#75715e"># add testing tools and required packages</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span>           <span style="color:#f92672">&amp;&amp;</span> rm -rf /var/lib/apt/lists/*<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e"># copy app files</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">COPY</span> app app<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">COPY</span> run.sh run.sh<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e"># copy test scripts</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span>ONTEST COPY tests tests<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e"># copy &#34;main&#34; test command</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span>ONTEST COPY test.sh test.sh<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e"># auto-generated volume for test results</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e"># ONTEST VOLUME &#34;/var/tests/results&#34;</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e"># ... EXPOSE, RUN, ADD ... for app and test environment</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e"># main app command</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">CMD</span> [<span style="color:#960050;background-color:#1e0010">run.sh</span>, <span style="color:#e6db74">&#34;&lt;app arguments&gt;&#34;</span>]<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e"># main test command</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span>ONTEST CMD <span style="color:#f92672">[</span>/test.sh, <span style="color:#e6db74">&#34;&lt;test arguments&gt;&#34;</span><span style="color:#f92672">]</span><span style="color:#960050;background-color:#1e0010">
+</span></code></pre></div><p><a href="https://gist.github.com/alexei-led/4f39cca8a03b1503978a">Dockerfile</a></p>
+<p><img src="https://alexei-led.github.io/img/test_aware.png" alt="Test Aware Container"></p>
+<h3 id="making-test-aware-container-real">Making &ldquo;Test Aware Container&rdquo; Real</h3>
+<p>We believe Docker should make <code>docker-test</code> part of the container management lifecycle. There is a need to have a simple working solution today and I&rsquo;ll describe one that&rsquo;s very close to the ideal state.</p>
+<p>As mentioned before, Docker has a very useful <code>ONBUILD</code> instruction. This instruction allows us to trigger another build instruction on succeeding builds. The basic idea is to use <code>ONBUILD</code> instruction when running <code>docker-test</code> command.</p>
+<p>The flow executed by <code>docker-test</code> command:</p>
+<ol>
+<li><code>docker-test</code> will search for <code>ONBUILD</code> instructions in application <code>Dockerfile</code> and will &hellip;</li>
+<li>generate a temporary <code>Dockerfile.test</code> from original <code>Dockerfile</code></li>
+<li>execute <code>docker build -f Dockerfile.test [OPTIONS] PATH</code> with additional options supported by <code>docker build</code> command: <code>-test</code> that will be automatically appended to <code>tag</code> option</li>
+<li>If build is successful, execute <code>docker run -v ./tests/results:/var/tests/results [OPTIONS] IMAGE:TAG-test [COMMAND] [ARG...]</code></li>
+<li>Remove <code>Dockerfile.test</code> file</li>
+</ol>
+<p>Why not create a new <code>Dockerfile.test</code> without requiring the <code>ONBUILD</code> instruction?</p>
+<p>Because in order to test right image (and tag) we&rsquo;ll need to keep <code>FROM</code> always updated to <strong>image:tag</strong> that we want to test. This is not trivial.</p>
+<p>There is a limitation in the described approach - it&rsquo;s not suitable for &ldquo;onbuild&rdquo; images (images used to automatically build your app), like <a href="https://hub.docker.com/_/maven/">Maven:onbuild</a></p>
+<p>Let&rsquo;s look at a simple implementation of <code>docker-test</code> command. It highlights the concept: the <code>docker-test</code> command should be able to handle <code>build</code> and <code>run</code> command options and be able to handle errors properly.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh"><span style="color:#75715e">#!/bin/bash
+</span><span style="color:#75715e"></span>image<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;app&#34;</span>
+tag<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;latest&#34;</span>
+
+echo <span style="color:#e6db74">&#34;FROM </span><span style="color:#e6db74">${</span>image<span style="color:#e6db74">}</span><span style="color:#e6db74">:</span><span style="color:#e6db74">${</span>tag<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span> &gt; Dockerfile.test <span style="color:#f92672">&amp;&amp;</span>
+docker build -t <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>image<span style="color:#e6db74">}</span><span style="color:#e6db74">:</span><span style="color:#e6db74">${</span>tag<span style="color:#e6db74">}</span><span style="color:#e6db74">-test&#34;</span> -f Dockerfile.test . <span style="color:#f92672">&amp;&amp;</span>
+docker run -it --rm -v <span style="color:#66d9ef">$(</span>pwd<span style="color:#66d9ef">)</span>/tests/results:/var/tests/results <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>image<span style="color:#e6db74">}</span><span style="color:#e6db74">:</span><span style="color:#e6db74">${</span>tag<span style="color:#e6db74">}</span><span style="color:#e6db74">-test&#34;</span> <span style="color:#f92672">&amp;&amp;</span>
+rm Dockerfile.test
+</code></pre></div><p>Let&rsquo;s focus on the most interesting and relevant part.</p>
+<h2 id="integration-test-container">Integration Test Container</h2>
+<p>Let&rsquo;s say we have an application built from tens or hundreds of microservices. Let&rsquo;s say we have an automated CI/CD pipeline, where each microservice is built and tested by our CI and deployed into some environment (testing, staging or production) after the build and tests pass. Pretty cool, eh?
+Our CI tests are capable of testing each microservice in isolation - running unit and service tests (or API contract tests). Maybe even micro-integration tests - tests run on subsystem are created in ad-hoc manner (for example with <code>docker compose</code> help).</p>
+<p>This leads to some issues that we need to address:</p>
+<ul>
+<li>What about real integration tests or long running tests (like performance and stress)?</li>
+<li>What about resilience tests (&ldquo;chaos monkey&rdquo; like tests)?</li>
+<li>Security scans?</li>
+<li>What about test and scan activities that take time and should be run on a fully operational system?</li>
+</ul>
+<p>There should be a better way than just dropping a new microservice version into production and tightly monitoring it for a while.</p>
+<p>There should be a special <strong>Integration Test Container</strong>. These containers will contain only testing tools and test artifacts: test scripts, test data, test environment configuration, etc. To simplify orchestration and automation of such containers, we should define and follow some conventions and use metadata labels (Dockerfile <code>LABEL</code> instruction).</p>
+<h3 id="integration-test-labels">Integration Test Labels</h3>
+<ul>
+<li><strong>test.type</strong> - test type; default <code>integration</code>; can be one of: <code>integration</code>, <code>performance</code>, <code>security</code>, <code>chaos</code> or any text; presence of this label states that this is an <strong>Integration Test Container</strong></li>
+<li><strong>test.results</strong> - <code>VOLUME</code> for test results; default <code>/var/tests/results</code></li>
+<li><strong>test.XXX</strong> - any other test related metadata; just use <strong>test.</strong> prefix for label name</li>
+</ul>
+<h3 id="integration-test-container-1">Integration Test Container</h3>
+<p>The <strong>Integration Test Container</strong> is just a regular Docker container. Tt does not contain any application logic and code. Its sole purpose is to create repeatable and portable testing. Recommended content of the <strong>Integration Test Container</strong>:</p>
+<ul>
+<li><em>The Testing Tool</em> - Phantom.js, Selenium, Chakram, Gatling, &hellip;</li>
+<li><em>Testing Tool Runtime</em> - Node.js, JVM, Python, Ruby, &hellip;</li>
+<li><em>Test Environment Configuration</em> - environment variables, config files, bootstrap scripts, &hellip;</li>
+<li><em>Tests</em> - as compiled packages or script files</li>
+<li><em>Test Data</em> - any kind of data files, used by tests: json, csv, txt, xml, &hellip;</li>
+<li><em>Test Startup Script</em> - some &ldquo;main&rdquo; startup script to run tests; just create <code>test.sh</code> and launch the testing tool from it.</li>
+</ul>
+<p><strong>Integration Test Containers</strong> should run in an operational environment where all microservices are deployed: testing, staging or production. These containers can be deployed exactly as all other services. They use same network layer and thus can access multiple services; using selected service discovery method (usually DNS). Accessing multiple services is required for real integration testing - we need to simulate and validate how our system is working in multiple places. Keeping integration tests inside some application service container not only increases the container footprint but also creates an unneeded dependency between multiple services. We keep all these dependencies at the level of the <strong>Integration Test Container</strong>. Once our tests (and testing tools) are packaged inside the container, we can always rerun the same tests on any environment including the developer machine. You can always go back in time and rerun a specific version of <strong>Integration Test Container</strong>.</p>
+<p><img src="https://alexei-led.github.io/img/int_test.png" alt="Integration Test Container"></p>
+<p>WDYT? Your feedback, particularly on standardizing the <code>docker-test</code> command, is greatly appreciated.</p>
+
+                    </div>
+                </section>
+                
+                <h1 class="content-subhead">14 Jan 2016, 16:14</h1>
+                <section class="post">
+                    <header class="post-header">
+
+                        <a href="https://alexei-led.github.io/post/docker_builder_pattern/" class="post-title">Docker Pattern: The Build Container</a>
+
+                        <p class="post-meta">
+                            
+                            
+                                under 
+                                
+                                    <a class="post-category post-category-Development" href='https://alexei-led.github.io/categories/Development'>Development</a>
+                                
+                            
+                        </p>
+                    </header>
+
+                    <div class="post-description">
+                        <p>Let&rsquo;s say that you&rsquo;re developing a microservice in a compiled language or an interpreted language that requires some additional “build” steps to package and lint your application code. This is a useful docker pattern for the &ldquo;build&rdquo; container.</p>
+<p>In our project, we&rsquo;re using Docker as our main deployment package: every microservice is delivered as a Docker image. Each microservice also has it’s own code repository (GitHub), and its own CI build job.</p>
+<p>Some of our services are written in Java. Java code requires additional tooling and processes before you get working code. This tooling and all associated packages are depended from and not required when a compiled program is running.</p>
+<p>We have been trying to develop a repeatable process and uniform environment for deploying our services. We believe it’s good to package Java tools and packages into containers too. It allows us to build a Java-based microservice on any machine, including CI, without any specific environment requirements: JDK version, profiling and testing tools, OS, Maven, environment variables, etc.</p>
+<p>For every service, we have two(2) Dockerfiles: one for service runtime and the second packed with tools required to build the service. We usually name these files as <code>Dockerfile</code> and <code>Dockerfile.build</code>. We are using <code>-f, --file=&quot;&quot;</code> flag to specify Dockerfile file name for <code>docker build</code> command.</p>
+<p>Here is our <code>Dockerfile.build</code> file:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">FROM maven:3.3.3-jdk-8
+
+ENV GAIA_HOME<span style="color:#f92672">=</span>/usr/local/gaia/
+
+RUN mkdir -p $GAIA_HOME
+WORKDIR $GAIA_HOME
+
+<span style="color:#75715e"># speed up maven build, read https://keyholesoftware.com/2015/01/05/caching-for-maven-docker-builds/</span>
+<span style="color:#75715e"># selectively add the POM file</span>
+ADD pom.xml $GAIA_HOME
+
+<span style="color:#75715e"># get all the downloads out of the way</span>
+RUN <span style="color:#f92672">[</span><span style="color:#e6db74">&#34;mvn&#34;</span>,<span style="color:#e6db74">&#34;verify&#34;</span>,<span style="color:#e6db74">&#34;clean&#34;</span>,<span style="color:#e6db74">&#34;--fail-never&#34;</span><span style="color:#f92672">]</span>
+
+<span style="color:#75715e"># add source</span>
+ADD . $GAIA_HOME
+
+<span style="color:#75715e"># run maven verify</span>
+RUN <span style="color:#f92672">[</span><span style="color:#e6db74">&#34;mvn&#34;</span>,<span style="color:#e6db74">&#34;verify&#34;</span><span style="color:#f92672">]</span>
+</code></pre></div><p>As you can see, it’s a simple file with one little trick to speed up our Maven build.</p>
+<p>Now, we have all the tools required to compile our service. We can run this Docker container on any machine without requiring to have JDK installed. We can run the same Docker container on a developer&rsquo;s laptop and on our CI server.</p>
+<p>This trick greatly simplifies our CI process - we no longer require our CI to support any specific compiler, version, or tool. All we need is the Docker engine. Everything else, we bring ourselves.</p>
+<blockquote>
+<p>BYOT - Bring Your Own Tooling! :-)</p>
+</blockquote>
+<p>In order to compile the service code, we need to build and run the <strong>builder</strong> container.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">docker build -t build-img -f Dockerfile.build
+docker create --name build-cont build-img
+</code></pre></div><p>Once we’ve built the image and created a new container from this image, we have our service compiled inside the container. The only remaining task is to extract build artifacts from the container. We could use Docker volumes - this is one possible option. Actually, we like that the image we’ve created, contains all the tools and build artifacts inside it. It allows us to get any build artifacts from this image at anytime, just by creating a new container from it.</p>
+<p>To extract our build artifacts, we are using <code>docker cp</code> command. This command copies files from the container to the local file system.</p>
+<p>Here is how we are using this command:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">docker cp build-cont:/usr/local/gaia/target/mgs.war ./target/mgs.war
+</code></pre></div><p>As a result, we have a compiled service code, packaged into single WAR file. We get exactly the same WAR file on any machine just by running our <strong>builder</strong> container, or by rebuilding the <strong>builder</strong> container against the same code commit (using Git tag or specific commit ID) on any machine.</p>
+<p>We can now create a Docker image with our service and required runtime, which is usually some version of JRE and servlet container.</p>
+<p>Here is our <code>Dockerfile</code> for the service. It&rsquo;s an image with Jetty JRE8 and our service WAR file.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">FROM jetty:9.3.0-jre8
+
+RUN mkdir -p /home/jetty <span style="color:#f92672">&amp;&amp;</span> chown jetty:jetty /home/jetty
+
+COPY ./target/*.war $JETTY_BASE/webapps/
+</code></pre></div><p>By running <code>docker build .</code>, we have a new image with our newly “built” service.</p>
+<h2 id="the-recipe">The Recipe:</h2>
+<ul>
+<li>Have one <code>Dockerfile</code> with all tools and packages required to build your service. Name it <code>Dockerfile.build</code> or give it a name you like.</li>
+<li>Have another <code>Dockerfile</code> with all packages required to run your service.</li>
+<li>Keep both files with your service code.</li>
+<li>Build a new <strong>builder</strong> image, create a container from it and extract build artifacts, using volumes or <code>docker cp</code> command.</li>
+<li>Build the service image.</li>
+<li>That&rsquo;s all folks!</li>
+</ul>
+<h2 id="summary">Summary</h2>
+<p>In our case, Java-based service, the difference between <strong>builder</strong> container and service container is huge. Java JDK is much bigger package than JRE: it also requires all X Window packages installed inside your container. For the runtime, you can have a slim image with your service code, JRE, and some basic Linux packages, or even start from <code>scratch</code>.</p>
+
+                    </div>
+                </section>
+                
+                <h1 class="content-subhead">30 Dec 2015, 11:09</h1>
+                <section class="post">
+                    <header class="post-header">
+
+                        <a href="https://alexei-led.github.io/post/docker_cd_cluster/" class="post-title">Docker Pattern: Deploy and update dockerized application on cluster</a>
+
+                        <p class="post-meta">
+                            
+                            
+                                under 
+                                
+                                    <a class="post-category post-category-Development" href='https://alexei-led.github.io/categories/Development'>Development</a>
+                                
+                            
+                        </p>
+                    </header>
+
+                    <div class="post-description">
+                        <p>Docker is great technology that simplifies development and deployment of distributed applications.</p>
+<p>While Docker serves as a core technology, many issues remain to be solved. We find ourselves struggling with some of these issues. For example:</p>
+<ul>
+<li>How to create an elastic Docker cluster?</li>
+<li>How to deploy and connect multiple containers together?</li>
+<li>How to build CI/CD process?</li>
+<li>How to register and discover system services and more?</li>
+</ul>
+<p>For most, there are open source projects, or services available from the community as well as commercially, including from Docker, Inc.</p>
+<p>In this post, I would like to address one such problem:</p>
+<h3 id="how-to-automate-continuous-delivery-for-a-docker-cluster">How to automate Continuous Delivery for a Docker cluster?</h3>
+<p>In our application, every service is packaged as a Docker image. Docker image is our basic deployment unit. In a runtime environment (production, testing and others), we may have multiple containers, created from this image. For each service, we have a separate Git repository and one or more Dockerfile(s). We use this for building, testing, and packaging - will explain our project structure in the next blog post.</p>
+<p>We&rsquo;ve setup an automated Continuous Integration(CI) process. We use CircleCI. For every push to some branch for the service in a Git repository, the CI service triggers a new Docker build process and creates a new Docker image for the service. As part of the build process, if everything compiles and all unit and component tests pass, we push a newly created Docker image to our DockerHub repository.</p>
+<p>At the end of CI process, we have a newly tested and ‘kosher’ Docker image in our DockerHub repository. Very nice indeed! However, we are left with several questions:</p>
+<ul>
+<li>How to perform a rolling update of a modified service?</li>
+<li>What is the target environment (i.e. some Docker cluster)?</li>
+<li>How to find the ip of a dynamically created CoreOS host (we use AWS auto-scale groups)?</li>
+<li>How to connect to it in a secure way without the need to expose the SSH keys or cloud credentials (we use AWS for infrastructure)?</li>
+</ul>
+<p>Our application runs on a CoreOS cluster. We have automation scripts that creates the CoreOS cluster on multiple environments: developer machine, AWS, or some VM infrustructure. When we have a new service version (i.e. Docker image), we need to find a way to deploy this service to the cluster. CoreOS uses <strong>fleet</strong> for cluster orchestration. <strong>Fleetctl</strong> is a command line client that can talk with the <strong>fleet</strong> backend and allows you to manage the CoreOS cluster. However, this only works in a local environment (machine or network). For some commands, <strong>fleetctl</strong> uses HTTP API and for others an SSH connection. The HTTP API is not protected so it makes no sense to expose it from your cloud environment. The SSH connection does not work when your architecture assumes there is no direct SSH connection to the cluster. Connecting through some SSH bastion machine, requiring the use of multiple SSH keys, and creating SSH configuration files, are not supported by the <strong>fleetctl</strong> program. I have no desire to store SSH keys or my cloud credentials for my production environment on any CI server due to security concerns.</p>
+<h3 id="so-what-do-we-do">So, what do we do?</h3>
+<p>First, we want to deploy a new service or update some service when there is a new Docker image or image version available. We also want to be selective and pick images created from code in a specific branch or even specific build.</p>
+<p>The basic idea is to create a Docker image that captures the system configuration. This image stores the configuration of all services at a specific point in time and from specific branches. The container created from this image should be run from within the target cluster. Besides captured configuration, we also have the deployment tool (<strong>fleetctl</strong> in our case), plus some code that detects services which need to be updated, deleted, or installed as a new service.</p>
+<p>This idea leads to another question:</p>
+<h3 id="how-do-you-define-and-capture-system-configuration">How do you define and capture system configuration?</h3>
+<p>In CoreOS, every service can be described in <strong>systemd unit</strong> files. This is a plain text file that describes how and when to launch your service. I’m not going to explain how to write such files. There is a lot of info online. What&rsquo;s important in our case, the service systemd unit file contains a <code>docker run</code> command with parameters and image name that needs to be downloaded and executed. We keep the service systemd unit file in the same repository as the service code.</p>
+<p>The image name: usually defined as a <code>repository/image_name:tag</code> string. <strong>Tag</strong> is the most important thing in our solution. As explained above, our CI server automatically builds a new Docker image on every push of the service to the GitHub repository. The CI job also tags the newly created image with 2 tags:</p>
+<ol>
+<li><code>branch</code> tag — taken from GitHub branch that triggered the build (<code>master</code>, <code>develop</code>, <code>feature-*</code> braches in our case)</li>
+<li><code>build_num-branch</code> tag — where we add a running build number prefix, just before branch name
+As a result, in DockerHub, we have images for the latest build in any branch and also for every image we can identify the build job number and the branch it was created from.</li>
+</ol>
+<p>As I said before, we keep service systemd unit file in the same repository as code. This file <strong>does not</strong> contain an image tag, only the repository and image name. See example below:</p>
+<pre><code>ExecStart=/usr/bin/docker run —name myservice -p 3000:3000 myrepo/myservice
+</code></pre><p>Our CI service build job generates a new service <strong>systemd</strong> unit file for every successful build, replacing the above service invocation command with one that also contains a new tag. Using <code>build_num-branch</code> pattern (<code>develop</code> branch in our example), we use two simple utilities for this job: <code>cat</code> and <code>sed</code>. It’s possible to use a more advanced template engine.</p>
+<pre><code>ExecStart=/usr/bin/docker run — name myservice -p 3000:3000 myrepo/myservice:58-develop
+</code></pre><p>As a last step, the CI build job “deploys” this new unit file to the system configuration Git repository.</p>
+<pre><code>git commit -am “Updating myservice tag to ‘58-develop’” myservice.service
+git push origin develop
+</code></pre><p>Another CI job that monitors changes in the system configuration repository will trigger a build and create a new Docker image that captures updated system configuration.</p>
+<p>All we need to do now is to execute this Docker image on the Docker cluster. Something like this:</p>
+<pre><code>docker run -it —-rm=true myrepo/mysysconfig:develop
+</code></pre><p>Our <strong>system configuration</strong> Dockerfile:</p>
+<pre><code>FROM alpine:3.2
+MAINTAINER Alexei Ledenev &lt;alexei.led@gmail.com&gt;
+
+ENV FLEET_VERSION 0.11.5
+
+ENV gaia /home/gaia
+RUN mkdir -p ${gaia}
+
+WORKDIR ${gaia}
+COPY *.service ./
+COPY deploy.sh ./
+RUN chmod +x deploy.sh
+
+# install packages and fleetctl client
+RUN apk update &amp;&amp; \
+ apk add curl openssl bash &amp;&amp; \
+ rm -rf /var/cache/apk/* &amp;&amp; \
+ curl -L “https://github.com/coreos/fleet/releases/download/v${FLEET_VERSION}/fleet-v${FLEET_VERSION}-linux-amd64.tar.gz&quot; | tar xz &amp;&amp; \
+ mv fleet-v${FLEET_VERSION}-linux-amd64/fleetctl /usr/local/bin/ &amp;&amp; \
+ rm -rf fleet-v${FLEET_VERSION}-linux-amd64
+
+CMD [“/bin/bash”, “deploy.sh”]
+</code></pre><p><code>deploy.sh</code> is a shell script for every service check. If it needs to be updated, created, or deleted, it executes the corresponding <strong>fleetctl</strong> command.</p>
+<p>The final step:</p>
+<h3 id="how-do-you-run-this-system-configuration-container">How do you run this “system configuration” container?</h3>
+<p>Currently, in our environment, we do this manually (from SSH shell) for development clusters and use systemd timers for CoreOS clusters on AWS. Systemd timer allows us to define a cron like job at the CoreOS cluster level.</p>
+<p>We have plans to define a WebHook endpoint that will allow us to trigger deployment/update based on a WebHook event from the CI service.</p>
+<p>Hope you find this post useful. I look forward to your comments and any questions you have.</p>
+
+                    </div>
+                </section>
+                
+            </div>
+            
+<div class="pagination">
+  <nav role="pagination" class="post-list-pagination">
+      
+      <a href="https://alexei-led.github.io/post/" class="post-list-pagination-item pure-button post-list-pagination-item-prev">
+        <i class="fa fa-angle-double-left"></i>&nbsp;Newer
+      </a>
+      
+    <span class="post-list-pagination-item post-list-pagination-item-current">Page 2 of 2</span>
+    
+  </nav>
+</div>
+
+
+            <div class="footer">
+    <div class="pure-menu pure-menu-horizontal pure-menu-open">
+        <ul>
+            <li>Powered by <a class="hugo" href="https://gohugo.io/" target="_blank">hugo</a></li>
+        </ul>
+    </div>
+</div>
+<script src='https://alexei-led.github.io/js/all.min.js'></script>
+
+        </div>
+    </div>
+</div>
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-71802462-1', 'auto');
+ga('send', 'pageview');
+
 </script>
 
-<script defer src="https://alexei-led.github.io/js/umbrella.min.b426107371d121c9a56a27aac9e9058ff592a021e2f4c3c94827fe70920d3cbb.js"></script>
-<script defer src="https://alexei-led.github.io/js/script.min.8e4d91ebe0d9226621e408b7205bd7b009e4935608e4b29c4275116490cc836d.js"></script>
-
-
-</head>
-
-<body>
-<div class="page layout__page layout__sidebar-second">
-<header class="header layout__header">
-<a href="https://alexei-led.github.io/" title="Home" rel="home" class="header__logo"><img src="https://alexei-led.github.io/images/logo.png" alt="Home" class="header__logo-image"></a>
-<h1 class="header__site-name">
-<a href="https://alexei-led.github.io/" title="Home" class="header__site-link" rel="home"><span>Terra Nullius</span></a>
-</h1>
-<div class="region header__region">
-</div>
-</header>
-
-<nav class="main-menu layout__navigation">
-<h2 class="visually-hidden">Main menu</h2>
-<ul class="navbar">
-<li><a class="active" href="https://alexei-led.github.io/">Home</a></li>
-<li><a class="" href="https://alexei-led.github.io/about/">about</a></li>
-<li><a class="active" href="https://alexei-led.github.io/post/">Posts</a></li>
-</ul>
-</nav>
-
-
-<main class="main layout__main">
-<h1 class="title">Posts</h1>
-<article class="section-post list-view">
-<header>
-<h2 class="title "><a href="https://alexei-led.github.io/post/everyday_hacks/">Everyday hacks for Docker</a></h2>
-
-</header>
-<div class="content">
-In this post, I&rsquo;ve decided to share with you some useful commands and tools, I&rsquo;m frequently using, working with amazing Docker technology. There is no particular order or &ldquo;coolness level&rdquo; for every &ldquo;hack&rdquo;. I will try to present the use case and how does specific command or tool help me with my work.
-Cleaning up Working with Docker for some time, you start to accumulate development junk: unused volumes, networks, exited containers and unused images.
-</div>
-</article>
-
-<article class="section-post list-view">
-<header>
-<h2 class="title "><a href="https://alexei-led.github.io/post/composev3_swarm/">Deploy Docker Compose (v3) to Swarm (mode) Cluster</a></h2>
-
-</header>
-<div class="content">
-Disclaimer: all code snippets bellow are working only with Docker 1.13+
- TL;DR Docker 1.13 simplifies deployment of composed application to a swarm (mode) cluster. And you can do it without creating a new dab (Distribution Application Bundle) file, but just using familiar and well-known docker-compose.yml syntax (with some additions) and --compose-file option.
-Swarm cluster Docker Engine 1.12 introduced a new swarm mode for natively managing a cluster of Docker Engines called a swarm.
-</div>
-</article>
-
-<article class="section-post list-view">
-<header>
-<h2 class="title "><a href="https://alexei-led.github.io/post/donot_ignore_dockerignore/">Do not ignore .dockerignore</a></h2>
-
-</header>
-<div class="content">
-TL;DR  Tip: Consider to define and use .dockerignore file for every Docker image you are building. It can help you to reduce Docker image size, speedup docker build and avoid unintended secret exposure.
- Docker build context The docker build command is used to build a new Docker image. There is one argument you can pass to the build command build context.
-So, what is the Docker build context?
-</div>
-</article>
-
-<article class="section-post list-view">
-<header>
-<h2 class="title "><a href="https://alexei-led.github.io/post/swarm_dind/">Docker Swarm cluster with docker-in-docker on MacOS</a></h2>
-
-</header>
-<div class="content">
-TL;DR  Docker-in-Docker dind can help you to run Docker Swarm cluster on your Macbook only with Docker for Mac (v1.12+). No virtualbox, docker-machine, vagrant or other app is required.
- The Beginning One day, I&rsquo;ve decided to try running Docker 1.12 Swarm cluster on my MacBook Pro. Docker team did a great job releasing Docker for Mac, and from that time I forgot all problems I used to have with boot2docker.
-</div>
-</article>
-
-<article class="section-post list-view">
-<header>
-<h2 class="title "><a href="https://alexei-led.github.io/post/pumba_docker_netem/">Network emulation for Docker containers</a></h2>
-
-</header>
-<div class="content">
-TL;DR  Pumba netem delay and netem loss commands can emulate network delay and packet loss between Docker containers, even on single host. Give it a try!
- Introduction Microservice architecture has been adopted by software teams as a way to deliver business value faster. Container technology enables delivery of microservices into any environment. Docker has accelerated this by providing an easy to use toolset for development teams to build, ship, and run distributed applications.
-</div>
-</article>
-
-<article class="section-post list-view">
-<header>
-<h2 class="title "><a href="https://alexei-led.github.io/post/pumba_docker_chaos_testing/">Pumba - Chaos Testing for Docker</a></h2>
-
-</header>
-<div class="content">
-Update (27-07-27): Updated post to latest v0.2.0 Pumba version change.
-Introduction The best defense against unexpected failures is to build resilient services. Testing for resiliency enables the teams to learn where their apps fail before the customer does. By intentionally causing failures as part of resiliency testing, you can enforce your policy for building resilient systems. Resilience of the system can be defined as its ability to continue functioning even if some components of the system are failing - ephemerality.
-</div>
-</article>
-
-<article class="section-post list-view">
-<header>
-<h2 class="title "><a href="https://alexei-led.github.io/post/docker_testing/">Testing Strategies for Docker Containers</a></h2>
-
-</header>
-<div class="content">
-Congratulations! You know how to build a Docker image and are able to compose multiple containers into a meaningful application. Hopefully, you&rsquo;ve already created a Continuous Delivery pipeline and know how to push your newly created image into production or testing environment.
- Now, the question is - How do we test our Docker containers?
- There are multiple testing strategies we can apply. In this post, I&rsquo;ll highlight them presenting benefits and drawbacks for each.
-</div>
-</article>
-
-<article class="section-post list-view">
-<header>
-<h2 class="title "><a href="https://alexei-led.github.io/post/docker_builder_pattern/">Docker Pattern: The Build Container</a></h2>
-
-</header>
-<div class="content">
-Let&rsquo;s say that you&rsquo;re developing a microservice in a compiled language or an interpreted language that requires some additional “build” steps to package and lint your application code. This is a useful docker pattern for the &ldquo;build&rdquo; container.
-In our project, we&rsquo;re using Docker as our main deployment package: every microservice is delivered as a Docker image. Each microservice also has it’s own code repository (GitHub), and its own CI build job.
-</div>
-</article>
-
-<article class="section-post list-view">
-<header>
-<h2 class="title "><a href="https://alexei-led.github.io/post/docker_cd_cluster/">Docker Pattern: Deploy and update dockerized application on cluster</a></h2>
-
-</header>
-<div class="content">
-Docker is great technology that simplifies development and deployment of distributed applications.
-While Docker serves as a core technology, many issues remain to be solved. We find ourselves struggling with some of these issues. For example:
- How to create an elastic Docker cluster? How to deploy and connect multiple containers together? How to build CI/CD process? How to register and discover system services and more?  For most, there are open source projects, or services available from the community as well as commercially, including from Docker, Inc.
-</div>
-</article>
-
-<nav class="pager">
-<a href="https://alexei-led.github.io/post/" rel="prev" class="pager-item pager-prev">Prev</a>
-</nav>
-
-</main>
-
-
-<footer class="footer layout__footer">
-<p><span>© Terra Nullius</span></p>
-
-
-</footer>
-
-</div>
 </body>
 </html>

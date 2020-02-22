@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>resilience on Terra Nullius</title>
@@ -8,209 +8,18 @@
     <language>en-us</language>
     <copyright>This work is licensed under a Creative Commons Attribution 4.0 International License</copyright>
     <lastBuildDate>Sat, 16 Apr 2016 20:00:00 +0200</lastBuildDate>
-    <atom:link href="https://alexei-led.github.io/tags/resilience/index.xml" rel="self" type="application/rss+xml" />
+    
+	<atom:link href="https://alexei-led.github.io/tags/resilience/index.xml" rel="self" type="application/rss+xml" />
+    
     
     <item>
       <title>Pumba - Chaos Testing for Docker</title>
       <link>https://alexei-led.github.io/post/pumba_docker_chaos_testing/</link>
       <pubDate>Sat, 16 Apr 2016 20:00:00 +0200</pubDate>
+      
       <guid>https://alexei-led.github.io/post/pumba_docker_chaos_testing/</guid>
-      <description>&lt;p&gt;&lt;strong&gt;Update (27-07-27):&lt;/strong&gt; Updated post to latest &lt;code&gt;v0.2.0&lt;/code&gt; Pumba version change.&lt;/p&gt;
-&lt;h2 id=&#34;introduction&#34;&gt;Introduction&lt;/h2&gt;
-&lt;p&gt;The best defense against unexpected failures is to build resilient services. Testing for resiliency enables the teams to learn where their apps fail before the customer does. By intentionally causing failures as part of resiliency testing, you can enforce your policy for building resilient systems.
-Resilience of the system can be defined as its ability to continue functioning even if some components of the system are failing - &lt;a href=&#34;https://en.wikipedia.org/wiki/Ephemerality&#34;&gt;ephemerality&lt;/a&gt;. Growing popularity of distributed and microservice architecture makes resilience testing critical for applications that now require 24x7x365 operation.
-Resilience testing is an approach where you intentionally inject different types of failures at the infrastructure level (VM, network, containers, and processes) and let the system try to recover from these unexpected failures that can happen in production. Simulating realistic failures at any time is the best way to enforce highly available and resilient systems.&lt;/p&gt;
-&lt;h2 id=&#34;what-is-pumba&#34;&gt;What is Pumba?&lt;/h2&gt;
-&lt;p&gt;&lt;img src=&#34;https://alexei-led.github.io/img/pumba_docker.png&#34; alt=&#34;Pumba&#34;&gt;&lt;/p&gt;
-&lt;p&gt;First of all, &lt;a href=&#34;https://en.wikipedia.org/wiki/Timon_and_Pumbaa&#34;&gt;Pumba&lt;/a&gt; (or Pumbaa) is a supporting character from Disney&amp;rsquo;s animated film &lt;em&gt;The Lion King&lt;/em&gt;. In Swahili, &lt;em&gt;pumbaa&lt;/em&gt; means &amp;ldquo;to be foolish, silly, weak-minded, careless, negligent&amp;rdquo;. This reflects the unexpected behavior of the application.&lt;/p&gt;
-&lt;p&gt;Pumba is inspired by highly popular &lt;a href=&#34;https://github.com/Netflix/SimianArmy/wiki/Chaos-Monkey&#34;&gt;Netfix Chaos Monkey&lt;/a&gt; resilience testing tool for AWS cloud. Pumba takes a similar approach but applies it at the container level. It connects to the Docker daemon running on some machine (local or remote) and brings a level of chaos to it: &amp;ldquo;randomly&amp;rdquo; killing, stopping, and removing running containers.&lt;/p&gt;
-&lt;p&gt;If your system is designed to be resilient, it should be able to recover from such failures. &amp;ldquo;Failed&amp;rdquo; services should be restarted and lost connections should be recovered. This is not as trivial as it sounds. You need to design your services differently. Be aware that a service can fail (for whatever reason) or service it depends on can disappear at any point of time (but can reappear later). Expect the unexpected!&lt;/p&gt;
-&lt;h2 id=&#34;why-run-pumba&#34;&gt;Why run Pumba?&lt;/h2&gt;
-&lt;p&gt;Failures happen and they inevitably happen when least desired. If your application cannot recover from system failures, you are going to face angry customers and maybe even loose them. If you want to be sure that your system is able to recover from unexpected failures, it would be better to take charge of them and inject failures yourself instead of waiting till they happen. This is not a one time effort. In age of Continuous Delivery, you need to be sure that every change to any one of system services, does not compromise system availability. That&amp;rsquo;s why you should practice &lt;strong&gt;continuous resilience testing&lt;/strong&gt;.
-With Docker gaining popularity as people are deploying and running clusters of containers in production. Using a container orchestration network (e.g. Kubernetes, Swarm, CoreOS fleet), it&amp;rsquo;s possible to restart a &amp;ldquo;failed&amp;rdquo; container automatically. How can you be sure that restarted services and other system services can properly recover from failures? If you are not using container orchestration frameworks, life is even harder: you will need to handle container restarts by yourself.&lt;/p&gt;
-&lt;p&gt;This is where Pumba shines. You can run it on every Docker host, in your cluster, and Pumba will &amp;ldquo;randomly&amp;rdquo; stop running containers - matching specified name/s or name patterns. You can even specify the &lt;em&gt;signal&lt;/em&gt; that will be sent to &amp;ldquo;kill&amp;rdquo; the container.&lt;/p&gt;
-&lt;h2 id=&#34;what-pumba-can-do&#34;&gt;What Pumba can do?&lt;/h2&gt;
-&lt;p&gt;Pumba can create different failures for your running Docker containers. Pumba can kill, stop or remove running containers. It can also pause all processes withing running container for specified period of time.
-Pumba can also do network emulation, simulating different network failures, like: delay, packet loss/corruption/reorder, bandwidth limits and more.
-&lt;em&gt;Disclaimer:&lt;/em&gt; &lt;code&gt;netem&lt;/code&gt; command is under development and only &lt;code&gt;delay&lt;/code&gt; command is supported in Pumba &lt;code&gt;v0.2.0&lt;/code&gt;.&lt;/p&gt;
-&lt;p&gt;You can pass list of containers to Pumba or just write a regular expression to select matching containers. If you will not specify containers, Pumba will try to disturb all running containers. Use &lt;code&gt;--random&lt;/code&gt; option, to randomly select only one target container from provided list.&lt;/p&gt;
-&lt;h2 id=&#34;how-to-run-pumba&#34;&gt;How to run Pumba?&lt;/h2&gt;
-&lt;p&gt;There are two ways to run Pumba.&lt;/p&gt;
-&lt;p&gt;First, you can download Pumba application (single binary file) for your OS from project &lt;a href=&#34;https://github.com/gaia-adm/pumba/releases&#34;&gt;release page&lt;/a&gt; and run &lt;code&gt;pumba help&lt;/code&gt; to see list of supported commands and options.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ pumba help
-
-Pumba version v0.2.0
-NAME:
-   Pumba - Pumba is a resilience testing tool, that helps applications tolerate random Docker container failures: process, network and performance.
-
-USAGE:
-   pumba [global options] command [command options] containers (name, list of names, RE2 regex)
-
-VERSION:
-   v0.2.0
-
-COMMANDS:
-     kill     kill specified containers
-     netem    emulate the properties of wide area networks
-     pause    pause all processes
-     stop     stop containers
-     rm       remove containers
-     help, h  Shows a list of commands or help for one command
-
-GLOBAL OPTIONS:
-   --host value, -H value      daemon socket to connect to (default: &amp;quot;unix:///var/run/docker.sock&amp;quot;) [$DOCKER_HOST]
-   --tls                       use TLS; implied by --tlsverify
-   --tlsverify                 use TLS and verify the remote [$DOCKER_TLS_VERIFY]
-   --tlscacert value           trust certs signed only by this CA (default: &amp;quot;/etc/ssl/docker/ca.pem&amp;quot;)
-   --tlscert value             client certificate for TLS authentication (default: &amp;quot;/etc/ssl/docker/cert.pem&amp;quot;)
-   --tlskey value              client key for TLS authentication (default: &amp;quot;/etc/ssl/docker/key.pem&amp;quot;)
-   --debug                     enable debug mode with verbose logging
-   --json                      produce log in JSON format: Logstash and Splunk friendly
-   --slackhook value           web hook url; send Pumba log events to Slack
-   --slackchannel value        Slack channel (default #pumba) (default: &amp;quot;#pumba&amp;quot;)
-   --interval value, -i value  recurrent interval for chaos command; use with optional unit suffix: &#39;ms/s/m/h&#39;
-   --random, -r                randomly select single matching container from list of target containers
-   --dry                       dry runl does not create chaos, only logs planned chaos commands
-   --help, -h                  show help
-   --version, -v               print the version
-&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;kill-container-command&#34;&gt;Kill Container command&lt;/h3&gt;
-&lt;pre&gt;&lt;code&gt;$ pumba kill -h
-
-NAME:
-   pumba kill - kill specified containers
-
-USAGE:
-   pumba kill [command options] containers (name, list of names, RE2 regex)
-
-DESCRIPTION:
-   send termination signal to the main process inside target container(s)
-
-OPTIONS:
-   --signal value, -s value  termination signal, that will be sent by Pumba to the main process inside target container(s) (default: &amp;quot;SIGKILL&amp;quot;)
-&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;pause-container-command&#34;&gt;Pause Container command&lt;/h3&gt;
-&lt;pre&gt;&lt;code&gt;$ pumba pause -h
-
-NAME:
-   pumba pause - pause all processes
-
-USAGE:
-   pumba pause [command options] containers (name, list of names, RE2 regex)
-
-DESCRIPTION:
-   pause all running processes within target containers
-
-OPTIONS:
-   --duration value, -d value  pause duration: should be smaller than recurrent interval; use with optional unit suffix: &#39;ms/s/m/h&#39;
-&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;stop-container-command&#34;&gt;Stop Container command&lt;/h3&gt;
-&lt;pre&gt;&lt;code&gt;$ pumba stop -h
-NAME:
-   pumba stop - stop containers
-
-USAGE:
-   pumba stop [command options] containers (name, list of names, RE2 regex)
-
-DESCRIPTION:
-   stop the main process inside target containers, sending  SIGTERM, and then SIGKILL after a grace period
-
-OPTIONS:
-   --time value, -t value  seconds to wait for stop before killing container (default 10) (default: 10)
-&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;remove-rm-container-command&#34;&gt;Remove (rm) Container command&lt;/h3&gt;
-&lt;pre&gt;&lt;code&gt;$ pumba rm -h
-
-NAME:
-   pumba rm - remove containers
-
-USAGE:
-   pumba rm [command options] containers (name, list of names, RE2 regex)
-
-DESCRIPTION:
-   remove target containers, with links and voluems
-
-OPTIONS:
-   --force, -f    force the removal of a running container (with SIGKILL)
-   --links, -l    remove container links
-   --volumes, -v  remove volumes associated with the container
-&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;network-emulation-netem-command&#34;&gt;Network Emulation (netem) command&lt;/h3&gt;
-&lt;pre&gt;&lt;code&gt;$ pumba netem -h
-
-NAME:
-   Pumba netem - delay, loss, duplicate and re-order (run &#39;netem&#39;) packets, to emulate different network problems
-
-USAGE:
-   Pumba netem command [command options] [arguments...]
-
-COMMANDS:
-     delay      dealy egress traffic
-     loss
-     duplicate
-     corrupt
-
-OPTIONS:
-   --duration value, -d value   network emulation duration; should be smaller than recurrent interval; use with optional unit suffix: &#39;ms/s/m/h&#39;
-   --interface value, -i value  network interface to apply delay on (default: &amp;quot;eth0&amp;quot;)
-   --target value, -t value     target IP filter; netem will impact only on traffic to target IP
-   --help, -h                   show help
-
-NAME:
-   Pumba netem - delay, loss, duplicate and re-order (run &#39;netem&#39;) packets, to emulate different network problems
-
-USAGE:
-   Pumba netem command [command options] [arguments...]
-
-COMMANDS:
-     delay      dealy egress traffic
-     loss       TODO: planned to implement ...
-     duplicate  TODO: planned to implement ...
-     corrupt    TODO: planned to implement ...
-
-OPTIONS:
-   --duration value, -d value   network emulation duration; should be smaller than recurrent interval; use with optional unit suffix: &#39;ms/s/m/h&#39;
-   --interface value, -i value  network interface to apply delay on (default: &amp;quot;eth0&amp;quot;)
-   --target value, -t value     target IP filter; netem will impact only on traffic to target IP
-   --help, -h                   show help
-&lt;/code&gt;&lt;/pre&gt;&lt;h4 id=&#34;network-emulation-delay-sub-command&#34;&gt;Network Emulation Delay sub-command&lt;/h4&gt;
-&lt;pre&gt;&lt;code&gt;$ pumba netem delay -h
-
-NAME:
-   Pumba netem delay - dealy egress traffic
-
-USAGE:
-   Pumba netem delay [command options] containers (name, list of names, RE2 regex)
-
-DESCRIPTION:
-   dealy egress traffic for specified containers; networks show variability so it is possible to add random variation; delay variation isn&#39;t purely random, so to emulate that there is a correlation
-
-OPTIONS:
-   --amount value, -a value       delay amount; in milliseconds (default: 100)
-   --variation value, -v value    random delay variation; in milliseconds; example: 100ms ± 10ms (default: 10)
-   --correlation value, -c value  delay correlation; in percents (default: 20)
-&lt;/code&gt;&lt;/pre&gt;&lt;h4 id=&#34;examples&#34;&gt;Examples&lt;/h4&gt;
-&lt;pre&gt;&lt;code&gt;# stop random container once in a 10 minutes
-$ ./pumba --random --interval 10m kill --signal SIGSTOP
-&lt;/code&gt;&lt;/pre&gt;&lt;pre&gt;&lt;code&gt;# every 15 minutes kill `mysql` container and every hour remove containers starting with &amp;quot;hp&amp;quot;
-$ ./pumba --interval 15m kill --signal SIGTERM mysql &amp;amp;
-$ ./pumba --interval 1h rm re2:^hp &amp;amp;
-&lt;/code&gt;&lt;/pre&gt;&lt;pre&gt;&lt;code&gt;# every 30 seconds kill &amp;quot;worker1&amp;quot; and &amp;quot;worker2&amp;quot; containers and every 3 minutes stop &amp;quot;queue&amp;quot; container
-$ ./pumba --interval 30s kill --signal SIGKILL worker1 worker2 &amp;amp;
-$ ./pumba --interval 3m stop queue &amp;amp;
-&lt;/code&gt;&lt;/pre&gt;&lt;pre&gt;&lt;code&gt;# Once in 5 minutes, Pumba will delay for 2 seconds (2000ms) egress traffic for some (randomly chosen) container,
-# named `result...` (matching `^result` regexp) on `eth2` network interface.
-# Pumba will restore normal connectivity after 2 minutes. Print debug trace to STDOUT too.
-$ ./pumba --debug --interval 5m --random netem --duration 2m --interface eth2 delay --amount 2000 re2:^result
-&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;running-pumba-in-docker-container&#34;&gt;Running Pumba in Docker Container&lt;/h3&gt;
-&lt;p&gt;The second approach to run it in a Docker container.&lt;/p&gt;
-&lt;p&gt;In order to give Pumba access to Docker daemon on host machine, you will need to mount &lt;code&gt;var/run/docker.sock&lt;/code&gt; unix socket.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;# run latest stable Pumba docker image (from master repository)
-$ docker run -d -v /var/run/docker.sock:/var/run/docker.sock gaiaadm/pumba:master pumba kill --interval 10s --signal SIGTERM ^hp
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Pumba will not kill its own container.&lt;/p&gt;
-&lt;p&gt;Note: For Mac OSX - before you run Pumba, you may want to do the following after downloading the &lt;a href=&#34;https://github.com/gaia-adm/pumba/releases&#34;&gt;pumba_darwin_amd64&lt;/a&gt; binary:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;chmod +x pumba_darwin_amd64
-mv pumba_darwin_amd64 /usr/local/bin/pumba
-pumba
-&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;next&#34;&gt;Next&lt;/h3&gt;
-&lt;p&gt;The Pumba project is available for you to try out. We will gladly accept ideas, pull requests, issues, and contributions to the project.&lt;/p&gt;
-&lt;p&gt;&lt;a href=&#34;https://github.com/gaia-adm/pumba&#34;&gt;Pumba GitHub Repository&lt;/a&gt;&lt;/p&gt;
-</description>
+      <description>Update (27-07-27): Updated post to latest v0.2.0 Pumba version change.
+Introduction The best defense against unexpected failures is to build resilient services. Testing for resiliency enables the teams to learn where their apps fail before the customer does. By intentionally causing failures as part of resiliency testing, you can enforce your policy for building resilient systems. Resilience of the system can be defined as its ability to continue functioning even if some components of the system are failing - ephemerality.</description>
     </item>
     
   </channel>

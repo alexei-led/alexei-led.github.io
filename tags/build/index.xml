@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>build on Terra Nullius</title>
@@ -8,94 +8,19 @@
     <language>en-us</language>
     <copyright>This work is licensed under a Creative Commons Attribution 4.0 International License</copyright>
     <lastBuildDate>Sat, 26 Nov 2016 16:00:00 +0200</lastBuildDate>
-    <atom:link href="https://alexei-led.github.io/tags/build/index.xml" rel="self" type="application/rss+xml" />
+    
+	<atom:link href="https://alexei-led.github.io/tags/build/index.xml" rel="self" type="application/rss+xml" />
+    
     
     <item>
       <title>Do not ignore .dockerignore</title>
       <link>https://alexei-led.github.io/post/donot_ignore_dockerignore/</link>
       <pubDate>Sat, 26 Nov 2016 16:00:00 +0200</pubDate>
+      
       <guid>https://alexei-led.github.io/post/donot_ignore_dockerignore/</guid>
-      <description>&lt;h1 id=&#34;tldr&#34;&gt;TL;DR&lt;/h1&gt;
-&lt;blockquote&gt;
-&lt;p&gt;&lt;strong&gt;Tip:&lt;/strong&gt; Consider to define and use &lt;code&gt;.dockerignore&lt;/code&gt; file for every Docker image you are building. It can help you to reduce Docker image size, speedup &lt;code&gt;docker build&lt;/code&gt; and avoid unintended secret exposure.&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;&lt;img src=&#34;https://alexei-led.github.io/img/overloaded.jpg&#34; alt=&#34;Overloaded container ship&#34;&gt;&lt;/p&gt;
-&lt;h1 id=&#34;docker-build-context&#34;&gt;Docker build context&lt;/h1&gt;
-&lt;p&gt;The &lt;code&gt;docker build&lt;/code&gt; command is used to build a new Docker image. There is one argument you can pass to the &lt;code&gt;build&lt;/code&gt; command &lt;strong&gt;build context&lt;/strong&gt;.&lt;/p&gt;
-&lt;p&gt;So, what is the Docker &lt;strong&gt;build context&lt;/strong&gt;?&lt;/p&gt;
-&lt;p&gt;First, remember, that Docker is a client-server application, it consists from Docker client and Docker server (also known as &lt;em&gt;daemon&lt;/em&gt;). The Docker client command line tool talks with Docker server and asks it do things. One of these things is &lt;strong&gt;build&lt;/strong&gt;: building a new Docker image. The Docker server can run on the same machine as the client, remote machine or virtual machine, that also can be local, remote or even run on some cloud IaaS.&lt;/p&gt;
-&lt;p&gt;Why is that important and how is the Docker &lt;strong&gt;build context&lt;/strong&gt; related to this fact?&lt;/p&gt;
-&lt;p&gt;In order to create a new Docker image, Docker server needs an access to files, you want to create the Docker image from. So, you need somehow to send these files to the Docker server. These files are the Docker &lt;strong&gt;build context&lt;/strong&gt;. The Docker client packs all &lt;strong&gt;build context&lt;/strong&gt; files into &lt;code&gt;tar&lt;/code&gt; archive and uploads this archive to the Docker server. By default client will take all files (and folders) in current working directory and use them as the &lt;strong&gt;build context&lt;/strong&gt;.
-It can also accept already created &lt;code&gt;tar&lt;/code&gt; archive or &lt;code&gt;git&lt;/code&gt; repository. In a case of &lt;code&gt;git&lt;/code&gt; repository, the client will clone it with submodules into a temporary folder and will create a &lt;strong&gt;build context&lt;/strong&gt; archive from it.&lt;/p&gt;
-&lt;h1 id=&#34;impact-on-docker-build&#34;&gt;Impact on Docker build&lt;/h1&gt;
-&lt;p&gt;The first output line, that you see, running the &lt;code&gt;docker build&lt;/code&gt; command is:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;Sending build context to Docker daemon 45.3 MB
-Step 1: FROM ...
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;This should make things clear. Actually, &lt;strong&gt;every time&lt;/strong&gt; you are running the &lt;code&gt;docker build&lt;/code&gt; command, the Docker client creates a new &lt;strong&gt;build context&lt;/strong&gt; archive and sends it to the Docker server. So, you are always paying this &amp;ldquo;tax&amp;rdquo;: the time it takes to create an archive, storage and network traffic and latency time.&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;&lt;strong&gt;Tip:&lt;/strong&gt; The &lt;strong&gt;rule of thumb&lt;/strong&gt; is not adding files to the &lt;strong&gt;build context&lt;/strong&gt;, if you do not need them in your Docker image.&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;h1 id=&#34;the-dockerignore-file&#34;&gt;The &lt;strong&gt;.dockerignore&lt;/strong&gt; file&lt;/h1&gt;
-&lt;p&gt;The &lt;code&gt;.dockerignore&lt;/code&gt; file is the tool, that can help you to define the Docker &lt;strong&gt;build context&lt;/strong&gt; you really need. Using this file, you can specify &lt;strong&gt;ignore rules&lt;/strong&gt; and &lt;strong&gt;exceptions&lt;/strong&gt; from these rules for files and folder, that won&amp;rsquo;t be included in the &lt;strong&gt;build context&lt;/strong&gt; and thus won&amp;rsquo;t be packed into an archive and uploaded to the Docker server.&lt;/p&gt;
-&lt;h1 id=&#34;why-should-you-care&#34;&gt;Why should you care?&lt;/h1&gt;
-&lt;p&gt;Indeed, why should you care? Computers today are fast, networks are also pretty fast (hopefully) and storage is cheap. So, this &amp;ldquo;tax&amp;rdquo; may be not that big, right?
-I will try to convince you, that you should care.&lt;/p&gt;
-&lt;h2 id=&#34;reason-1-docker-image-size&#34;&gt;Reason #1: Docker image size&lt;/h2&gt;
-&lt;p&gt;The world of software development is shifting lately towards &lt;em&gt;continuous delivery&lt;/em&gt;, &lt;em&gt;elastic infrastructure&lt;/em&gt; and &lt;em&gt;microservice architecture&lt;/em&gt;.&lt;/p&gt;
-&lt;p&gt;How is that related?&lt;/p&gt;
-&lt;p&gt;Your systems are composed of multiple components (or &lt;em&gt;microservices&lt;/em&gt;), each one of them running inside Linux container. There might be tens or hundreds of services and even more service instances. These service instances can be built and deployed independently of each other and this can be done for &lt;strong&gt;every single code commit&lt;/strong&gt;. More than that, &lt;em&gt;elastic infrastructure&lt;/em&gt; means that new compute nodes can be added or removed from the system and its microservices can move from node to node, to support scale or availability requirements. That means, your Docker images will be frequently built and transferred.&lt;/p&gt;
-&lt;p&gt;When you practice continuous delivery and microservice architecture, image size and image build time &lt;strong&gt;do matter&lt;/strong&gt;.&lt;/p&gt;
-&lt;h2 id=&#34;reason-2-unintended-secrets-exposure&#34;&gt;Reason #2: Unintended secrets exposure&lt;/h2&gt;
-&lt;p&gt;Not controlling your &lt;strong&gt;build context&lt;/strong&gt;, can also lead to an unintended exposure of your code, commit history, and secrets (keys and credentials).&lt;/p&gt;
-&lt;p&gt;If you copy files into you Docker image with &lt;code&gt;ADD .&lt;/code&gt; or &lt;code&gt;COPY .&lt;/code&gt; command, you may unintendedly include your source files, whole &lt;code&gt;git&lt;/code&gt; history (a &lt;code&gt;.git&lt;/code&gt; folder), secret files (like &lt;code&gt;.aws&lt;/code&gt;, &lt;code&gt;.env&lt;/code&gt;, private keys), cache and other files not only into the Docker &lt;strong&gt;build context&lt;/strong&gt;, but also into the final Docker image.&lt;/p&gt;
-&lt;p&gt;There are multiple Docker images currently available on DockerHub, that expose application source code, passwords, keys and credentials (for example &lt;a href=&#34;http://thehackernews.com/2016/07/vine-source-code.html&#34;&gt;Twitter Vine&lt;/a&gt;).&lt;/p&gt;
-&lt;h2 id=&#34;reason-3-the-docker-build---cache-invalidation&#34;&gt;Reason #3: The Docker build - cache invalidation&lt;/h2&gt;
-&lt;p&gt;A common pattern is to inject an application&amp;rsquo;s entire codebase into an image using an instruction like this:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;COPY . /usr/src/app
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;In this case, we&amp;rsquo;re copying the &lt;strong&gt;entire&lt;/strong&gt; &lt;strong&gt;build context&lt;/strong&gt; into the image. It&amp;rsquo;s also important to understand, that every Dockerfile command generates a new layer. So, if any of included file changes in the entire build context, this change will invalidate the build cache for &lt;code&gt;COPY . /opt/myapp&lt;/code&gt; layer and a new image layer will be generated on the next build.&lt;/p&gt;
-&lt;p&gt;If your working directory contains files that are frequently updated (logs, test results, git history, temporary cache files and similar), you are going to regenerate this layer for every &lt;code&gt;docker build&lt;/code&gt; run.&lt;/p&gt;
-&lt;h1 id=&#34;the-dockerignore-syntax&#34;&gt;The &lt;code&gt;.dockerignore&lt;/code&gt; syntax&lt;/h1&gt;
-&lt;p&gt;The &lt;code&gt;.dockerignore&lt;/code&gt; file is similar to &lt;code&gt;gitignore&lt;/code&gt; file, used by &lt;code&gt;git&lt;/code&gt; tool. similarly to &lt;code&gt;.gitignore&lt;/code&gt; file, it allows you to specify a pattern for files and folders that should be ignored by the Docker client when generating a &lt;strong&gt;build context&lt;/strong&gt;. While &lt;code&gt;.dockerignore&lt;/code&gt; file syntax used to describe &lt;strong&gt;ignore patterns&lt;/strong&gt; is similar to &lt;code&gt;.gitignore&lt;/code&gt; it&amp;rsquo;s not the same.&lt;/p&gt;
-&lt;p&gt;The &lt;code&gt;.dockerignore&lt;/code&gt; pattern matching syntax is based on Go &lt;code&gt;filepath.Match()&lt;/code&gt; function and includes some additions.&lt;/p&gt;
-&lt;p&gt;Here is the complete syntax for the &lt;code&gt;.dockerignore&lt;/code&gt;:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;pattern:
-    { term }
-term:
-    &#39;*&#39;         matches any sequence of non-Separator characters
-    &#39;?&#39;         matches any single non-Separator character
-    &#39;[&#39; [ &#39;^&#39; ] { character-range } &#39;]&#39;
-                character class (must be non-empty)
-    c           matches character c (c != &#39;*&#39;, &#39;?&#39;, &#39;\\&#39;, &#39;[&#39;)
-    &#39;\\&#39; c      matches character c
-
-character-range:
-    c           matches character c (c != &#39;\\&#39;, &#39;-&#39;, &#39;]&#39;)
-    &#39;\\&#39; c      matches character c
-    lo &#39;-&#39; hi   matches character c for lo &amp;lt;= c &amp;lt;= hi
-
-additions:
-  &#39;**&#39;        matches any number of directories (including zero)
-  &#39;!&#39;         lines starting with ! (exclamation mark) can be used to make exceptions to exclusions
-    &#39;#&#39;         lines starting with this character are ignored: use it for comments
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&lt;strong&gt;Note:&lt;/strong&gt; Using the &lt;code&gt;!&lt;/code&gt; character is pretty tricky. The combination of it and patterns before and after line with the &lt;code&gt;!&lt;/code&gt; character can be used to create more advanced rules.&lt;/p&gt;
-&lt;h2 id=&#34;examples&#34;&gt;Examples&lt;/h2&gt;
-&lt;pre&gt;&lt;code&gt;# ignore .git and .cache folders
-.git
-.cache
-&lt;/code&gt;&lt;/pre&gt;&lt;pre&gt;&lt;code&gt;# ignore all *.class files in all folders, including build root
-**/*.class
-&lt;/code&gt;&lt;/pre&gt;&lt;pre&gt;&lt;code&gt;# ignore all markdown files (md) beside all README*.md other than README-secret.md
-*.md
-!README*.md
-README-secret.md
-&lt;/code&gt;&lt;/pre&gt;&lt;h1 id=&#34;next&#34;&gt;Next&lt;/h1&gt;
-&lt;ul&gt;
-&lt;li&gt;RTFM - &lt;a href=&#34;https://docs.docker.com/engine/reference/builder/#/dockerignore-file&#34;&gt;https://docs.docker.com/engine/reference/builder/#/dockerignore-file&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;Use &lt;code&gt;.dockerignore&lt;/code&gt; in every project, where you are building Docker images&lt;/li&gt;
-&lt;/ul&gt;
-&lt;hr&gt;
-&lt;p&gt;Hope you find this post useful. I look forward to your comments and any questions you have.&lt;/p&gt;
-</description>
+      <description>TL;DR  Tip: Consider to define and use .dockerignore file for every Docker image you are building. It can help you to reduce Docker image size, speedup docker build and avoid unintended secret exposure.
+ Docker build context The docker build command is used to build a new Docker image. There is one argument you can pass to the build command build context.
+So, what is the Docker build context?</description>
     </item>
     
   </channel>
