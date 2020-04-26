@@ -1,7 +1,7 @@
 +++
 date = "2020-04-26T10:00:00+02:00"
 draft = true
-title = "Kubernetes and Secrets Management in Cloud"
+title = "Kubernetes and Secrets Management in Cloud: Part 2"
 tags = ["Kubernetes", "EKS","GKE", "AWS", "Google Cloud", "Secrets Manager"]
 categories = ["DevOps", "Security", "Kubernetes"]
 +++
