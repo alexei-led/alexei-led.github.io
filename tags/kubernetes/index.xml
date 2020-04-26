@@ -7,10 +7,20 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>This work is licensed under a Creative Commons Attribution 4.0 International License</copyright>
-    <lastBuildDate>Wed, 12 Feb 2020 10:00:00 +0200</lastBuildDate>
+    <lastBuildDate>Sun, 26 Apr 2020 10:00:00 +0200</lastBuildDate>
     
 	<atom:link href="https://alexei-led.github.io/tags/kubernetes/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Kubernetes and Secrets Management in Cloud</title>
+      <link>https://alexei-led.github.io/post/kube_secrets-init/</link>
+      <pubDate>Sun, 26 Apr 2020 10:00:00 +0200</pubDate>
+      
+      <guid>https://alexei-led.github.io/post/kube_secrets-init/</guid>
+      <description>Introduction Secrets are essential for operation of many production systems. Unintended secrets exposure is one of the top risks that should be properly addressed. Developers should do their best to protect application secrets.
+The problem becomes even harder, once company moves to a microservice architecture and multiple services require an access to different secrets in order to properly work. And this leads to a new challenges: how to distribute, manage, monitor and rotate application secrets, avoiding unintended exposure?</description>
+    </item>
     
     <item>
       <title>Securely access AWS from GKE</title>

@@ -7,7 +7,7 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>This work is licensed under a Creative Commons Attribution 4.0 International License</copyright>
-    <lastBuildDate>Wed, 12 Feb 2020 10:00:00 +0200</lastBuildDate>
+    <lastBuildDate>Sun, 26 Apr 2020 10:00:00 +0200</lastBuildDate>
     
 	<atom:link href="https://alexei-led.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     
@@ -15,9 +15,54 @@
     <item>
       <title>AWS</title>
       <link>https://alexei-led.github.io/tags/aws/</link>
-      <pubDate>Wed, 12 Feb 2020 10:00:00 +0200</pubDate>
+      <pubDate>Sun, 26 Apr 2020 10:00:00 +0200</pubDate>
       
       <guid>https://alexei-led.github.io/tags/aws/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>EKS</title>
+      <link>https://alexei-led.github.io/tags/eks/</link>
+      <pubDate>Sun, 26 Apr 2020 10:00:00 +0200</pubDate>
+      
+      <guid>https://alexei-led.github.io/tags/eks/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>GKE</title>
+      <link>https://alexei-led.github.io/tags/gke/</link>
+      <pubDate>Sun, 26 Apr 2020 10:00:00 +0200</pubDate>
+      
+      <guid>https://alexei-led.github.io/tags/gke/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Google Cloud</title>
+      <link>https://alexei-led.github.io/tags/google-cloud/</link>
+      <pubDate>Sun, 26 Apr 2020 10:00:00 +0200</pubDate>
+      
+      <guid>https://alexei-led.github.io/tags/google-cloud/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>kubernetes</title>
+      <link>https://alexei-led.github.io/tags/kubernetes/</link>
+      <pubDate>Sun, 26 Apr 2020 10:00:00 +0200</pubDate>
+      
+      <guid>https://alexei-led.github.io/tags/kubernetes/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Secrets Manager</title>
+      <link>https://alexei-led.github.io/tags/secrets-manager/</link>
+      <pubDate>Sun, 26 Apr 2020 10:00:00 +0200</pubDate>
+      
+      <guid>https://alexei-led.github.io/tags/secrets-manager/</guid>
       <description></description>
     </item>
     
@@ -31,15 +76,6 @@
     </item>
     
     <item>
-      <title>GKE</title>
-      <link>https://alexei-led.github.io/tags/gke/</link>
-      <pubDate>Wed, 12 Feb 2020 10:00:00 +0200</pubDate>
-      
-      <guid>https://alexei-led.github.io/tags/gke/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>IAM</title>
       <link>https://alexei-led.github.io/tags/iam/</link>
       <pubDate>Wed, 12 Feb 2020 10:00:00 +0200</pubDate>
@@ -49,38 +85,11 @@
     </item>
     
     <item>
-      <title>kubernetes</title>
-      <link>https://alexei-led.github.io/tags/kubernetes/</link>
-      <pubDate>Wed, 12 Feb 2020 10:00:00 +0200</pubDate>
-      
-      <guid>https://alexei-led.github.io/tags/kubernetes/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>security</title>
       <link>https://alexei-led.github.io/tags/security/</link>
       <pubDate>Wed, 12 Feb 2020 10:00:00 +0200</pubDate>
       
       <guid>https://alexei-led.github.io/tags/security/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>EKS</title>
-      <link>https://alexei-led.github.io/tags/eks/</link>
-      <pubDate>Mon, 23 Dec 2019 10:00:00 +0200</pubDate>
-      
-      <guid>https://alexei-led.github.io/tags/eks/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Secrets Manager</title>
-      <link>https://alexei-led.github.io/tags/secrets-manager/</link>
-      <pubDate>Mon, 23 Dec 2019 10:00:00 +0200</pubDate>
-      
-      <guid>https://alexei-led.github.io/tags/secrets-manager/</guid>
       <description></description>
     </item>
     
