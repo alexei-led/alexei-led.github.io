@@ -7,11 +7,7 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>This work is licensed under a Creative Commons Attribution 4.0 International License</copyright>
-    <lastBuildDate>Sat, 16 Apr 2016 20:00:00 +0200</lastBuildDate>
-    
-	<atom:link href="https://alexei-led.github.io/tags/resilience/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Sat, 16 Apr 2016 20:00:00 +0200</lastBuildDate><atom:link href="https://alexei-led.github.io/tags/resilience/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Pumba - Chaos Testing for Docker</title>
       <link>https://alexei-led.github.io/post/pumba_docker_chaos_testing/</link>

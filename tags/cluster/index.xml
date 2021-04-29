@@ -7,11 +7,7 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>This work is licensed under a Creative Commons Attribution 4.0 International License</copyright>
-    <lastBuildDate>Sun, 18 Dec 2016 14:00:00 +0200</lastBuildDate>
-    
-	<atom:link href="https://alexei-led.github.io/tags/cluster/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Sun, 18 Dec 2016 14:00:00 +0200</lastBuildDate><atom:link href="https://alexei-led.github.io/tags/cluster/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Deploy Docker Compose (v3) to Swarm (mode) Cluster</title>
       <link>https://alexei-led.github.io/post/composev3_swarm/</link>

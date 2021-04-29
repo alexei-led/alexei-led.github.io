@@ -7,11 +7,7 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>This work is licensed under a Creative Commons Attribution 4.0 International License</copyright>
-    <lastBuildDate>Tue, 25 Apr 2017 18:00:00 +0200</lastBuildDate>
-    
-	<atom:link href="https://alexei-led.github.io/tags/multistage/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Tue, 25 Apr 2017 18:00:00 +0200</lastBuildDate><atom:link href="https://alexei-led.github.io/tags/multistage/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Create lean Node.js image with Docker multi-stage build</title>
       <link>https://alexei-led.github.io/post/node_docker_multistage/</link>

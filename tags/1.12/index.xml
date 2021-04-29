@@ -7,11 +7,7 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>This work is licensed under a Creative Commons Attribution 4.0 International License</copyright>
-    <lastBuildDate>Thu, 06 Oct 2016 16:00:00 +0200</lastBuildDate>
-    
-	<atom:link href="https://alexei-led.github.io/tags/1.12/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Thu, 06 Oct 2016 16:00:00 +0200</lastBuildDate><atom:link href="https://alexei-led.github.io/tags/1.12/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Docker Swarm cluster with docker-in-docker on MacOS</title>
       <link>https://alexei-led.github.io/post/swarm_dind/</link>

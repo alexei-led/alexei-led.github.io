@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>CI/CD on Terra Nullius</title>
+    <link>https://alexei-led.github.io/categories/ci/cd/</link>
+    <description>Recent content in CI/CD on Terra Nullius</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>This work is licensed under a Creative Commons Attribution 4.0 International License</copyright><atom:link href="https://alexei-led.github.io/categories/ci/cd/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Building Multi-Platform Docker Images for Intel and ARM with AWS CodeBuild</title>
+      <link>https://alexei-led.github.io/post/docker_multi_arch_aws/</link>
+      <pubDate>Wed, 30 Sep 2020 10:00:00 +0200</pubDate>
+      
+      <guid>https://alexei-led.github.io/post/docker_multi_arch_aws/</guid>
+      <description>TL;DR The Docker BuildKit buildx CLI plugin simplifies building Docker images for different OS/CPU platforms (e.g. linux/amd64, linux/arm64, linux/arm, windows/amd64)
+So why is it a big deal now? Who needs Docker images for Arm platform anyway. Raspberry Pi geeks?
+A good reason for this is just a one word Graviton2&amp;hellip;</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -2,7 +2,7 @@
 
 <html lang="en-us">
     <head>
-	<meta name="generator" content="Hugo 0.69.2" />
+	<meta name="generator" content="Hugo 0.82.1" />
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -20,7 +20,7 @@
     
     
     
-    <link rel="stylesheet" href="https://alexei-led.github.io/css/main.min.03322cbe6bddfc28e7b17b84bc5446282a510b14b57be3371ba1f68ef1ab9ce8.css"/>
+    <link rel="stylesheet" href="https://alexei-led.github.io/css/main.min.c80bdc3103e1a90215fb6971170c49e58298298fc567ad69b2f43d1e084514e8.css"/>
 
     
     
@@ -45,7 +45,6 @@ if (!doNotTrack) {
 	ga('send', 'pageview');
 }
 </script>
-
 </head>
     <body>
         
@@ -130,7 +129,7 @@ if (!doNotTrack) {
 	<p><a href="https://github.com/kimcc/hugo-theme-noteworthy" target="_blank" rel="noopener">Noteworthy theme</a></p>
 	<p><a href="https://gohugo.io" target="_blank" rel="noopener">Built with Hugo</a></p>
 
-	<script src="https://alexei-led.github.io/js/main.min.fa5c2b23e07b5d9bfad267a52b4b24fdb053e6fb7524993383594926a3ac270c.js" integrity="sha256-+lwrI+B7XZv60melK0sk/bBT5vt1JJkzg1lJJqOsJww="></script>
+	<script src="https://alexei-led.github.io/js/main.min.c1aee25a817e9beb1f9c4afd9d62311227a7f5e46720e404dc1dda97281f47f2.js" integrity="sha256-wa7iWoF+m+sfnEr9nWIxEien9eRnIOQE3B3alygfR/I="></script>
 </footer>
 </nav>
         <div id="content" class="content-container">
@@ -139,6 +138,68 @@ if (!doNotTrack) {
         
         
         
+        
+        <article>
+            <h2>
+                <a href="https://alexei-led.github.io/post/spotinfo/">
+                    Spotinfo
+                </a>
+            </h2>
+            <div><p>TL;DR The spotinfo is a command-line tool you can use for exploring AWS Spot instances.
+Introduction Using Amazon EC2 Spot instances is an excellent way to reduce EC2 on-demand instance cost, up to 90%. Whenever you have a workload that can survive VM interruption or be suspended and resumed later on without impacting business use cases, choosing the Spot pricing model is a no-brainer choice.
+The lower your interruption rate, the longer your Spot instances are likely to run.</p></div>
+            <div class="post-footer">
+            <time>April 8, 2021</time>
+
+            
+            
+                
+                    <a class="tag" href="https://alexei-led.github.io/tags/aws">#AWS</a>
+                
+                    <a class="tag" href="https://alexei-led.github.io/tags/ec2">#EC2</a>
+                
+                    <a class="tag" href="https://alexei-led.github.io/tags/spot">#Spot</a>
+                
+                    <a class="tag" href="https://alexei-led.github.io/tags/tool">#tool</a>
+                
+            
+            </div> 
+           
+        </article>
+        
+        <article>
+            <h2>
+                <a href="https://alexei-led.github.io/post/docker_multi_arch_aws/">
+                    Building Multi-Platform Docker Images for Intel and ARM with AWS CodeBuild
+                </a>
+            </h2>
+            <div><p>TL;DR The Docker BuildKit buildx CLI plugin simplifies building Docker images for different OS/CPU platforms (e.g. linux/amd64, linux/arm64, linux/arm, windows/amd64)
+So why is it a big deal now? Who needs Docker images for Arm platform anyway. Raspberry Pi geeks?
+A good reason for this is just a one word Graviton2&hellip;</p></div>
+            <div class="post-footer">
+            <time>September 30, 2020</time>
+
+            
+            
+                
+                    <a class="tag" href="https://alexei-led.github.io/tags/docker">#Docker</a>
+                
+                    <a class="tag" href="https://alexei-led.github.io/tags/aws">#AWS</a>
+                
+                    <a class="tag" href="https://alexei-led.github.io/tags/codebuild">#CodeBuild</a>
+                
+                    <a class="tag" href="https://alexei-led.github.io/tags/devops">#DevOps</a>
+                
+                    <a class="tag" href="https://alexei-led.github.io/tags/ci/cd">#CI/CD</a>
+                
+                    <a class="tag" href="https://alexei-led.github.io/tags/arm">#ARM</a>
+                
+                    <a class="tag" href="https://alexei-led.github.io/tags/multi-arch">#Multi-Arch</a>
+                
+            
+            </div> 
+           
+        </article>
         
         <article>
             <h2>
@@ -398,83 +459,12 @@ Intro Software development is about building software services that support busi
            
         </article>
         
-        <article>
-            <h2>
-                <a href="https://alexei-led.github.io/post/debug_node_in_docker/">
-                    Debugging remote Node.js application running in a Docker container
-                </a>
-            </h2>
-            <div><p>Teaser Suppose you want to debug a Node.js application already running on a remote machine inside Docker container. And would like to do it without modifying command arguments (enabling debug mode) and opening remote Node.js debugger agent port to the whole world.
-I bet you didn&rsquo;t know that it&rsquo;s possible and also have no idea how to do it.
-I encourage you to continue reading this post if you are eager to learn some new cool stuff.</p></div>
-            <div class="post-footer">
-            <time>June 3, 2017</time>
-
-            
-            
-                
-                    <a class="tag" href="https://alexei-led.github.io/tags/docker">#docker</a>
-                
-                    <a class="tag" href="https://alexei-led.github.io/tags/tutorial">#tutorial</a>
-                
-                    <a class="tag" href="https://alexei-led.github.io/tags/devops">#devops</a>
-                
-                    <a class="tag" href="https://alexei-led.github.io/tags/hacks">#hacks</a>
-                
-                    <a class="tag" href="https://alexei-led.github.io/tags/node">#node</a>
-                
-                    <a class="tag" href="https://alexei-led.github.io/tags/node.js">#node.js</a>
-                
-                    <a class="tag" href="https://alexei-led.github.io/tags/debug">#debug</a>
-                
-                    <a class="tag" href="https://alexei-led.github.io/tags/dockerfile">#Dockerfile</a>
-                
-            
-            </div> 
-           
-        </article>
-        
-        <article>
-            <h2>
-                <a href="https://alexei-led.github.io/post/node_docker_multistage/">
-                    Create lean Node.js image with Docker multi-stage build
-                </a>
-            </h2>
-            <div><p>TL;DR Starting from Docker 17.05+, you can create a single Dockerfile that can build multiple helper images with compilers, tools, and tests and use files from above images to produce the final Docker image.
-The &ldquo;core principle&rdquo; of Dockerfile Docker can build images by reading the instructions from a Dockerfile. A Dockerfile is a text file that contains a list of all the commands needed to build a new Docker image.</p></div>
-            <div class="post-footer">
-            <time>April 25, 2017</time>
-
-            
-            
-                
-                    <a class="tag" href="https://alexei-led.github.io/tags/docker">#docker</a>
-                
-                    <a class="tag" href="https://alexei-led.github.io/tags/tutorial">#tutorial</a>
-                
-                    <a class="tag" href="https://alexei-led.github.io/tags/devops">#devops</a>
-                
-                    <a class="tag" href="https://alexei-led.github.io/tags/hacks">#hacks</a>
-                
-                    <a class="tag" href="https://alexei-led.github.io/tags/node">#node</a>
-                
-                    <a class="tag" href="https://alexei-led.github.io/tags/node.js">#node.js</a>
-                
-                    <a class="tag" href="https://alexei-led.github.io/tags/multistage">#multistage</a>
-                
-                    <a class="tag" href="https://alexei-led.github.io/tags/dockerfile">#Dockerfile</a>
-                
-            
-            </div> 
-           
-        </article>
-        
     </div>
         
         <div class="paginator">
         
         
-        <p>Page 1 of 2</p>
+        <p>Page 1 of 3</p>
         <div class="paginator-group">
             
             
@@ -569,7 +559,7 @@ The &ldquo;core principle&rdquo; of Dockerfile Docker can build images by readin
 		<p><a href="https://gohugo.io" target="_blank" rel="noopener">Built with Hugo</a></p>
 	</div>
 
-	<script src="https://alexei-led.github.io/js/main.min.fa5c2b23e07b5d9bfad267a52b4b24fdb053e6fb7524993383594926a3ac270c.js" integrity="sha256-+lwrI+B7XZv60melK0sk/bBT5vt1JJkzg1lJJqOsJww="></script>
+	<script src="https://alexei-led.github.io/js/main.min.c1aee25a817e9beb1f9c4afd9d62311227a7f5e46720e404dc1dda97281f47f2.js" integrity="sha256-wa7iWoF+m+sfnEr9nWIxEien9eRnIOQE3B3alygfR/I="></script>
 </footer>
     </body>
 </html>

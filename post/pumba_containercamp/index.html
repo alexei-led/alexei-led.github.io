@@ -19,7 +19,7 @@
     
     
     
-    <link rel="stylesheet" href="https://alexei-led.github.io/css/main.min.03322cbe6bddfc28e7b17b84bc5446282a510b14b57be3371ba1f68ef1ab9ce8.css"/>
+    <link rel="stylesheet" href="https://alexei-led.github.io/css/main.min.c80bdc3103e1a90215fb6971170c49e58298298fc567ad69b2f43d1e084514e8.css"/>
 
     
     
@@ -42,7 +42,6 @@ if (!doNotTrack) {
 	ga('send', 'pageview');
 }
 </script>
-
 </head>
     <body>
         
@@ -127,7 +126,7 @@ if (!doNotTrack) {
 	<p><a href="https://github.com/kimcc/hugo-theme-noteworthy" target="_blank" rel="noopener">Noteworthy theme</a></p>
 	<p><a href="https://gohugo.io" target="_blank" rel="noopener">Built with Hugo</a></p>
 
-	<script src="https://alexei-led.github.io/js/main.min.fa5c2b23e07b5d9bfad267a52b4b24fdb053e6fb7524993383594926a3ac270c.js" integrity="sha256-+lwrI+B7XZv60melK0sk/bBT5vt1JJkzg1lJJqOsJww="></script>
+	<script src="https://alexei-led.github.io/js/main.min.c1aee25a817e9beb1f9c4afd9d62311227a7f5e46720e404dc1dda97281f47f2.js" integrity="sha256-wa7iWoF+m+sfnEr9nWIxEien9eRnIOQE3B3alygfR/I="></script>
 </footer>
 </nav>
         <div id="content" class="content-container">
@@ -205,7 +204,7 @@ Chaos Engineering for distributed software systems was originally popularized by
 So, I&rsquo;ve decided to create my own tool. And since it happens to be quite a useful tool from the very first version, I&rsquo;ve shared it with a community as an open source. It&rsquo;s a Chaos <del>Monkey</del> Warthog for Docker - <a href="https://github.com/gaia-adm/pumba">Pumba</a></p>
 <h2 id="pumba---chaos-testing-for-docker">Pumba - Chaos Testing for Docker</h2>
 <p><em>What is Pumba(a)?</em></p>
-<p>Those of us who have kids or was a kid in 90s should remember this character from Disney&rsquo;s animated film <strong>The Lion King</strong>. In Swahili, <strong>pumbaa</strong> means &ldquo;<em>to be foolish, silly, weak-minded, careless, negligent</em>&quot;. I like the Swahili meaning of this word. It matched perfectly for the tool I wanted to create.</p>
+<p>Those of us who have kids or was a kid in 90s should remember this character from Disney&rsquo;s animated film <strong>The Lion King</strong>. In Swahili, <strong>pumbaa</strong> means &ldquo;<em>to be foolish, silly, weak-minded, careless, negligent</em>&rdquo;. I like the Swahili meaning of this word. It matched perfectly for the tool I wanted to create.</p>
 <h3 id="what-pumba-can-do">What Pumba can do?</h3>
 <p>Pumba disturbs running Docker runtime environment by injecting different failures. Pumba can <code>kill</code>, <code>stop</code>, <code>remove</code> or <code>pause</code> Docker container.
 Pumba can also do a network emulation, simulating different network failures, like: delay, packet loss (using different probability loss models), bandwidth rate limits and more. For network emulation, Pumba uses Linux kernel traffic control <code>tc</code> with <code>netem</code> queueing discipline, read more <a href="http://man7.org/linux/man-pages/man8/tc-netem.8.html">here</a>. If <code>tc</code> is not available within target container, Pumba uses a <em>sidekick</em> container with <code>tc</code> on-board, attaching it to the target container network.</p>
@@ -413,7 +412,7 @@ sh$ iperf -c server -u
 		<p><a href="https://gohugo.io" target="_blank" rel="noopener">Built with Hugo</a></p>
 	</div>
 
-	<script src="https://alexei-led.github.io/js/main.min.fa5c2b23e07b5d9bfad267a52b4b24fdb053e6fb7524993383594926a3ac270c.js" integrity="sha256-+lwrI+B7XZv60melK0sk/bBT5vt1JJkzg1lJJqOsJww="></script>
+	<script src="https://alexei-led.github.io/js/main.min.c1aee25a817e9beb1f9c4afd9d62311227a7f5e46720e404dc1dda97281f47f2.js" integrity="sha256-wa7iWoF+m+sfnEr9nWIxEien9eRnIOQE3B3alygfR/I="></script>
 </footer>
     </body>
 </html>

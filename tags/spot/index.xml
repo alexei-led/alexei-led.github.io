@@ -7,10 +7,17 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>This work is licensed under a Creative Commons Attribution 4.0 International License</copyright>
-    <lastBuildDate>Sat, 20 Jul 2019 10:00:00 +0200</lastBuildDate>
-    
-	<atom:link href="https://alexei-led.github.io/tags/spot/index.xml" rel="self" type="application/rss+xml" />
-    
+    <lastBuildDate>Thu, 08 Apr 2021 10:00:00 +0200</lastBuildDate><atom:link href="https://alexei-led.github.io/tags/spot/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Spotinfo</title>
+      <link>https://alexei-led.github.io/post/spotinfo/</link>
+      <pubDate>Thu, 08 Apr 2021 10:00:00 +0200</pubDate>
+      
+      <guid>https://alexei-led.github.io/post/spotinfo/</guid>
+      <description>TL;DR The spotinfo is a command-line tool you can use for exploring AWS Spot instances.
+Introduction Using Amazon EC2 Spot instances is an excellent way to reduce EC2 on-demand instance cost, up to 90%. Whenever you have a workload that can survive VM interruption or be suspended and resumed later on without impacting business use cases, choosing the Spot pricing model is a no-brainer choice.
+The lower your interruption rate, the longer your Spot instances are likely to run.</description>
+    </item>
     
     <item>
       <title>EKS GPU Cluster from Zero to Hero</title>

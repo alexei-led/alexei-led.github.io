@@ -19,7 +19,7 @@
     
     
     
-    <link rel="stylesheet" href="https://alexei-led.github.io/css/main.min.03322cbe6bddfc28e7b17b84bc5446282a510b14b57be3371ba1f68ef1ab9ce8.css"/>
+    <link rel="stylesheet" href="https://alexei-led.github.io/css/main.min.c80bdc3103e1a90215fb6971170c49e58298298fc567ad69b2f43d1e084514e8.css"/>
 
     
     
@@ -42,7 +42,6 @@ if (!doNotTrack) {
 	ga('send', 'pageview');
 }
 </script>
-
 </head>
     <body>
         
@@ -127,7 +126,7 @@ if (!doNotTrack) {
 	<p><a href="https://github.com/kimcc/hugo-theme-noteworthy" target="_blank" rel="noopener">Noteworthy theme</a></p>
 	<p><a href="https://gohugo.io" target="_blank" rel="noopener">Built with Hugo</a></p>
 
-	<script src="https://alexei-led.github.io/js/main.min.fa5c2b23e07b5d9bfad267a52b4b24fdb053e6fb7524993383594926a3ac270c.js" integrity="sha256-+lwrI+B7XZv60melK0sk/bBT5vt1JJkzg1lJJqOsJww="></script>
+	<script src="https://alexei-led.github.io/js/main.min.c1aee25a817e9beb1f9c4afd9d62311227a7f5e46720e404dc1dda97281f47f2.js" integrity="sha256-wa7iWoF+m+sfnEr9nWIxEien9eRnIOQE3B3alygfR/I="></script>
 </footer>
 </nav>
         <div id="content" class="content-container">
@@ -203,7 +202,7 @@ if (!doNotTrack) {
 <p>When you deploy Java applications with Docker containers, the default Java deployment model changes.</p>
 <p>Originally, Java server-side deployment assumes that you have already pre-configured a Java Web Server (Tomcat, WebLogic, JBoss, or other) and you are deploying an application <strong>WAR</strong> (Web Archive) packaged Java application to this server and run it together with other applications, deployed on the same server.</p>
 <p>Lots of tools are developed around this concept, allowing you to update running applications without stopping the Java Application server, route traffic to the new application, resolve possible class loading conflicts and more.</p>
-<p>With Docker-based deployments, you do not need these tools anymore, you don&rsquo;t even need the fat &ldquo;enterprise-ready&rdquo; Java Application servers. The only thing that you need is a stable and scalable network server that can serve your API over HTTP/TCP or other protocol of your choice. Search Google for [“embedded Java server”](<a href="https://www.google.com/search?q=%22embedded">https://www.google.com/search?q=&quot;embedded</a> java server&rdquo;) and take one that you like most.</p>
+<p>With Docker-based deployments, you do not need these tools anymore, you don&rsquo;t even need the fat &ldquo;enterprise-ready&rdquo; Java Application servers. The only thing that you need is a stable and scalable network server that can serve your API over HTTP/TCP or other protocol of your choice. Search Google for [“embedded Java server”](<a href="https://www.google.com/search?q=%22embedded">https://www.google.com/search?q=&quot;embedded</a> java server&quot;) and take one that you like most.</p>
 <p>For this demo, I forked <a href="https://github.com/khoubyari/spring-boot-rest-example">Spring Boot&rsquo;s REST example</a> and modified it a bit. The demo uses <a href="https://projects.spring.io/spring-boot/">Spring Boot</a> with an embedded <a href="http://tomcat.apache.org/">Tomcat</a> server. Here is my <a href="https://github.com/alexei-led/spring-boot-rest-example">fork</a> on GitHub repository (<code>blog</code> branch).</p>
 <h3 id="building-a-java-application-docker-image">Building a Java Application Docker image</h3>
 <p>In order to run this demo, I need to create a Docker image with JRE, the compiled and packaged Java application, and all 3rd party libraries.</p>
@@ -468,44 +467,44 @@ sbdemo/builder  mvn     2d325a403c5f <span style="color:#ae81ff">5</span> days a
 <li><code>push_image</code> - tag and push the application Docker image to DockerHub</li>
 </ol>
 <p>Here is the full Codefresh <code>YAML</code>:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">version</span>: <span style="color:#e6db74">&#39;1.0&#39;</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#f92672">version</span>: <span style="color:#e6db74">&#39;1.0&#39;</span>
 
-<span style="color:#66d9ef">steps</span>:
+<span style="color:#f92672">steps</span>:
 
-  <span style="color:#66d9ef">mvn_builder</span>:
-    <span style="color:#66d9ef">type</span>: build
-    <span style="color:#66d9ef">description</span>: create Maven builder image
-    <span style="color:#66d9ef">dockerfile</span>: Dockerfile.build
-    <span style="color:#66d9ef">image_name</span>: &lt;put_you_repo_here&gt;/mvn-builder
+  <span style="color:#f92672">mvn_builder</span>:
+    <span style="color:#f92672">type</span>: <span style="color:#ae81ff">build</span>
+    <span style="color:#f92672">description</span>: <span style="color:#ae81ff">create Maven builder image</span>
+    <span style="color:#f92672">dockerfile</span>: <span style="color:#ae81ff">Dockerfile.build</span>
+    <span style="color:#f92672">image_name</span>: <span style="color:#ae81ff">&lt;put_you_repo_here&gt;/mvn-builder</span>
 
-  <span style="color:#66d9ef">mvn_test</span>:
-    <span style="color:#66d9ef">description</span>: run unit tests 
-    <span style="color:#66d9ef">image</span>: ${{mvn_builder}}
-    <span style="color:#66d9ef">commands</span>:
-      - mvn -T 1C -o test
+  <span style="color:#f92672">mvn_test</span>:
+    <span style="color:#f92672">description</span>: <span style="color:#ae81ff">run unit tests </span>
+    <span style="color:#f92672">image</span>: <span style="color:#ae81ff">${{mvn_builder}}</span>
+    <span style="color:#f92672">commands</span>:
+      - <span style="color:#ae81ff">mvn -T 1C -o test</span>
   
-  <span style="color:#66d9ef">mvn_package</span>:
-    <span style="color:#66d9ef">description</span>: package application and dependencies into WAR 
-    <span style="color:#66d9ef">image</span>: ${{mvn_builder}}
-    <span style="color:#66d9ef">commands</span>:
-      - mvn package -T 1C -o -Dmaven.test.skip=<span style="color:#66d9ef">true</span>
+  <span style="color:#f92672">mvn_package</span>:
+    <span style="color:#f92672">description</span>: <span style="color:#ae81ff">package application and dependencies into WAR </span>
+    <span style="color:#f92672">image</span>: <span style="color:#ae81ff">${{mvn_builder}}</span>
+    <span style="color:#f92672">commands</span>:
+      - <span style="color:#ae81ff">mvn package -T 1C -o -Dmaven.test.skip=true</span>
 
-  <span style="color:#66d9ef">build_image</span>:
-    <span style="color:#66d9ef">type</span>: build
-    <span style="color:#66d9ef">description</span>: create Docker image with application WAR
-    <span style="color:#66d9ef">dockerfile</span>: Dockerfile
-    <span style="color:#66d9ef">working_directory</span>: ${{main_clone}}/target
-    <span style="color:#66d9ef">image_name</span>: &lt;put_you_repo_here&gt;/sbdemo
+  <span style="color:#f92672">build_image</span>:
+    <span style="color:#f92672">type</span>: <span style="color:#ae81ff">build</span>
+    <span style="color:#f92672">description</span>: <span style="color:#ae81ff">create Docker image with application WAR</span>
+    <span style="color:#f92672">dockerfile</span>: <span style="color:#ae81ff">Dockerfile</span>
+    <span style="color:#f92672">working_directory</span>: <span style="color:#ae81ff">${{main_clone}}/target</span>
+    <span style="color:#f92672">image_name</span>: <span style="color:#ae81ff">&lt;put_you_repo_here&gt;/sbdemo</span>
 
-  <span style="color:#66d9ef">push_image</span>:
-    <span style="color:#66d9ef">type</span>: push
-    <span style="color:#66d9ef">description</span>: push application image to DockerHub
-    <span style="color:#66d9ef">candidate</span>: <span style="color:#e6db74">&#39;${{build_image}}&#39;</span>
-    <span style="color:#66d9ef">tag</span>: <span style="color:#e6db74">&#39;${{CF_BRANCH}}&#39;</span>
-    <span style="color:#66d9ef">credentials</span>:
+  <span style="color:#f92672">push_image</span>:
+    <span style="color:#f92672">type</span>: <span style="color:#ae81ff">push</span>
+    <span style="color:#f92672">description</span>: <span style="color:#ae81ff">push application image to DockerHub</span>
+    <span style="color:#f92672">candidate</span>: <span style="color:#e6db74">&#39;${{build_image}}&#39;</span>
+    <span style="color:#f92672">tag</span>: <span style="color:#e6db74">&#39;${{CF_BRANCH}}&#39;</span>
+    <span style="color:#f92672">credentials</span>:
       <span style="color:#75715e"># set docker registry credentials in project configuration</span>
-      <span style="color:#66d9ef">username</span>: <span style="color:#e6db74">&#39;${{DOCKER_USER}}&#39;</span>
-      <span style="color:#66d9ef">password</span>: <span style="color:#e6db74">&#39;${{DOCKER_PASS}}&#39;</span>
+      <span style="color:#f92672">username</span>: <span style="color:#e6db74">&#39;${{DOCKER_USER}}&#39;</span>
+      <span style="color:#f92672">password</span>: <span style="color:#e6db74">&#39;${{DOCKER_PASS}}&#39;</span>
 </code></pre></div><hr>
 <p>Hope, you find this post useful. I look forward to your comments and any questions you have.</p>
 <hr>
@@ -630,7 +629,7 @@ sbdemo/builder  mvn     2d325a403c5f <span style="color:#ae81ff">5</span> days a
 		<p><a href="https://gohugo.io" target="_blank" rel="noopener">Built with Hugo</a></p>
 	</div>
 
-	<script src="https://alexei-led.github.io/js/main.min.fa5c2b23e07b5d9bfad267a52b4b24fdb053e6fb7524993383594926a3ac270c.js" integrity="sha256-+lwrI+B7XZv60melK0sk/bBT5vt1JJkzg1lJJqOsJww="></script>
+	<script src="https://alexei-led.github.io/js/main.min.c1aee25a817e9beb1f9c4afd9d62311227a7f5e46720e404dc1dda97281f47f2.js" integrity="sha256-wa7iWoF+m+sfnEr9nWIxEien9eRnIOQE3B3alygfR/I="></script>
 </footer>
     </body>
 </html>

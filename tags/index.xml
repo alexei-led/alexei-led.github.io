@@ -7,17 +7,94 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>This work is licensed under a Creative Commons Attribution 4.0 International License</copyright>
-    <lastBuildDate>Sun, 26 Apr 2020 10:00:00 +0200</lastBuildDate>
-    
-	<atom:link href="https://alexei-led.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Thu, 08 Apr 2021 10:00:00 +0200</lastBuildDate><atom:link href="https://alexei-led.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>AWS</title>
       <link>https://alexei-led.github.io/tags/aws/</link>
-      <pubDate>Sun, 26 Apr 2020 10:00:00 +0200</pubDate>
+      <pubDate>Thu, 08 Apr 2021 10:00:00 +0200</pubDate>
       
       <guid>https://alexei-led.github.io/tags/aws/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>EC2</title>
+      <link>https://alexei-led.github.io/tags/ec2/</link>
+      <pubDate>Thu, 08 Apr 2021 10:00:00 +0200</pubDate>
+      
+      <guid>https://alexei-led.github.io/tags/ec2/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Spot</title>
+      <link>https://alexei-led.github.io/tags/spot/</link>
+      <pubDate>Thu, 08 Apr 2021 10:00:00 +0200</pubDate>
+      
+      <guid>https://alexei-led.github.io/tags/spot/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>tool</title>
+      <link>https://alexei-led.github.io/tags/tool/</link>
+      <pubDate>Thu, 08 Apr 2021 10:00:00 +0200</pubDate>
+      
+      <guid>https://alexei-led.github.io/tags/tool/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>ARM</title>
+      <link>https://alexei-led.github.io/tags/arm/</link>
+      <pubDate>Wed, 30 Sep 2020 10:00:00 +0200</pubDate>
+      
+      <guid>https://alexei-led.github.io/tags/arm/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>ci</title>
+      <link>https://alexei-led.github.io/tags/ci/</link>
+      <pubDate>Wed, 30 Sep 2020 10:00:00 +0200</pubDate>
+      
+      <guid>https://alexei-led.github.io/tags/ci/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>CodeBuild</title>
+      <link>https://alexei-led.github.io/tags/codebuild/</link>
+      <pubDate>Wed, 30 Sep 2020 10:00:00 +0200</pubDate>
+      
+      <guid>https://alexei-led.github.io/tags/codebuild/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>devops</title>
+      <link>https://alexei-led.github.io/tags/devops/</link>
+      <pubDate>Wed, 30 Sep 2020 10:00:00 +0200</pubDate>
+      
+      <guid>https://alexei-led.github.io/tags/devops/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>docker</title>
+      <link>https://alexei-led.github.io/tags/docker/</link>
+      <pubDate>Wed, 30 Sep 2020 10:00:00 +0200</pubDate>
+      
+      <guid>https://alexei-led.github.io/tags/docker/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Multi-Arch</title>
+      <link>https://alexei-led.github.io/tags/multi-arch/</link>
+      <pubDate>Wed, 30 Sep 2020 10:00:00 +0200</pubDate>
+      
+      <guid>https://alexei-led.github.io/tags/multi-arch/</guid>
       <description></description>
     </item>
     
@@ -94,15 +171,6 @@
     </item>
     
     <item>
-      <title>devops</title>
-      <link>https://alexei-led.github.io/tags/devops/</link>
-      <pubDate>Sat, 27 Jul 2019 10:00:00 +0200</pubDate>
-      
-      <guid>https://alexei-led.github.io/tags/devops/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>root</title>
       <link>https://alexei-led.github.io/tags/root/</link>
       <pubDate>Sat, 27 Jul 2019 10:00:00 +0200</pubDate>
@@ -135,24 +203,6 @@
       <pubDate>Sat, 20 Jul 2019 10:00:00 +0200</pubDate>
       
       <guid>https://alexei-led.github.io/tags/machine-learning/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Spot</title>
-      <link>https://alexei-led.github.io/tags/spot/</link>
-      <pubDate>Sat, 20 Jul 2019 10:00:00 +0200</pubDate>
-      
-      <guid>https://alexei-led.github.io/tags/spot/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>ci</title>
-      <link>https://alexei-led.github.io/tags/ci/</link>
-      <pubDate>Fri, 08 Mar 2019 10:00:00 +0200</pubDate>
-      
-      <guid>https://alexei-led.github.io/tags/ci/</guid>
       <description></description>
     </item>
     
@@ -198,15 +248,6 @@
       <pubDate>Wed, 11 Oct 2017 18:00:00 +0200</pubDate>
       
       <guid>https://alexei-led.github.io/tags/continuous-deployment/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>docker</title>
-      <link>https://alexei-led.github.io/tags/docker/</link>
-      <pubDate>Wed, 11 Oct 2017 18:00:00 +0200</pubDate>
-      
-      <guid>https://alexei-led.github.io/tags/docker/</guid>
       <description></description>
     </item>
     
@@ -270,15 +311,6 @@
       <pubDate>Wed, 04 Oct 2017 18:00:00 +0200</pubDate>
       
       <guid>https://alexei-led.github.io/tags/netem/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>network</title>
-      <link>https://alexei-led.github.io/tags/network/</link>
-      <pubDate>Wed, 04 Oct 2017 18:00:00 +0200</pubDate>
-      
-      <guid>https://alexei-led.github.io/tags/network/</guid>
       <description></description>
     </item>
     
@@ -441,6 +473,15 @@
       <pubDate>Thu, 06 Oct 2016 16:00:00 +0200</pubDate>
       
       <guid>https://alexei-led.github.io/tags/masos/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>network</title>
+      <link>https://alexei-led.github.io/tags/network/</link>
+      <pubDate>Mon, 01 Aug 2016 20:00:00 +0200</pubDate>
+      
+      <guid>https://alexei-led.github.io/tags/network/</guid>
       <description></description>
     </item>
     

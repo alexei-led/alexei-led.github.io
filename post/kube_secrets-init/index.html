@@ -19,7 +19,7 @@
     
     
     
-    <link rel="stylesheet" href="https://alexei-led.github.io/css/main.min.03322cbe6bddfc28e7b17b84bc5446282a510b14b57be3371ba1f68ef1ab9ce8.css"/>
+    <link rel="stylesheet" href="https://alexei-led.github.io/css/main.min.c80bdc3103e1a90215fb6971170c49e58298298fc567ad69b2f43d1e084514e8.css"/>
 
     
     
@@ -42,7 +42,6 @@ if (!doNotTrack) {
 	ga('send', 'pageview');
 }
 </script>
-
 </head>
     <body>
         
@@ -127,7 +126,7 @@ if (!doNotTrack) {
 	<p><a href="https://github.com/kimcc/hugo-theme-noteworthy" target="_blank" rel="noopener">Noteworthy theme</a></p>
 	<p><a href="https://gohugo.io" target="_blank" rel="noopener">Built with Hugo</a></p>
 
-	<script src="https://alexei-led.github.io/js/main.min.fa5c2b23e07b5d9bfad267a52b4b24fdb053e6fb7524993383594926a3ac270c.js" integrity="sha256-+lwrI+B7XZv60melK0sk/bBT5vt1JJkzg1lJJqOsJww="></script>
+	<script src="https://alexei-led.github.io/js/main.min.c1aee25a817e9beb1f9c4afd9d62311227a7f5e46720e404dc1dda97281f47f2.js" integrity="sha256-wa7iWoF+m+sfnEr9nWIxEien9eRnIOQE3B3alygfR/I="></script>
 </footer>
 </nav>
         <div id="content" class="content-container">
@@ -175,21 +174,21 @@ DB_PASSWORD<span style="color:#f92672">=</span>very-secret-password
 <p>In order to resolve AWS secrets from AWS Secrets Manager and Parameter Store, the <code>secrets-init</code> application should run under AWS IAM Role with one of the following IAM policies attached.</p>
 <p>for AWS Secrets Manager:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">{
-    <span style="color:#66d9ef">&#34;Version&#34;: </span><span style="color:#e6db74">&#34;2012-10-17&#34;</span>,
-    <span style="color:#66d9ef">&#34;Statement&#34;: </span>{
-        <span style="color:#66d9ef">&#34;Effect&#34;: </span><span style="color:#e6db74">&#34;Allow&#34;</span>,
-        <span style="color:#66d9ef">&#34;Action&#34;: </span><span style="color:#e6db74">&#34;secretsmanager:GetSecretValue&#34;</span>,
-        <span style="color:#66d9ef">&#34;Resource&#34;: </span><span style="color:#e6db74">&#34;arn:aws:secretsmanager:us-west-2:123456789012:secret:aes128-1a2b3c&#34;</span>
+    <span style="color:#f92672">&#34;Version&#34;: </span><span style="color:#e6db74">&#34;2012-10-17&#34;</span>,
+    <span style="color:#f92672">&#34;Statement&#34;: </span>{
+        <span style="color:#f92672">&#34;Effect&#34;: </span><span style="color:#e6db74">&#34;Allow&#34;</span>,
+        <span style="color:#f92672">&#34;Action&#34;: </span><span style="color:#e6db74">&#34;secretsmanager:GetSecretValue&#34;</span>,
+        <span style="color:#f92672">&#34;Resource&#34;: </span><span style="color:#e6db74">&#34;arn:aws:secretsmanager:us-west-2:123456789012:secret:aes128-1a2b3c&#34;</span>
     }
 }
 </code></pre></div><p>for AWS Systems Manager Parameter Store:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">{
-    <span style="color:#66d9ef">&#34;Version&#34;: </span><span style="color:#e6db74">&#34;2012-10-17&#34;</span>,
-    <span style="color:#66d9ef">&#34;Statement&#34;: </span>[
+    <span style="color:#f92672">&#34;Version&#34;: </span><span style="color:#e6db74">&#34;2012-10-17&#34;</span>,
+    <span style="color:#f92672">&#34;Statement&#34;: </span>[
         {
-            <span style="color:#66d9ef">&#34;Effect&#34;: </span><span style="color:#e6db74">&#34;Allow&#34;</span>,
-            <span style="color:#66d9ef">&#34;Action&#34;: </span><span style="color:#e6db74">&#34;ssm:GetParameter&#34;</span>,
-            <span style="color:#66d9ef">&#34;Resource&#34;: </span><span style="color:#e6db74">&#34;arn:aws:ssm:us-west-2:123456789012:parameter/prod-*&#34;</span>
+            <span style="color:#f92672">&#34;Effect&#34;: </span><span style="color:#e6db74">&#34;Allow&#34;</span>,
+            <span style="color:#f92672">&#34;Action&#34;: </span><span style="color:#e6db74">&#34;ssm:GetParameter&#34;</span>,
+            <span style="color:#f92672">&#34;Resource&#34;: </span><span style="color:#e6db74">&#34;arn:aws:ssm:us-west-2:123456789012:parameter/prod-*&#34;</span>
         }
     ]
 }
@@ -204,20 +203,20 @@ It&rsquo;s also possible to assign an IAM Role to a GCE instance, where containe
 <ol>
 <li>To deploy the <code>kube-secrets-init</code> webhook server, we need to create a webhook service and a deployment in our Kubernetes cluster. It’s pretty straightforward, except one thing, which is the server’s TLS configuration. If you’d care to examine the <a href="https://github.com/doitintl/kube-secrets-init/blob/master/deployment/deployment.yaml">deployment.yaml</a> file, you’ll find that the certificate and corresponding private key files are read from command line arguments, and that the path to these files comes from a volume mount that points to a Kubernetes secret:</li>
 </ol>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">[...]
-      <span style="color:#66d9ef">args</span>:
-      [...]
-      - --tls-cert-file=/etc/webhook/certs/cert.pem
-      - --tls-private-key-file=/etc/webhook/certs/key.pem
-      <span style="color:#66d9ef">volumeMounts</span>:
-      - <span style="color:#66d9ef">name</span>: webhook-certs
-        <span style="color:#66d9ef">mountPath</span>: /etc/webhook/certs
-        <span style="color:#66d9ef">readOnly</span>: <span style="color:#66d9ef">true</span>
-[...]
-   <span style="color:#66d9ef">volumes</span>:
-   - <span style="color:#66d9ef">name</span>: webhook-certs
-     <span style="color:#66d9ef">secret</span>:
-       <span style="color:#66d9ef">secretName</span>: secrets-init-webhook-certs
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">[<span style="color:#ae81ff">...]</span>
+      <span style="color:#f92672">args</span>:
+      [<span style="color:#ae81ff">...]</span>
+      - --<span style="color:#ae81ff">tls-cert-file=/etc/webhook/certs/cert.pem</span>
+      - --<span style="color:#ae81ff">tls-private-key-file=/etc/webhook/certs/key.pem</span>
+      <span style="color:#f92672">volumeMounts</span>:
+      - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">webhook-certs</span>
+        <span style="color:#f92672">mountPath</span>: <span style="color:#ae81ff">/etc/webhook/certs</span>
+        <span style="color:#f92672">readOnly</span>: <span style="color:#66d9ef">true</span>
+[<span style="color:#ae81ff">...]</span>
+   <span style="color:#f92672">volumes</span>:
+   - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">webhook-certs</span>
+     <span style="color:#f92672">secret</span>:
+       <span style="color:#f92672">secretName</span>: <span style="color:#ae81ff">secrets-init-webhook-certs</span>
 </code></pre></div><p>The most important thing to remember is to set the corresponding CA certificate later in the webhook configuration, so the <code>apiserver</code> will know that it should be accepted. For now, we’ll reuse the script originally written by the Istio team to generate a certificate signing request. Then we’ll send the request to the Kubernetes API, fetch the certificate, and create the required secret from the result.</p>
 <p>First, run <a href="https://github.com/doitintl/kube-secrets-init/blob/master/deployment/webhook-create-signed-cert.sh">webhook-create-signed-cert.sh</a> script and check if the secret holding the certificate and key has been created:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">./deployment/webhook-create-signed-cert.sh
@@ -238,13 +237,13 @@ secret/secrets-init-webhook-certs configured
 kubectl create -f deployment/service.yaml
 </code></pre></div><h3 id="configure-mutating-admission-webhook">Configure mutating admission webhook</h3>
 <p>Now that our webhook server is running, it can accept requests from the <code>apiserver</code>. However, we should create some configuration resources in Kubernetes first. Let’s start with our validating webhook, then we’ll configure the mutating webhook later. If you take a look at the <a href="https://github.com/doitintl/kube-secrets-init/blob/master/deployment/mutatingwebhook.yaml">webhook configuration</a>, you’ll notice that it contains a placeholder for <code>CA_BUNDLE</code>:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">[...]
-      <span style="color:#66d9ef">service</span>:
-        <span style="color:#66d9ef">name</span>: secrets-init-webhook-svc
-        <span style="color:#66d9ef">namespace</span>: default
-        <span style="color:#66d9ef">path</span>: <span style="color:#e6db74">&#34;/pods&#34;</span>
-      <span style="color:#66d9ef">caBundle</span>: ${CA_BUNDLE}
-[...]
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">[<span style="color:#ae81ff">...]</span>
+      <span style="color:#f92672">service</span>:
+        <span style="color:#f92672">name</span>: <span style="color:#ae81ff">secrets-init-webhook-svc</span>
+        <span style="color:#f92672">namespace</span>: <span style="color:#ae81ff">default</span>
+        <span style="color:#f92672">path</span>: <span style="color:#e6db74">&#34;/pods&#34;</span>
+      <span style="color:#f92672">caBundle</span>: <span style="color:#ae81ff">${CA_BUNDLE}</span>
+[<span style="color:#ae81ff">...]</span>
 </code></pre></div><p>There is a <a href="https://github.com/doitintl/kube-secrets-init/blob/master/deployment/webhook-patch-ca-bundle.sh">small script</a> that substitutes the CA_BUNDLE placeholder in the configuration with this CA. Run this command before creating the validating webhook configuration:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">cat ./deployment/mutatingwebhook.yaml | ./deployment/webhook-patch-ca-bundle.sh &gt; ./deployment/mutatingwebhook-bundle.yaml
 </code></pre></div><p>Create mutating webhook configuration:</p>
@@ -382,7 +381,7 @@ kubectl create -f deployment/clusterrolebinding.yaml
 		<p><a href="https://gohugo.io" target="_blank" rel="noopener">Built with Hugo</a></p>
 	</div>
 
-	<script src="https://alexei-led.github.io/js/main.min.fa5c2b23e07b5d9bfad267a52b4b24fdb053e6fb7524993383594926a3ac270c.js" integrity="sha256-+lwrI+B7XZv60melK0sk/bBT5vt1JJkzg1lJJqOsJww="></script>
+	<script src="https://alexei-led.github.io/js/main.min.c1aee25a817e9beb1f9c4afd9d62311227a7f5e46720e404dc1dda97281f47f2.js" integrity="sha256-wa7iWoF+m+sfnEr9nWIxEien9eRnIOQE3B3alygfR/I="></script>
 </footer>
     </body>
 </html>

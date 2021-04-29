@@ -19,7 +19,7 @@
     
     
     
-    <link rel="stylesheet" href="https://alexei-led.github.io/css/main.min.03322cbe6bddfc28e7b17b84bc5446282a510b14b57be3371ba1f68ef1ab9ce8.css"/>
+    <link rel="stylesheet" href="https://alexei-led.github.io/css/main.min.c80bdc3103e1a90215fb6971170c49e58298298fc567ad69b2f43d1e084514e8.css"/>
 
     
     
@@ -42,7 +42,6 @@ if (!doNotTrack) {
 	ga('send', 'pageview');
 }
 </script>
-
 </head>
     <body>
         
@@ -127,7 +126,7 @@ if (!doNotTrack) {
 	<p><a href="https://github.com/kimcc/hugo-theme-noteworthy" target="_blank" rel="noopener">Noteworthy theme</a></p>
 	<p><a href="https://gohugo.io" target="_blank" rel="noopener">Built with Hugo</a></p>
 
-	<script src="https://alexei-led.github.io/js/main.min.fa5c2b23e07b5d9bfad267a52b4b24fdb053e6fb7524993383594926a3ac270c.js" integrity="sha256-+lwrI+B7XZv60melK0sk/bBT5vt1JJkzg1lJJqOsJww="></script>
+	<script src="https://alexei-led.github.io/js/main.min.c1aee25a817e9beb1f9c4afd9d62311227a7f5e46720e404dc1dda97281f47f2.js" integrity="sha256-wa7iWoF+m+sfnEr9nWIxEien9eRnIOQE3B3alygfR/I="></script>
 </footer>
 </nav>
         <div id="content" class="content-container">
@@ -144,14 +143,14 @@ if (!doNotTrack) {
 <p>For example, a Kubernetes secret can be created with command <code>kubectl create secret</code>:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">kubectl create secret generic db-credentials -n default --from-literal<span style="color:#f92672">=</span>user<span style="color:#f92672">=</span>dbuser --from-literal<span style="color:#f92672">=</span>password<span style="color:#f92672">=</span>quick.fox.5312
 </code></pre></div><p>or Kubernetes <code>db-credentials.yaml</code> file, that describes the same secret:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: v1
-<span style="color:#66d9ef">kind</span>: Secret
-<span style="color:#66d9ef">metadata</span>:
-  <span style="color:#66d9ef">name</span>: db-credentials
-<span style="color:#66d9ef">type</span>: Opaque
-<span style="color:#66d9ef">data</span>:
-  <span style="color:#66d9ef">password</span>: cXVpY2suZm94LjUzMTI=
-  <span style="color:#66d9ef">user</span>: ZGJ1c2Vy
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">v1</span>
+<span style="color:#f92672">kind</span>: <span style="color:#ae81ff">Secret</span>
+<span style="color:#f92672">metadata</span>:
+  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">db-credentials</span>
+<span style="color:#f92672">type</span>: <span style="color:#ae81ff">Opaque</span>
+<span style="color:#f92672">data</span>:
+  <span style="color:#f92672">password</span>: <span style="color:#ae81ff">cXVpY2suZm94LjUzMTI=</span>
+  <span style="color:#f92672">user</span>: <span style="color:#ae81ff">ZGJ1c2Vy</span>
 </code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">kubectl create -f db-credentials.yaml
 </code></pre></div><p>Please note, that storing a sensitive data in a Kubernetes Secret does not make it secure. By default, all data in Kubernetes Secrets is stored as a plantext encoded with <code>base64</code>.</p>
 <p>Starting with version 1.13, Kubernetes supports <a href="https://kubernetes.io/docs/tasks/administer-cluster/encrypt-data/">encrypting Secrets data at rest</a>, using <code>EncryptionConfiguration</code> object with built-in or external encryption provider.</p>
@@ -216,46 +215,46 @@ You can use the <a href="https://hub.docker.com/r/doitintl/secrets-init">doitint
 <h3 id="integration-with-aws-secrets-manager">Integration with AWS Secrets Manager</h3>
 <p>To start using <code>secrets-init</code> with AWS Secrets Manager, user should put an AWS secret ARN as environment variable value. The <code>secrets-init</code> will resolve any environment value, using specified ARN, to a referenced secret value.</p>
 <p>Example, using <code>secrets-init</code> with Kubernetes Job:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: batch/v1
-<span style="color:#66d9ef">kind</span>: Job
-<span style="color:#66d9ef">metadata</span>:
-  <span style="color:#66d9ef">name</span>: printenv-job
-<span style="color:#66d9ef">spec</span>:
-  <span style="color:#66d9ef">template</span>:
-    <span style="color:#66d9ef">spec</span>:
-      <span style="color:#66d9ef">restartPolicy</span>: Never
-      <span style="color:#66d9ef">serviceAccountName</span>: iam-secrets-manager-ro
-      <span style="color:#66d9ef">initContainers</span>:
-        - <span style="color:#66d9ef">name</span>: secrets-init
-          <span style="color:#66d9ef">image</span>: doitintl/secrets-init:v0<span style="color:#ae81ff">.2.1</span>
-          <span style="color:#66d9ef">command</span>:
-            - sh
-          <span style="color:#66d9ef">args</span>:
-            - -c
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">batch/v1</span>
+<span style="color:#f92672">kind</span>: <span style="color:#ae81ff">Job</span>
+<span style="color:#f92672">metadata</span>:
+  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">printenv-job</span>
+<span style="color:#f92672">spec</span>:
+  <span style="color:#f92672">template</span>:
+    <span style="color:#f92672">spec</span>:
+      <span style="color:#f92672">restartPolicy</span>: <span style="color:#ae81ff">Never</span>
+      <span style="color:#f92672">serviceAccountName</span>: <span style="color:#ae81ff">iam-secrets-manager-ro</span>
+      <span style="color:#f92672">initContainers</span>:
+        - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">secrets-init</span>
+          <span style="color:#f92672">image</span>: <span style="color:#ae81ff">doitintl/secrets-init:v0.2.1</span>
+          <span style="color:#f92672">command</span>:
+            - <span style="color:#ae81ff">sh</span>
+          <span style="color:#f92672">args</span>:
+            - -<span style="color:#ae81ff">c</span>
             - <span style="color:#e6db74">&#34;cp /usr/local/bin/secrets-init /secrets-init/bin/&#34;</span>
-          <span style="color:#66d9ef">volumeMounts</span>:
-          - <span style="color:#66d9ef">mountPath</span>: /secrets-init/bin
-            <span style="color:#66d9ef">name</span>: secrets-init-volume
-      <span style="color:#66d9ef">containers</span>:
-      - <span style="color:#66d9ef">image</span>: alpine:<span style="color:#ae81ff">3</span>
-        <span style="color:#66d9ef">name</span>: print-env
-        <span style="color:#66d9ef">env</span>:
-          - <span style="color:#66d9ef">name</span>: AWS_REGION
-            <span style="color:#66d9ef">value</span>: us-west<span style="color:#ae81ff">-2</span>
-          - <span style="color:#66d9ef">name</span>: TOP_SECRET
-            <span style="color:#66d9ef">value</span>: arn:aws:secretsmanager:us-west<span style="color:#ae81ff">-2</span>:<span style="color:#ae81ff">906364353610</span>:secret:topsecret-Acdaq8
-        <span style="color:#66d9ef">command</span>:
-          - /secrets-init/bin/secrets-init
-        <span style="color:#66d9ef">args</span>:
-          - sh
-          - -c
+          <span style="color:#f92672">volumeMounts</span>:
+          - <span style="color:#f92672">mountPath</span>: <span style="color:#ae81ff">/secrets-init/bin</span>
+            <span style="color:#f92672">name</span>: <span style="color:#ae81ff">secrets-init-volume</span>
+      <span style="color:#f92672">containers</span>:
+      - <span style="color:#f92672">image</span>: <span style="color:#ae81ff">alpine:3</span>
+        <span style="color:#f92672">name</span>: <span style="color:#ae81ff">print-env</span>
+        <span style="color:#f92672">env</span>:
+          - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">AWS_REGION</span>
+            <span style="color:#f92672">value</span>: <span style="color:#ae81ff">us-west-2</span>
+          - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">TOP_SECRET</span>
+            <span style="color:#f92672">value</span>: <span style="color:#ae81ff">arn:aws:secretsmanager:us-west-2:906364353610:secret:topsecret-Acdaq8</span>
+        <span style="color:#f92672">command</span>:
+          - <span style="color:#ae81ff">/secrets-init/bin/secrets-init</span>
+        <span style="color:#f92672">args</span>:
+          - <span style="color:#ae81ff">sh</span>
+          - -<span style="color:#ae81ff">c</span>
           - <span style="color:#e6db74">&#39;echo $TOP_SECRET&#39;</span>
-        <span style="color:#66d9ef">volumeMounts</span>:
-        - <span style="color:#66d9ef">mountPath</span>: /secrets-init/bin
-          <span style="color:#66d9ef">name</span>: secrets-init-volume
-      <span style="color:#66d9ef">volumes</span>:
-      - <span style="color:#66d9ef">name</span>: secrets-init-volume
-        <span style="color:#66d9ef">emptyDir</span>: {}
+        <span style="color:#f92672">volumeMounts</span>:
+        - <span style="color:#f92672">mountPath</span>: <span style="color:#ae81ff">/secrets-init/bin</span>
+          <span style="color:#f92672">name</span>: <span style="color:#ae81ff">secrets-init-volume</span>
+      <span style="color:#f92672">volumes</span>:
+      - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">secrets-init-volume</span>
+        <span style="color:#f92672">emptyDir</span>: {}
 </code></pre></div><h3 id="integration-with-aws-systems-manager-parameter-store">Integration with AWS Systems Manager Parameter Store</h3>
 <p>It is possible to use AWS Systems Manager Parameter Store to store application parameters as plain text or encrypted (kind of secrets).</p>
 <p>As with the previous example, user can put AWS Parameter Store ARN as environment variable value. The <code>secrets-init</code> will resolve any environment value, using specified ARN, to a referenced parameter value.</p>
@@ -404,7 +403,7 @@ MY_DB_PASSWORD<span style="color:#f92672">=</span>very-secret-password
 		<p><a href="https://gohugo.io" target="_blank" rel="noopener">Built with Hugo</a></p>
 	</div>
 
-	<script src="https://alexei-led.github.io/js/main.min.fa5c2b23e07b5d9bfad267a52b4b24fdb053e6fb7524993383594926a3ac270c.js" integrity="sha256-+lwrI+B7XZv60melK0sk/bBT5vt1JJkzg1lJJqOsJww="></script>
+	<script src="https://alexei-led.github.io/js/main.min.c1aee25a817e9beb1f9c4afd9d62311227a7f5e46720e404dc1dda97281f47f2.js" integrity="sha256-wa7iWoF+m+sfnEr9nWIxEien9eRnIOQE3B3alygfR/I="></script>
 </footer>
     </body>
 </html>

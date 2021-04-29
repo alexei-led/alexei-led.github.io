@@ -7,10 +7,28 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>This work is licensed under a Creative Commons Attribution 4.0 International License</copyright>
-    <lastBuildDate>Sun, 26 Apr 2020 10:00:00 +0200</lastBuildDate>
+    <lastBuildDate>Thu, 08 Apr 2021 10:00:00 +0200</lastBuildDate><atom:link href="https://alexei-led.github.io/categories/devops/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Spotinfo</title>
+      <link>https://alexei-led.github.io/post/spotinfo/</link>
+      <pubDate>Thu, 08 Apr 2021 10:00:00 +0200</pubDate>
+      
+      <guid>https://alexei-led.github.io/post/spotinfo/</guid>
+      <description>TL;DR The spotinfo is a command-line tool you can use for exploring AWS Spot instances.
+Introduction Using Amazon EC2 Spot instances is an excellent way to reduce EC2 on-demand instance cost, up to 90%. Whenever you have a workload that can survive VM interruption or be suspended and resumed later on without impacting business use cases, choosing the Spot pricing model is a no-brainer choice.
+The lower your interruption rate, the longer your Spot instances are likely to run.</description>
+    </item>
     
-	<atom:link href="https://alexei-led.github.io/categories/devops/index.xml" rel="self" type="application/rss+xml" />
-    
+    <item>
+      <title>Building Multi-Platform Docker Images for Intel and ARM with AWS CodeBuild</title>
+      <link>https://alexei-led.github.io/post/docker_multi_arch_aws/</link>
+      <pubDate>Wed, 30 Sep 2020 10:00:00 +0200</pubDate>
+      
+      <guid>https://alexei-led.github.io/post/docker_multi_arch_aws/</guid>
+      <description>TL;DR The Docker BuildKit buildx CLI plugin simplifies building Docker images for different OS/CPU platforms (e.g. linux/amd64, linux/arm64, linux/arm, windows/amd64)
+So why is it a big deal now? Who needs Docker images for Arm platform anyway. Raspberry Pi geeks?
+A good reason for this is just a one word Graviton2&amp;hellip;</description>
+    </item>
     
     <item>
       <title>Kubernetes and Secrets Management in Cloud: Part 2</title>
