@@ -1,45 +1,34 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>ci on Terra Nullius</title>
+    <title>Ci on Terra Nullius</title>
     <link>https://alexei-led.github.io/tags/ci/</link>
-    <description>Recent content in ci on Terra Nullius</description>
+    <description>Recent content in Ci on Terra Nullius</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>This work is licensed under a Creative Commons Attribution 4.0 International License</copyright>
-    <lastBuildDate>Wed, 30 Sep 2020 10:00:00 +0200</lastBuildDate><atom:link href="https://alexei-led.github.io/tags/ci/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 30 Sep 2020 10:00:00 +0200</lastBuildDate>
+    <atom:link href="https://alexei-led.github.io/tags/ci/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Building Multi-Platform Docker Images for Intel and ARM with AWS CodeBuild</title>
       <link>https://alexei-led.github.io/post/docker_multi_arch_aws/</link>
       <pubDate>Wed, 30 Sep 2020 10:00:00 +0200</pubDate>
-      
       <guid>https://alexei-led.github.io/post/docker_multi_arch_aws/</guid>
-      <description>TL;DR The Docker BuildKit buildx CLI plugin simplifies building Docker images for different OS/CPU platforms (e.g. linux/amd64, linux/arm64, linux/arm, windows/amd64)
-So why is it a big deal now? Who needs Docker images for Arm platform anyway. Raspberry Pi geeks?
-A good reason for this is just a one word Graviton2&amp;hellip;</description>
+      <description>TL;DR The Docker BuildKit buildx CLI plugin simplifies building Docker images for different OS/CPU platforms (e.g. linux/amd64, linux/arm64, linux/arm, windows/amd64)&#xA;So why is it a big deal now? Who needs Docker images for Arm platform anyway. Raspberry Pi geeks?&#xA;A good reason for this is just a one word Graviton2&amp;hellip;</description>
     </item>
-    
     <item>
       <title>Kubernetes Continuous Integration</title>
       <link>https://alexei-led.github.io/post/kubernetes_continuous_integration/</link>
       <pubDate>Fri, 08 Mar 2019 10:00:00 +0200</pubDate>
-      
       <guid>https://alexei-led.github.io/post/kubernetes_continuous_integration/</guid>
-      <description>Kubernetes configuration as Code Complex Kubernetes application consists from multiple Kubernetes resources, defined in YAML files. Authoring a properly formatted YAML files that are also a valid Kubernetes specification, that should also comply to some policy can be a challenging task.
-These YAML files are your application deployment and configuration code and should be addressed as code.
-As with code, Continuous Integration approach should be applied to a Kubernetes configuration files.</description>
+      <description>Kubernetes configuration as Code Complex Kubernetes application consists from multiple Kubernetes resources, defined in YAML files. Authoring a properly formatted YAML files that are also a valid Kubernetes specification, that should also comply to some policy can be a challenging task.&#xA;These YAML files are your application deployment and configuration code and should be addressed as code.&#xA;As with code, Continuous Integration approach should be applied to a Kubernetes configuration files.</description>
     </item>
-    
     <item>
       <title>Continuous Delivery and Continuous Deployment for Kubernetes microservices</title>
       <link>https://alexei-led.github.io/post/cd_helm_kubernetes/</link>
       <pubDate>Wed, 11 Oct 2017 18:00:00 +0200</pubDate>
-      
       <guid>https://alexei-led.github.io/post/cd_helm_kubernetes/</guid>
-      <description>Continuous Delivery and Continuous Deployment for Kubernetes microservices  THIS IS A DRAFT VERSION OF POST TO COME, PLEASE DO NOT SHARE
- Starting Point Over last years we&amp;rsquo;ve been adopting several concepts for our project, straggling to make them work together.
-The first one is the Microservice Architecture. We did not start it clean and by the book, rather applied it to the already existing project: splitting big services into smaller and breaking excessive coupling.</description>
+      <description>Continuous Delivery and Continuous Deployment for Kubernetes microservices THIS IS A DRAFT VERSION OF POST TO COME, PLEASE DO NOT SHARE&#xA;Starting Point Over last years we&amp;rsquo;ve been adopting several concepts for our project, straggling to make them work together.&#xA;The first one is the Microservice Architecture. We did not start it clean and by the book, rather applied it to the already existing project: splitting big services into smaller and breaking excessive coupling.</description>
     </item>
-    
   </channel>
 </rss>

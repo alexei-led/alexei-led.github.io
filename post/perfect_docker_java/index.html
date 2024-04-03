@@ -19,7 +19,7 @@
     
     
     
-    <link rel="stylesheet" href="https://alexei-led.github.io/css/main.min.c80bdc3103e1a90215fb6971170c49e58298298fc567ad69b2f43d1e084514e8.css"/>
+    <link rel="stylesheet" href="https://alexei-led.github.io/css/main.min.364181395f068614d02615981b918adfd0601b252899e92b7dd17982855dd4e8.css"/>
 
     
     
@@ -30,7 +30,7 @@
  
     
     
-<script type="application/javascript">
+<script>
 var doNotTrack = false;
 if (!doNotTrack) {
 	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -126,7 +126,7 @@ if (!doNotTrack) {
 	<p><a href="https://github.com/kimcc/hugo-theme-noteworthy" target="_blank" rel="noopener">Noteworthy theme</a></p>
 	<p><a href="https://gohugo.io" target="_blank" rel="noopener">Built with Hugo</a></p>
 
-	<script src="https://alexei-led.github.io/js/main.min.c1aee25a817e9beb1f9c4afd9d62311227a7f5e46720e404dc1dda97281f47f2.js" integrity="sha256-wa7iWoF+m+sfnEr9nWIxEien9eRnIOQE3B3alygfR/I="></script>
+	<script src="https://alexei-led.github.io/js/main.min.a7205ef73b078c8daed6fe1b0826e8ba229ffabbb69d299d9446cf41f2c7d8aa.js" integrity="sha256-pyBe9zsHjI2u1v4bCCbouiKf+ru2nSmdlEbPQfLH2Ko="></script>
 </footer>
 </nav>
         <div id="content" class="content-container">
@@ -207,61 +207,60 @@ if (!doNotTrack) {
 <h3 id="building-a-java-application-docker-image">Building a Java Application Docker image</h3>
 <p>In order to run this demo, I need to create a Docker image with JRE, the compiled and packaged Java application, and all 3rd party libraries.</p>
 <p>Here is the <code>Dockerfile</code> I used to build my Docker image. This demo Docker image is based on slim Alpine Linux with OpenJDK JRE and contains the application WAR file with all dependencies embedded into it. It&rsquo;s just the bare minimum required to run the demo application.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-dockerfile" data-lang="dockerfile"><span style="color:#75715e"># Base Alpine Linux based image with OpenJDK JRE only</span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">FROM</span><span style="color:#e6db74"> openjdk:8-jre-alpine</span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e"># copy application WAR (with libraries inside)</span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">COPY</span> target/spring-boot-*.war /app.war<span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e"># specify default command</span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">CMD</span> [<span style="color:#e6db74">&#34;/usr/bin/java&#34;</span>, <span style="color:#e6db74">&#34;-jar&#34;</span>, <span style="color:#e6db74">&#34;-Dspring.profiles.active=test&#34;</span>, <span style="color:#e6db74">&#34;/app.war&#34;</span>]<span style="color:#960050;background-color:#1e0010">
-</span></code></pre></div><p>To build the Docker image, run the following command:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ docker build -t blog/sbdemo:latest .
-</code></pre></div><p>Running the <code>docker history</code> command on created Docker image will let you to see all layers that make up this image:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-dockerfile" data-lang="dockerfile"><span style="display:flex;"><span><span style="color:#75715e"># Base Alpine Linux based image with OpenJDK JRE only</span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">FROM</span><span style="color:#e6db74"> openjdk:8-jre-alpine</span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e"># copy application WAR (with libraries inside)</span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">COPY</span> target/spring-boot-*.war /app.war<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e"># specify default command</span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">CMD</span> [<span style="color:#e6db74">&#34;/usr/bin/java&#34;</span>, <span style="color:#e6db74">&#34;-jar&#34;</span>, <span style="color:#e6db74">&#34;-Dspring.profiles.active=test&#34;</span>, <span style="color:#e6db74">&#34;/app.war&#34;</span>]<span style="color:#960050;background-color:#1e0010">
+</span></span></span></code></pre></div><p>To build the Docker image, run the following command:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>$ docker build -t blog/sbdemo:latest .
+</span></span></code></pre></div><p>Running the <code>docker history</code> command on created Docker image will let you to see all layers that make up this image:</p>
 <ul>
 <li>4.8MB Alpine Linux Layer</li>
 <li>103MB OpenJDK JRE Layer</li>
 <li>61.8MB Application WAR file</li>
 </ul>
-<pre><code>$ docker history blog/sbdemo:latest
+<pre tabindex="0"><code>$ docker history blog/sbdemo:latest
 
 IMAGE               CREATED             CREATED BY                                      SIZE                COMMENT
-16d5236aa7c8        About an hour ago   /bin/sh -c #(nop)  CMD [&quot;/usr/bin/java&quot; &quot;-...   0 B                 
+16d5236aa7c8        About an hour ago   /bin/sh -c #(nop)  CMD [&#34;/usr/bin/java&#34; &#34;-...   0 B                 
 e1bbd125efc4        About an hour ago   /bin/sh -c #(nop) COPY file:1af38329f6f390...   61.8 MB             
 d85b17c6762e        2 months ago        /bin/sh -c set -x  &amp;&amp; apk add --no-cache  ...   103 MB              
 &lt;missing&gt;           2 months ago        /bin/sh -c #(nop)  ENV JAVA_ALPINE_VERSION...   0 B                 
 &lt;missing&gt;           2 months ago        /bin/sh -c #(nop)  ENV JAVA_VERSION=8u111       0 B                 
 &lt;missing&gt;           2 months ago        /bin/sh -c #(nop)  ENV PATH=/usr/local/sbi...   0 B                 
 &lt;missing&gt;           2 months ago        /bin/sh -c #(nop)  ENV JAVA_HOME=/usr/lib/...   0 B                 
-&lt;missing&gt;           2 months ago        /bin/sh -c {   echo '#!/bin/sh';   echo 's...   87 B                
+&lt;missing&gt;           2 months ago        /bin/sh -c {   echo &#39;#!/bin/sh&#39;;   echo &#39;s...   87 B                
 &lt;missing&gt;           2 months ago        /bin/sh -c #(nop)  ENV LANG=C.UTF-8             0 B                 
 &lt;missing&gt;           2 months ago        /bin/sh -c #(nop) ADD file:eeed5f514a35d18...   4.8 MB              
 </code></pre><h3 id="running-the-java-application-docker-container">Running the Java Application Docker container</h3>
 <p>In order to run the demo application, run following command:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ docker run -d --name demo-default -p 8090:8090 -p 8091:8091 blog/sbdemo:latest
-</code></pre></div><p>Let&rsquo;s check, that application is up and running (I’m using the <code>httpie</code> tool here):</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ http http://localhost:8091/info
-
-HTTP/1.1 <span style="color:#ae81ff">200</span> OK
-Content-Type: application/json
-Date: Thu, <span style="color:#ae81ff">09</span> Mar <span style="color:#ae81ff">2017</span> 14:43:28 GMT
-Server: Apache-Coyote/1.1
-Transfer-Encoding: chunked
-
-<span style="color:#f92672">{</span>
-    <span style="color:#e6db74">&#34;build&#34;</span>: <span style="color:#f92672">{</span>
-        <span style="color:#e6db74">&#34;artifact&#34;</span>: <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>project.artifactId<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>,
-        <span style="color:#e6db74">&#34;description&#34;</span>: <span style="color:#e6db74">&#34;boot-example default description&#34;</span>,
-        <span style="color:#e6db74">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;spring-boot-rest-example&#34;</span>,
-        <span style="color:#e6db74">&#34;version&#34;</span>: <span style="color:#e6db74">&#34;0.1&#34;</span>
-    <span style="color:#f92672">}</span>
-<span style="color:#f92672">}</span>
-
-</code></pre></div><h4 id="setting-docker-container-memory-constraints">Setting Docker container memory constraints</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>$ docker run -d --name demo-default -p 8090:8090 -p 8091:8091 blog/sbdemo:latest
+</span></span></code></pre></div><p>Let&rsquo;s check, that application is up and running (I’m using the <code>httpie</code> tool here):</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>$ http http://localhost:8091/info
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>HTTP/1.1 <span style="color:#ae81ff">200</span> OK
+</span></span><span style="display:flex;"><span>Content-Type: application/json
+</span></span><span style="display:flex;"><span>Date: Thu, <span style="color:#ae81ff">09</span> Mar <span style="color:#ae81ff">2017</span> 14:43:28 GMT
+</span></span><span style="display:flex;"><span>Server: Apache-Coyote/1.1
+</span></span><span style="display:flex;"><span>Transfer-Encoding: chunked
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;build&#34;</span>: <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;artifact&#34;</span>: <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>project.artifactId<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;description&#34;</span>: <span style="color:#e6db74">&#34;boot-example default description&#34;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;spring-boot-rest-example&#34;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;version&#34;</span>: <span style="color:#e6db74">&#34;0.1&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><h4 id="setting-docker-container-memory-constraints">Setting Docker container memory constraints</h4>
 <p>One thing you need to know about Java process memory allocation is that in reality it consumes more physical memory than specified with the <code>-Xmx</code> JVM option. The <code>-Xmx</code> option specifies only the maximum Java heap size. But the Java process is a regular Linux process and what is interesting, is how much actual physical memory this process is consuming.</p>
 <p>Or in other words - <em>what is the <strong>Resident Set Size</strong> (<strong>RSS</strong>) value for running a Java process?</em></p>
 <p>Theoretically, in the case of a Java application, a required RSS size can be calculated by:</p>
-<pre><code>RSS = Heap size + MetaSpace + OffHeap size
+<pre tabindex="0"><code>RSS = Heap size + MetaSpace + OffHeap size
 </code></pre><p>where <em>OffHeap</em> consists of thread stacks, direct buffers, mapped files (libraries and jars) and JVM code itself.</p>
 <p>There is a very good post on this topic: <a href="http://trustmeiamadeveloper.com/2016/03/18/where-is-my-memory-java/">Analyzing java memory usage in a Docker container</a> by Mikhail Krestjaninoff.</p>
 <p>When using the  <code>--memory</code>  option in <code>docker run</code> make sure the limit is larger (at least twice) than what you specify for <code>-Xmx</code>.</p>
@@ -289,23 +288,23 @@ Transfer-Encoding: chunked
 <h5 id="what-is-the-official-maven-image-good-for">What is the official Maven image good for?</h5>
 <p>The official Maven image does a good job containerizing the Maven tool itself. The image contains some JDK and Maven version. Using such image, you can run Maven build on any machine without installing a JDK and Maven.</p>
 <p><strong>Example:</strong> running <code>mvn clean install</code> on local folder</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ docker run -it --rm --name my-maven-project -v <span style="color:#e6db74">&#34;</span>$PWD<span style="color:#e6db74">&#34;</span>:/usr/src/app -w /usr/src/app maven:3.2-jdk-7 mvn clean install
-</code></pre></div><p>Maven local repository, for official Maven images, is placed inside a Docker <em>data volume</em>. That means, all downloaded dependencies <strong>are not part of the image</strong> and <strong>will disappear</strong> once the Maven container is destroyed. If you do not want to download dependencies on every build, mount Maven repository Docker volume to some persistent storage (at least local folder on the Docker host).</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>$ docker run -it --rm --name my-maven-project -v <span style="color:#e6db74">&#34;</span>$PWD<span style="color:#e6db74">&#34;</span>:/usr/src/app -w /usr/src/app maven:3.2-jdk-7 mvn clean install
+</span></span></code></pre></div><p>Maven local repository, for official Maven images, is placed inside a Docker <em>data volume</em>. That means, all downloaded dependencies <strong>are not part of the image</strong> and <strong>will disappear</strong> once the Maven container is destroyed. If you do not want to download dependencies on every build, mount Maven repository Docker volume to some persistent storage (at least local folder on the Docker host).</p>
 <p><strong>Example:</strong> running <code>mvn clean install</code> on local folder with properly mounted Maven local repository</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ docker run -it --rm --name my-maven-project -v <span style="color:#e6db74">&#34;</span>$PWD<span style="color:#e6db74">&#34;</span>:/usr/src/app -v <span style="color:#e6db74">&#34;</span>$HOME<span style="color:#e6db74">&#34;</span>/.m2:/root/.m2 -w /usr/src/app maven:3.2-jdk-7 mvn clean install
-</code></pre></div><p>Now, let&rsquo;s take a look at onbuild Maven Docker images.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>$ docker run -it --rm --name my-maven-project -v <span style="color:#e6db74">&#34;</span>$PWD<span style="color:#e6db74">&#34;</span>:/usr/src/app -v <span style="color:#e6db74">&#34;</span>$HOME<span style="color:#e6db74">&#34;</span>/.m2:/root/.m2 -w /usr/src/app maven:3.2-jdk-7 mvn clean install
+</span></span></code></pre></div><p>Now, let&rsquo;s take a look at onbuild Maven Docker images.</p>
 <h5 id="what-is-maven-onbuild-image">What is Maven <code>onbuild</code> image?</h5>
 <p>Maven <code>onbuild</code> Docker image exists to <em>“simplify”</em> developer’s life, allowing him/er skip writing a <code>Dockerfile</code>. Actually, a developer should write a <code>Dockerfile</code>, but it’s usually enough to have the single line in it:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-dockerfile" data-lang="dockerfile"><span style="color:#66d9ef">FROM</span><span style="color:#e6db74"> maven:&lt;versions&gt;-onbuild</span><span style="color:#960050;background-color:#1e0010">
-</span></code></pre></div><p>Looking into onbuild Dockerfile on the GitHub repository …</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-dockerfile" data-lang="dockerfile"><span style="color:#66d9ef">FROM</span><span style="color:#e6db74"> maven:&lt;version&gt;</span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">RUN</span> mkdir -p /usr/src/app<span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">WORKDIR</span><span style="color:#e6db74"> /usr/src/app</span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">ONBUILD</span> <span style="color:#66d9ef">ADD</span> . /usr/src/app<span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">ONBUILD</span> <span style="color:#66d9ef">RUN</span> mvn install<span style="color:#960050;background-color:#1e0010">
-</span></code></pre></div><p>… you can see several <code>Dockerfile</code> commands with the ONBUILD prefix. The <code>ONBUILD</code> tells Docker to postpone the execution of these build commands until building a new image that inherits from the current image.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-dockerfile" data-lang="dockerfile"><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span><span style="color:#e6db74"> maven:&lt;versions&gt;-onbuild</span><span style="color:#960050;background-color:#1e0010">
+</span></span></span></code></pre></div><p>Looking into onbuild Dockerfile on the GitHub repository …</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-dockerfile" data-lang="dockerfile"><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span><span style="color:#e6db74"> maven:&lt;version&gt;</span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">RUN</span> mkdir -p /usr/src/app<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">WORKDIR</span><span style="color:#e6db74"> /usr/src/app</span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">ONBUILD</span> <span style="color:#66d9ef">ADD</span> . /usr/src/app<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">ONBUILD</span> <span style="color:#66d9ef">RUN</span> mvn install<span style="color:#960050;background-color:#1e0010">
+</span></span></span></code></pre></div><p>… you can see several <code>Dockerfile</code> commands with the ONBUILD prefix. The <code>ONBUILD</code> tells Docker to postpone the execution of these build commands until building a new image that inherits from the current image.</p>
 <p>In our example, two build commands will be executed, when you build the application <code>Dockerfile</code> created <code>FROM: maven:&lt;version&gt;-onbuild</code> :</p>
 <ul>
 <li>Add current folder (all files, if you are not using <code>.dockerignore</code>) to the new Docker image</li>
@@ -332,8 +331,8 @@ Transfer-Encoding: chunked
 <li>Data volumes persist even if the container itself is deleted.</li>
 </ul>
 <p>So, in order to <em>reuse</em> Maven <em>cache</em> between different builds, mount a Maven <em>cache data volume</em> to some persistent storage (for example, a local directory on the Docker host).</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ docker run -it --rm --volume <span style="color:#e6db74">&#34;</span>$PWD<span style="color:#e6db74">&#34;</span>/pom.xml://usr/src/app/pom.xml --volume <span style="color:#e6db74">&#34;</span>$HOME<span style="color:#e6db74">&#34;</span>/.m2:/root/.m2 maven:3-jdk-8-alpine mvn install
-</code></pre></div><p>The command above runs the official Maven Docker image (Maven 3 and OpenJDK 8), mounts project <code>pom.xml</code> file into working directory and <code>$HOME&quot;/.m2</code> folder for Maven <em>cache data volume</em>. Maven running inside this Docker container will download all required JAR files into host’s local</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>$ docker run -it --rm --volume <span style="color:#e6db74">&#34;</span>$PWD<span style="color:#e6db74">&#34;</span>/pom.xml://usr/src/app/pom.xml --volume <span style="color:#e6db74">&#34;</span>$HOME<span style="color:#e6db74">&#34;</span>/.m2:/root/.m2 maven:3-jdk-8-alpine mvn install
+</span></span></code></pre></div><p>The command above runs the official Maven Docker image (Maven 3 and OpenJDK 8), mounts project <code>pom.xml</code> file into working directory and <code>$HOME&quot;/.m2</code> folder for Maven <em>cache data volume</em>. Maven running inside this Docker container will download all required JAR files into host’s local</p>
 <p>Maven running inside this Docker container will download all required <code>JAR</code> files into host’s local folder <code>$HOME/.m2</code>. Next time you create new Maven Docker container for the same <code>pom.xml</code> file and the same <em>cache</em> mount, Maven will reuse the <em>cache</em> and will download only missing or updated <code>JAR</code> files.</p>
 <h4 id="maven-builder-docker-image">Maven Builder Docker image</h4>
 <p>First, let’s try to formulate <em>what is the <strong>Builder</strong> Docker image and what should it contain?</em></p>
@@ -350,40 +349,40 @@ Transfer-Encoding: chunked
 </ul>
 <p>The <strong>Builder</strong> image captures code, dependencies, and tools at a specific point of time and stores them inside a Docker image. The <strong>Builder</strong> container can be used to create the application “binaries” on any machine, at any time and even without internet connection (or with poor connection).</p>
 <p>Here is the sample <code>Dockerfile</code> for my demo <strong>Builder</strong>:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-dockerfile" data-lang="dockerfile"><span style="color:#66d9ef">FROM</span><span style="color:#e6db74"> openjdk:8-jdk-alpine</span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e"># ----</span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e"># Install Maven</span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">RUN</span> apk add --no-cache curl tar bash<span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">ARG</span> MAVEN_VERSION<span style="color:#f92672">=</span><span style="color:#ae81ff">3</span>.3.9<span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">ARG</span> USER_HOME_DIR<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;/root&#34;</span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">RUN</span> mkdir -p /usr/share/maven <span style="color:#f92672">&amp;&amp;</span> <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>  curl -fsSL http://apache.osuosl.org/maven/maven-3/$MAVEN_VERSION/binaries/apache-maven-$MAVEN_VERSION-bin.tar.gz | tar -xzC /usr/share/maven --strip-components<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>  ln -s /usr/share/maven/bin/mvn /usr/bin/mvn<span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">ENV</span> MAVEN_HOME /usr/share/maven<span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">ENV</span> MAVEN_CONFIG <span style="color:#e6db74">&#34;</span>$USER_HOME_DIR<span style="color:#e6db74">/.m2&#34;</span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e"># speed up Maven JVM a bit</span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">ENV</span> MAVEN_OPTS<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;-XX:+TieredCompilation -XX:TieredStopAtLevel=1&#34;</span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">ENTRYPOINT</span> [<span style="color:#e6db74">&#34;/usr/bin/mvn&#34;</span>]<span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e"># ----</span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e"># Install project dependencies and keep sources </span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e"># make source folder</span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">RUN</span> mkdir -p /usr/src/app<span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">WORKDIR</span><span style="color:#e6db74"> /usr/src/app</span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e"># install maven dependency packages (keep in image)</span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">COPY</span> pom.xml /usr/src/app<span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">RUN</span> mvn -T 1C install <span style="color:#f92672">&amp;&amp;</span> rm -rf target<span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e"># copy other source files (keep in image)</span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">COPY</span> src /usr/src/app/src<span style="color:#960050;background-color:#1e0010">
-</span></code></pre></div><p>Let’s go over this <code>Dockerfile</code> and I will try to explain the reasoning behind each command.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-dockerfile" data-lang="dockerfile"><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span><span style="color:#e6db74"> openjdk:8-jdk-alpine</span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e"># ----</span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e"># Install Maven</span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">RUN</span> apk add --no-cache curl tar bash<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">ARG</span> MAVEN_VERSION<span style="color:#f92672">=</span><span style="color:#ae81ff">3</span>.3.9<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">ARG</span> USER_HOME_DIR<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;/root&#34;</span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">RUN</span> mkdir -p /usr/share/maven <span style="color:#f92672">&amp;&amp;</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  curl -fsSL http://apache.osuosl.org/maven/maven-3/$MAVEN_VERSION/binaries/apache-maven-$MAVEN_VERSION-bin.tar.gz | tar -xzC /usr/share/maven --strip-components<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  ln -s /usr/share/maven/bin/mvn /usr/bin/mvn<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">ENV</span> MAVEN_HOME /usr/share/maven<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">ENV</span> MAVEN_CONFIG <span style="color:#e6db74">&#34;</span>$USER_HOME_DIR<span style="color:#e6db74">/.m2&#34;</span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e"># speed up Maven JVM a bit</span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">ENV</span> MAVEN_OPTS<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;-XX:+TieredCompilation -XX:TieredStopAtLevel=1&#34;</span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">ENTRYPOINT</span> [<span style="color:#e6db74">&#34;/usr/bin/mvn&#34;</span>]<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e"># ----</span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e"># Install project dependencies and keep sources </span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e"># make source folder</span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">RUN</span> mkdir -p /usr/src/app<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">WORKDIR</span><span style="color:#e6db74"> /usr/src/app</span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e"># install maven dependency packages (keep in image)</span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">COPY</span> pom.xml /usr/src/app<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">RUN</span> mvn -T 1C install <span style="color:#f92672">&amp;&amp;</span> rm -rf target<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e"># copy other source files (keep in image)</span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">COPY</span> src /usr/src/app/src<span style="color:#960050;background-color:#1e0010">
+</span></span></span></code></pre></div><p>Let’s go over this <code>Dockerfile</code> and I will try to explain the reasoning behind each command.</p>
 <ul>
 <li><code>FROM: openjdk:8-jdk-alpine</code> - select and freeze JDK version: OpenJDK 8 and Linux Alpine</li>
 <li>Install Maven
@@ -403,24 +402,24 @@ Transfer-Encoding: chunked
 </ul>
 <p><strong>Note:</strong> if you are using <a href="http://maven.apache.org/surefire/maven-surefire-plugin">Maven Surefire plugin</a> and want to have all dependencies for the offline build, make sure to <a href="http://maven.apache.org/surefire/maven-surefire-plugin/examples/providers.html">lock down Surefire test provider</a>.</p>
 <p>When you build a new <strong>Builder</strong> version, I suggest you use a <code>--cache-from</code> option passing previous Builder image to it. This will allow you reuse any unmodified Docker layer and avoid obsolete downloads most of the time (if <code>pom.xml</code> did not change or you did not decide to upgrade Maven or JDK).</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ <span style="color:#75715e"># pull latest (or specific version) builder image</span>
-$ docker pull myrep/mvn-builder:latest
-$ <span style="color:#75715e"># build new builder</span>
-$ docker build -t myrep/mvn-builder:latest --cache-from myrep/mvn-builder:latest .
-</code></pre></div><h5 id="use-builder-container-to-run-tests">Use Builder container to run tests</h5>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ <span style="color:#75715e"># run tests - test results are saved into $PWD/target/surefire-reports</span>
-$ docker run -it --rm -v <span style="color:#e6db74">&#34;</span>$PWD<span style="color:#e6db74">&#34;</span>/target:/usr/src/app/target myrep/mvn-builder -T 1C -o test
-</code></pre></div><h5 id="use-builder-container-to-create-application-war">Use Builder container to create application WAR</h5>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ <span style="color:#75715e"># create application WAR file (skip tests) - $PWD/target/spring-boot-rest-example-0.3.0.war</span>
-$ docker run -it --rm -v <span style="color:#66d9ef">$(</span>shell pwd<span style="color:#66d9ef">)</span>/target:/usr/src/app/target myrep/mvn-builder package -T 1C -o -Dmaven.test.skip<span style="color:#f92672">=</span>true
-</code></pre></div><h2 id="summary">Summary</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>$ <span style="color:#75715e"># pull latest (or specific version) builder image</span>
+</span></span><span style="display:flex;"><span>$ docker pull myrep/mvn-builder:latest
+</span></span><span style="display:flex;"><span>$ <span style="color:#75715e"># build new builder</span>
+</span></span><span style="display:flex;"><span>$ docker build -t myrep/mvn-builder:latest --cache-from myrep/mvn-builder:latest .
+</span></span></code></pre></div><h5 id="use-builder-container-to-run-tests">Use Builder container to run tests</h5>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>$ <span style="color:#75715e"># run tests - test results are saved into $PWD/target/surefire-reports</span>
+</span></span><span style="display:flex;"><span>$ docker run -it --rm -v <span style="color:#e6db74">&#34;</span>$PWD<span style="color:#e6db74">&#34;</span>/target:/usr/src/app/target myrep/mvn-builder -T 1C -o test
+</span></span></code></pre></div><h5 id="use-builder-container-to-create-application-war">Use Builder container to create application WAR</h5>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>$ <span style="color:#75715e"># create application WAR file (skip tests) - $PWD/target/spring-boot-rest-example-0.3.0.war</span>
+</span></span><span style="display:flex;"><span>$ docker run -it --rm -v <span style="color:#66d9ef">$(</span>shell pwd<span style="color:#66d9ef">)</span>/target:/usr/src/app/target myrep/mvn-builder package -T 1C -o -Dmaven.test.skip<span style="color:#f92672">=</span>true
+</span></span></code></pre></div><h2 id="summary">Summary</h2>
 <p>Take a look at images bellow:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">REPOSITORY      TAG     IMAGE ID     CREATED        SIZE
-sbdemo/run      latest  6f432638aa60 <span style="color:#ae81ff">7</span> minutes ago  <span style="color:#ae81ff">143</span> MB
-sbdemo/tutorial <span style="color:#ae81ff">1</span>       669333d13d71 <span style="color:#ae81ff">12</span> minutes ago 1.28 GB
-sbdemo/tutorial <span style="color:#ae81ff">2</span>       38634e4d9d5e <span style="color:#ae81ff">3</span> hours ago    1.26 GB
-sbdemo/builder  mvn     2d325a403c5f <span style="color:#ae81ff">5</span> days ago     <span style="color:#ae81ff">263</span> MB
-</code></pre></div><ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>REPOSITORY      TAG     IMAGE ID     CREATED        SIZE
+</span></span><span style="display:flex;"><span>sbdemo/run      latest  6f432638aa60 <span style="color:#ae81ff">7</span> minutes ago  <span style="color:#ae81ff">143</span> MB
+</span></span><span style="display:flex;"><span>sbdemo/tutorial <span style="color:#ae81ff">1</span>       669333d13d71 <span style="color:#ae81ff">12</span> minutes ago 1.28 GB
+</span></span><span style="display:flex;"><span>sbdemo/tutorial <span style="color:#ae81ff">2</span>       38634e4d9d5e <span style="color:#ae81ff">3</span> hours ago    1.26 GB
+</span></span><span style="display:flex;"><span>sbdemo/builder  mvn     2d325a403c5f <span style="color:#ae81ff">5</span> days ago     <span style="color:#ae81ff">263</span> MB
+</span></span></code></pre></div><ul>
 <li><code>sbdemo/run:latest</code> - Docker image for demo runtime: Alpine, OpenJDK JRE only, demo WAR</li>
 <li><code>sbdemo/builder:mvn</code> - <strong>Builder</strong> Docker image: Alpine, OpenJDK 8, Maven 3, code, dependency</li>
 <li><code>sbdemo/tutorial:1</code> - Docker image created following first tutorial (just for reference)</li>
@@ -467,45 +466,45 @@ sbdemo/builder  mvn     2d325a403c5f <span style="color:#ae81ff">5</span> days a
 <li><code>push_image</code> - tag and push the application Docker image to DockerHub</li>
 </ol>
 <p>Here is the full Codefresh <code>YAML</code>:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#f92672">version</span>: <span style="color:#e6db74">&#39;1.0&#39;</span>
-
-<span style="color:#f92672">steps</span>:
-
-  <span style="color:#f92672">mvn_builder</span>:
-    <span style="color:#f92672">type</span>: <span style="color:#ae81ff">build</span>
-    <span style="color:#f92672">description</span>: <span style="color:#ae81ff">create Maven builder image</span>
-    <span style="color:#f92672">dockerfile</span>: <span style="color:#ae81ff">Dockerfile.build</span>
-    <span style="color:#f92672">image_name</span>: <span style="color:#ae81ff">&lt;put_you_repo_here&gt;/mvn-builder</span>
-
-  <span style="color:#f92672">mvn_test</span>:
-    <span style="color:#f92672">description</span>: <span style="color:#ae81ff">run unit tests </span>
-    <span style="color:#f92672">image</span>: <span style="color:#ae81ff">${{mvn_builder}}</span>
-    <span style="color:#f92672">commands</span>:
-      - <span style="color:#ae81ff">mvn -T 1C -o test</span>
-  
-  <span style="color:#f92672">mvn_package</span>:
-    <span style="color:#f92672">description</span>: <span style="color:#ae81ff">package application and dependencies into WAR </span>
-    <span style="color:#f92672">image</span>: <span style="color:#ae81ff">${{mvn_builder}}</span>
-    <span style="color:#f92672">commands</span>:
-      - <span style="color:#ae81ff">mvn package -T 1C -o -Dmaven.test.skip=true</span>
-
-  <span style="color:#f92672">build_image</span>:
-    <span style="color:#f92672">type</span>: <span style="color:#ae81ff">build</span>
-    <span style="color:#f92672">description</span>: <span style="color:#ae81ff">create Docker image with application WAR</span>
-    <span style="color:#f92672">dockerfile</span>: <span style="color:#ae81ff">Dockerfile</span>
-    <span style="color:#f92672">working_directory</span>: <span style="color:#ae81ff">${{main_clone}}/target</span>
-    <span style="color:#f92672">image_name</span>: <span style="color:#ae81ff">&lt;put_you_repo_here&gt;/sbdemo</span>
-
-  <span style="color:#f92672">push_image</span>:
-    <span style="color:#f92672">type</span>: <span style="color:#ae81ff">push</span>
-    <span style="color:#f92672">description</span>: <span style="color:#ae81ff">push application image to DockerHub</span>
-    <span style="color:#f92672">candidate</span>: <span style="color:#e6db74">&#39;${{build_image}}&#39;</span>
-    <span style="color:#f92672">tag</span>: <span style="color:#e6db74">&#39;${{CF_BRANCH}}&#39;</span>
-    <span style="color:#f92672">credentials</span>:
-      <span style="color:#75715e"># set docker registry credentials in project configuration</span>
-      <span style="color:#f92672">username</span>: <span style="color:#e6db74">&#39;${{DOCKER_USER}}&#39;</span>
-      <span style="color:#f92672">password</span>: <span style="color:#e6db74">&#39;${{DOCKER_PASS}}&#39;</span>
-</code></pre></div><hr>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">version</span>: <span style="color:#e6db74">&#39;1.0&#39;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">steps</span>:
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">mvn_builder</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">type</span>: <span style="color:#ae81ff">build</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">description</span>: <span style="color:#ae81ff">create Maven builder image</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">dockerfile</span>: <span style="color:#ae81ff">Dockerfile.build</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">image_name</span>: <span style="color:#ae81ff">&lt;put_you_repo_here&gt;/mvn-builder</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">mvn_test</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">description</span>: <span style="color:#ae81ff">run unit tests </span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">image</span>: <span style="color:#ae81ff">${{mvn_builder}}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">commands</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">mvn -T 1C -o test</span>
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">mvn_package</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">description</span>: <span style="color:#ae81ff">package application and dependencies into WAR </span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">image</span>: <span style="color:#ae81ff">${{mvn_builder}}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">commands</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">mvn package -T 1C -o -Dmaven.test.skip=true</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">build_image</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">type</span>: <span style="color:#ae81ff">build</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">description</span>: <span style="color:#ae81ff">create Docker image with application WAR</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">dockerfile</span>: <span style="color:#ae81ff">Dockerfile</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">working_directory</span>: <span style="color:#ae81ff">${{main_clone}}/target</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">image_name</span>: <span style="color:#ae81ff">&lt;put_you_repo_here&gt;/sbdemo</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">push_image</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">type</span>: <span style="color:#ae81ff">push</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">description</span>: <span style="color:#ae81ff">push application image to DockerHub</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">candidate</span>: <span style="color:#e6db74">&#39;${{build_image}}&#39;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">tag</span>: <span style="color:#e6db74">&#39;${{CF_BRANCH}}&#39;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">credentials</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#75715e"># set docker registry credentials in project configuration</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">username</span>: <span style="color:#e6db74">&#39;${{DOCKER_USER}}&#39;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">password</span>: <span style="color:#e6db74">&#39;${{DOCKER_PASS}}&#39;</span>
+</span></span></code></pre></div><hr>
 <p>Hope, you find this post useful. I look forward to your comments and any questions you have.</p>
 <hr>
 <p><em>This is a <strong>working draft</strong> version. The final post version is published at <a href="https://codefresh.io/blog/java_docker_pipeline/">Codefresh Blog</a> on March 22, 2017.</em></p>
@@ -513,8 +512,8 @@ sbdemo/builder  mvn     2d325a403c5f <span style="color:#ae81ff">5</span> days a
         </p>
     </div>
     <div id="disqus_thread"></div>
-<script type="application/javascript">
-    var disqus_config = function () {
+<script>
+    window.disqus_config = function () {
     
     
     
@@ -629,7 +628,7 @@ sbdemo/builder  mvn     2d325a403c5f <span style="color:#ae81ff">5</span> days a
 		<p><a href="https://gohugo.io" target="_blank" rel="noopener">Built with Hugo</a></p>
 	</div>
 
-	<script src="https://alexei-led.github.io/js/main.min.c1aee25a817e9beb1f9c4afd9d62311227a7f5e46720e404dc1dda97281f47f2.js" integrity="sha256-wa7iWoF+m+sfnEr9nWIxEien9eRnIOQE3B3alygfR/I="></script>
+	<script src="https://alexei-led.github.io/js/main.min.a7205ef73b078c8daed6fe1b0826e8ba229ffabbb69d299d9446cf41f2c7d8aa.js" integrity="sha256-pyBe9zsHjI2u1v4bCCbouiKf+ru2nSmdlEbPQfLH2Ko="></script>
 </footer>
     </body>
 </html>

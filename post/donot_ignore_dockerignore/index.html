@@ -19,7 +19,7 @@
     
     
     
-    <link rel="stylesheet" href="https://alexei-led.github.io/css/main.min.c80bdc3103e1a90215fb6971170c49e58298298fc567ad69b2f43d1e084514e8.css"/>
+    <link rel="stylesheet" href="https://alexei-led.github.io/css/main.min.364181395f068614d02615981b918adfd0601b252899e92b7dd17982855dd4e8.css"/>
 
     
     
@@ -30,7 +30,7 @@
  
     
     
-<script type="application/javascript">
+<script>
 var doNotTrack = false;
 if (!doNotTrack) {
 	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -126,7 +126,7 @@ if (!doNotTrack) {
 	<p><a href="https://github.com/kimcc/hugo-theme-noteworthy" target="_blank" rel="noopener">Noteworthy theme</a></p>
 	<p><a href="https://gohugo.io" target="_blank" rel="noopener">Built with Hugo</a></p>
 
-	<script src="https://alexei-led.github.io/js/main.min.c1aee25a817e9beb1f9c4afd9d62311227a7f5e46720e404dc1dda97281f47f2.js" integrity="sha256-wa7iWoF+m+sfnEr9nWIxEien9eRnIOQE3B3alygfR/I="></script>
+	<script src="https://alexei-led.github.io/js/main.min.a7205ef73b078c8daed6fe1b0826e8ba229ffabbb69d299d9446cf41f2c7d8aa.js" integrity="sha256-pyBe9zsHjI2u1v4bCCbouiKf+ru2nSmdlEbPQfLH2Ko="></script>
 </footer>
 </nav>
         <div id="content" class="content-container">
@@ -149,7 +149,7 @@ if (!doNotTrack) {
 It can also accept already created <code>tar</code> archive or <code>git</code> repository. In a case of <code>git</code> repository, the client will clone it with submodules into a temporary folder and will create a <strong>build context</strong> archive from it.</p>
 <h1 id="impact-on-docker-build">Impact on Docker build</h1>
 <p>The first output line, that you see, running the <code>docker build</code> command is:</p>
-<pre><code>Sending build context to Docker daemon 45.3 MB
+<pre tabindex="0"><code>Sending build context to Docker daemon 45.3 MB
 Step 1: FROM ...
 </code></pre><p>This should make things clear. Actually, <strong>every time</strong> you are running the <code>docker build</code> command, the Docker client creates a new <strong>build context</strong> archive and sends it to the Docker server. So, you are always paying this &ldquo;tax&rdquo;: the time it takes to create an archive, storage and network traffic and latency time.</p>
 <blockquote>
@@ -171,40 +171,40 @@ I will try to convince you, that you should care.</p>
 <p>There are multiple Docker images currently available on DockerHub, that expose application source code, passwords, keys and credentials (for example <a href="http://thehackernews.com/2016/07/vine-source-code.html">Twitter Vine</a>).</p>
 <h2 id="reason-3-the-docker-build---cache-invalidation">Reason #3: The Docker build - cache invalidation</h2>
 <p>A common pattern is to inject an application&rsquo;s entire codebase into an image using an instruction like this:</p>
-<pre><code>COPY . /usr/src/app
+<pre tabindex="0"><code>COPY . /usr/src/app
 </code></pre><p>In this case, we&rsquo;re copying the <strong>entire</strong> <strong>build context</strong> into the image. It&rsquo;s also important to understand, that every Dockerfile command generates a new layer. So, if any of included file changes in the entire build context, this change will invalidate the build cache for <code>COPY . /opt/myapp</code> layer and a new image layer will be generated on the next build.</p>
 <p>If your working directory contains files that are frequently updated (logs, test results, git history, temporary cache files and similar), you are going to regenerate this layer for every <code>docker build</code> run.</p>
 <h1 id="the-dockerignore-syntax">The <code>.dockerignore</code> syntax</h1>
 <p>The <code>.dockerignore</code> file is similar to <code>gitignore</code> file, used by <code>git</code> tool. similarly to <code>.gitignore</code> file, it allows you to specify a pattern for files and folders that should be ignored by the Docker client when generating a <strong>build context</strong>. While <code>.dockerignore</code> file syntax used to describe <strong>ignore patterns</strong> is similar to <code>.gitignore</code> it&rsquo;s not the same.</p>
 <p>The <code>.dockerignore</code> pattern matching syntax is based on Go <code>filepath.Match()</code> function and includes some additions.</p>
 <p>Here is the complete syntax for the <code>.dockerignore</code>:</p>
-<pre><code>pattern:
+<pre tabindex="0"><code>pattern:
     { term }
 term:
-    '*'         matches any sequence of non-Separator characters
-    '?'         matches any single non-Separator character
-    '[' [ '^' ] { character-range } ']'
+    &#39;*&#39;         matches any sequence of non-Separator characters
+    &#39;?&#39;         matches any single non-Separator character
+    &#39;[&#39; [ &#39;^&#39; ] { character-range } &#39;]&#39;
                 character class (must be non-empty)
-    c           matches character c (c != '*', '?', '\\', '[')
-    '\\' c      matches character c
+    c           matches character c (c != &#39;*&#39;, &#39;?&#39;, &#39;\\&#39;, &#39;[&#39;)
+    &#39;\\&#39; c      matches character c
 
 character-range:
-    c           matches character c (c != '\\', '-', ']')
-    '\\' c      matches character c
-    lo '-' hi   matches character c for lo &lt;= c &lt;= hi
+    c           matches character c (c != &#39;\\&#39;, &#39;-&#39;, &#39;]&#39;)
+    &#39;\\&#39; c      matches character c
+    lo &#39;-&#39; hi   matches character c for lo &lt;= c &lt;= hi
 
 additions:
-  '**'        matches any number of directories (including zero)
-  '!'         lines starting with ! (exclamation mark) can be used to make exceptions to exclusions
-    '#'         lines starting with this character are ignored: use it for comments
+  &#39;**&#39;        matches any number of directories (including zero)
+  &#39;!&#39;         lines starting with ! (exclamation mark) can be used to make exceptions to exclusions
+    &#39;#&#39;         lines starting with this character are ignored: use it for comments
 </code></pre><p><strong>Note:</strong> Using the <code>!</code> character is pretty tricky. The combination of it and patterns before and after line with the <code>!</code> character can be used to create more advanced rules.</p>
 <h2 id="examples">Examples</h2>
-<pre><code># ignore .git and .cache folders
+<pre tabindex="0"><code># ignore .git and .cache folders
 .git
 .cache
-</code></pre><pre><code># ignore all *.class files in all folders, including build root
+</code></pre><pre tabindex="0"><code># ignore all *.class files in all folders, including build root
 **/*.class
-</code></pre><pre><code># ignore all markdown files (md) beside all README*.md other than README-secret.md
+</code></pre><pre tabindex="0"><code># ignore all markdown files (md) beside all README*.md other than README-secret.md
 *.md
 !README*.md
 README-secret.md
@@ -219,8 +219,8 @@ README-secret.md
         </p>
     </div>
     <div id="disqus_thread"></div>
-<script type="application/javascript">
-    var disqus_config = function () {
+<script>
+    window.disqus_config = function () {
     
     
     
@@ -331,7 +331,7 @@ README-secret.md
 		<p><a href="https://gohugo.io" target="_blank" rel="noopener">Built with Hugo</a></p>
 	</div>
 
-	<script src="https://alexei-led.github.io/js/main.min.c1aee25a817e9beb1f9c4afd9d62311227a7f5e46720e404dc1dda97281f47f2.js" integrity="sha256-wa7iWoF+m+sfnEr9nWIxEien9eRnIOQE3B3alygfR/I="></script>
+	<script src="https://alexei-led.github.io/js/main.min.a7205ef73b078c8daed6fe1b0826e8ba229ffabbb69d299d9446cf41f2c7d8aa.js" integrity="sha256-pyBe9zsHjI2u1v4bCCbouiKf+ru2nSmdlEbPQfLH2Ko="></script>
 </footer>
     </body>
 </html>

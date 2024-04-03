@@ -1,119 +1,83 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>devops on Terra Nullius</title>
+    <title>Devops on Terra Nullius</title>
     <link>https://alexei-led.github.io/tags/devops/</link>
-    <description>Recent content in devops on Terra Nullius</description>
+    <description>Recent content in Devops on Terra Nullius</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>This work is licensed under a Creative Commons Attribution 4.0 International License</copyright>
-    <lastBuildDate>Wed, 30 Sep 2020 10:00:00 +0200</lastBuildDate><atom:link href="https://alexei-led.github.io/tags/devops/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 30 Sep 2020 10:00:00 +0200</lastBuildDate>
+    <atom:link href="https://alexei-led.github.io/tags/devops/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Building Multi-Platform Docker Images for Intel and ARM with AWS CodeBuild</title>
       <link>https://alexei-led.github.io/post/docker_multi_arch_aws/</link>
       <pubDate>Wed, 30 Sep 2020 10:00:00 +0200</pubDate>
-      
       <guid>https://alexei-led.github.io/post/docker_multi_arch_aws/</guid>
-      <description>TL;DR The Docker BuildKit buildx CLI plugin simplifies building Docker images for different OS/CPU platforms (e.g. linux/amd64, linux/arm64, linux/arm, windows/amd64)
-So why is it a big deal now? Who needs Docker images for Arm platform anyway. Raspberry Pi geeks?
-A good reason for this is just a one word Graviton2&amp;hellip;</description>
+      <description>TL;DR The Docker BuildKit buildx CLI plugin simplifies building Docker images for different OS/CPU platforms (e.g. linux/amd64, linux/arm64, linux/arm, windows/amd64)&#xA;So why is it a big deal now? Who needs Docker images for Arm platform anyway. Raspberry Pi geeks?&#xA;A good reason for this is just a one word Graviton2&amp;hellip;</description>
     </item>
-    
     <item>
       <title>Get a Shell to a Kubernetes Node</title>
       <link>https://alexei-led.github.io/post/k8s_node_shell/</link>
       <pubDate>Sat, 27 Jul 2019 10:00:00 +0200</pubDate>
-      
       <guid>https://alexei-led.github.io/post/k8s_node_shell/</guid>
-      <description>Throughout the lifecycle of your Kubernetes cluster, you may need to access a cluster worker node. This access could be for maintenance, configuration inspection, log collection, or other troubleshooting operations. More than that, it would be nice, if you could enable this access whenever it&amp;rsquo;s needed and disable when you finish your task.
-SSH Approach While it&amp;rsquo;s possible to configure Kubernetes nodes with SSH access, this also makes worker nodes more vulnerable.</description>
+      <description>Throughout the lifecycle of your Kubernetes cluster, you may need to access a cluster worker node. This access could be for maintenance, configuration inspection, log collection, or other troubleshooting operations. More than that, it would be nice, if you could enable this access whenever it&amp;rsquo;s needed and disable when you finish your task.&#xA;SSH Approach While it&amp;rsquo;s possible to configure Kubernetes nodes with SSH access, this also makes worker nodes more vulnerable.</description>
     </item>
-    
     <item>
       <title>Continuous Delivery and Continuous Deployment for Kubernetes microservices</title>
       <link>https://alexei-led.github.io/post/cd_helm_kubernetes/</link>
       <pubDate>Wed, 11 Oct 2017 18:00:00 +0200</pubDate>
-      
       <guid>https://alexei-led.github.io/post/cd_helm_kubernetes/</guid>
-      <description>Continuous Delivery and Continuous Deployment for Kubernetes microservices  THIS IS A DRAFT VERSION OF POST TO COME, PLEASE DO NOT SHARE
- Starting Point Over last years we&amp;rsquo;ve been adopting several concepts for our project, straggling to make them work together.
-The first one is the Microservice Architecture. We did not start it clean and by the book, rather applied it to the already existing project: splitting big services into smaller and breaking excessive coupling.</description>
+      <description>Continuous Delivery and Continuous Deployment for Kubernetes microservices THIS IS A DRAFT VERSION OF POST TO COME, PLEASE DO NOT SHARE&#xA;Starting Point Over last years we&amp;rsquo;ve been adopting several concepts for our project, straggling to make them work together.&#xA;The first one is the Microservice Architecture. We did not start it clean and by the book, rather applied it to the already existing project: splitting big services into smaller and breaking excessive coupling.</description>
     </item>
-    
     <item>
       <title>Chaos Testing for Docker Containers</title>
       <link>https://alexei-led.github.io/post/pumba_containercamp/</link>
       <pubDate>Wed, 04 Oct 2017 18:00:00 +0200</pubDate>
-      
       <guid>https://alexei-led.github.io/post/pumba_containercamp/</guid>
-      <description>What follows is the text of my presentation, Chaos Testing for Docker Containers that I gave at ContainerCamp in London this year. I&amp;rsquo;ve also decided to turn the presentation into an article. I edited the text slightly for readability and added some links for more context. You can find the original video recording and slides at the end of this post.
-Intro Software development is about building software services that support business needs.</description>
+      <description>What follows is the text of my presentation, Chaos Testing for Docker Containers that I gave at ContainerCamp in London this year. I&amp;rsquo;ve also decided to turn the presentation into an article. I edited the text slightly for readability and added some links for more context. You can find the original video recording and slides at the end of this post.&#xA;Intro Software development is about building software services that support business needs.</description>
     </item>
-    
     <item>
       <title>Debugging remote Node.js application running in a Docker container</title>
       <link>https://alexei-led.github.io/post/debug_node_in_docker/</link>
       <pubDate>Sat, 03 Jun 2017 18:00:00 +0200</pubDate>
-      
       <guid>https://alexei-led.github.io/post/debug_node_in_docker/</guid>
-      <description>Teaser Suppose you want to debug a Node.js application already running on a remote machine inside Docker container. And would like to do it without modifying command arguments (enabling debug mode) and opening remote Node.js debugger agent port to the whole world.
-I bet you didn&amp;rsquo;t know that it&amp;rsquo;s possible and also have no idea how to do it.
-I encourage you to continue reading this post if you are eager to learn some new cool stuff.</description>
+      <description>Teaser Suppose you want to debug a Node.js application already running on a remote machine inside Docker container. And would like to do it without modifying command arguments (enabling debug mode) and opening remote Node.js debugger agent port to the whole world.&#xA;I bet you didn&amp;rsquo;t know that it&amp;rsquo;s possible and also have no idea how to do it.&#xA;I encourage you to continue reading this post if you are eager to learn some new cool stuff.</description>
     </item>
-    
     <item>
       <title>Create lean Node.js image with Docker multi-stage build</title>
       <link>https://alexei-led.github.io/post/node_docker_multistage/</link>
       <pubDate>Tue, 25 Apr 2017 18:00:00 +0200</pubDate>
-      
       <guid>https://alexei-led.github.io/post/node_docker_multistage/</guid>
-      <description>TL;DR Starting from Docker 17.05+, you can create a single Dockerfile that can build multiple helper images with compilers, tools, and tests and use files from above images to produce the final Docker image.
-The &amp;ldquo;core principle&amp;rdquo; of Dockerfile Docker can build images by reading the instructions from a Dockerfile. A Dockerfile is a text file that contains a list of all the commands needed to build a new Docker image.</description>
+      <description>TL;DR Starting from Docker 17.05+, you can create a single Dockerfile that can build multiple helper images with compilers, tools, and tests and use files from above images to produce the final Docker image.&#xA;The &amp;ldquo;core principle&amp;rdquo; of Dockerfile Docker can build images by reading the instructions from a Dockerfile. A Dockerfile is a text file that contains a list of all the commands needed to build a new Docker image.</description>
     </item>
-    
     <item>
       <title>Crafting perfect Java Docker build flow</title>
       <link>https://alexei-led.github.io/post/perfect_docker_java/</link>
       <pubDate>Tue, 07 Mar 2017 18:00:00 +0200</pubDate>
-      
       <guid>https://alexei-led.github.io/post/perfect_docker_java/</guid>
-      <description>TL;DR  What is the bare minimum you need to build, test and run my Java application in Docker container?
-  The recipe: Create a separate Docker image for each step and optimize the way you are running it.
- Introduction I started working with Java in 1998, and for a long time, it was my main programming language. It was a long love–hate relationship.
-DDuring my work career, I wrote a lot of code in Java.</description>
+      <description>TL;DR What is the bare minimum you need to build, test and run my Java application in Docker container?&#xA;The recipe: Create a separate Docker image for each step and optimize the way you are running it.&#xA;Introduction I started working with Java in 1998, and for a long time, it was my main programming language. It was a long love–hate relationship.&#xA;DDuring my work career, I wrote a lot of code in Java.</description>
     </item>
-    
     <item>
       <title>Everyday hacks for Docker</title>
       <link>https://alexei-led.github.io/post/everyday_hacks/</link>
       <pubDate>Mon, 02 Jan 2017 18:00:00 +0200</pubDate>
-      
       <guid>https://alexei-led.github.io/post/everyday_hacks/</guid>
-      <description>In this post, I&amp;rsquo;ve decided to share with you some useful commands and tools, I&amp;rsquo;m frequently using, working with amazing Docker technology. There is no particular order or &amp;ldquo;coolness level&amp;rdquo; for every &amp;ldquo;hack&amp;rdquo;. I will try to present the use case and how does specific command or tool help me with my work.
-Cleaning up Working with Docker for some time, you start to accumulate development junk: unused volumes, networks, exited containers and unused images.</description>
+      <description>In this post, I&amp;rsquo;ve decided to share with you some useful commands and tools, I&amp;rsquo;m frequently using, working with amazing Docker technology. There is no particular order or &amp;ldquo;coolness level&amp;rdquo; for every &amp;ldquo;hack&amp;rdquo;. I will try to present the use case and how does specific command or tool help me with my work.&#xA;Cleaning up Working with Docker for some time, you start to accumulate development junk: unused volumes, networks, exited containers and unused images.</description>
     </item>
-    
     <item>
       <title>Deploy Docker Compose (v3) to Swarm (mode) Cluster</title>
       <link>https://alexei-led.github.io/post/composev3_swarm/</link>
       <pubDate>Sun, 18 Dec 2016 14:00:00 +0200</pubDate>
-      
       <guid>https://alexei-led.github.io/post/composev3_swarm/</guid>
-      <description>Disclaimer: all code snippets bellow are working only with Docker 1.13+
- TL;DR Docker 1.13 simplifies deployment of composed application to a swarm (mode) cluster. And you can do it without creating a new dab (Distribution Application Bundle) file, but just using familiar and well-known docker-compose.yml syntax (with some additions) and --compose-file option.
-Swarm cluster Docker Engine 1.12 introduced a new swarm mode for natively managing a cluster of Docker Engines called a swarm.</description>
+      <description>Disclaimer: all code snippets bellow are working only with Docker 1.13+&#xA;TL;DR Docker 1.13 simplifies deployment of composed application to a swarm (mode) cluster. And you can do it without creating a new dab (Distribution Application Bundle) file, but just using familiar and well-known docker-compose.yml syntax (with some additions) and --compose-file option.&#xA;Swarm cluster Docker Engine 1.12 introduced a new swarm mode for natively managing a cluster of Docker Engines called a swarm.</description>
     </item>
-    
     <item>
       <title>Do not ignore .dockerignore</title>
       <link>https://alexei-led.github.io/post/donot_ignore_dockerignore/</link>
       <pubDate>Sat, 26 Nov 2016 16:00:00 +0200</pubDate>
-      
       <guid>https://alexei-led.github.io/post/donot_ignore_dockerignore/</guid>
-      <description>TL;DR  Tip: Consider to define and use .dockerignore file for every Docker image you are building. It can help you to reduce Docker image size, speedup docker build and avoid unintended secret exposure.
- Docker build context The docker build command is used to build a new Docker image. There is one argument you can pass to the build command build context.
-So, what is the Docker build context?</description>
+      <description>TL;DR Tip: Consider to define and use .dockerignore file for every Docker image you are building. It can help you to reduce Docker image size, speedup docker build and avoid unintended secret exposure.&#xA;Docker build context The docker build command is used to build a new Docker image. There is one argument you can pass to the build command build context.&#xA;So, what is the Docker build context?&#xA;First, remember, that Docker is a client-server application, it consists from Docker client and Docker server (also known as daemon).</description>
     </item>
-    
   </channel>
 </rss>

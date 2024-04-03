@@ -1,23 +1,20 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>docker-compose on Terra Nullius</title>
+    <title>Docker-Compose on Terra Nullius</title>
     <link>https://alexei-led.github.io/tags/docker-compose/</link>
-    <description>Recent content in docker-compose on Terra Nullius</description>
+    <description>Recent content in Docker-Compose on Terra Nullius</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>This work is licensed under a Creative Commons Attribution 4.0 International License</copyright>
-    <lastBuildDate>Sun, 18 Dec 2016 14:00:00 +0200</lastBuildDate><atom:link href="https://alexei-led.github.io/tags/docker-compose/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 18 Dec 2016 14:00:00 +0200</lastBuildDate>
+    <atom:link href="https://alexei-led.github.io/tags/docker-compose/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Deploy Docker Compose (v3) to Swarm (mode) Cluster</title>
       <link>https://alexei-led.github.io/post/composev3_swarm/</link>
       <pubDate>Sun, 18 Dec 2016 14:00:00 +0200</pubDate>
-      
       <guid>https://alexei-led.github.io/post/composev3_swarm/</guid>
-      <description>Disclaimer: all code snippets bellow are working only with Docker 1.13+
- TL;DR Docker 1.13 simplifies deployment of composed application to a swarm (mode) cluster. And you can do it without creating a new dab (Distribution Application Bundle) file, but just using familiar and well-known docker-compose.yml syntax (with some additions) and --compose-file option.
-Swarm cluster Docker Engine 1.12 introduced a new swarm mode for natively managing a cluster of Docker Engines called a swarm.</description>
+      <description>Disclaimer: all code snippets bellow are working only with Docker 1.13+&#xA;TL;DR Docker 1.13 simplifies deployment of composed application to a swarm (mode) cluster. And you can do it without creating a new dab (Distribution Application Bundle) file, but just using familiar and well-known docker-compose.yml syntax (with some additions) and --compose-file option.&#xA;Swarm cluster Docker Engine 1.12 introduced a new swarm mode for natively managing a cluster of Docker Engines called a swarm.</description>
     </item>
-    
   </channel>
 </rss>

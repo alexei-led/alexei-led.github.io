@@ -7,46 +7,35 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>This work is licensed under a Creative Commons Attribution 4.0 International License</copyright>
-    <lastBuildDate>Sun, 26 Apr 2020 10:00:00 +0200</lastBuildDate><atom:link href="https://alexei-led.github.io/categories/kubernetes/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 26 Apr 2020 10:00:00 +0200</lastBuildDate>
+    <atom:link href="https://alexei-led.github.io/categories/kubernetes/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Kubernetes and Secrets Management in Cloud: Part 2</title>
       <link>https://alexei-led.github.io/post/kube_secrets-init/</link>
       <pubDate>Sun, 26 Apr 2020 10:00:00 +0200</pubDate>
-      
       <guid>https://alexei-led.github.io/post/kube_secrets-init/</guid>
-      <description>Introduction Secrets are essential for operation of many production systems. Unintended secrets exposure is one of the top risks that should be properly addressed. Developers should do their best to protect application secrets.
-The problem becomes even harder, once company moves to a microservice architecture and multiple services require an access to different secrets in order to properly work. And this leads to a new challenges: how to distribute, manage, monitor and rotate application secrets, avoiding unintended exposure?</description>
+      <description>Introduction Secrets are essential for operation of many production systems. Unintended secrets exposure is one of the top risks that should be properly addressed. Developers should do their best to protect application secrets.&#xA;The problem becomes even harder, once company moves to a microservice architecture and multiple services require an access to different secrets in order to properly work. And this leads to a new challenges: how to distribute, manage, monitor and rotate application secrets, avoiding unintended exposure?</description>
     </item>
-    
     <item>
       <title>Securely access AWS from GKE</title>
       <link>https://alexei-led.github.io/post/gke_aws_access/</link>
       <pubDate>Wed, 12 Feb 2020 10:00:00 +0200</pubDate>
-      
       <guid>https://alexei-led.github.io/post/gke_aws_access/</guid>
       <description>Securely Access AWS from GKE It is not a rare case when an application running on Google Kubernetes Engine (GKE) needs to access Amazon Web Services (AWS) APIs. Any application has needs. Maybe it needs to run an analytics query on Amazon Redshift, access data stored in Amazon S3 bucket, convert text to speech with Amazon Polly or use any other AWS service. This multi-cloud scenario is common nowadays, as companies are working with multiple cloud providers.</description>
     </item>
-    
     <item>
       <title>Kubernetes and Secrets Management in Cloud</title>
       <link>https://alexei-led.github.io/post/secrets-init/</link>
       <pubDate>Mon, 23 Dec 2019 10:00:00 +0200</pubDate>
-      
       <guid>https://alexei-led.github.io/post/secrets-init/</guid>
-      <description>Introduction Secrets are essential for operation of many production systems. Unintended secrets exposure is one of the top risks that should be properly addressed. Developers should do their best to protect application secrets.
-The problem becomes even harder, once company moves to a microservice architecture and multiple services require an access to different secrets in order to properly work. And this leads to a new challenges: how to distribute, manage, monitor and rotate application secrets, avoiding unintended exposure?</description>
+      <description>Introduction Secrets are essential for operation of many production systems. Unintended secrets exposure is one of the top risks that should be properly addressed. Developers should do their best to protect application secrets.&#xA;The problem becomes even harder, once company moves to a microservice architecture and multiple services require an access to different secrets in order to properly work. And this leads to a new challenges: how to distribute, manage, monitor and rotate application secrets, avoiding unintended exposure?</description>
     </item>
-    
     <item>
       <title>Continuous Delivery and Continuous Deployment for Kubernetes microservices</title>
       <link>https://alexei-led.github.io/post/cd_helm_kubernetes/</link>
       <pubDate>Wed, 11 Oct 2017 18:00:00 +0200</pubDate>
-      
       <guid>https://alexei-led.github.io/post/cd_helm_kubernetes/</guid>
-      <description>Continuous Delivery and Continuous Deployment for Kubernetes microservices  THIS IS A DRAFT VERSION OF POST TO COME, PLEASE DO NOT SHARE
- Starting Point Over last years we&amp;rsquo;ve been adopting several concepts for our project, straggling to make them work together.
-The first one is the Microservice Architecture. We did not start it clean and by the book, rather applied it to the already existing project: splitting big services into smaller and breaking excessive coupling.</description>
+      <description>Continuous Delivery and Continuous Deployment for Kubernetes microservices THIS IS A DRAFT VERSION OF POST TO COME, PLEASE DO NOT SHARE&#xA;Starting Point Over last years we&amp;rsquo;ve been adopting several concepts for our project, straggling to make them work together.&#xA;The first one is the Microservice Architecture. We did not start it clean and by the book, rather applied it to the already existing project: splitting big services into smaller and breaking excessive coupling.</description>
     </item>
-    
   </channel>
 </rss>

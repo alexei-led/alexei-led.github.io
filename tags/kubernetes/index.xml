@@ -1,84 +1,62 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>kubernetes on Terra Nullius</title>
+    <title>Kubernetes on Terra Nullius</title>
     <link>https://alexei-led.github.io/tags/kubernetes/</link>
-    <description>Recent content in kubernetes on Terra Nullius</description>
+    <description>Recent content in Kubernetes on Terra Nullius</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>This work is licensed under a Creative Commons Attribution 4.0 International License</copyright>
-    <lastBuildDate>Sun, 26 Apr 2020 10:00:00 +0200</lastBuildDate><atom:link href="https://alexei-led.github.io/tags/kubernetes/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 26 Apr 2020 10:00:00 +0200</lastBuildDate>
+    <atom:link href="https://alexei-led.github.io/tags/kubernetes/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Kubernetes and Secrets Management in Cloud: Part 2</title>
       <link>https://alexei-led.github.io/post/kube_secrets-init/</link>
       <pubDate>Sun, 26 Apr 2020 10:00:00 +0200</pubDate>
-      
       <guid>https://alexei-led.github.io/post/kube_secrets-init/</guid>
-      <description>Introduction Secrets are essential for operation of many production systems. Unintended secrets exposure is one of the top risks that should be properly addressed. Developers should do their best to protect application secrets.
-The problem becomes even harder, once company moves to a microservice architecture and multiple services require an access to different secrets in order to properly work. And this leads to a new challenges: how to distribute, manage, monitor and rotate application secrets, avoiding unintended exposure?</description>
+      <description>Introduction Secrets are essential for operation of many production systems. Unintended secrets exposure is one of the top risks that should be properly addressed. Developers should do their best to protect application secrets.&#xA;The problem becomes even harder, once company moves to a microservice architecture and multiple services require an access to different secrets in order to properly work. And this leads to a new challenges: how to distribute, manage, monitor and rotate application secrets, avoiding unintended exposure?</description>
     </item>
-    
     <item>
       <title>Securely access AWS from GKE</title>
       <link>https://alexei-led.github.io/post/gke_aws_access/</link>
       <pubDate>Wed, 12 Feb 2020 10:00:00 +0200</pubDate>
-      
       <guid>https://alexei-led.github.io/post/gke_aws_access/</guid>
       <description>Securely Access AWS from GKE It is not a rare case when an application running on Google Kubernetes Engine (GKE) needs to access Amazon Web Services (AWS) APIs. Any application has needs. Maybe it needs to run an analytics query on Amazon Redshift, access data stored in Amazon S3 bucket, convert text to speech with Amazon Polly or use any other AWS service. This multi-cloud scenario is common nowadays, as companies are working with multiple cloud providers.</description>
     </item>
-    
     <item>
       <title>Kubernetes and Secrets Management in Cloud</title>
       <link>https://alexei-led.github.io/post/secrets-init/</link>
       <pubDate>Mon, 23 Dec 2019 10:00:00 +0200</pubDate>
-      
       <guid>https://alexei-led.github.io/post/secrets-init/</guid>
-      <description>Introduction Secrets are essential for operation of many production systems. Unintended secrets exposure is one of the top risks that should be properly addressed. Developers should do their best to protect application secrets.
-The problem becomes even harder, once company moves to a microservice architecture and multiple services require an access to different secrets in order to properly work. And this leads to a new challenges: how to distribute, manage, monitor and rotate application secrets, avoiding unintended exposure?</description>
+      <description>Introduction Secrets are essential for operation of many production systems. Unintended secrets exposure is one of the top risks that should be properly addressed. Developers should do their best to protect application secrets.&#xA;The problem becomes even harder, once company moves to a microservice architecture and multiple services require an access to different secrets in order to properly work. And this leads to a new challenges: how to distribute, manage, monitor and rotate application secrets, avoiding unintended exposure?</description>
     </item>
-    
     <item>
       <title>Get a Shell to a Kubernetes Node</title>
       <link>https://alexei-led.github.io/post/k8s_node_shell/</link>
       <pubDate>Sat, 27 Jul 2019 10:00:00 +0200</pubDate>
-      
       <guid>https://alexei-led.github.io/post/k8s_node_shell/</guid>
-      <description>Throughout the lifecycle of your Kubernetes cluster, you may need to access a cluster worker node. This access could be for maintenance, configuration inspection, log collection, or other troubleshooting operations. More than that, it would be nice, if you could enable this access whenever it&amp;rsquo;s needed and disable when you finish your task.
-SSH Approach While it&amp;rsquo;s possible to configure Kubernetes nodes with SSH access, this also makes worker nodes more vulnerable.</description>
+      <description>Throughout the lifecycle of your Kubernetes cluster, you may need to access a cluster worker node. This access could be for maintenance, configuration inspection, log collection, or other troubleshooting operations. More than that, it would be nice, if you could enable this access whenever it&amp;rsquo;s needed and disable when you finish your task.&#xA;SSH Approach While it&amp;rsquo;s possible to configure Kubernetes nodes with SSH access, this also makes worker nodes more vulnerable.</description>
     </item>
-    
     <item>
       <title>EKS GPU Cluster from Zero to Hero</title>
       <link>https://alexei-led.github.io/post/eks_gpu_spot/</link>
       <pubDate>Sat, 20 Jul 2019 10:00:00 +0200</pubDate>
-      
       <guid>https://alexei-led.github.io/post/eks_gpu_spot/</guid>
-      <description>Introduction If you ever tried to run a GPU workload on Kubernetes cluster, you know that this task requires non-trivial configuration and comes with high cost tag (GPU instances are quite expensive).
-This post shows how to run a GPU workload on Kubernetes cluster in cost effective way, using AWS EKS cluster, AWS Auto Scaling, Amazon EC2 Spot Instances and some Kubernetes resources and configurations.
-EKS Cluster Plan First we need to create a Kubernetes cluster that consists from mixed nodes, non-GPU nodes for management and generic Kubernetes workload and more expensive GPU nodes to run GPU intensive tasks, like machine learning, medical analysis, seismic exploration, video transcoding and others.</description>
+      <description>Introduction If you ever tried to run a GPU workload on Kubernetes cluster, you know that this task requires non-trivial configuration and comes with high cost tag (GPU instances are quite expensive).&#xA;This post shows how to run a GPU workload on Kubernetes cluster in cost effective way, using AWS EKS cluster, AWS Auto Scaling, Amazon EC2 Spot Instances and some Kubernetes resources and configurations.&#xA;EKS Cluster Plan First we need to create a Kubernetes cluster that consists from mixed nodes, non-GPU nodes for management and generic Kubernetes workload and more expensive GPU nodes to run GPU intensive tasks, like machine learning, medical analysis, seismic exploration, video transcoding and others.</description>
     </item>
-    
     <item>
       <title>Kubernetes Continuous Integration</title>
       <link>https://alexei-led.github.io/post/kubernetes_continuous_integration/</link>
       <pubDate>Fri, 08 Mar 2019 10:00:00 +0200</pubDate>
-      
       <guid>https://alexei-led.github.io/post/kubernetes_continuous_integration/</guid>
-      <description>Kubernetes configuration as Code Complex Kubernetes application consists from multiple Kubernetes resources, defined in YAML files. Authoring a properly formatted YAML files that are also a valid Kubernetes specification, that should also comply to some policy can be a challenging task.
-These YAML files are your application deployment and configuration code and should be addressed as code.
-As with code, Continuous Integration approach should be applied to a Kubernetes configuration files.</description>
+      <description>Kubernetes configuration as Code Complex Kubernetes application consists from multiple Kubernetes resources, defined in YAML files. Authoring a properly formatted YAML files that are also a valid Kubernetes specification, that should also comply to some policy can be a challenging task.&#xA;These YAML files are your application deployment and configuration code and should be addressed as code.&#xA;As with code, Continuous Integration approach should be applied to a Kubernetes configuration files.</description>
     </item>
-    
     <item>
       <title>Continuous Delivery and Continuous Deployment for Kubernetes microservices</title>
       <link>https://alexei-led.github.io/post/cd_helm_kubernetes/</link>
       <pubDate>Wed, 11 Oct 2017 18:00:00 +0200</pubDate>
-      
       <guid>https://alexei-led.github.io/post/cd_helm_kubernetes/</guid>
-      <description>Continuous Delivery and Continuous Deployment for Kubernetes microservices  THIS IS A DRAFT VERSION OF POST TO COME, PLEASE DO NOT SHARE
- Starting Point Over last years we&amp;rsquo;ve been adopting several concepts for our project, straggling to make them work together.
-The first one is the Microservice Architecture. We did not start it clean and by the book, rather applied it to the already existing project: splitting big services into smaller and breaking excessive coupling.</description>
+      <description>Continuous Delivery and Continuous Deployment for Kubernetes microservices THIS IS A DRAFT VERSION OF POST TO COME, PLEASE DO NOT SHARE&#xA;Starting Point Over last years we&amp;rsquo;ve been adopting several concepts for our project, straggling to make them work together.&#xA;The first one is the Microservice Architecture. We did not start it clean and by the book, rather applied it to the already existing project: splitting big services into smaller and breaking excessive coupling.</description>
     </item>
-    
   </channel>
 </rss>

@@ -19,7 +19,7 @@
     
     
     
-    <link rel="stylesheet" href="https://alexei-led.github.io/css/main.min.c80bdc3103e1a90215fb6971170c49e58298298fc567ad69b2f43d1e084514e8.css"/>
+    <link rel="stylesheet" href="https://alexei-led.github.io/css/main.min.364181395f068614d02615981b918adfd0601b252899e92b7dd17982855dd4e8.css"/>
 
     
     
@@ -30,7 +30,7 @@
  
     
     
-<script type="application/javascript">
+<script>
 var doNotTrack = false;
 if (!doNotTrack) {
 	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -126,7 +126,7 @@ if (!doNotTrack) {
 	<p><a href="https://github.com/kimcc/hugo-theme-noteworthy" target="_blank" rel="noopener">Noteworthy theme</a></p>
 	<p><a href="https://gohugo.io" target="_blank" rel="noopener">Built with Hugo</a></p>
 
-	<script src="https://alexei-led.github.io/js/main.min.c1aee25a817e9beb1f9c4afd9d62311227a7f5e46720e404dc1dda97281f47f2.js" integrity="sha256-wa7iWoF+m+sfnEr9nWIxEien9eRnIOQE3B3alygfR/I="></script>
+	<script src="https://alexei-led.github.io/js/main.min.a7205ef73b078c8daed6fe1b0826e8ba229ffabbb69d299d9446cf41f2c7d8aa.js" integrity="sha256-pyBe9zsHjI2u1v4bCCbouiKf+ru2nSmdlEbPQfLH2Ko="></script>
 </footer>
 </nav>
         <div id="content" class="content-container">
@@ -149,26 +149,26 @@ if (!doNotTrack) {
 <h2 id="the-idea">The Idea</h2>
 <p>The basic idea is to use Docker for Mac for running Swam master and several <a href="https://hub.docker.com/_/docker/">Docker-in-Docker containers</a> for running Swarm worker nodes.</p>
 <p>First, lets init our Swarm master:</p>
-<pre><code># init Swarm master
+<pre tabindex="0"><code># init Swarm master
 docker swarm init
 </code></pre><p>&hellip; keep Swarm join token:</p>
-<pre><code># get join token
+<pre tabindex="0"><code># get join token
 SWARM_TOKEN=$(docker swarm join-token -q worker)
 </code></pre><p>&hellip; and Docker <code>xhyve</code> VM IP:</p>
-<pre><code># get Swarm master IP (Docker for Mac xhyve VM IP)
-SWARM_MASTER=$(docker info | grep -w 'Node Address' | awk '{print $3}')
+<pre tabindex="0"><code># get Swarm master IP (Docker for Mac xhyve VM IP)
+SWARM_MASTER=$(docker info | grep -w &#39;Node Address&#39; | awk &#39;{print $3}&#39;)
 </code></pre><p>&hellip; now let&rsquo;s create 3 worker nodes and join these nodes to our cluster</p>
-<pre><code># run NUM_WORKERS workers with SWARM_TOKEN
+<pre tabindex="0"><code># run NUM_WORKERS workers with SWARM_TOKEN
 NUM_WORKERS=3
-for i in $(seq “${NUM_WORKERS}&quot;); do
+for i in $(seq “${NUM_WORKERS}&#34;); do
   docker run -d --privileged --name worker-${i} --hostname=worker-${i} -p ${i}2375:2375 docker:1.12.1-dind
   docker --host=localhost:${i}2375 swarm join --token ${SWARM_TOKEN} ${SWARM_MASTER}:2377
 done
 </code></pre><p>Listing all our Swarm cluster nodes:</p>
-<pre><code># list Swarm nodes :)
+<pre tabindex="0"><code># list Swarm nodes :)
 docker node ls
 </code></pre><p>&hellip; you should see something like this:</p>
-<pre><code>ID                           HOSTNAME  STATUS  AVAILABILITY  MANAGER STATUS
+<pre tabindex="0"><code>ID                           HOSTNAME  STATUS  AVAILABILITY  MANAGER STATUS
 1f6z8pioh3vuaz84gyp0biqt0    worker-2  Ready   Active
 35z72o6zjhs9u1h99lrwzvx5n    worker-3  Ready   Active
 d9ph5cmc604wp1vhhs754nnxx *  moby      Ready   Active        Leader
@@ -177,15 +177,15 @@ dj3gnpv86uqrw4b9mo9ux4jb5    worker-1  Ready   Active
 <h3 id="nice-tip">Nice tip:</h3>
 <p>You can use very nice [Swarm visualizer] (<a href="https://github.com/ManoMarks/docker-swarm-visualizer">https://github.com/ManoMarks/docker-swarm-visualizer</a>) by Mano Marks to see your Swarm cluster &ldquo;in action&rdquo;.</p>
 <p>Run it with following command:</p>
-<pre><code>docker run -it -d -p 8000:8000 -e HOST=localhost -e PORT=8000 -v /var/run/docker.sock:/var/run/docker.sock manomarks/visualizer
+<pre tabindex="0"><code>docker run -it -d -p 8000:8000 -e HOST=localhost -e PORT=8000 -v /var/run/docker.sock:/var/run/docker.sock manomarks/visualizer
 </code></pre><p>And you should be able to see something like this (after you deploy some demo app):</p>
 <p><img src="https://alexei-led.github.io/img/docker_visualizer.png" alt="Docker Swarm visualizer: Voting App"></p>
 
         </p>
     </div>
     <div id="disqus_thread"></div>
-<script type="application/javascript">
-    var disqus_config = function () {
+<script>
+    window.disqus_config = function () {
     
     
     
@@ -296,7 +296,7 @@ dj3gnpv86uqrw4b9mo9ux4jb5    worker-1  Ready   Active
 		<p><a href="https://gohugo.io" target="_blank" rel="noopener">Built with Hugo</a></p>
 	</div>
 
-	<script src="https://alexei-led.github.io/js/main.min.c1aee25a817e9beb1f9c4afd9d62311227a7f5e46720e404dc1dda97281f47f2.js" integrity="sha256-wa7iWoF+m+sfnEr9nWIxEien9eRnIOQE3B3alygfR/I="></script>
+	<script src="https://alexei-led.github.io/js/main.min.a7205ef73b078c8daed6fe1b0826e8ba229ffabbb69d299d9446cf41f2c7d8aa.js" integrity="sha256-pyBe9zsHjI2u1v4bCCbouiKf+ru2nSmdlEbPQfLH2Ko="></script>
 </footer>
     </body>
 </html>

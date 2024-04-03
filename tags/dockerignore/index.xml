@@ -1,23 +1,20 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>dockerignore on Terra Nullius</title>
+    <title>Dockerignore on Terra Nullius</title>
     <link>https://alexei-led.github.io/tags/dockerignore/</link>
-    <description>Recent content in dockerignore on Terra Nullius</description>
+    <description>Recent content in Dockerignore on Terra Nullius</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>This work is licensed under a Creative Commons Attribution 4.0 International License</copyright>
-    <lastBuildDate>Sat, 26 Nov 2016 16:00:00 +0200</lastBuildDate><atom:link href="https://alexei-led.github.io/tags/dockerignore/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 26 Nov 2016 16:00:00 +0200</lastBuildDate>
+    <atom:link href="https://alexei-led.github.io/tags/dockerignore/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Do not ignore .dockerignore</title>
       <link>https://alexei-led.github.io/post/donot_ignore_dockerignore/</link>
       <pubDate>Sat, 26 Nov 2016 16:00:00 +0200</pubDate>
-      
       <guid>https://alexei-led.github.io/post/donot_ignore_dockerignore/</guid>
-      <description>TL;DR  Tip: Consider to define and use .dockerignore file for every Docker image you are building. It can help you to reduce Docker image size, speedup docker build and avoid unintended secret exposure.
- Docker build context The docker build command is used to build a new Docker image. There is one argument you can pass to the build command build context.
-So, what is the Docker build context?</description>
+      <description>TL;DR Tip: Consider to define and use .dockerignore file for every Docker image you are building. It can help you to reduce Docker image size, speedup docker build and avoid unintended secret exposure.&#xA;Docker build context The docker build command is used to build a new Docker image. There is one argument you can pass to the build command build context.&#xA;So, what is the Docker build context?&#xA;First, remember, that Docker is a client-server application, it consists from Docker client and Docker server (also known as daemon).</description>
     </item>
-    
   </channel>
 </rss>

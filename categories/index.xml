@@ -7,96 +7,77 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>This work is licensed under a Creative Commons Attribution 4.0 International License</copyright>
-    <lastBuildDate>Thu, 08 Apr 2021 10:00:00 +0200</lastBuildDate><atom:link href="https://alexei-led.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 08 Apr 2021 10:00:00 +0200</lastBuildDate>
+    <atom:link href="https://alexei-led.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>AWS</title>
       <link>https://alexei-led.github.io/categories/aws/</link>
       <pubDate>Thu, 08 Apr 2021 10:00:00 +0200</pubDate>
-      
       <guid>https://alexei-led.github.io/categories/aws/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>Cloud</title>
       <link>https://alexei-led.github.io/categories/cloud/</link>
       <pubDate>Thu, 08 Apr 2021 10:00:00 +0200</pubDate>
-      
       <guid>https://alexei-led.github.io/categories/cloud/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>DevOps</title>
       <link>https://alexei-led.github.io/categories/devops/</link>
       <pubDate>Thu, 08 Apr 2021 10:00:00 +0200</pubDate>
-      
       <guid>https://alexei-led.github.io/categories/devops/</guid>
       <description></description>
     </item>
-    
+    <item>
+      <title>CI/CD</title>
+      <link>https://alexei-led.github.io/categories/ci/cd/</link>
+      <pubDate>Wed, 30 Sep 2020 10:00:00 +0200</pubDate>
+      <guid>https://alexei-led.github.io/categories/ci/cd/</guid>
+      <description></description>
+    </item>
     <item>
       <title>Docker</title>
       <link>https://alexei-led.github.io/categories/docker/</link>
       <pubDate>Wed, 30 Sep 2020 10:00:00 +0200</pubDate>
-      
       <guid>https://alexei-led.github.io/categories/docker/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>Kubernetes</title>
       <link>https://alexei-led.github.io/categories/kubernetes/</link>
       <pubDate>Sun, 26 Apr 2020 10:00:00 +0200</pubDate>
-      
       <guid>https://alexei-led.github.io/categories/kubernetes/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>Security</title>
       <link>https://alexei-led.github.io/categories/security/</link>
       <pubDate>Sun, 26 Apr 2020 10:00:00 +0200</pubDate>
-      
       <guid>https://alexei-led.github.io/categories/security/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>Google Cloud</title>
       <link>https://alexei-led.github.io/categories/google-cloud/</link>
       <pubDate>Wed, 12 Feb 2020 10:00:00 +0200</pubDate>
-      
       <guid>https://alexei-led.github.io/categories/google-cloud/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>Development</title>
       <link>https://alexei-led.github.io/categories/development/</link>
       <pubDate>Mon, 23 Dec 2019 10:00:00 +0200</pubDate>
-      
       <guid>https://alexei-led.github.io/categories/development/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>Chaos Testing</title>
       <link>https://alexei-led.github.io/categories/chaos-testing/</link>
       <pubDate>Wed, 04 Oct 2017 18:00:00 +0200</pubDate>
-      
       <guid>https://alexei-led.github.io/categories/chaos-testing/</guid>
       <description></description>
     </item>
-    
-    <item>
-      <title>CI/CD</title>
-      <link>https://alexei-led.github.io/categories/ci/cd/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://alexei-led.github.io/categories/ci/cd/</guid>
-      <description></description>
-    </item>
-    
   </channel>
 </rss>

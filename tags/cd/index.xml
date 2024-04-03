@@ -1,23 +1,20 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>cd on Terra Nullius</title>
+    <title>Cd on Terra Nullius</title>
     <link>https://alexei-led.github.io/tags/cd/</link>
-    <description>Recent content in cd on Terra Nullius</description>
+    <description>Recent content in Cd on Terra Nullius</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>This work is licensed under a Creative Commons Attribution 4.0 International License</copyright>
-    <lastBuildDate>Wed, 11 Oct 2017 18:00:00 +0200</lastBuildDate><atom:link href="https://alexei-led.github.io/tags/cd/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 11 Oct 2017 18:00:00 +0200</lastBuildDate>
+    <atom:link href="https://alexei-led.github.io/tags/cd/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Continuous Delivery and Continuous Deployment for Kubernetes microservices</title>
       <link>https://alexei-led.github.io/post/cd_helm_kubernetes/</link>
       <pubDate>Wed, 11 Oct 2017 18:00:00 +0200</pubDate>
-      
       <guid>https://alexei-led.github.io/post/cd_helm_kubernetes/</guid>
-      <description>Continuous Delivery and Continuous Deployment for Kubernetes microservices  THIS IS A DRAFT VERSION OF POST TO COME, PLEASE DO NOT SHARE
- Starting Point Over last years we&amp;rsquo;ve been adopting several concepts for our project, straggling to make them work together.
-The first one is the Microservice Architecture. We did not start it clean and by the book, rather applied it to the already existing project: splitting big services into smaller and breaking excessive coupling.</description>
+      <description>Continuous Delivery and Continuous Deployment for Kubernetes microservices THIS IS A DRAFT VERSION OF POST TO COME, PLEASE DO NOT SHARE&#xA;Starting Point Over last years we&amp;rsquo;ve been adopting several concepts for our project, straggling to make them work together.&#xA;The first one is the Microservice Architecture. We did not start it clean and by the book, rather applied it to the already existing project: splitting big services into smaller and breaking excessive coupling.</description>
     </item>
-    
   </channel>
 </rss>

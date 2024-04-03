@@ -1,171 +1,118 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>docker on Terra Nullius</title>
+    <title>Docker on Terra Nullius</title>
     <link>https://alexei-led.github.io/tags/docker/</link>
-    <description>Recent content in docker on Terra Nullius</description>
+    <description>Recent content in Docker on Terra Nullius</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>This work is licensed under a Creative Commons Attribution 4.0 International License</copyright>
-    <lastBuildDate>Wed, 30 Sep 2020 10:00:00 +0200</lastBuildDate><atom:link href="https://alexei-led.github.io/tags/docker/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 30 Sep 2020 10:00:00 +0200</lastBuildDate>
+    <atom:link href="https://alexei-led.github.io/tags/docker/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Building Multi-Platform Docker Images for Intel and ARM with AWS CodeBuild</title>
       <link>https://alexei-led.github.io/post/docker_multi_arch_aws/</link>
       <pubDate>Wed, 30 Sep 2020 10:00:00 +0200</pubDate>
-      
       <guid>https://alexei-led.github.io/post/docker_multi_arch_aws/</guid>
-      <description>TL;DR The Docker BuildKit buildx CLI plugin simplifies building Docker images for different OS/CPU platforms (e.g. linux/amd64, linux/arm64, linux/arm, windows/amd64)
-So why is it a big deal now? Who needs Docker images for Arm platform anyway. Raspberry Pi geeks?
-A good reason for this is just a one word Graviton2&amp;hellip;</description>
+      <description>TL;DR The Docker BuildKit buildx CLI plugin simplifies building Docker images for different OS/CPU platforms (e.g. linux/amd64, linux/arm64, linux/arm, windows/amd64)&#xA;So why is it a big deal now? Who needs Docker images for Arm platform anyway. Raspberry Pi geeks?&#xA;A good reason for this is just a one word Graviton2&amp;hellip;</description>
     </item>
-    
     <item>
       <title>Continuous Delivery and Continuous Deployment for Kubernetes microservices</title>
       <link>https://alexei-led.github.io/post/cd_helm_kubernetes/</link>
       <pubDate>Wed, 11 Oct 2017 18:00:00 +0200</pubDate>
-      
       <guid>https://alexei-led.github.io/post/cd_helm_kubernetes/</guid>
-      <description>Continuous Delivery and Continuous Deployment for Kubernetes microservices  THIS IS A DRAFT VERSION OF POST TO COME, PLEASE DO NOT SHARE
- Starting Point Over last years we&amp;rsquo;ve been adopting several concepts for our project, straggling to make them work together.
-The first one is the Microservice Architecture. We did not start it clean and by the book, rather applied it to the already existing project: splitting big services into smaller and breaking excessive coupling.</description>
+      <description>Continuous Delivery and Continuous Deployment for Kubernetes microservices THIS IS A DRAFT VERSION OF POST TO COME, PLEASE DO NOT SHARE&#xA;Starting Point Over last years we&amp;rsquo;ve been adopting several concepts for our project, straggling to make them work together.&#xA;The first one is the Microservice Architecture. We did not start it clean and by the book, rather applied it to the already existing project: splitting big services into smaller and breaking excessive coupling.</description>
     </item>
-    
     <item>
       <title>Chaos Testing for Docker Containers</title>
       <link>https://alexei-led.github.io/post/pumba_containercamp/</link>
       <pubDate>Wed, 04 Oct 2017 18:00:00 +0200</pubDate>
-      
       <guid>https://alexei-led.github.io/post/pumba_containercamp/</guid>
-      <description>What follows is the text of my presentation, Chaos Testing for Docker Containers that I gave at ContainerCamp in London this year. I&amp;rsquo;ve also decided to turn the presentation into an article. I edited the text slightly for readability and added some links for more context. You can find the original video recording and slides at the end of this post.
-Intro Software development is about building software services that support business needs.</description>
+      <description>What follows is the text of my presentation, Chaos Testing for Docker Containers that I gave at ContainerCamp in London this year. I&amp;rsquo;ve also decided to turn the presentation into an article. I edited the text slightly for readability and added some links for more context. You can find the original video recording and slides at the end of this post.&#xA;Intro Software development is about building software services that support business needs.</description>
     </item>
-    
     <item>
       <title>Debugging remote Node.js application running in a Docker container</title>
       <link>https://alexei-led.github.io/post/debug_node_in_docker/</link>
       <pubDate>Sat, 03 Jun 2017 18:00:00 +0200</pubDate>
-      
       <guid>https://alexei-led.github.io/post/debug_node_in_docker/</guid>
-      <description>Teaser Suppose you want to debug a Node.js application already running on a remote machine inside Docker container. And would like to do it without modifying command arguments (enabling debug mode) and opening remote Node.js debugger agent port to the whole world.
-I bet you didn&amp;rsquo;t know that it&amp;rsquo;s possible and also have no idea how to do it.
-I encourage you to continue reading this post if you are eager to learn some new cool stuff.</description>
+      <description>Teaser Suppose you want to debug a Node.js application already running on a remote machine inside Docker container. And would like to do it without modifying command arguments (enabling debug mode) and opening remote Node.js debugger agent port to the whole world.&#xA;I bet you didn&amp;rsquo;t know that it&amp;rsquo;s possible and also have no idea how to do it.&#xA;I encourage you to continue reading this post if you are eager to learn some new cool stuff.</description>
     </item>
-    
     <item>
       <title>Create lean Node.js image with Docker multi-stage build</title>
       <link>https://alexei-led.github.io/post/node_docker_multistage/</link>
       <pubDate>Tue, 25 Apr 2017 18:00:00 +0200</pubDate>
-      
       <guid>https://alexei-led.github.io/post/node_docker_multistage/</guid>
-      <description>TL;DR Starting from Docker 17.05+, you can create a single Dockerfile that can build multiple helper images with compilers, tools, and tests and use files from above images to produce the final Docker image.
-The &amp;ldquo;core principle&amp;rdquo; of Dockerfile Docker can build images by reading the instructions from a Dockerfile. A Dockerfile is a text file that contains a list of all the commands needed to build a new Docker image.</description>
+      <description>TL;DR Starting from Docker 17.05+, you can create a single Dockerfile that can build multiple helper images with compilers, tools, and tests and use files from above images to produce the final Docker image.&#xA;The &amp;ldquo;core principle&amp;rdquo; of Dockerfile Docker can build images by reading the instructions from a Dockerfile. A Dockerfile is a text file that contains a list of all the commands needed to build a new Docker image.</description>
     </item>
-    
     <item>
       <title>Crafting perfect Java Docker build flow</title>
       <link>https://alexei-led.github.io/post/perfect_docker_java/</link>
       <pubDate>Tue, 07 Mar 2017 18:00:00 +0200</pubDate>
-      
       <guid>https://alexei-led.github.io/post/perfect_docker_java/</guid>
-      <description>TL;DR  What is the bare minimum you need to build, test and run my Java application in Docker container?
-  The recipe: Create a separate Docker image for each step and optimize the way you are running it.
- Introduction I started working with Java in 1998, and for a long time, it was my main programming language. It was a long love–hate relationship.
-DDuring my work career, I wrote a lot of code in Java.</description>
+      <description>TL;DR What is the bare minimum you need to build, test and run my Java application in Docker container?&#xA;The recipe: Create a separate Docker image for each step and optimize the way you are running it.&#xA;Introduction I started working with Java in 1998, and for a long time, it was my main programming language. It was a long love–hate relationship.&#xA;DDuring my work career, I wrote a lot of code in Java.</description>
     </item>
-    
     <item>
       <title>Everyday hacks for Docker</title>
       <link>https://alexei-led.github.io/post/everyday_hacks/</link>
       <pubDate>Mon, 02 Jan 2017 18:00:00 +0200</pubDate>
-      
       <guid>https://alexei-led.github.io/post/everyday_hacks/</guid>
-      <description>In this post, I&amp;rsquo;ve decided to share with you some useful commands and tools, I&amp;rsquo;m frequently using, working with amazing Docker technology. There is no particular order or &amp;ldquo;coolness level&amp;rdquo; for every &amp;ldquo;hack&amp;rdquo;. I will try to present the use case and how does specific command or tool help me with my work.
-Cleaning up Working with Docker for some time, you start to accumulate development junk: unused volumes, networks, exited containers and unused images.</description>
+      <description>In this post, I&amp;rsquo;ve decided to share with you some useful commands and tools, I&amp;rsquo;m frequently using, working with amazing Docker technology. There is no particular order or &amp;ldquo;coolness level&amp;rdquo; for every &amp;ldquo;hack&amp;rdquo;. I will try to present the use case and how does specific command or tool help me with my work.&#xA;Cleaning up Working with Docker for some time, you start to accumulate development junk: unused volumes, networks, exited containers and unused images.</description>
     </item>
-    
     <item>
       <title>Deploy Docker Compose (v3) to Swarm (mode) Cluster</title>
       <link>https://alexei-led.github.io/post/composev3_swarm/</link>
       <pubDate>Sun, 18 Dec 2016 14:00:00 +0200</pubDate>
-      
       <guid>https://alexei-led.github.io/post/composev3_swarm/</guid>
-      <description>Disclaimer: all code snippets bellow are working only with Docker 1.13+
- TL;DR Docker 1.13 simplifies deployment of composed application to a swarm (mode) cluster. And you can do it without creating a new dab (Distribution Application Bundle) file, but just using familiar and well-known docker-compose.yml syntax (with some additions) and --compose-file option.
-Swarm cluster Docker Engine 1.12 introduced a new swarm mode for natively managing a cluster of Docker Engines called a swarm.</description>
+      <description>Disclaimer: all code snippets bellow are working only with Docker 1.13+&#xA;TL;DR Docker 1.13 simplifies deployment of composed application to a swarm (mode) cluster. And you can do it without creating a new dab (Distribution Application Bundle) file, but just using familiar and well-known docker-compose.yml syntax (with some additions) and --compose-file option.&#xA;Swarm cluster Docker Engine 1.12 introduced a new swarm mode for natively managing a cluster of Docker Engines called a swarm.</description>
     </item>
-    
     <item>
       <title>Do not ignore .dockerignore</title>
       <link>https://alexei-led.github.io/post/donot_ignore_dockerignore/</link>
       <pubDate>Sat, 26 Nov 2016 16:00:00 +0200</pubDate>
-      
       <guid>https://alexei-led.github.io/post/donot_ignore_dockerignore/</guid>
-      <description>TL;DR  Tip: Consider to define and use .dockerignore file for every Docker image you are building. It can help you to reduce Docker image size, speedup docker build and avoid unintended secret exposure.
- Docker build context The docker build command is used to build a new Docker image. There is one argument you can pass to the build command build context.
-So, what is the Docker build context?</description>
+      <description>TL;DR Tip: Consider to define and use .dockerignore file for every Docker image you are building. It can help you to reduce Docker image size, speedup docker build and avoid unintended secret exposure.&#xA;Docker build context The docker build command is used to build a new Docker image. There is one argument you can pass to the build command build context.&#xA;So, what is the Docker build context?&#xA;First, remember, that Docker is a client-server application, it consists from Docker client and Docker server (also known as daemon).</description>
     </item>
-    
     <item>
       <title>Docker Swarm cluster with docker-in-docker on MacOS</title>
       <link>https://alexei-led.github.io/post/swarm_dind/</link>
       <pubDate>Thu, 06 Oct 2016 16:00:00 +0200</pubDate>
-      
       <guid>https://alexei-led.github.io/post/swarm_dind/</guid>
-      <description>TL;DR  Docker-in-Docker dind can help you to run Docker Swarm cluster on your Macbook only with Docker for Mac (v1.12+). No virtualbox, docker-machine, vagrant or other app is required.
- The Beginning One day, I&amp;rsquo;ve decided to try running Docker 1.12 Swarm cluster on my MacBook Pro. Docker team did a great job releasing Docker for Mac, and from that time I forgot all problems I used to have with boot2docker.</description>
+      <description>TL;DR Docker-in-Docker dind can help you to run Docker Swarm cluster on your Macbook only with Docker for Mac (v1.12+). No virtualbox, docker-machine, vagrant or other app is required.&#xA;The Beginning One day, I&amp;rsquo;ve decided to try running Docker 1.12 Swarm cluster on my MacBook Pro. Docker team did a great job releasing Docker for Mac, and from that time I forgot all problems I used to have with boot2docker. I really like Docker for Mac: it’s fast, lightweight, tightly integrated with MacOS and significantly simplifies my life when working in changing network environment.</description>
     </item>
-    
     <item>
       <title>Network emulation for Docker containers</title>
       <link>https://alexei-led.github.io/post/pumba_docker_netem/</link>
       <pubDate>Mon, 01 Aug 2016 20:00:00 +0200</pubDate>
-      
       <guid>https://alexei-led.github.io/post/pumba_docker_netem/</guid>
-      <description>TL;DR  Pumba netem delay and netem loss commands can emulate network delay and packet loss between Docker containers, even on single host. Give it a try!
- Introduction Microservice architecture has been adopted by software teams as a way to deliver business value faster. Container technology enables delivery of microservices into any environment. Docker has accelerated this by providing an easy to use toolset for development teams to build, ship, and run distributed applications.</description>
+      <description>TL;DR Pumba netem delay and netem loss commands can emulate network delay and packet loss between Docker containers, even on single host. Give it a try!&#xA;Introduction Microservice architecture has been adopted by software teams as a way to deliver business value faster. Container technology enables delivery of microservices into any environment. Docker has accelerated this by providing an easy to use toolset for development teams to build, ship, and run distributed applications.</description>
     </item>
-    
     <item>
       <title>Pumba - Chaos Testing for Docker</title>
       <link>https://alexei-led.github.io/post/pumba_docker_chaos_testing/</link>
       <pubDate>Sat, 16 Apr 2016 20:00:00 +0200</pubDate>
-      
       <guid>https://alexei-led.github.io/post/pumba_docker_chaos_testing/</guid>
-      <description>Update (27-07-27): Updated post to latest v0.2.0 Pumba version change.
-Introduction The best defense against unexpected failures is to build resilient services. Testing for resiliency enables the teams to learn where their apps fail before the customer does. By intentionally causing failures as part of resiliency testing, you can enforce your policy for building resilient systems. Resilience of the system can be defined as its ability to continue functioning even if some components of the system are failing - ephemerality.</description>
+      <description>Update (27-07-27): Updated post to latest v0.2.0 Pumba version change.&#xA;Introduction The best defense against unexpected failures is to build resilient services. Testing for resiliency enables the teams to learn where their apps fail before the customer does. By intentionally causing failures as part of resiliency testing, you can enforce your policy for building resilient systems. Resilience of the system can be defined as its ability to continue functioning even if some components of the system are failing - ephemerality.</description>
     </item>
-    
     <item>
       <title>Testing Strategies for Docker Containers</title>
       <link>https://alexei-led.github.io/post/docker_testing/</link>
       <pubDate>Mon, 07 Mar 2016 16:39:00 +0200</pubDate>
-      
       <guid>https://alexei-led.github.io/post/docker_testing/</guid>
-      <description>Congratulations! You know how to build a Docker image and are able to compose multiple containers into a meaningful application. Hopefully, you&amp;rsquo;ve already created a Continuous Delivery pipeline and know how to push your newly created image into production or testing environment.
- Now, the question is - How do we test our Docker containers?
- There are multiple testing strategies we can apply. In this post, I&amp;rsquo;ll highlight them presenting benefits and drawbacks for each.</description>
+      <description>Congratulations! You know how to build a Docker image and are able to compose multiple containers into a meaningful application. Hopefully, you&amp;rsquo;ve already created a Continuous Delivery pipeline and know how to push your newly created image into production or testing environment.&#xA;Now, the question is - How do we test our Docker containers?&#xA;There are multiple testing strategies we can apply. In this post, I&amp;rsquo;ll highlight them presenting benefits and drawbacks for each.</description>
     </item>
-    
     <item>
       <title>Docker Pattern: The Build Container</title>
       <link>https://alexei-led.github.io/post/docker_builder_pattern/</link>
       <pubDate>Thu, 14 Jan 2016 16:14:47 +0200</pubDate>
-      
       <guid>https://alexei-led.github.io/post/docker_builder_pattern/</guid>
-      <description>Let&amp;rsquo;s say that you&amp;rsquo;re developing a microservice in a compiled language or an interpreted language that requires some additional “build” steps to package and lint your application code. This is a useful docker pattern for the &amp;ldquo;build&amp;rdquo; container.
-In our project, we&amp;rsquo;re using Docker as our main deployment package: every microservice is delivered as a Docker image. Each microservice also has it’s own code repository (GitHub), and its own CI build job.</description>
+      <description>Let&amp;rsquo;s say that you&amp;rsquo;re developing a microservice in a compiled language or an interpreted language that requires some additional “build” steps to package and lint your application code. This is a useful docker pattern for the &amp;ldquo;build&amp;rdquo; container.&#xA;In our project, we&amp;rsquo;re using Docker as our main deployment package: every microservice is delivered as a Docker image. Each microservice also has it’s own code repository (GitHub), and its own CI build job.</description>
     </item>
-    
     <item>
       <title>Docker Pattern: Deploy and update dockerized application on cluster</title>
       <link>https://alexei-led.github.io/post/docker_cd_cluster/</link>
       <pubDate>Wed, 30 Dec 2015 11:09:47 +0200</pubDate>
-      
       <guid>https://alexei-led.github.io/post/docker_cd_cluster/</guid>
-      <description>Docker is great technology that simplifies development and deployment of distributed applications.
-While Docker serves as a core technology, many issues remain to be solved. We find ourselves struggling with some of these issues. For example:
- How to create an elastic Docker cluster? How to deploy and connect multiple containers together? How to build CI/CD process? How to register and discover system services and more?  For most, there are open source projects, or services available from the community as well as commercially, including from Docker, Inc.</description>
+      <description>Docker is great technology that simplifies development and deployment of distributed applications.&#xA;While Docker serves as a core technology, many issues remain to be solved. We find ourselves struggling with some of these issues. For example:&#xA;How to create an elastic Docker cluster? How to deploy and connect multiple containers together? How to build CI/CD process? How to register and discover system services and more? For most, there are open source projects, or services available from the community as well as commercially, including from Docker, Inc.</description>
     </item>
-    
   </channel>
 </rss>

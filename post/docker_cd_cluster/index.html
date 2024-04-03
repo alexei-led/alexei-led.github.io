@@ -19,7 +19,7 @@
     
     
     
-    <link rel="stylesheet" href="https://alexei-led.github.io/css/main.min.c80bdc3103e1a90215fb6971170c49e58298298fc567ad69b2f43d1e084514e8.css"/>
+    <link rel="stylesheet" href="https://alexei-led.github.io/css/main.min.364181395f068614d02615981b918adfd0601b252899e92b7dd17982855dd4e8.css"/>
 
     
     
@@ -30,7 +30,7 @@
  
     
     
-<script type="application/javascript">
+<script>
 var doNotTrack = false;
 if (!doNotTrack) {
 	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -126,7 +126,7 @@ if (!doNotTrack) {
 	<p><a href="https://github.com/kimcc/hugo-theme-noteworthy" target="_blank" rel="noopener">Noteworthy theme</a></p>
 	<p><a href="https://gohugo.io" target="_blank" rel="noopener">Built with Hugo</a></p>
 
-	<script src="https://alexei-led.github.io/js/main.min.c1aee25a817e9beb1f9c4afd9d62311227a7f5e46720e404dc1dda97281f47f2.js" integrity="sha256-wa7iWoF+m+sfnEr9nWIxEien9eRnIOQE3B3alygfR/I="></script>
+	<script src="https://alexei-led.github.io/js/main.min.a7205ef73b078c8daed6fe1b0826e8ba229ffabbb69d299d9446cf41f2c7d8aa.js" integrity="sha256-pyBe9zsHjI2u1v4bCCbouiKf+ru2nSmdlEbPQfLH2Ko="></script>
 </footer>
 </nav>
         <div id="content" class="content-container">
@@ -169,17 +169,17 @@ if (!doNotTrack) {
 As a result, in DockerHub, we have images for the latest build in any branch and also for every image we can identify the build job number and the branch it was created from.</li>
 </ol>
 <p>As I said before, we keep service systemd unit file in the same repository as code. This file <strong>does not</strong> contain an image tag, only the repository and image name. See example below:</p>
-<pre><code>ExecStart=/usr/bin/docker run —name myservice -p 3000:3000 myrepo/myservice
+<pre tabindex="0"><code>ExecStart=/usr/bin/docker run —name myservice -p 3000:3000 myrepo/myservice
 </code></pre><p>Our CI service build job generates a new service <strong>systemd</strong> unit file for every successful build, replacing the above service invocation command with one that also contains a new tag. Using <code>build_num-branch</code> pattern (<code>develop</code> branch in our example), we use two simple utilities for this job: <code>cat</code> and <code>sed</code>. It’s possible to use a more advanced template engine.</p>
-<pre><code>ExecStart=/usr/bin/docker run — name myservice -p 3000:3000 myrepo/myservice:58-develop
+<pre tabindex="0"><code>ExecStart=/usr/bin/docker run — name myservice -p 3000:3000 myrepo/myservice:58-develop
 </code></pre><p>As a last step, the CI build job “deploys” this new unit file to the system configuration Git repository.</p>
-<pre><code>git commit -am “Updating myservice tag to ‘58-develop’” myservice.service
+<pre tabindex="0"><code>git commit -am “Updating myservice tag to ‘58-develop’” myservice.service
 git push origin develop
 </code></pre><p>Another CI job that monitors changes in the system configuration repository will trigger a build and create a new Docker image that captures updated system configuration.</p>
 <p>All we need to do now is to execute this Docker image on the Docker cluster. Something like this:</p>
-<pre><code>docker run -it —-rm=true myrepo/mysysconfig:develop
+<pre tabindex="0"><code>docker run -it —-rm=true myrepo/mysysconfig:develop
 </code></pre><p>Our <strong>system configuration</strong> Dockerfile:</p>
-<pre><code>FROM alpine:3.2
+<pre tabindex="0"><code>FROM alpine:3.2
 MAINTAINER Alexei Ledenev &lt;alexei.led@gmail.com&gt;
 
 ENV FLEET_VERSION 0.11.5
@@ -196,7 +196,7 @@ RUN chmod +x deploy.sh
 RUN apk update &amp;&amp; \
  apk add curl openssl bash &amp;&amp; \
  rm -rf /var/cache/apk/* &amp;&amp; \
- curl -L “https://github.com/coreos/fleet/releases/download/v${FLEET_VERSION}/fleet-v${FLEET_VERSION}-linux-amd64.tar.gz&quot; | tar xz &amp;&amp; \
+ curl -L “https://github.com/coreos/fleet/releases/download/v${FLEET_VERSION}/fleet-v${FLEET_VERSION}-linux-amd64.tar.gz&#34; | tar xz &amp;&amp; \
  mv fleet-v${FLEET_VERSION}-linux-amd64/fleetctl /usr/local/bin/ &amp;&amp; \
  rm -rf fleet-v${FLEET_VERSION}-linux-amd64
 
@@ -211,8 +211,8 @@ CMD [“/bin/bash”, “deploy.sh”]
         </p>
     </div>
     <div id="disqus_thread"></div>
-<script type="application/javascript">
-    var disqus_config = function () {
+<script>
+    window.disqus_config = function () {
     
     
     
@@ -321,7 +321,7 @@ CMD [“/bin/bash”, “deploy.sh”]
 		<p><a href="https://gohugo.io" target="_blank" rel="noopener">Built with Hugo</a></p>
 	</div>
 
-	<script src="https://alexei-led.github.io/js/main.min.c1aee25a817e9beb1f9c4afd9d62311227a7f5e46720e404dc1dda97281f47f2.js" integrity="sha256-wa7iWoF+m+sfnEr9nWIxEien9eRnIOQE3B3alygfR/I="></script>
+	<script src="https://alexei-led.github.io/js/main.min.a7205ef73b078c8daed6fe1b0826e8ba229ffabbb69d299d9446cf41f2c7d8aa.js" integrity="sha256-pyBe9zsHjI2u1v4bCCbouiKf+ru2nSmdlEbPQfLH2Ko="></script>
 </footer>
     </body>
 </html>

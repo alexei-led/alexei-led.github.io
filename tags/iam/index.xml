@@ -7,15 +7,14 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>This work is licensed under a Creative Commons Attribution 4.0 International License</copyright>
-    <lastBuildDate>Wed, 12 Feb 2020 10:00:00 +0200</lastBuildDate><atom:link href="https://alexei-led.github.io/tags/iam/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 12 Feb 2020 10:00:00 +0200</lastBuildDate>
+    <atom:link href="https://alexei-led.github.io/tags/iam/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Securely access AWS from GKE</title>
       <link>https://alexei-led.github.io/post/gke_aws_access/</link>
       <pubDate>Wed, 12 Feb 2020 10:00:00 +0200</pubDate>
-      
       <guid>https://alexei-led.github.io/post/gke_aws_access/</guid>
       <description>Securely Access AWS from GKE It is not a rare case when an application running on Google Kubernetes Engine (GKE) needs to access Amazon Web Services (AWS) APIs. Any application has needs. Maybe it needs to run an analytics query on Amazon Redshift, access data stored in Amazon S3 bucket, convert text to speech with Amazon Polly or use any other AWS service. This multi-cloud scenario is common nowadays, as companies are working with multiple cloud providers.</description>
     </item>
-    
   </channel>
 </rss>

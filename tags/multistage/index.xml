@@ -1,22 +1,20 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>multistage on Terra Nullius</title>
+    <title>Multistage on Terra Nullius</title>
     <link>https://alexei-led.github.io/tags/multistage/</link>
-    <description>Recent content in multistage on Terra Nullius</description>
+    <description>Recent content in Multistage on Terra Nullius</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>This work is licensed under a Creative Commons Attribution 4.0 International License</copyright>
-    <lastBuildDate>Tue, 25 Apr 2017 18:00:00 +0200</lastBuildDate><atom:link href="https://alexei-led.github.io/tags/multistage/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 25 Apr 2017 18:00:00 +0200</lastBuildDate>
+    <atom:link href="https://alexei-led.github.io/tags/multistage/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Create lean Node.js image with Docker multi-stage build</title>
       <link>https://alexei-led.github.io/post/node_docker_multistage/</link>
       <pubDate>Tue, 25 Apr 2017 18:00:00 +0200</pubDate>
-      
       <guid>https://alexei-led.github.io/post/node_docker_multistage/</guid>
-      <description>TL;DR Starting from Docker 17.05+, you can create a single Dockerfile that can build multiple helper images with compilers, tools, and tests and use files from above images to produce the final Docker image.
-The &amp;ldquo;core principle&amp;rdquo; of Dockerfile Docker can build images by reading the instructions from a Dockerfile. A Dockerfile is a text file that contains a list of all the commands needed to build a new Docker image.</description>
+      <description>TL;DR Starting from Docker 17.05+, you can create a single Dockerfile that can build multiple helper images with compilers, tools, and tests and use files from above images to produce the final Docker image.&#xA;The &amp;ldquo;core principle&amp;rdquo; of Dockerfile Docker can build images by reading the instructions from a Dockerfile. A Dockerfile is a text file that contains a list of all the commands needed to build a new Docker image.</description>
     </item>
-    
   </channel>
 </rss>

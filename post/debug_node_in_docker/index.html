@@ -19,7 +19,7 @@
     
     
     
-    <link rel="stylesheet" href="https://alexei-led.github.io/css/main.min.c80bdc3103e1a90215fb6971170c49e58298298fc567ad69b2f43d1e084514e8.css"/>
+    <link rel="stylesheet" href="https://alexei-led.github.io/css/main.min.364181395f068614d02615981b918adfd0601b252899e92b7dd17982855dd4e8.css"/>
 
     
     
@@ -30,7 +30,7 @@
  
     
     
-<script type="application/javascript">
+<script>
 var doNotTrack = false;
 if (!doNotTrack) {
 	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -126,7 +126,7 @@ if (!doNotTrack) {
 	<p><a href="https://github.com/kimcc/hugo-theme-noteworthy" target="_blank" rel="noopener">Noteworthy theme</a></p>
 	<p><a href="https://gohugo.io" target="_blank" rel="noopener">Built with Hugo</a></p>
 
-	<script src="https://alexei-led.github.io/js/main.min.c1aee25a817e9beb1f9c4afd9d62311227a7f5e46720e404dc1dda97281f47f2.js" integrity="sha256-wa7iWoF+m+sfnEr9nWIxEien9eRnIOQE3B3alygfR/I="></script>
+	<script src="https://alexei-led.github.io/js/main.min.a7205ef73b078c8daed6fe1b0826e8ba229ffabbb69d299d9446cf41f2c7d8aa.js" integrity="sha256-pyBe9zsHjI2u1v4bCCbouiKf+ru2nSmdlEbPQfLH2Ko="></script>
 </footer>
 </nav>
         <div id="content" class="content-container">
@@ -142,46 +142,46 @@ if (!doNotTrack) {
 <h2 id="the-todomvc-demo-application">The TodoMVC demo application</h2>
 <p>I&rsquo;m using the <a href="https://github.com/alexei-led/todomvc-express">fork</a> of <strong>TodoMVC</strong> Node.js application (by Gleb Bahmutov) as a demo application for this blog post. Feel free to clone and play with this repository.</p>
 <p>Here is the <code>Dockerfile</code>, I&rsquo;ve added, for TodoMVC application. It allows to run TodoMVC application inside a Docker container.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Dockerfile" data-lang="Dockerfile"><span style="color:#66d9ef">FROM</span><span style="color:#e6db74"> alpine:3.5</span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e"># install node</span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">RUN</span> apk add --no-cache nodejs-current tini<span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">RUN</span> mkdir -p /usr/src/app<span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">WORKDIR</span><span style="color:#e6db74"> /usr/src/app</span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e"># Build time argument to set NODE_ENV (&#39;production&#39;&#39; by default)</span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">ARG</span> NODE_ENV<span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">ENV</span> NODE_ENV <span style="color:#e6db74">${</span>NODE_ENV<span style="color:#66d9ef">:-</span>production<span style="color:#e6db74">}</span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e"># install npm packages: clean obsolete files</span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">COPY</span> package.json /usr/src/app/<span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">RUN</span> npm config set depth <span style="color:#ae81ff">0</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>    npm install <span style="color:#f92672">&amp;&amp;</span> <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>    npm cache clean <span style="color:#f92672">&amp;&amp;</span> <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>    rm -rf /tmp/*<span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e"># copy source files</span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">COPY</span> . /usr/src/app<span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">EXPOSE</span><span style="color:#e6db74"> 3000</span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e"># Set tini as entrypoint</span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">ENTRYPOINT</span> [<span style="color:#e6db74">&#34;/sbin/tini&#34;</span>, <span style="color:#e6db74">&#34;--&#34;</span>]<span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">CMD</span> [ <span style="color:#e6db74">&#34;npm&#34;</span>, <span style="color:#e6db74">&#34;start&#34;</span> ]<span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e"># add VCS labels for code sync and nice reports</span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">ARG</span> VCS_REF<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;local&#34;</span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">LABEL</span> org.label-schema.vcs-ref<span style="color:#f92672">=</span>$VCS_REF <span style="color:#ae81ff">\ </span>         <span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span>      org.label-schema.vcs-url<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;https://github.com/alexei-led/todomvc-express.git&#34;</span><span style="color:#960050;background-color:#1e0010">
-</span></code></pre></div><h4 id="building-and-running-todomvc-in-a-docker-container">Building and Running TodoMVC in a Docker container:</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Dockerfile" data-lang="Dockerfile"><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span><span style="color:#e6db74"> alpine:3.5</span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e"># install node</span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">RUN</span> apk add --no-cache nodejs-current tini<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">RUN</span> mkdir -p /usr/src/app<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">WORKDIR</span><span style="color:#e6db74"> /usr/src/app</span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e"># Build time argument to set NODE_ENV (&#39;production&#39;&#39; by default)</span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">ARG</span> NODE_ENV<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">ENV</span> NODE_ENV <span style="color:#e6db74">${</span>NODE_ENV<span style="color:#66d9ef">:-</span>production<span style="color:#e6db74">}</span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e"># install npm packages: clean obsolete files</span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">COPY</span> package.json /usr/src/app/<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">RUN</span> npm config set depth <span style="color:#ae81ff">0</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>    npm install <span style="color:#f92672">&amp;&amp;</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>    npm cache clean <span style="color:#f92672">&amp;&amp;</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>    rm -rf /tmp/*<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e"># copy source files</span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">COPY</span> . /usr/src/app<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">EXPOSE</span><span style="color:#e6db74"> 3000</span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e"># Set tini as entrypoint</span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">ENTRYPOINT</span> [<span style="color:#e6db74">&#34;/sbin/tini&#34;</span>, <span style="color:#e6db74">&#34;--&#34;</span>]<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">CMD</span> [ <span style="color:#e6db74">&#34;npm&#34;</span>, <span style="color:#e6db74">&#34;start&#34;</span> ]<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e"># add VCS labels for code sync and nice reports</span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">ARG</span> VCS_REF<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;local&#34;</span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">LABEL</span> org.label-schema.vcs-ref<span style="color:#f92672">=</span>$VCS_REF <span style="color:#ae81ff">\ </span>         <span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>      org.label-schema.vcs-url<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;https://github.com/alexei-led/todomvc-express.git&#34;</span><span style="color:#960050;background-color:#1e0010">
+</span></span></span></code></pre></div><h4 id="building-and-running-todomvc-in-a-docker-container">Building and Running TodoMVC in a Docker container:</h4>
 <p>To build a new Docker image for TodoMVC application, run the <code>docker build</code> command.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ <span style="color:#75715e"># build Docker image; set VCS_REF to current HEAD commit (short)</span>
-$ docker build -t local/todomvc --build-arg VCS_REF<span style="color:#f92672">=</span><span style="color:#e6db74">`</span>git rev-parse --short HEAD<span style="color:#e6db74">`</span> .
-$ <span style="color:#75715e"># run TodoMVC in a Docker container</span>
-$ docker run -d -p 3000:3000 --name todomvc local/todomvc node src/start.js
-</code></pre></div><h2 id="the-plan">The Plan</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ <span style="color:#75715e"># build Docker image; set VCS_REF to current HEAD commit (short)</span>
+</span></span><span style="display:flex;"><span>$ docker build -t local/todomvc --build-arg VCS_REF<span style="color:#f92672">=</span><span style="color:#e6db74">`</span>git rev-parse --short HEAD<span style="color:#e6db74">`</span> .
+</span></span><span style="display:flex;"><span>$ <span style="color:#75715e"># run TodoMVC in a Docker container</span>
+</span></span><span style="display:flex;"><span>$ docker run -d -p 3000:3000 --name todomvc local/todomvc node src/start.js
+</span></span></code></pre></div><h2 id="the-plan">The Plan</h2>
 <p><strong>Final Goal</strong> - I would like to be able to attach a Node.js debugger to a Node.js application already up and running inside a Docker container, running on remote host machine in AWS cloud, without modifying the application, container, container configuration or restarting it with additional <code>debug</code> flags. Imagine that the application is running and there is some problem happening right now - I want to connect to it with debugger and start looking at the problem.</p>
 <p>So, I need a plan - a step by step flow that will help me to achieve the final goal.</p>
 <p>Let&rsquo;s start with exploring the inventory. On the server (AWS EC2 VM) machine, I have a Node.js application running inside a Docker container. On the client (my laptop), I have an IDE (Visual Studio Code, in my case), Node.js application code (<code>git pull/clone</code>) and a Node.js debugger.</p>
@@ -207,21 +207,21 @@ $ docker run -d -p 3000:3000 --name todomvc local/todomvc node src/start.js
 <li>Use <code>docker kill --signal</code> command to send <code>SIGUSR1</code> to <code>PID 1</code> process running inside Docker container, and if it&rsquo;s a &ldquo;proper&rdquo; (signal forwarding done right) init application (like <code>tini</code>), than this will work</li>
 <li>Or execute <code>kill -s SIGUSR1</code> inside already running Docker container, sending <code>SIGUSR1</code> signal to the main Node.js process.</li>
 </ol>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ <span style="color:#75715e"># send SIGUSR1 with docker kill (if using proper init process)</span>
-$ docker kill --signal SIGUSR1 todomvc 
-$ <span style="color:#75715e"># OR run kill command for node process inside todomvc container</span>
-$ docker exec -it todomvc sh -c <span style="color:#e6db74">&#39;kill -s SIGUSR1 $(pidof -s node)&#39;</span>
-</code></pre></div><p>Let&rsquo;s verify that Node application is set into <code>debug</code> mode.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ docker logs todomvc
-
-TodoMVC server listening at http://:::3000
-emitting <span style="color:#ae81ff">2</span> todos
-server has new <span style="color:#ae81ff">2</span> todos
-GET / <span style="color:#ae81ff">200</span> 31.439 ms - <span style="color:#ae81ff">3241</span>
-GET /app.css <span style="color:#ae81ff">304</span> 4.907 ms - -
-Starting debugger agent.
-Debugger listening on 127.0.0.1:5858
-</code></pre></div><p>As you can see the Node.js debugger agent was started, but it can accept connections only from the <code>localhost</code>, see the last output line: <code>Debugger listening on 127.0.0.1:5858</code></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ <span style="color:#75715e"># send SIGUSR1 with docker kill (if using proper init process)</span>
+</span></span><span style="display:flex;"><span>$ docker kill --signal SIGUSR1 todomvc 
+</span></span><span style="display:flex;"><span>$ <span style="color:#75715e"># OR run kill command for node process inside todomvc container</span>
+</span></span><span style="display:flex;"><span>$ docker exec -it todomvc sh -c <span style="color:#e6db74">&#39;kill -s SIGUSR1 $(pidof -s node)&#39;</span>
+</span></span></code></pre></div><p>Let&rsquo;s verify that Node application is set into <code>debug</code> mode.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ docker logs todomvc
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>TodoMVC server listening at http://:::3000
+</span></span><span style="display:flex;"><span>emitting <span style="color:#ae81ff">2</span> todos
+</span></span><span style="display:flex;"><span>server has new <span style="color:#ae81ff">2</span> todos
+</span></span><span style="display:flex;"><span>GET / <span style="color:#ae81ff">200</span> 31.439 ms - <span style="color:#ae81ff">3241</span>
+</span></span><span style="display:flex;"><span>GET /app.css <span style="color:#ae81ff">304</span> 4.907 ms - -
+</span></span><span style="display:flex;"><span>Starting debugger agent.
+</span></span><span style="display:flex;"><span>Debugger listening on 127.0.0.1:5858
+</span></span></code></pre></div><p>As you can see the Node.js debugger agent was started, but it can accept connections only from the <code>localhost</code>, see the last output line: <code>Debugger listening on 127.0.0.1:5858</code></p>
 <h3 id="step-2-expose-node-debug-port">Step 2: expose Node debug port</h3>
 <p>In order to attach a remote Node.js debugger to a Node application, running in the <code>debug</code> mode, I need:</p>
 <ol>
@@ -242,34 +242,34 @@ Debugger listening on 127.0.0.1:5858
 <p>Exactly, what I need!</p>
 <p>So, here is the plan. I will run a new Docker container with the <code>socat</code> utility onboard, and configure Node.js debugger port forwarding for TodoMVC container.</p>
 <p><code>socat.Dockerfile</code>:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Dockerfile" data-lang="Dockerfile"><span style="color:#66d9ef">FROM</span><span style="color:#e6db74"> alpine:3.5</span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">RUN</span> apk add --no-cache socat<span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">CMD</span> socat -h<span style="color:#960050;background-color:#1e0010">
-</span></code></pre></div><h4 id="building-socat-docker-container">Building socat Docker container</h4>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ docker build -t local/socat - &lt; socat.Dockerfile
-</code></pre></div><h4 id="allow-connection-to-node-debugger-agent-from-any-ip">Allow connection to Node debugger agent from any IP</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Dockerfile" data-lang="Dockerfile"><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span><span style="color:#e6db74"> alpine:3.5</span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">RUN</span> apk add --no-cache socat<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">CMD</span> socat -h<span style="color:#960050;background-color:#1e0010">
+</span></span></span></code></pre></div><h4 id="building-socat-docker-container">Building socat Docker container</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ docker build -t local/socat - &lt; socat.Dockerfile
+</span></span></code></pre></div><h4 id="allow-connection-to-node-debugger-agent-from-any-ip">Allow connection to Node debugger agent from any IP</h4>
 <p>I need to run a &ldquo;sidecar&rdquo; <code>socat</code> container in the same network namespace as the <code>todomvc</code> container and define a port forwarding.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ <span style="color:#75715e"># define local port forwarding</span>
-$ docker run -d --name socat-nid --network<span style="color:#f92672">=</span>container:todomvc local/socat socat TCP-LISTEN:4848,fork TCP:127.0.0.1:5858
-</code></pre></div><p>Now any traffic that arrives at <code>4848</code> port will be routed to the Node.js debugger agent listening on <code>127.0.0.1:5858</code>. The <code>4848</code> port can accept traffic from any IP.
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ <span style="color:#75715e"># define local port forwarding</span>
+</span></span><span style="display:flex;"><span>$ docker run -d --name socat-nid --network<span style="color:#f92672">=</span>container:todomvc local/socat socat TCP-LISTEN:4848,fork TCP:127.0.0.1:5858
+</span></span></code></pre></div><p>Now any traffic that arrives at <code>4848</code> port will be routed to the Node.js debugger agent listening on <code>127.0.0.1:5858</code>. The <code>4848</code> port can accept traffic from any IP.
 It&rsquo;s possible to use an IP range to restrict connection to the <code>socat</code> listening port, adding <code>range=&lt;ANY IP RANGE&gt;</code> option.</p>
 <h4 id="exposing-nodejs-debugger-port-from-docker-container">Exposing Node.js debugger port from Docker container</h4>
 <p>First, we will get IP of <code>todomvc</code> Docker container.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ <span style="color:#75715e"># get IP of todomvc container</span>
-$ TODOMVC_IP<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>docker inspect -f <span style="color:#e6db74">&#34;{{.NetworkSettings.IPAddress}}&#34;</span> todomvc<span style="color:#66d9ef">)</span>
-</code></pre></div><p>Then, configure port forwarding to the &ldquo;sidecar&rdquo; <code>socat</code> port, we define previously, running on the same network as the <code>todomvc</code> container.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ <span style="color:#75715e"># run socat container to expose Node.js debugger agent port forwarder</span>
-$ docker run -d -p 5858:5858 --name socat local/socat socat TCP-LISTEN:5858,fork TCP:<span style="color:#e6db74">${</span>TODOMVC_IP<span style="color:#e6db74">}</span>:4848
-</code></pre></div><p>Any traffic that will arrive at the <code>5858</code> port on the Docker host will be forwarded, first, to the <code>4848</code> socat port and then to the Node.js debugger agent running inside the <code>todomvc</code> Docker container.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ <span style="color:#75715e"># get IP of todomvc container</span>
+</span></span><span style="display:flex;"><span>$ TODOMVC_IP<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>docker inspect -f <span style="color:#e6db74">&#34;{{.NetworkSettings.IPAddress}}&#34;</span> todomvc<span style="color:#66d9ef">)</span>
+</span></span></code></pre></div><p>Then, configure port forwarding to the &ldquo;sidecar&rdquo; <code>socat</code> port, we define previously, running on the same network as the <code>todomvc</code> container.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ <span style="color:#75715e"># run socat container to expose Node.js debugger agent port forwarder</span>
+</span></span><span style="display:flex;"><span>$ docker run -d -p 5858:5858 --name socat local/socat socat TCP-LISTEN:5858,fork TCP:<span style="color:#e6db74">${</span>TODOMVC_IP<span style="color:#e6db74">}</span>:4848
+</span></span></code></pre></div><p>Any traffic that will arrive at the <code>5858</code> port on the Docker host will be forwarded, first, to the <code>4848</code> socat port and then to the Node.js debugger agent running inside the <code>todomvc</code> Docker container.</p>
 <h4 id="exposing-nodejs-debugger-port-for-remote-access">Exposing Node.js debugger port for remote access</h4>
 <p>In most cases, I would like to debug an application running on a remote machine (AWS EC2 instance, for example). I also do not want to expose a Node.js debugger agent port unprotected to the whole world.</p>
 <p>One possible and working solution is to use SSH tunneling to access this port.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ <span style="color:#75715e"># Open SSH Tunnel to gain access to servers port 5858. Set `SSH_KEY_FILE` to ssh key location or add it to ssh-agent</span>
-$ <span style="color:#75715e">#</span>
-$ <span style="color:#75715e"># open an ssh tunnel, send it to the bg, and wait 20 seconds for connections</span>
-$ <span style="color:#75715e"># once all connections are closed after 20 seconds then close the tunnel</span>
-$ ssh -i <span style="color:#e6db74">${</span>SSH_KEY_FILE<span style="color:#e6db74">}</span> -f -o ExitOnForwardFailure<span style="color:#f92672">=</span>yes -L 5858:127.0.0.1:5858 ec2_user@some.ec2.host.com sleep <span style="color:#ae81ff">20</span>
-</code></pre></div><p>Now all traffic to the <code>localhost:5858</code> will be tunneled over <code>SSH</code> to the remote Docker host machine and after some <code>socat</code> forwarding to the Node.js debugger agent running inside the <code>todomvc</code> container.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ <span style="color:#75715e"># Open SSH Tunnel to gain access to servers port 5858. Set `SSH_KEY_FILE` to ssh key location or add it to ssh-agent</span>
+</span></span><span style="display:flex;"><span>$ <span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span>$ <span style="color:#75715e"># open an ssh tunnel, send it to the bg, and wait 20 seconds for connections</span>
+</span></span><span style="display:flex;"><span>$ <span style="color:#75715e"># once all connections are closed after 20 seconds then close the tunnel</span>
+</span></span><span style="display:flex;"><span>$ ssh -i <span style="color:#e6db74">${</span>SSH_KEY_FILE<span style="color:#e6db74">}</span> -f -o ExitOnForwardFailure<span style="color:#f92672">=</span>yes -L 5858:127.0.0.1:5858 ec2_user@some.ec2.host.com sleep <span style="color:#ae81ff">20</span>
+</span></span></code></pre></div><p>Now all traffic to the <code>localhost:5858</code> will be tunneled over <code>SSH</code> to the remote Docker host machine and after some <code>socat</code> forwarding to the Node.js debugger agent running inside the <code>todomvc</code> container.</p>
 <h3 id="step-3-synchronizing-on-the-same-code-commit">Step 3: Synchronizing on the same code commit</h3>
 <p>In order to be able to debug a remote application, you need to make sure that you are using the same code in your IDE as one that is running on remote server.</p>
 <p>I will try to automate this step too. Remember the <code>LABEL</code> command, I&rsquo;ve used in TodoMVC <code>Dockerfile</code>?</p>
@@ -280,36 +280,35 @@ $ ssh -i <span style="color:#e6db74">${</span>SSH_KEY_FILE<span style="color:#e6
 </ol>
 <p>I&rsquo;m using (Label Schema Convention)[http://label-schema.org/rc1/], since I really like it and find it useful, but you can select any other convention too.</p>
 <p>This approach allows me, for each, properly labeled, Docker image, to identify the application code repository and the commit it was created from.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ <span style="color:#75715e"># get git repository url form Docker image</span>
-$ GIT_URL<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>docker inspect local/todomvc | jq -r <span style="color:#e6db74">&#39;.[].ContainerConfig.Labels.&#34;org.label-schema.vcs-url&#34;&#39;</span><span style="color:#66d9ef">)</span>
-$ <span style="color:#75715e"># get git commit from Docker image</span>
-$ GIT_COMMIT<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>docker inspect local/todomvc | jq -r <span style="color:#e6db74">&#39;.[].ContainerConfig.Labels.&#34;org.label-schema.vcs-ref&#34;&#39;</span><span style="color:#66d9ef">)</span>
-$ 
-$ <span style="color:#75715e"># clone git repository, if needed</span>
-$ git clone $GIT_URL
-$ <span style="color:#75715e"># set HEAD to same commit as server</span>
-$ git checkout $GIT_COMMIT
-</code></pre></div><p>Now, both my local development environment and remote application are on the same git commit. And I can start to debug my code, finally!</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ <span style="color:#75715e"># get git repository url form Docker image</span>
+</span></span><span style="display:flex;"><span>$ GIT_URL<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>docker inspect local/todomvc | jq -r <span style="color:#e6db74">&#39;.[].ContainerConfig.Labels.&#34;org.label-schema.vcs-url&#34;&#39;</span><span style="color:#66d9ef">)</span>
+</span></span><span style="display:flex;"><span>$ <span style="color:#75715e"># get git commit from Docker image</span>
+</span></span><span style="display:flex;"><span>$ GIT_COMMIT<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>docker inspect local/todomvc | jq -r <span style="color:#e6db74">&#39;.[].ContainerConfig.Labels.&#34;org.label-schema.vcs-ref&#34;&#39;</span><span style="color:#66d9ef">)</span>
+</span></span><span style="display:flex;"><span>$ 
+</span></span><span style="display:flex;"><span>$ <span style="color:#75715e"># clone git repository, if needed</span>
+</span></span><span style="display:flex;"><span>$ git clone $GIT_URL
+</span></span><span style="display:flex;"><span>$ <span style="color:#75715e"># set HEAD to same commit as server</span>
+</span></span><span style="display:flex;"><span>$ git checkout $GIT_COMMIT
+</span></span></code></pre></div><p>Now, both my local development environment and remote application are on the same git commit. And I can start to debug my code, finally!</p>
 <h3 id="step-4-attaching-local-nodejs-debugger-to-debugger-agent-port">Step 4: Attaching local Node.js debugger to debugger agent port</h3>
 <p>To start debugging, I need to configure my IDE. In my case, it&rsquo;s <a href="https://code.visualstudio.com/">Visual Studio Code</a> and I need to add a new <code>Launch</code> configuration.</p>
 <p>This launch configuration specifies remote debugger server and port to attach and remote location for application source files, which should be in sync with local files (see the previous step).</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
-    <span style="color:#960050;background-color:#1e0010">//</span> <span style="color:#960050;background-color:#1e0010">For</span> <span style="color:#960050;background-color:#1e0010">more</span> <span style="color:#960050;background-color:#1e0010">information</span> <span style="color:#960050;background-color:#1e0010">about</span> <span style="color:#960050;background-color:#1e0010">Node.js</span> <span style="color:#960050;background-color:#1e0010">debug</span> <span style="color:#960050;background-color:#1e0010">attributes,</span> <span style="color:#960050;background-color:#1e0010">visit:</span> <span style="color:#960050;background-color:#1e0010">https://go.microsoft.com/fwlink/?linkid=830387</span>
-    <span style="color:#f92672">&#34;version&#34;</span>: <span style="color:#e6db74">&#34;0.2.0&#34;</span>,
-    <span style="color:#f92672">&#34;configurations&#34;</span>: [
-        {
-            <span style="color:#f92672">&#34;type&#34;</span>: <span style="color:#e6db74">&#34;node&#34;</span>,
-            <span style="color:#f92672">&#34;request&#34;</span>: <span style="color:#e6db74">&#34;attach&#34;</span>,
-            <span style="color:#f92672">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;Debug Remote Docker&#34;</span>,
-            <span style="color:#f92672">&#34;address&#34;</span>: <span style="color:#e6db74">&#34;127.0.0.1&#34;</span>,
-            <span style="color:#f92672">&#34;port&#34;</span>: <span style="color:#ae81ff">5858</span>,
-            <span style="color:#f92672">&#34;localRoot&#34;</span>: <span style="color:#e6db74">&#34;${workspaceRoot}/&#34;</span>,
-            <span style="color:#f92672">&#34;remoteRoot&#34;</span>: <span style="color:#e6db74">&#34;/usr/src/app/&#34;</span>
-        }
-    ]
-}
-
-</code></pre></div><h2 id="summary">Summary</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// For more information about Node.js debug attributes, visit: https://go.microsoft.com/fwlink/?linkid=830387
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#f92672">&#34;version&#34;</span>: <span style="color:#e6db74">&#34;0.2.0&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;configurations&#34;</span>: [
+</span></span><span style="display:flex;"><span>        {
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&#34;type&#34;</span>: <span style="color:#e6db74">&#34;node&#34;</span>,
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&#34;request&#34;</span>: <span style="color:#e6db74">&#34;attach&#34;</span>,
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;Debug Remote Docker&#34;</span>,
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&#34;address&#34;</span>: <span style="color:#e6db74">&#34;127.0.0.1&#34;</span>,
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&#34;port&#34;</span>: <span style="color:#ae81ff">5858</span>,
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&#34;localRoot&#34;</span>: <span style="color:#e6db74">&#34;${workspaceRoot}/&#34;</span>,
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&#34;remoteRoot&#34;</span>: <span style="color:#e6db74">&#34;/usr/src/app/&#34;</span>
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    ]
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="summary">Summary</h2>
 <p>And finally, I&rsquo;ve met my goal: I&rsquo;m able to attach a Node.js debugger to a Node.js application, that is already up and running in a Docker container on a remote machine.</p>
 <p>It was a long journey to find the proper solution, but after I found it, the process does not look complex at all. Now, once I met a new problem in our environment I can easily attach the Node.js debugger to the running application and start exploring the problem. Nice, isn&rsquo;t it?</p>
 <p>I&rsquo;ve recorded a short movie, just to demonstrate all steps and prove that things are working fluently, exactly as I&rsquo;ve described in this post.</p>
@@ -324,8 +323,8 @@ $ git checkout $GIT_COMMIT
         </p>
     </div>
     <div id="disqus_thread"></div>
-<script type="application/javascript">
-    var disqus_config = function () {
+<script>
+    window.disqus_config = function () {
     
     
     
@@ -444,7 +443,7 @@ $ git checkout $GIT_COMMIT
 		<p><a href="https://gohugo.io" target="_blank" rel="noopener">Built with Hugo</a></p>
 	</div>
 
-	<script src="https://alexei-led.github.io/js/main.min.c1aee25a817e9beb1f9c4afd9d62311227a7f5e46720e404dc1dda97281f47f2.js" integrity="sha256-wa7iWoF+m+sfnEr9nWIxEien9eRnIOQE3B3alygfR/I="></script>
+	<script src="https://alexei-led.github.io/js/main.min.a7205ef73b078c8daed6fe1b0826e8ba229ffabbb69d299d9446cf41f2c7d8aa.js" integrity="sha256-pyBe9zsHjI2u1v4bCCbouiKf+ru2nSmdlEbPQfLH2Ko="></script>
 </footer>
     </body>
 </html>

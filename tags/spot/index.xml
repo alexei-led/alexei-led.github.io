@@ -7,28 +7,21 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>This work is licensed under a Creative Commons Attribution 4.0 International License</copyright>
-    <lastBuildDate>Thu, 08 Apr 2021 10:00:00 +0200</lastBuildDate><atom:link href="https://alexei-led.github.io/tags/spot/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 08 Apr 2021 10:00:00 +0200</lastBuildDate>
+    <atom:link href="https://alexei-led.github.io/tags/spot/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Spotinfo</title>
       <link>https://alexei-led.github.io/post/spotinfo/</link>
       <pubDate>Thu, 08 Apr 2021 10:00:00 +0200</pubDate>
-      
       <guid>https://alexei-led.github.io/post/spotinfo/</guid>
-      <description>TL;DR The spotinfo is a command-line tool you can use for exploring AWS Spot instances.
-Introduction Using Amazon EC2 Spot instances is an excellent way to reduce EC2 on-demand instance cost, up to 90%. Whenever you have a workload that can survive VM interruption or be suspended and resumed later on without impacting business use cases, choosing the Spot pricing model is a no-brainer choice.
-The lower your interruption rate, the longer your Spot instances are likely to run.</description>
+      <description>TL;DR The spotinfo is a command-line tool you can use for exploring AWS Spot instances.&#xA;Introduction Using Amazon EC2 Spot instances is an excellent way to reduce EC2 on-demand instance cost, up to 90%. Whenever you have a workload that can survive VM interruption or be suspended and resumed later on without impacting business use cases, choosing the Spot pricing model is a no-brainer choice.&#xA;The lower your interruption rate, the longer your Spot instances are likely to run.</description>
     </item>
-    
     <item>
       <title>EKS GPU Cluster from Zero to Hero</title>
       <link>https://alexei-led.github.io/post/eks_gpu_spot/</link>
       <pubDate>Sat, 20 Jul 2019 10:00:00 +0200</pubDate>
-      
       <guid>https://alexei-led.github.io/post/eks_gpu_spot/</guid>
-      <description>Introduction If you ever tried to run a GPU workload on Kubernetes cluster, you know that this task requires non-trivial configuration and comes with high cost tag (GPU instances are quite expensive).
-This post shows how to run a GPU workload on Kubernetes cluster in cost effective way, using AWS EKS cluster, AWS Auto Scaling, Amazon EC2 Spot Instances and some Kubernetes resources and configurations.
-EKS Cluster Plan First we need to create a Kubernetes cluster that consists from mixed nodes, non-GPU nodes for management and generic Kubernetes workload and more expensive GPU nodes to run GPU intensive tasks, like machine learning, medical analysis, seismic exploration, video transcoding and others.</description>
+      <description>Introduction If you ever tried to run a GPU workload on Kubernetes cluster, you know that this task requires non-trivial configuration and comes with high cost tag (GPU instances are quite expensive).&#xA;This post shows how to run a GPU workload on Kubernetes cluster in cost effective way, using AWS EKS cluster, AWS Auto Scaling, Amazon EC2 Spot Instances and some Kubernetes resources and configurations.&#xA;EKS Cluster Plan First we need to create a Kubernetes cluster that consists from mixed nodes, non-GPU nodes for management and generic Kubernetes workload and more expensive GPU nodes to run GPU intensive tasks, like machine learning, medical analysis, seismic exploration, video transcoding and others.</description>
     </item>
-    
   </channel>
 </rss>

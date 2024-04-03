@@ -19,7 +19,7 @@
     
     
     
-    <link rel="stylesheet" href="https://alexei-led.github.io/css/main.min.c80bdc3103e1a90215fb6971170c49e58298298fc567ad69b2f43d1e084514e8.css"/>
+    <link rel="stylesheet" href="https://alexei-led.github.io/css/main.min.364181395f068614d02615981b918adfd0601b252899e92b7dd17982855dd4e8.css"/>
 
     
     
@@ -30,7 +30,7 @@
  
     
     
-<script type="application/javascript">
+<script>
 var doNotTrack = false;
 if (!doNotTrack) {
 	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -126,7 +126,7 @@ if (!doNotTrack) {
 	<p><a href="https://github.com/kimcc/hugo-theme-noteworthy" target="_blank" rel="noopener">Noteworthy theme</a></p>
 	<p><a href="https://gohugo.io" target="_blank" rel="noopener">Built with Hugo</a></p>
 
-	<script src="https://alexei-led.github.io/js/main.min.c1aee25a817e9beb1f9c4afd9d62311227a7f5e46720e404dc1dda97281f47f2.js" integrity="sha256-wa7iWoF+m+sfnEr9nWIxEien9eRnIOQE3B3alygfR/I="></script>
+	<script src="https://alexei-led.github.io/js/main.min.a7205ef73b078c8daed6fe1b0826e8ba229ffabbb69d299d9446cf41f2c7d8aa.js" integrity="sha256-pyBe9zsHjI2u1v4bCCbouiKf+ru2nSmdlEbPQfLH2Ko="></script>
 </footer>
 </nav>
         <div id="content" class="content-container">
@@ -146,9 +146,9 @@ if (!doNotTrack) {
 <h2 id="use-case-definition">Use Case Definition</h2>
 <p>Let&rsquo;s assume that you already have an AWS account, and a GKE cluster, and your company has decided to run a microservice-based application on GKE cluster, but still wants to use resources in the AWS account (Amazon S3 and SNS services) to integrate with other systems deployed on AWS.</p>
 <p>For example, the <em>orchestration job</em> (deployed as a Kubernetes Job) is running inside a GKE cluster and needs to upload a data file into a S3 bucket and send a message to an Amazon SNS topic. The equivalent command-line might be:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">aws s3 cp data.csv s3://my-data-bucket/datagram_12345.csv
-aws sns publish --topic-arn arn:aws:sns:us-west-2:123456789012:my-data-topic --message <span style="color:#e6db74">&#34;datagram_12345.csv apply geo-filter&#34;</span>
-</code></pre></div><p>Pretty simple example. In order for these commands to succeed, the <em>orchestration job</em> must have AWS credentials available to it, and those credentials must be able to make the relevant API calls.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>aws s3 cp data.csv s3://my-data-bucket/datagram_12345.csv
+</span></span><span style="display:flex;"><span>aws sns publish --topic-arn arn:aws:sns:us-west-2:123456789012:my-data-topic --message <span style="color:#e6db74">&#34;datagram_12345.csv apply geo-filter&#34;</span>
+</span></span></code></pre></div><p>Pretty simple example. In order for these commands to succeed, the <em>orchestration job</em> must have AWS credentials available to it, and those credentials must be able to make the relevant API calls.</p>
 <h2 id="the-naive-and-non-secure-approach-iam-long-term-credentials">The Naive (and non-secure) Approach: IAM long-term credentials</h2>
 <p>Export AWS Access Key and Secret Key for some AWS IAM User, and inject AWS credentials into the <em>orchestration job</em>, either as a credentials file or environment variables. Probably not doing this directly, but using <a href="https://kubernetes.io/docs/concepts/configuration/secret/">Kubernetes Secrets</a> resource protected with <a href="https://kubernetes.io/docs/concepts/configuration/secret/#clients-that-use-the-secret-api">RBAC authorization policy</a>.</p>
 <p>The risk here is that these credentials never expire. They have to be transferred somehow from the AWS environment to the GCP environment, and in most cases, people want them to be stored somewhere so that they can be used to re-create the <em>orchestration job</em> later if required.</p>
@@ -178,60 +178,60 @@ With properly setup <strong>Workflow Identity</strong> GKE Pod gets an OIDC <str
 <ol>
 <li>To deploy the <code>gtoken-webhook</code> server, we need to create a webhook service and a deployment in our Kubernetes cluster. It’s pretty straightforward except one thing, which is the server’s TLS configuration. If you’d care to examine the <a href="https://github.com/doitintl/gtoken/blob/master/deployment/deployment.yaml">deployment.yaml</a> file, you’ll find that the certificate and corresponding private key files are read from command line arguments, and that the path to these files comes from a volume mount that points to a Kubernetes secret:</li>
 </ol>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">[<span style="color:#ae81ff">...]</span>
-      <span style="color:#f92672">args</span>:
-      [<span style="color:#ae81ff">...]</span>
-      - --<span style="color:#ae81ff">tls-cert-file=/etc/webhook/certs/cert.pem</span>
-      - --<span style="color:#ae81ff">tls-private-key-file=/etc/webhook/certs/key.pem</span>
-      <span style="color:#f92672">volumeMounts</span>:
-      - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">webhook-certs</span>
-        <span style="color:#f92672">mountPath</span>: <span style="color:#ae81ff">/etc/webhook/certs</span>
-        <span style="color:#f92672">readOnly</span>: <span style="color:#66d9ef">true</span>
-[<span style="color:#ae81ff">...]</span>
-   <span style="color:#f92672">volumes</span>:
-   - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">webhook-certs</span>
-     <span style="color:#f92672">secret</span>:
-       <span style="color:#f92672">secretName</span>: <span style="color:#ae81ff">gtoken-webhook-certs</span>
-</code></pre></div><p>The most important thing to remember is to set the corresponding CA certificate later in the webhook configuration, so the <code>apiserver</code> will know that it should be accepted. For now, we’ll reuse the script originally written by the Istio team to generate a certificate signing request. Then we’ll send the request to the Kubernetes API, fetch the certificate, and create the required secret from the result.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span>[<span style="color:#ae81ff">...]</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">args</span>:
+</span></span><span style="display:flex;"><span>      [<span style="color:#ae81ff">...]</span>
+</span></span><span style="display:flex;"><span>      - --<span style="color:#ae81ff">tls-cert-file=/etc/webhook/certs/cert.pem</span>
+</span></span><span style="display:flex;"><span>      - --<span style="color:#ae81ff">tls-private-key-file=/etc/webhook/certs/key.pem</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">volumeMounts</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">webhook-certs</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">mountPath</span>: <span style="color:#ae81ff">/etc/webhook/certs</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">readOnly</span>: <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span>[<span style="color:#ae81ff">...]</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#f92672">volumes</span>:
+</span></span><span style="display:flex;"><span>   - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">webhook-certs</span>
+</span></span><span style="display:flex;"><span>     <span style="color:#f92672">secret</span>:
+</span></span><span style="display:flex;"><span>       <span style="color:#f92672">secretName</span>: <span style="color:#ae81ff">gtoken-webhook-certs</span>
+</span></span></code></pre></div><p>The most important thing to remember is to set the corresponding CA certificate later in the webhook configuration, so the <code>apiserver</code> will know that it should be accepted. For now, we’ll reuse the script originally written by the Istio team to generate a certificate signing request. Then we’ll send the request to the Kubernetes API, fetch the certificate, and create the required secret from the result.</p>
 <p>First, run the <a href="https://github.com/doitintl/gtoken/blob/master/deployment/webhook-create-signed-cert.sh">webhook-create-signed-cert.sh</a> script and check if the secret holding the certificate and key has been created:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">./deployment/webhook-create-signed-cert.sh
-
-creating certs in tmpdir /var/folders/vl/gxsw2kf13jsf7s8xrqzcybb00000gp/T/tmp.xsatrckI71
-Generating RSA private key, 2048 bit long modulus
-.........................+++
-....................+++
-e is 65537 (0x10001)
-certificatesigningrequest.certificates.k8s.io/gtoken-webhook-svc.default created
-NAME                         AGE   REQUESTOR              CONDITION
-gtoken-webhook-svc.default   1s    alexei@doit-intl.com   Pending
-certificatesigningrequest.certificates.k8s.io/gtoken-webhook-svc.default approved
-secret/gtoken-webhook-certs configured
-</code></pre></div><p>Once the secret is created, we can create a deployment and service. These are standard Kubernetes deployment and service resources. Up until this point we’ve produced nothing but an HTTP server that’s accepting requests through a service on port <code>443</code>:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">kubectl create -f deployment/deployment.yaml
-
-kubectl create -f deployment/service.yaml
-</code></pre></div><h3 id="configure-mutating-admission-webhook">Configure Mutating Admission webhook</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>./deployment/webhook-create-signed-cert.sh
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>creating certs in tmpdir /var/folders/vl/gxsw2kf13jsf7s8xrqzcybb00000gp/T/tmp.xsatrckI71
+</span></span><span style="display:flex;"><span>Generating RSA private key, 2048 bit long modulus
+</span></span><span style="display:flex;"><span>.........................+++
+</span></span><span style="display:flex;"><span>....................+++
+</span></span><span style="display:flex;"><span>e is 65537 (0x10001)
+</span></span><span style="display:flex;"><span>certificatesigningrequest.certificates.k8s.io/gtoken-webhook-svc.default created
+</span></span><span style="display:flex;"><span>NAME                         AGE   REQUESTOR              CONDITION
+</span></span><span style="display:flex;"><span>gtoken-webhook-svc.default   1s    alexei@doit-intl.com   Pending
+</span></span><span style="display:flex;"><span>certificatesigningrequest.certificates.k8s.io/gtoken-webhook-svc.default approved
+</span></span><span style="display:flex;"><span>secret/gtoken-webhook-certs configured
+</span></span></code></pre></div><p>Once the secret is created, we can create a deployment and service. These are standard Kubernetes deployment and service resources. Up until this point we’ve produced nothing but an HTTP server that’s accepting requests through a service on port <code>443</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>kubectl create -f deployment/deployment.yaml
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>kubectl create -f deployment/service.yaml
+</span></span></code></pre></div><h3 id="configure-mutating-admission-webhook">Configure Mutating Admission webhook</h3>
 <p>Now that our webhook server is running, it can accept requests from the <code>apiserver</code>. However, we should create some configuration resources in Kubernetes first. Let’s start with our validating webhook, then we’ll configure the mutating webhook later. If you take a look at the <a href="https://github.com/doitintl/gtoken/blob/master/deployment/mutatingwebhook.yaml">webhook configuration</a>, you’ll notice that it contains a placeholder for <code>CA_BUNDLE</code>:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">[<span style="color:#ae81ff">...]</span>
-      <span style="color:#f92672">service</span>:
-        <span style="color:#f92672">name</span>: <span style="color:#ae81ff">gtoken-webhook-svc</span>
-        <span style="color:#f92672">namespace</span>: <span style="color:#ae81ff">default</span>
-        <span style="color:#f92672">path</span>: <span style="color:#e6db74">&#34;/pods&#34;</span>
-      <span style="color:#f92672">caBundle</span>: <span style="color:#ae81ff">${CA_BUNDLE}</span>
-[<span style="color:#ae81ff">...]</span>
-</code></pre></div><p>There is a <a href="https://github.com/doitintl/gtoken/blob/master/deployment/webhook-patch-ca-bundle.sh">small script</a> that substitutes the CA_BUNDLE placeholder in the configuration with this CA. Run this command before creating the validating webhook configuration:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">cat ./deployment/mutatingwebhook.yaml | ./deployment/webhook-patch-ca-bundle.sh &gt; ./deployment/mutatingwebhook-bundle.yaml
-</code></pre></div><p>Create mutating webhook configuration:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">kubectl create -f deployment/mutatingwebhook-bundle.yaml
-</code></pre></div><h3 id="configure-rbac-for-gtoken-webhook">Configure RBAC for gtoken-webhook</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span>[<span style="color:#ae81ff">...]</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">service</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">name</span>: <span style="color:#ae81ff">gtoken-webhook-svc</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">namespace</span>: <span style="color:#ae81ff">default</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">path</span>: <span style="color:#e6db74">&#34;/pods&#34;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">caBundle</span>: <span style="color:#ae81ff">${CA_BUNDLE}</span>
+</span></span><span style="display:flex;"><span>[<span style="color:#ae81ff">...]</span>
+</span></span></code></pre></div><p>There is a <a href="https://github.com/doitintl/gtoken/blob/master/deployment/webhook-patch-ca-bundle.sh">small script</a> that substitutes the CA_BUNDLE placeholder in the configuration with this CA. Run this command before creating the validating webhook configuration:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>cat ./deployment/mutatingwebhook.yaml | ./deployment/webhook-patch-ca-bundle.sh &gt; ./deployment/mutatingwebhook-bundle.yaml
+</span></span></code></pre></div><p>Create mutating webhook configuration:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>kubectl create -f deployment/mutatingwebhook-bundle.yaml
+</span></span></code></pre></div><h3 id="configure-rbac-for-gtoken-webhook">Configure RBAC for gtoken-webhook</h3>
 <p>Create Kubernetes Service Account to be used with <code>gtoken-webhook</code>:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">kubectl create -f deployment/service-account.yaml
-</code></pre></div><p>Define RBAC permission for webhook service account:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh"><span style="color:#75715e"># create a cluster role</span>
-kubectl create -f deployment/clusterrole.yaml
-<span style="color:#75715e"># define a cluster role binding</span>
-kubectl create 0f deployment/clusterrolebinding.yaml
-</code></pre></div><h3 id="flow-variables">Flow Variables</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>kubectl create -f deployment/service-account.yaml
+</span></span></code></pre></div><p>Define RBAC permission for webhook service account:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span><span style="color:#75715e"># create a cluster role</span>
+</span></span><span style="display:flex;"><span>kubectl create -f deployment/clusterrole.yaml
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># define a cluster role binding</span>
+</span></span><span style="display:flex;"><span>kubectl create 0f deployment/clusterrolebinding.yaml
+</span></span></code></pre></div><h3 id="flow-variables">Flow Variables</h3>
 <p>Some of the following variables should be provided by user, others will be automatically generated and reused in the following steps.</p>
 <ul>
 <li><code>PROJECT_ID</code> - GCP project ID (provided by user)</li>
@@ -246,80 +246,79 @@ kubectl create 0f deployment/clusterrolebinding.yaml
 </ul>
 <h3 id="google-cloud-enable-gke-workload-identity">Google Cloud: Enable GKE Workload Identity</h3>
 <p>Create a new GKE cluster with <a href="https://cloud.google.com/kubernetes-engine/docs/how-to/workload-identity">Workload Identity</a> enabled:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">gcloud beta container clusters create <span style="color:#e6db74">${</span>CLUSTER_NAME<span style="color:#e6db74">}</span> --identity-namespace<span style="color:#f92672">=</span><span style="color:#e6db74">${</span>PROJECT_ID<span style="color:#e6db74">}</span>.svc.id.goog
-</code></pre></div><p>or update an existing cluster:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">gcloud beta container clusters update <span style="color:#e6db74">${</span>CLUSTER_NAME<span style="color:#e6db74">}</span> --identity-namespace<span style="color:#f92672">=</span><span style="color:#e6db74">${</span>PROJECT_ID<span style="color:#e6db74">}</span>.svc.id.goog
-</code></pre></div><h3 id="google-cloud-create-a-google-cloud-service-account">Google Cloud: Create a Google Cloud Service Account</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>gcloud beta container clusters create <span style="color:#e6db74">${</span>CLUSTER_NAME<span style="color:#e6db74">}</span> --identity-namespace<span style="color:#f92672">=</span><span style="color:#e6db74">${</span>PROJECT_ID<span style="color:#e6db74">}</span>.svc.id.goog
+</span></span></code></pre></div><p>or update an existing cluster:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>gcloud beta container clusters update <span style="color:#e6db74">${</span>CLUSTER_NAME<span style="color:#e6db74">}</span> --identity-namespace<span style="color:#f92672">=</span><span style="color:#e6db74">${</span>PROJECT_ID<span style="color:#e6db74">}</span>.svc.id.goog
+</span></span></code></pre></div><h3 id="google-cloud-create-a-google-cloud-service-account">Google Cloud: Create a Google Cloud Service Account</h3>
 <p>Create a Google Cloud Service Account:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh"><span style="color:#75715e"># create GCP Service Account</span>
-gcloud iam service-accounts create <span style="color:#e6db74">${</span>GSA_NAME<span style="color:#e6db74">}</span>
-
-<span style="color:#75715e"># get GCP SA UID to be used for AWS Role with Google OIDC Web Identity</span>
-GSA_ID<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>gcloud iam service-accounts describe --format json <span style="color:#e6db74">${</span>GSA_NAME<span style="color:#e6db74">}</span>@<span style="color:#e6db74">${</span>PROJECT_ID<span style="color:#e6db74">}</span>.iam.gserviceaccount.com  | jq -r <span style="color:#e6db74">&#39;.uniqueId&#39;</span><span style="color:#66d9ef">)</span>
-</code></pre></div><p>Update <code>GSA_NAME</code> Google Service Account with following roles:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span><span style="color:#75715e"># create GCP Service Account</span>
+</span></span><span style="display:flex;"><span>gcloud iam service-accounts create <span style="color:#e6db74">${</span>GSA_NAME<span style="color:#e6db74">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># get GCP SA UID to be used for AWS Role with Google OIDC Web Identity</span>
+</span></span><span style="display:flex;"><span>GSA_ID<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>gcloud iam service-accounts describe --format json <span style="color:#e6db74">${</span>GSA_NAME<span style="color:#e6db74">}</span>@<span style="color:#e6db74">${</span>PROJECT_ID<span style="color:#e6db74">}</span>.iam.gserviceaccount.com  | jq -r <span style="color:#e6db74">&#39;.uniqueId&#39;</span><span style="color:#66d9ef">)</span>
+</span></span></code></pre></div><p>Update <code>GSA_NAME</code> Google Service Account with following roles:</p>
 <ul>
 <li><code>roles/iam.workloadIdentityUser</code> - impersonate service accounts from GKE Workloads</li>
 <li><code>roles/iam.serviceAccountTokenCreator</code> - impersonate service accounts to create OAuth2 access tokens, sign blobs, or sign JWTs</li>
 </ul>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">gcloud iam service-accounts add-iam-policy-binding <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>  --role roles/iam.workloadIdentityUser <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>  --role roles/iam.serviceAccountTokenCreator <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>  --member <span style="color:#e6db74">&#34;serviceAccount:</span><span style="color:#e6db74">${</span>PROJECT_ID<span style="color:#e6db74">}</span><span style="color:#e6db74">.svc.id.goog[</span><span style="color:#e6db74">${</span>K8S_NAMESPACE<span style="color:#e6db74">}</span><span style="color:#e6db74">/</span><span style="color:#e6db74">${</span>KSA_NAME<span style="color:#e6db74">}</span><span style="color:#e6db74">]&#34;</span> <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>  <span style="color:#e6db74">${</span>GSA_NAME<span style="color:#e6db74">}</span>@<span style="color:#e6db74">${</span>PROJECT_ID<span style="color:#e6db74">}</span>.iam.gserviceaccount.com
-</code></pre></div><h3 id="aws-create-aws-iam-role-with-google-oidc-federation">AWS: Create AWS IAM Role with Google OIDC Federation</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>gcloud iam service-accounts add-iam-policy-binding <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  --role roles/iam.workloadIdentityUser <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  --role roles/iam.serviceAccountTokenCreator <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  --member <span style="color:#e6db74">&#34;serviceAccount:</span><span style="color:#e6db74">${</span>PROJECT_ID<span style="color:#e6db74">}</span><span style="color:#e6db74">.svc.id.goog[</span><span style="color:#e6db74">${</span>K8S_NAMESPACE<span style="color:#e6db74">}</span><span style="color:#e6db74">/</span><span style="color:#e6db74">${</span>KSA_NAME<span style="color:#e6db74">}</span><span style="color:#e6db74">]&#34;</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  <span style="color:#e6db74">${</span>GSA_NAME<span style="color:#e6db74">}</span>@<span style="color:#e6db74">${</span>PROJECT_ID<span style="color:#e6db74">}</span>.iam.gserviceaccount.com
+</span></span></code></pre></div><h3 id="aws-create-aws-iam-role-with-google-oidc-federation">AWS: Create AWS IAM Role with Google OIDC Federation</h3>
 <p>Prepare a role trust policy document for Google OIDC provider:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">cat &gt; gcp-trust-policy.json <span style="color:#e6db74">&lt;&lt; EOF
-</span><span style="color:#e6db74">{
-</span><span style="color:#e6db74">  &#34;Version&#34;: &#34;2012-10-17&#34;,
-</span><span style="color:#e6db74">  &#34;Statement&#34;: [
-</span><span style="color:#e6db74">    {
-</span><span style="color:#e6db74">      &#34;Effect&#34;: &#34;Allow&#34;,
-</span><span style="color:#e6db74">      &#34;Principal&#34;: {
-</span><span style="color:#e6db74">        &#34;Federated&#34;: &#34;accounts.google.com&#34;
-</span><span style="color:#e6db74">      },
-</span><span style="color:#e6db74">      &#34;Action&#34;: &#34;sts:AssumeRoleWithWebIdentity&#34;,
-</span><span style="color:#e6db74">      &#34;Condition&#34;: {
-</span><span style="color:#e6db74">        &#34;StringEquals&#34;: {
-</span><span style="color:#e6db74">          &#34;accounts.google.com:sub&#34;: &#34;${GSA_SA}&#34;
-</span><span style="color:#e6db74">        }
-</span><span style="color:#e6db74">      }
-</span><span style="color:#e6db74">    }
-</span><span style="color:#e6db74">  ]
-</span><span style="color:#e6db74">}
-</span><span style="color:#e6db74">EOF</span>
-</code></pre></div><p>Create AWS IAM Role with Google Web Identity:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">aws iam create-role --role-name <span style="color:#e6db74">${</span>AWS_ROLE_NAME<span style="color:#e6db74">}</span> --assume-role-policy-document file://gcp-trust-policy.json
-</code></pre></div><p>Assign AWS Role desired policies:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">aws iam attach-role-policy --role-name <span style="color:#e6db74">${</span>AWS_ROLE_NAME<span style="color:#e6db74">}</span> --policy-arn arn:aws:iam::aws:policy/<span style="color:#e6db74">${</span>AWS_POLICY_NAME<span style="color:#e6db74">}</span>
-</code></pre></div><p>Get AWS Role ARN to be used in K8s SA annotation:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">AWS_ROLE_ARN<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>aws iam get-role --role-name <span style="color:#e6db74">${</span>ROLE_NAME<span style="color:#e6db74">}</span> --query Role.Arn --output text<span style="color:#66d9ef">)</span>
-</code></pre></div><h3 id="gke-create-a-kubernetes-service-account">GKE: Create a Kubernetes Service Account</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>cat &gt; gcp-trust-policy.json <span style="color:#e6db74">&lt;&lt; EOF
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">{
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  &#34;Version&#34;: &#34;2012-10-17&#34;,
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  &#34;Statement&#34;: [
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    {
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">      &#34;Effect&#34;: &#34;Allow&#34;,
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">      &#34;Principal&#34;: {
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        &#34;Federated&#34;: &#34;accounts.google.com&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">      },
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">      &#34;Action&#34;: &#34;sts:AssumeRoleWithWebIdentity&#34;,
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">      &#34;Condition&#34;: {
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        &#34;StringEquals&#34;: {
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">          &#34;accounts.google.com:sub&#34;: &#34;${GSA_SA}&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        }
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">      }
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    }
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  ]
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">}
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">EOF</span>
+</span></span></code></pre></div><p>Create AWS IAM Role with Google Web Identity:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>aws iam create-role --role-name <span style="color:#e6db74">${</span>AWS_ROLE_NAME<span style="color:#e6db74">}</span> --assume-role-policy-document file://gcp-trust-policy.json
+</span></span></code></pre></div><p>Assign AWS Role desired policies:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>aws iam attach-role-policy --role-name <span style="color:#e6db74">${</span>AWS_ROLE_NAME<span style="color:#e6db74">}</span> --policy-arn arn:aws:iam::aws:policy/<span style="color:#e6db74">${</span>AWS_POLICY_NAME<span style="color:#e6db74">}</span>
+</span></span></code></pre></div><p>Get AWS Role ARN to be used in K8s SA annotation:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>AWS_ROLE_ARN<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>aws iam get-role --role-name <span style="color:#e6db74">${</span>ROLE_NAME<span style="color:#e6db74">}</span> --query Role.Arn --output text<span style="color:#66d9ef">)</span>
+</span></span></code></pre></div><h3 id="gke-create-a-kubernetes-service-account">GKE: Create a Kubernetes Service Account</h3>
 <p>Create K8s namespace:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">kubectl create namespace <span style="color:#e6db74">${</span>K8S_NAMESPACE<span style="color:#e6db74">}</span>
-</code></pre></div><p>Create K8s Service Account:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">kubectl create serviceaccount --namespace <span style="color:#e6db74">${</span>K8S_NAMESPACE<span style="color:#e6db74">}</span> <span style="color:#e6db74">${</span>KSA_NAME<span style="color:#e6db74">}</span>
-</code></pre></div><p>Annotate K8s Service Account with GKE Workload Identity (GCP Service Account email):</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">kubectl annotate serviceaccount --namespace <span style="color:#e6db74">${</span>K8S_NAMESPACE<span style="color:#e6db74">}</span> <span style="color:#e6db74">${</span>KSA_NAME<span style="color:#e6db74">}</span>
-  iam.gke.io/gcp-service-account<span style="color:#f92672">=</span><span style="color:#e6db74">${</span>GSA_NAME<span style="color:#e6db74">}</span>@<span style="color:#e6db74">${</span>PROJECT_ID<span style="color:#e6db74">}</span>.iam.gserviceaccount.com
-</code></pre></div><p>Annotate K8s Service Account with AWS Role ARN:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">kubectl annotate serviceaccount --namespace <span style="color:#e6db74">${</span>K8S_NAMESPACE<span style="color:#e6db74">}</span> <span style="color:#e6db74">${</span>KSA_NAME<span style="color:#e6db74">}</span>
-  amazonaws.com/role-arn<span style="color:#f92672">=</span><span style="color:#e6db74">${</span>AWS_ROLE_ARN<span style="color:#e6db74">}</span>
-</code></pre></div><h3 id="run-demo">Run Demo</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>kubectl create namespace <span style="color:#e6db74">${</span>K8S_NAMESPACE<span style="color:#e6db74">}</span>
+</span></span></code></pre></div><p>Create K8s Service Account:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>kubectl create serviceaccount --namespace <span style="color:#e6db74">${</span>K8S_NAMESPACE<span style="color:#e6db74">}</span> <span style="color:#e6db74">${</span>KSA_NAME<span style="color:#e6db74">}</span>
+</span></span></code></pre></div><p>Annotate K8s Service Account with GKE Workload Identity (GCP Service Account email):</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>kubectl annotate serviceaccount --namespace <span style="color:#e6db74">${</span>K8S_NAMESPACE<span style="color:#e6db74">}</span> <span style="color:#e6db74">${</span>KSA_NAME<span style="color:#e6db74">}</span>
+</span></span><span style="display:flex;"><span>  iam.gke.io/gcp-service-account<span style="color:#f92672">=</span><span style="color:#e6db74">${</span>GSA_NAME<span style="color:#e6db74">}</span>@<span style="color:#e6db74">${</span>PROJECT_ID<span style="color:#e6db74">}</span>.iam.gserviceaccount.com
+</span></span></code></pre></div><p>Annotate K8s Service Account with AWS Role ARN:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>kubectl annotate serviceaccount --namespace <span style="color:#e6db74">${</span>K8S_NAMESPACE<span style="color:#e6db74">}</span> <span style="color:#e6db74">${</span>KSA_NAME<span style="color:#e6db74">}</span>
+</span></span><span style="display:flex;"><span>  amazonaws.com/role-arn<span style="color:#f92672">=</span><span style="color:#e6db74">${</span>AWS_ROLE_ARN<span style="color:#e6db74">}</span>
+</span></span></code></pre></div><h3 id="run-demo">Run Demo</h3>
 <p>Run a new K8s Pod with K8s ${KSA_NAME} Service Account:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh"><span style="color:#75715e"># run a pod (with AWS CLI onboard) in interactive mod</span>
-kubectl run -it --rm --generator<span style="color:#f92672">=</span>run-pod/v1 --image mikesir87/aws-cli --serviceaccount <span style="color:#e6db74">${</span>KSA_NAME<span style="color:#e6db74">}</span> test-pod
-
-<span style="color:#75715e"># in Pod shell: check AWS assumed role</span>
-aws sts get-caller-identity
-
-<span style="color:#75715e"># the output should look similar to below</span>
-<span style="color:#f92672">{</span>
-    <span style="color:#e6db74">&#34;UserId&#34;</span>: <span style="color:#e6db74">&#34;AROA9GB4GPRFFXVHNSLCK:gtoken-webhook-gyaashbbeeqhpvfw&#34;</span>,
-    <span style="color:#e6db74">&#34;Account&#34;</span>: <span style="color:#e6db74">&#34;906385953612&#34;</span>,
-    <span style="color:#e6db74">&#34;Arn&#34;</span>: <span style="color:#e6db74">&#34;arn:aws:sts::906385953612:assumed-role/bucket-full-gtoken/gtoken-webhook-gyaashbbeeqhpvfw&#34;</span>
-<span style="color:#f92672">}</span>
-
-</code></pre></div><h3 id="external-references">External References</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span><span style="color:#75715e"># run a pod (with AWS CLI onboard) in interactive mod</span>
+</span></span><span style="display:flex;"><span>kubectl run -it --rm --generator<span style="color:#f92672">=</span>run-pod/v1 --image mikesir87/aws-cli --serviceaccount <span style="color:#e6db74">${</span>KSA_NAME<span style="color:#e6db74">}</span> test-pod
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># in Pod shell: check AWS assumed role</span>
+</span></span><span style="display:flex;"><span>aws sts get-caller-identity
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># the output should look similar to below</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;UserId&#34;</span>: <span style="color:#e6db74">&#34;AROA9GB4GPRFFXVHNSLCK:gtoken-webhook-gyaashbbeeqhpvfw&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;Account&#34;</span>: <span style="color:#e6db74">&#34;906385953612&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;Arn&#34;</span>: <span style="color:#e6db74">&#34;arn:aws:sts::906385953612:assumed-role/bucket-full-gtoken/gtoken-webhook-gyaashbbeeqhpvfw&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><h3 id="external-references">External References</h3>
 <ul>
 <li><strong>GitHub:</strong> Securely access AWS services from GKE cluser with <a href="https://github.com/doitintl/gtoken">doitintl/gtoken</a></li>
 <li><strong>AWS Docs:</strong> <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_create_for-idp_oidc.html">Creating a Role for Web Identity or OpenID Connect Federation</a></li>
@@ -332,8 +331,8 @@ aws sts get-caller-identity
         </p>
     </div>
     <div id="disqus_thread"></div>
-<script type="application/javascript">
-    var disqus_config = function () {
+<script>
+    window.disqus_config = function () {
     
     
     
@@ -448,7 +447,7 @@ aws sts get-caller-identity
 		<p><a href="https://gohugo.io" target="_blank" rel="noopener">Built with Hugo</a></p>
 	</div>
 
-	<script src="https://alexei-led.github.io/js/main.min.c1aee25a817e9beb1f9c4afd9d62311227a7f5e46720e404dc1dda97281f47f2.js" integrity="sha256-wa7iWoF+m+sfnEr9nWIxEien9eRnIOQE3B3alygfR/I="></script>
+	<script src="https://alexei-led.github.io/js/main.min.a7205ef73b078c8daed6fe1b0826e8ba229ffabbb69d299d9446cf41f2c7d8aa.js" integrity="sha256-pyBe9zsHjI2u1v4bCCbouiKf+ru2nSmdlEbPQfLH2Ko="></script>
 </footer>
     </body>
 </html>

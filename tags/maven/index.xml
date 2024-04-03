@@ -1,24 +1,20 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>maven on Terra Nullius</title>
+    <title>Maven on Terra Nullius</title>
     <link>https://alexei-led.github.io/tags/maven/</link>
-    <description>Recent content in maven on Terra Nullius</description>
+    <description>Recent content in Maven on Terra Nullius</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>This work is licensed under a Creative Commons Attribution 4.0 International License</copyright>
-    <lastBuildDate>Tue, 07 Mar 2017 18:00:00 +0200</lastBuildDate><atom:link href="https://alexei-led.github.io/tags/maven/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 07 Mar 2017 18:00:00 +0200</lastBuildDate>
+    <atom:link href="https://alexei-led.github.io/tags/maven/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Crafting perfect Java Docker build flow</title>
       <link>https://alexei-led.github.io/post/perfect_docker_java/</link>
       <pubDate>Tue, 07 Mar 2017 18:00:00 +0200</pubDate>
-      
       <guid>https://alexei-led.github.io/post/perfect_docker_java/</guid>
-      <description>TL;DR  What is the bare minimum you need to build, test and run my Java application in Docker container?
-  The recipe: Create a separate Docker image for each step and optimize the way you are running it.
- Introduction I started working with Java in 1998, and for a long time, it was my main programming language. It was a long love–hate relationship.
-DDuring my work career, I wrote a lot of code in Java.</description>
+      <description>TL;DR What is the bare minimum you need to build, test and run my Java application in Docker container?&#xA;The recipe: Create a separate Docker image for each step and optimize the way you are running it.&#xA;Introduction I started working with Java in 1998, and for a long time, it was my main programming language. It was a long love–hate relationship.&#xA;DDuring my work career, I wrote a lot of code in Java.</description>
     </item>
-    
   </channel>
 </rss>
