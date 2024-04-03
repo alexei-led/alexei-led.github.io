@@ -138,7 +138,7 @@ if (!doNotTrack) {
         <h2 id="introduction">Introduction</h2>
 <p>Secrets are essential for operation of many production systems. Unintended secrets exposure is one of the top risks that should be properly addressed. Developers should do their best to protect application secrets.</p>
 <p>The problem becomes even harder, once company moves to a microservice architecture and multiple services require an access to different secrets in order to properly work. And this leads to a new challenges: how to distribute, manage, monitor and rotate application secrets, avoiding unintended exposure?</p>
-<p>In the previous post <a href="https://blog.doit-intl.com/kubernetes-and-secrets-management-in-cloud-858533c20dca">Part 1</a>, I had showed a way of integrating AWS and Google Cloud secrets management services (<a href="https://aws.amazon.com/secrets-manager/">AWS Secrets Manager</a>, <a href="https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-parameter-store.html">AWS SSM Parameter Store</a> and <a href="https://cloud.google.com/secret-manager">Google Cloud Secret Manager</a>) with Kubernetes, using <a href="https://hub.docker.com/r/doitintl/secrets-init">doitintl/secrets-init</a> <em>initContainer</em> manually added into a target Pod.</p>
+<p>In the previous post <a href="https://engineering.doit.com/kubernetes-and-secrets-management-in-cloud-858533c20dca">Part 1</a>, I had showed a way of integrating AWS and Google Cloud secrets management services (<a href="https://aws.amazon.com/secrets-manager/">AWS Secrets Manager</a>, <a href="https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-parameter-store.html">AWS SSM Parameter Store</a> and <a href="https://cloud.google.com/secret-manager">Google Cloud Secret Manager</a>) with Kubernetes, using <a href="https://hub.docker.com/r/doitintl/secrets-init">doitintl/secrets-init</a> <em>initContainer</em> manually added into a target Pod.</p>
 <p>In this post, I&rsquo;m going to present a <strong>Kubernetes-native</strong> approach of integrating cloud secrets management services mentioned above.</p>
 <h2 id="automatic-cloud-secret-injection">Automatic cloud secret injection</h2>
 <p>White it is possible to modify manually Kubernetes Deployment YAML files to use <code>secret-init</code> as a container init system, the better option would be if someone could do it for you and do it only for Kubernetes Pods that are referencing cloud secrets. Fortunately for us, Kubernetes allows to inspect and modify any Pod before container is created with a mechanism knows as <a href="https://kubernetes.io/docs/reference/access-authn-authz/extensible-admission-controllers/">mutating admission webhook</a>.</p>
@@ -260,7 +260,7 @@ It&rsquo;s also possible to assign an IAM Role to a GCE instance, where containe
 <p>Hope, you find this post useful. I look forward to your comments and any questions you have.</p>
 <p>You are also invited to contribute (Issues, Features, PRs) to the <a href="https://github.com/doitintl/kube-secrets-init">doitintl/kube-secrets-init</a> GitHub Project.</p>
 <hr>
-<p><em>This is a <strong>working draft</strong> version. The final post version is published at <a href="https://blog.doit-intl.com/">DoiT Blog</a> .</em></p>
+<p><em>This is a <strong>working draft</strong> version. The final post version is published at <a href="https://engineering.doit.com/">DoiT Blog</a> .</em></p>
 
         </p>
     </div>
