@@ -215,4 +215,4 @@ Hope, you find this post useful. I look forward to your comments and any questio
 
 ---
 
-*This is a **working draft** version. The final post version is published at [DoiT Blog](https://blog.doit-intl.com/) .*
+*This is a **working draft** version. The final post version is published at [DoiT Blog](https://engineering.doit.com/) .*

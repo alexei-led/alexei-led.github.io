@@ -16,7 +16,7 @@ Cross-cloud access introduce a new challenge; how to manage cloud credentials, r
 
 Each cloud provides it's own unique solution to overcome this challenge, and if you are working with a single cloud provider, it's more than enough.
 
-Google Cloud announced a [Workload Identity](https://cloud.google.com/kubernetes-engine/docs/how-to/workload-identity), the recommended way for GKE applications to authenticate to and consume other Google Cloud services. Workload Identity works by binding Kubernetes service accounts and Cloud IAM service accounts, so you can use Kubernetes-native concepts to define which workloads run as which identities, and permit your workloads to automatically access other Google Cloud services, all without having to manage Kubernetes secrets or IAM service account keys! Read DoiT [Kubernetes GKE Workload Identity](https://blog.doit-intl.com/kubernetes-gke-workload-identity-75fa197ff6bf) blog post.
+Google Cloud announced a [Workload Identity](https://cloud.google.com/kubernetes-engine/docs/how-to/workload-identity), the recommended way for GKE applications to authenticate to and consume other Google Cloud services. Workload Identity works by binding Kubernetes service accounts and Cloud IAM service accounts, so you can use Kubernetes-native concepts to define which workloads run as which identities, and permit your workloads to automatically access other Google Cloud services, all without having to manage Kubernetes secrets or IAM service account keys! Read DoiT [Kubernetes GKE Workload Identity](https://engineering.doit.com/kubernetes-gke-workload-identity-75fa197ff6bf) blog post.
 
 Amazon Web Services supports a similar functionality with [IAM Roles for Service Accounts](https://docs.aws.amazon.com/eks/latest/userguide/iam-roles-for-service-accounts.html) feature. With IAM roles for service accounts on Amazon EKS clusters, you can associate an IAM role with a Kubernetes service account. This service account can then provide AWS permissions to the containers in any pod that uses that service account. With this feature, you no longer need to provide extended permissions to the worker node IAM role so that pods on that node can call AWS APIs.
 
@@ -318,7 +318,7 @@ aws sts get-caller-identity
 
 - **GitHub:** Securely access AWS services from GKE cluser with [doitintl/gtoken](https://github.com/doitintl/gtoken)
 - **AWS Docs:** [Creating a Role for Web Identity or OpenID Connect Federation](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_create_for-idp_oidc.html)
-- **Blog:** Kubernetes GKE Workload Identity [link](https://blog.doit-intl.com/kubernetes-gke-workload-identity-75fa197ff6bf)
+- **Blog:** Kubernetes GKE Workload Identity [link](https://engineering.doit.com/kubernetes-gke-workload-identity-75fa197ff6bf)
 - **AWS Blog:** Introducing fine-grained IAM roles for service accounts [link](https://aws.amazon.com/blogs/opensource/introducing-fine-grained-iam-roles-service-accounts/)
 - **GitHub:** AWS Auth using WebIdentityFederation from Google Cloud [shrikant0013/gcp-aws-webidentityfederation](https://github.com/shrikant0013/gcp-aws-webidentityfederation) GitHub project
 - **Blog:** Using GCP Service Accounts to access AWS IAM Roles [blog post](https://cevo.com.au/post/2019-07-29-using-gcp-service-accounts-to-access-aws/) by Colin Panisset

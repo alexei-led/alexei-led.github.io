@@ -12,7 +12,7 @@ Secrets are essential for operation of many production systems. Unintended secre
 
 The problem becomes even harder, once company moves to a microservice architecture and multiple services require an access to different secrets in order to properly work. And this leads to a new challenges: how to distribute, manage, monitor and rotate application secrets, avoiding unintended exposure?
 
-In the previous post [Part 1](https://blog.doit-intl.com/kubernetes-and-secrets-management-in-cloud-858533c20dca), I had showed a way of integrating AWS and Google Cloud secrets management services ([AWS Secrets Manager](https://aws.amazon.com/secrets-manager/), [AWS SSM Parameter Store](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-parameter-store.html) and [Google Cloud Secret Manager](https://cloud.google.com/secret-manager)) with Kubernetes, using [doitintl/secrets-init](https://hub.docker.com/r/doitintl/secrets-init) _initContainer_ manually added into a target Pod.
+In the previous post [Part 1](https://engineering.doit.com/kubernetes-and-secrets-management-in-cloud-858533c20dca), I had showed a way of integrating AWS and Google Cloud secrets management services ([AWS Secrets Manager](https://aws.amazon.com/secrets-manager/), [AWS SSM Parameter Store](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-parameter-store.html) and [Google Cloud Secret Manager](https://cloud.google.com/secret-manager)) with Kubernetes, using [doitintl/secrets-init](https://hub.docker.com/r/doitintl/secrets-init) _initContainer_ manually added into a target Pod.
 
 In this post, I'm going to present a **Kubernetes-native** approach of integrating cloud secrets management services mentioned above.
 
@@ -211,4 +211,4 @@ You are also invited to contribute (Issues, Features, PRs) to the [doitintl/kube
 
 ---
 
-*This is a **working draft** version. The final post version is published at [DoiT Blog](https://blog.doit-intl.com/) .*
+*This is a **working draft** version. The final post version is published at [DoiT Blog](https://engineering.doit.com/) .*

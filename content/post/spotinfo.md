@@ -153,4 +153,4 @@ _p.s._: if you like the `spotinfo` tool, please, consider giving the GitHub [pro
 
 ---
 
-*This is a **working draft** version. The final post version is published at [DoiT International Blog](https://blog.doit-intl.com/).*
+*This is a **working draft** version. The final post version is published at [DoiT International Blog](https://engineering.doit.com/).*
