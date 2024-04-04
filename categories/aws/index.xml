@@ -7,8 +7,15 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>This work is licensed under a Creative Commons Attribution 4.0 International License</copyright>
-    <lastBuildDate>Thu, 08 Apr 2021 10:00:00 +0200</lastBuildDate>
+    <lastBuildDate>Thu, 04 Apr 2024 10:00:00 +0200</lastBuildDate>
     <atom:link href="https://alexei-led.github.io/categories/aws/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>KubeIP v2: Assigning Static Public IPs to Kubernetes Nodes Across Cloud Providers</title>
+      <link>https://alexei-led.github.io/post/kubeip_v2/</link>
+      <pubDate>Thu, 04 Apr 2024 10:00:00 +0200</pubDate>
+      <guid>https://alexei-led.github.io/post/kubeip_v2/</guid>
+      <description>TL;DR Kubernetes nodes can benefit from having dedicated static public IP addresses in certain scenarios.&#xA;KubeIP, an open-source utility, fulfills this need by assigning static public IPs to Kubernetes nodes. The latest version, KubeIP v2, extends support from Google Cloud&amp;rsquo;s GKE to Amazon&amp;rsquo;s EKS, with a design that&amp;rsquo;s ready to accommodate other cloud providers. It operates as a DaemonSet, offering improved reliability, configuration flexability and user-friendliness over the previous Kubernetes controller method.</description>
+    </item>
     <item>
       <title>Spotinfo</title>
       <link>https://alexei-led.github.io/post/spotinfo/</link>
