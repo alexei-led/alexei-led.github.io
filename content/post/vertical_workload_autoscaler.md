@@ -1,3 +1,11 @@
++++
+date = "2024-10-03T10:00:00+02:00"
+draft = true
+title = "Scaling Kubernetes Workloads with Vertical Workload Autoscaler (VWA)"
+tags = ["Kubernetes", "VPA", "VWA", "Vertical Pod Autoscaler", "Autoscaling"]
+categories = ["DevOps", "Kubernetes"]
++++
+
 # Scaling Kubernetes Workloads with Vertical Workload Autoscaler (VWA)
 
 ## Introduction
