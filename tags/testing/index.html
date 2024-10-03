@@ -32,18 +32,6 @@
     <link rel="alternate" type="application/rss+xml" href="https://alexei-led.github.io/tags/testing/index.xml" title="Terra Nullius" />
     
     
-<script>
-var doNotTrack = false;
-if (!doNotTrack) {
-	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-	ga('create', 'UA-71802462-1', 'auto');
-	
-	ga('send', 'pageview');
-}
-</script>
 </head>
     <body>
         
@@ -146,8 +134,11 @@ if (!doNotTrack) {
             </h2>
             <div>
                 <p>
-                What follows is the text of my presentation, Chaos Testing for Docker Containers that I gave at ContainerCamp in London this year. I&rsquo;ve also decided to turn the presentation into an article. I edited the text slightly for readability and added some links for more context. You can find the original video recording and slides at the end of this post.
-Intro Software development is about building software services that support business needs.
+                <p>What follows is the text of my presentation, <em>Chaos Testing for Docker Containers</em> that I gave at <a href="https://2017.container.camp/uk">ContainerCamp</a> in London this year.
+I&rsquo;ve also decided to turn the presentation into an article. I edited the text slightly for readability and added some links for more context. You can find the original video recording and slides at the end of this post.</p>
+<p><img src="https://alexei-led.github.io/img/sink_cargo.jpg" alt="Docker Chaos Testing"></p>
+<h2 id="intro">Intro</h2>
+<p>Software development is about building software services that support business needs. More complex businesses processes we want to automate and integrate with. the more complex software system we are building. And solution complexity is tend to grown over time and scope.</p>
                 </p>
             </div>
             <div class="post-footer">
@@ -165,8 +156,12 @@ Intro Software development is about building software services that support busi
             </h2>
             <div>
                 <p>
-                TL;DR Pumba netem delay and netem loss commands can emulate network delay and packet loss between Docker containers, even on single host. Give it a try!
-Introduction Microservice architecture has been adopted by software teams as a way to deliver business value faster. Container technology enables delivery of microservices into any environment. Docker has accelerated this by providing an easy to use toolset for development teams to build, ship, and run distributed applications.
+                <h2 id="tldr">TL;DR</h2>
+<blockquote>
+<p><a href="https://github.com/gaia-adm/pumba">Pumba</a> <code>netem delay</code> and <code>netem loss</code> commands can emulate network <em>delay</em> and <em>packet loss</em> between Docker containers, even on single host. Give it a try!</p>
+</blockquote>
+<h2 id="introduction">Introduction</h2>
+<p>Microservice architecture has been adopted by software teams as a way to deliver business value faster. Container technology enables delivery of microservices into any environment. Docker has accelerated this by providing an easy to use toolset for development teams to build, ship, and run distributed applications. These applications can be composed of hundreds of microservices packaged in Docker containers.</p>
                 </p>
             </div>
             <div class="post-footer">
@@ -184,8 +179,11 @@ Introduction Microservice architecture has been adopted by software teams as a w
             </h2>
             <div>
                 <p>
-                Update (27-07-27): Updated post to latest v0.2.0 Pumba version change.
-Introduction The best defense against unexpected failures is to build resilient services. Testing for resiliency enables the teams to learn where their apps fail before the customer does. By intentionally causing failures as part of resiliency testing, you can enforce your policy for building resilient systems. Resilience of the system can be defined as its ability to continue functioning even if some components of the system are failing - ephemerality.
+                <p><strong>Update (27-07-27):</strong> Updated post to latest <code>v0.2.0</code> Pumba version change.</p>
+<h2 id="introduction">Introduction</h2>
+<p>The best defense against unexpected failures is to build resilient services. Testing for resiliency enables the teams to learn where their apps fail before the customer does. By intentionally causing failures as part of resiliency testing, you can enforce your policy for building resilient systems.
+Resilience of the system can be defined as its ability to continue functioning even if some components of the system are failing - <a href="https://en.wikipedia.org/wiki/Ephemerality">ephemerality</a>. Growing popularity of distributed and microservice architecture makes resilience testing critical for applications that now require 24x7x365 operation.
+Resilience testing is an approach where you intentionally inject different types of failures at the infrastructure level (VM, network, containers, and processes) and let the system try to recover from these unexpected failures that can happen in production. Simulating realistic failures at any time is the best way to enforce highly available and resilient systems.</p>
                 </p>
             </div>
             <div class="post-footer">
@@ -203,9 +201,11 @@ Introduction The best defense against unexpected failures is to build resilient 
             </h2>
             <div>
                 <p>
-                Congratulations! You know how to build a Docker image and are able to compose multiple containers into a meaningful application. Hopefully, you&rsquo;ve already created a Continuous Delivery pipeline and know how to push your newly created image into production or testing environment.
-Now, the question is - How do we test our Docker containers?
-There are multiple testing strategies we can apply. In this post, I&rsquo;ll highlight them presenting benefits and drawbacks for each.
+                <p>Congratulations! You know how to build a Docker image and are able to compose multiple containers into a meaningful application. Hopefully, you&rsquo;ve already created a Continuous Delivery pipeline and know how to push your newly created image into production or testing environment.</p>
+<blockquote>
+<p>Now, the question is - <em>How do we test our Docker containers?</em></p>
+</blockquote>
+<p>There are multiple testing strategies we can apply. In this post, I&rsquo;ll highlight them presenting benefits and drawbacks for each.</p>
                 </p>
             </div>
             <div class="post-footer">

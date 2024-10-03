@@ -4,7 +4,7 @@
     <title>Kubernetes on Terra Nullius</title>
     <link>https://alexei-led.github.io/categories/kubernetes/</link>
     <description>Recent content in Kubernetes on Terra Nullius</description>
-    <generator>Hugo -- gohugo.io</generator>
+    <generator>Hugo</generator>
     <language>en-us</language>
     <copyright>This work is licensed under a Creative Commons Attribution 4.0 International License</copyright>
     <lastBuildDate>Thu, 04 Apr 2024 10:00:00 +0200</lastBuildDate>
@@ -14,35 +14,35 @@
       <link>https://alexei-led.github.io/post/kubeip_v2/</link>
       <pubDate>Thu, 04 Apr 2024 10:00:00 +0200</pubDate>
       <guid>https://alexei-led.github.io/post/kubeip_v2/</guid>
-      <description>TL;DR Kubernetes nodes can benefit from having dedicated static public IP addresses in certain scenarios.&#xA;KubeIP, an open-source utility, fulfills this need by assigning static public IPs to Kubernetes nodes. The latest version, KubeIP v2, extends support from Google Cloud&amp;rsquo;s GKE to Amazon&amp;rsquo;s EKS, with a design that&amp;rsquo;s ready to accommodate other cloud providers. It operates as a DaemonSet, offering improved reliability, configuration flexability and user-friendliness over the previous Kubernetes controller method.</description>
+      <description>&lt;h2 id=&#34;tldr&#34;&gt;TL;DR&lt;/h2&gt;&#xA;&lt;p&gt;Kubernetes nodes can benefit from having dedicated static public IP addresses in certain scenarios.&lt;/p&gt;&#xA;&lt;p&gt;&lt;a href=&#34;https://github.com/doitintl/kubeip&#34;&gt;KubeIP&lt;/a&gt;, an open-source utility, fulfills this need by assigning static public IPs to Kubernetes nodes. The latest version, KubeIP v2, extends support from Google Cloud&amp;rsquo;s GKE to Amazon&amp;rsquo;s EKS, with a design that&amp;rsquo;s ready to accommodate other cloud providers. It operates as a DaemonSet, offering improved reliability, configuration flexability and user-friendliness over the previous Kubernetes controller method. KubeIP v2 supports assigning both IPv4 and IPv6 addresses.&lt;/p&gt;</description>
     </item>
     <item>
       <title>Kubernetes and Secrets Management in Cloud: Part 2</title>
       <link>https://alexei-led.github.io/post/kube_secrets-init/</link>
       <pubDate>Sun, 26 Apr 2020 10:00:00 +0200</pubDate>
       <guid>https://alexei-led.github.io/post/kube_secrets-init/</guid>
-      <description>Introduction Secrets are essential for operation of many production systems. Unintended secrets exposure is one of the top risks that should be properly addressed. Developers should do their best to protect application secrets.&#xA;The problem becomes even harder, once company moves to a microservice architecture and multiple services require an access to different secrets in order to properly work. And this leads to a new challenges: how to distribute, manage, monitor and rotate application secrets, avoiding unintended exposure?</description>
+      <description>&lt;h2 id=&#34;introduction&#34;&gt;Introduction&lt;/h2&gt;&#xA;&lt;p&gt;Secrets are essential for operation of many production systems. Unintended secrets exposure is one of the top risks that should be properly addressed. Developers should do their best to protect application secrets.&lt;/p&gt;&#xA;&lt;p&gt;The problem becomes even harder, once company moves to a microservice architecture and multiple services require an access to different secrets in order to properly work. And this leads to a new challenges: how to distribute, manage, monitor and rotate application secrets, avoiding unintended exposure?&lt;/p&gt;</description>
     </item>
     <item>
       <title>Securely access AWS from GKE</title>
       <link>https://alexei-led.github.io/post/gke_aws_access/</link>
       <pubDate>Wed, 12 Feb 2020 10:00:00 +0200</pubDate>
       <guid>https://alexei-led.github.io/post/gke_aws_access/</guid>
-      <description>Securely Access AWS from GKE It is not a rare case when an application running on Google Kubernetes Engine (GKE) needs to access Amazon Web Services (AWS) APIs. Any application has needs. Maybe it needs to run an analytics query on Amazon Redshift, access data stored in Amazon S3 bucket, convert text to speech with Amazon Polly or use any other AWS service. This multi-cloud scenario is common nowadays, as companies are working with multiple cloud providers.</description>
+      <description>&lt;h1 id=&#34;securely-access-aws-from-gke&#34;&gt;Securely Access AWS from GKE&lt;/h1&gt;&#xA;&lt;p&gt;It is not a rare case when an application running on Google Kubernetes Engine (GKE) needs to access Amazon Web Services (AWS) APIs. Any application has needs. Maybe it needs to run an analytics query on Amazon Redshift, access data stored in Amazon S3 bucket, convert text to speech with Amazon Polly or use any other AWS service. This multi-cloud scenario is common nowadays, as companies are working with multiple cloud providers.&lt;/p&gt;</description>
     </item>
     <item>
       <title>Kubernetes and Secrets Management in Cloud</title>
       <link>https://alexei-led.github.io/post/secrets-init/</link>
       <pubDate>Mon, 23 Dec 2019 10:00:00 +0200</pubDate>
       <guid>https://alexei-led.github.io/post/secrets-init/</guid>
-      <description>Introduction Secrets are essential for operation of many production systems. Unintended secrets exposure is one of the top risks that should be properly addressed. Developers should do their best to protect application secrets.&#xA;The problem becomes even harder, once company moves to a microservice architecture and multiple services require an access to different secrets in order to properly work. And this leads to a new challenges: how to distribute, manage, monitor and rotate application secrets, avoiding unintended exposure?</description>
+      <description>&lt;h2 id=&#34;introduction&#34;&gt;Introduction&lt;/h2&gt;&#xA;&lt;p&gt;Secrets are essential for operation of many production systems. Unintended secrets exposure is one of the top risks that should be properly addressed. Developers should do their best to protect application secrets.&lt;/p&gt;&#xA;&lt;p&gt;The problem becomes even harder, once company moves to a microservice architecture and multiple services require an access to different secrets in order to properly work. And this leads to a new challenges: how to distribute, manage, monitor and rotate application secrets, avoiding unintended exposure?&lt;/p&gt;</description>
     </item>
     <item>
       <title>Continuous Delivery and Continuous Deployment for Kubernetes microservices</title>
       <link>https://alexei-led.github.io/post/cd_helm_kubernetes/</link>
       <pubDate>Wed, 11 Oct 2017 18:00:00 +0200</pubDate>
       <guid>https://alexei-led.github.io/post/cd_helm_kubernetes/</guid>
-      <description>Continuous Delivery and Continuous Deployment for Kubernetes microservices THIS IS A DRAFT VERSION OF POST TO COME, PLEASE DO NOT SHARE&#xA;Starting Point Over last years we&amp;rsquo;ve been adopting several concepts for our project, straggling to make them work together.&#xA;The first one is the Microservice Architecture. We did not start it clean and by the book, rather applied it to the already existing project: splitting big services into smaller and breaking excessive coupling.</description>
+      <description>&lt;h1 id=&#34;continuous-delivery-and-continuous-deployment-for-kubernetes-microservices&#34;&gt;Continuous Delivery and Continuous Deployment for Kubernetes microservices&lt;/h1&gt;&#xA;&lt;blockquote&gt;&#xA;&lt;p&gt;THIS IS A DRAFT VERSION OF POST TO COME, PLEASE DO NOT SHARE&lt;/p&gt;&#xA;&lt;/blockquote&gt;&#xA;&lt;h2 id=&#34;starting-point&#34;&gt;Starting Point&lt;/h2&gt;&#xA;&lt;p&gt;Over last years we&amp;rsquo;ve been adopting several concepts for our project, straggling to make them work together.&lt;/p&gt;&#xA;&lt;p&gt;The first one is the &lt;em&gt;Microservice Architecture&lt;/em&gt;. We did not start it clean and by the book, rather applied it to the already existing project: splitting big services into smaller and breaking excessive coupling. The refactoring work is not finished yet. New services, we are building, starts looking more like &amp;ldquo;microservices&amp;rdquo;, while there are still few that, I would call &amp;ldquo;micro-monoliths&amp;rdquo;.&#xA;I have a feeling that this is a typical situation for an already existing project, that tries to adopt this new architecture pattern: &lt;em&gt;you are almost there, but there is always a work to be done&lt;/em&gt;.&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>

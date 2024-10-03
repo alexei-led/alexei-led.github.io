@@ -4,7 +4,7 @@
     <title>IPv6 on Terra Nullius</title>
     <link>https://alexei-led.github.io/tags/ipv6/</link>
     <description>Recent content in IPv6 on Terra Nullius</description>
-    <generator>Hugo -- gohugo.io</generator>
+    <generator>Hugo</generator>
     <language>en-us</language>
     <copyright>This work is licensed under a Creative Commons Attribution 4.0 International License</copyright>
     <lastBuildDate>Thu, 04 Apr 2024 10:00:00 +0200</lastBuildDate>
@@ -14,7 +14,7 @@
       <link>https://alexei-led.github.io/post/kubeip_v2/</link>
       <pubDate>Thu, 04 Apr 2024 10:00:00 +0200</pubDate>
       <guid>https://alexei-led.github.io/post/kubeip_v2/</guid>
-      <description>TL;DR Kubernetes nodes can benefit from having dedicated static public IP addresses in certain scenarios.&#xA;KubeIP, an open-source utility, fulfills this need by assigning static public IPs to Kubernetes nodes. The latest version, KubeIP v2, extends support from Google Cloud&amp;rsquo;s GKE to Amazon&amp;rsquo;s EKS, with a design that&amp;rsquo;s ready to accommodate other cloud providers. It operates as a DaemonSet, offering improved reliability, configuration flexability and user-friendliness over the previous Kubernetes controller method.</description>
+      <description>&lt;h2 id=&#34;tldr&#34;&gt;TL;DR&lt;/h2&gt;&#xA;&lt;p&gt;Kubernetes nodes can benefit from having dedicated static public IP addresses in certain scenarios.&lt;/p&gt;&#xA;&lt;p&gt;&lt;a href=&#34;https://github.com/doitintl/kubeip&#34;&gt;KubeIP&lt;/a&gt;, an open-source utility, fulfills this need by assigning static public IPs to Kubernetes nodes. The latest version, KubeIP v2, extends support from Google Cloud&amp;rsquo;s GKE to Amazon&amp;rsquo;s EKS, with a design that&amp;rsquo;s ready to accommodate other cloud providers. It operates as a DaemonSet, offering improved reliability, configuration flexability and user-friendliness over the previous Kubernetes controller method. KubeIP v2 supports assigning both IPv4 and IPv6 addresses.&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>

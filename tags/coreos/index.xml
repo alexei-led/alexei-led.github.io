@@ -4,7 +4,7 @@
     <title>CoreOS on Terra Nullius</title>
     <link>https://alexei-led.github.io/tags/coreos/</link>
     <description>Recent content in CoreOS on Terra Nullius</description>
-    <generator>Hugo -- gohugo.io</generator>
+    <generator>Hugo</generator>
     <language>en-us</language>
     <copyright>This work is licensed under a Creative Commons Attribution 4.0 International License</copyright>
     <lastBuildDate>Wed, 30 Dec 2015 11:09:47 +0200</lastBuildDate>
@@ -14,7 +14,7 @@
       <link>https://alexei-led.github.io/post/docker_cd_cluster/</link>
       <pubDate>Wed, 30 Dec 2015 11:09:47 +0200</pubDate>
       <guid>https://alexei-led.github.io/post/docker_cd_cluster/</guid>
-      <description>Docker is great technology that simplifies development and deployment of distributed applications.&#xA;While Docker serves as a core technology, many issues remain to be solved. We find ourselves struggling with some of these issues. For example:&#xA;How to create an elastic Docker cluster? How to deploy and connect multiple containers together? How to build CI/CD process? How to register and discover system services and more? For most, there are open source projects, or services available from the community as well as commercially, including from Docker, Inc.</description>
+      <description>&lt;p&gt;Docker is great technology that simplifies development and deployment of distributed applications.&lt;/p&gt;&#xA;&lt;p&gt;While Docker serves as a core technology, many issues remain to be solved. We find ourselves struggling with some of these issues. For example:&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;How to create an elastic Docker cluster?&lt;/li&gt;&#xA;&lt;li&gt;How to deploy and connect multiple containers together?&lt;/li&gt;&#xA;&lt;li&gt;How to build CI/CD process?&lt;/li&gt;&#xA;&lt;li&gt;How to register and discover system services and more?&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;p&gt;For most, there are open source projects, or services available from the community as well as commercially, including from Docker, Inc.&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>

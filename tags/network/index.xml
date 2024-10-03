@@ -4,7 +4,7 @@
     <title>Network on Terra Nullius</title>
     <link>https://alexei-led.github.io/tags/network/</link>
     <description>Recent content in Network on Terra Nullius</description>
-    <generator>Hugo -- gohugo.io</generator>
+    <generator>Hugo</generator>
     <language>en-us</language>
     <copyright>This work is licensed under a Creative Commons Attribution 4.0 International License</copyright>
     <lastBuildDate>Mon, 01 Aug 2016 20:00:00 +0200</lastBuildDate>
@@ -14,7 +14,7 @@
       <link>https://alexei-led.github.io/post/pumba_docker_netem/</link>
       <pubDate>Mon, 01 Aug 2016 20:00:00 +0200</pubDate>
       <guid>https://alexei-led.github.io/post/pumba_docker_netem/</guid>
-      <description>TL;DR Pumba netem delay and netem loss commands can emulate network delay and packet loss between Docker containers, even on single host. Give it a try!&#xA;Introduction Microservice architecture has been adopted by software teams as a way to deliver business value faster. Container technology enables delivery of microservices into any environment. Docker has accelerated this by providing an easy to use toolset for development teams to build, ship, and run distributed applications.</description>
+      <description>&lt;h2 id=&#34;tldr&#34;&gt;TL;DR&lt;/h2&gt;&#xA;&lt;blockquote&gt;&#xA;&lt;p&gt;&lt;a href=&#34;https://github.com/gaia-adm/pumba&#34;&gt;Pumba&lt;/a&gt; &lt;code&gt;netem delay&lt;/code&gt; and &lt;code&gt;netem loss&lt;/code&gt; commands can emulate network &lt;em&gt;delay&lt;/em&gt; and &lt;em&gt;packet loss&lt;/em&gt; between Docker containers, even on single host. Give it a try!&lt;/p&gt;&#xA;&lt;/blockquote&gt;&#xA;&lt;h2 id=&#34;introduction&#34;&gt;Introduction&lt;/h2&gt;&#xA;&lt;p&gt;Microservice architecture has been adopted by software teams as a way to deliver business value faster. Container technology enables delivery of microservices into any environment. Docker has accelerated this by providing an easy to use toolset for development teams to build, ship, and run distributed applications. These applications can be composed of hundreds of microservices packaged in Docker containers.&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>

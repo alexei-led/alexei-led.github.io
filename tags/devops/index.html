@@ -32,18 +32,6 @@
     <link rel="alternate" type="application/rss+xml" href="https://alexei-led.github.io/tags/devops/index.xml" title="Terra Nullius" />
     
     
-<script>
-var doNotTrack = false;
-if (!doNotTrack) {
-	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-	ga('create', 'UA-71802462-1', 'auto');
-	
-	ga('send', 'pageview');
-}
-</script>
 </head>
     <body>
         
@@ -146,9 +134,10 @@ if (!doNotTrack) {
             </h2>
             <div>
                 <p>
-                TL;DR The Docker BuildKit buildx CLI plugin simplifies building Docker images for different OS/CPU platforms (e.g. linux/amd64, linux/arm64, linux/arm, windows/amd64)
-So why is it a big deal now? Who needs Docker images for Arm platform anyway. Raspberry Pi geeks?
-A good reason for this is just a one word Graviton2&hellip;
+                <h2 id="tldr">TL;DR</h2>
+<p>The Docker BuildKit <a href="https://github.com/docker/buildx">buildx CLI plugin</a> simplifies building Docker images for different OS/CPU platforms (e.g. <code>linux/amd64</code>, <code>linux/arm64</code>, <code>linux/arm</code>, <code>windows/amd64</code>)</p>
+<p>So why is it a big deal now? Who needs Docker images for Arm platform anyway. Raspberry Pi geeks?</p>
+<p>A good reason for this is just a one word Graviton2&hellip;</p>
                 </p>
             </div>
             <div class="post-footer">
@@ -166,8 +155,10 @@ A good reason for this is just a one word Graviton2&hellip;
             </h2>
             <div>
                 <p>
-                Throughout the lifecycle of your Kubernetes cluster, you may need to access a cluster worker node. This access could be for maintenance, configuration inspection, log collection, or other troubleshooting operations. More than that, it would be nice, if you could enable this access whenever it&rsquo;s needed and disable when you finish your task.
-SSH Approach While it&rsquo;s possible to configure Kubernetes nodes with SSH access, this also makes worker nodes more vulnerable.
+                <p><img src="https://alexei-led.github.io/img/linux_pinguin_terminal.jpg" alt="Linux Shell"></p>
+<p>Throughout the lifecycle of your Kubernetes cluster, you may need to access a cluster worker node. This access could be for maintenance, configuration inspection, log collection, or other troubleshooting operations. More than that, it would be nice, if you could enable this access whenever it&rsquo;s needed and disable when you finish your task.</p>
+<h2 id="ssh-approach">SSH Approach</h2>
+<p>While it&rsquo;s possible to configure Kubernetes nodes with SSH access, this also makes worker nodes more vulnerable. Using SSH requires a network connection between the engineer’s machine and the EC2 instance, something you may want to avoid. Some users set up a jump server (also called bastion host) as a typical pattern to minimize the attack surface from the Internet. But this approach still requires from you to manage access to the bastion servers and protect SSH keys. IMHO, managing supporting SSH infrastructure, is a high price to pay, especially if you just wanted to get a shell access to a worker node or to run some commands.</p>
                 </p>
             </div>
             <div class="post-footer">
@@ -185,9 +176,14 @@ SSH Approach While it&rsquo;s possible to configure Kubernetes nodes with SSH ac
             </h2>
             <div>
                 <p>
-                Continuous Delivery and Continuous Deployment for Kubernetes microservices THIS IS A DRAFT VERSION OF POST TO COME, PLEASE DO NOT SHARE
-Starting Point Over last years we&rsquo;ve been adopting several concepts for our project, straggling to make them work together.
-The first one is the Microservice Architecture. We did not start it clean and by the book, rather applied it to the already existing project: splitting big services into smaller and breaking excessive coupling.
+                <h1 id="continuous-delivery-and-continuous-deployment-for-kubernetes-microservices">Continuous Delivery and Continuous Deployment for Kubernetes microservices</h1>
+<blockquote>
+<p>THIS IS A DRAFT VERSION OF POST TO COME, PLEASE DO NOT SHARE</p>
+</blockquote>
+<h2 id="starting-point">Starting Point</h2>
+<p>Over last years we&rsquo;ve been adopting several concepts for our project, straggling to make them work together.</p>
+<p>The first one is the <em>Microservice Architecture</em>. We did not start it clean and by the book, rather applied it to the already existing project: splitting big services into smaller and breaking excessive coupling. The refactoring work is not finished yet. New services, we are building, starts looking more like &ldquo;microservices&rdquo;, while there are still few that, I would call &ldquo;micro-monoliths&rdquo;.
+I have a feeling that this is a typical situation for an already existing project, that tries to adopt this new architecture pattern: <em>you are almost there, but there is always a work to be done</em>.</p>
                 </p>
             </div>
             <div class="post-footer">
@@ -205,8 +201,11 @@ The first one is the Microservice Architecture. We did not start it clean and by
             </h2>
             <div>
                 <p>
-                What follows is the text of my presentation, Chaos Testing for Docker Containers that I gave at ContainerCamp in London this year. I&rsquo;ve also decided to turn the presentation into an article. I edited the text slightly for readability and added some links for more context. You can find the original video recording and slides at the end of this post.
-Intro Software development is about building software services that support business needs.
+                <p>What follows is the text of my presentation, <em>Chaos Testing for Docker Containers</em> that I gave at <a href="https://2017.container.camp/uk">ContainerCamp</a> in London this year.
+I&rsquo;ve also decided to turn the presentation into an article. I edited the text slightly for readability and added some links for more context. You can find the original video recording and slides at the end of this post.</p>
+<p><img src="https://alexei-led.github.io/img/sink_cargo.jpg" alt="Docker Chaos Testing"></p>
+<h2 id="intro">Intro</h2>
+<p>Software development is about building software services that support business needs. More complex businesses processes we want to automate and integrate with. the more complex software system we are building. And solution complexity is tend to grown over time and scope.</p>
                 </p>
             </div>
             <div class="post-footer">
@@ -224,9 +223,10 @@ Intro Software development is about building software services that support busi
             </h2>
             <div>
                 <p>
-                Teaser Suppose you want to debug a Node.js application already running on a remote machine inside Docker container. And would like to do it without modifying command arguments (enabling debug mode) and opening remote Node.js debugger agent port to the whole world.
-I bet you didn&rsquo;t know that it&rsquo;s possible and also have no idea how to do it.
-I encourage you to continue reading this post if you are eager to learn some new cool stuff.
+                <h2 id="teaser">Teaser</h2>
+<p>Suppose you want to debug a Node.js application already running on a remote machine inside Docker container. And would like to do it without modifying command arguments (enabling <code>debug</code> mode) and opening remote Node.js debugger agent port to the whole world.</p>
+<p><strong>I bet you didn&rsquo;t know that it&rsquo;s possible and also have no idea how to do it.</strong></p>
+<p>I encourage you to continue reading this post if you are eager to learn some new cool stuff.</p>
                 </p>
             </div>
             <div class="post-footer">
@@ -244,8 +244,11 @@ I encourage you to continue reading this post if you are eager to learn some new
             </h2>
             <div>
                 <p>
-                TL;DR Starting from Docker 17.05+, you can create a single Dockerfile that can build multiple helper images with compilers, tools, and tests and use files from above images to produce the final Docker image.
-The &ldquo;core principle&rdquo; of Dockerfile Docker can build images by reading the instructions from a Dockerfile. A Dockerfile is a text file that contains a list of all the commands needed to build a new Docker image.
+                <h2 id="tldr">TL;DR</h2>
+<p>Starting from Docker 17.05+, you can create a single <code>Dockerfile</code> that can build multiple helper images with compilers, tools, and tests and use files from above images to produce the <strong>final</strong> Docker image.</p>
+<p><img src="https://alexei-led.github.io/img/multi_stage_build.png" alt="Multi-stage Docker Build"></p>
+<h2 id="the-core-principle-of-dockerfile">The &ldquo;core principle&rdquo; of Dockerfile</h2>
+<p>Docker can build images by reading the instructions from a <code>Dockerfile</code>. A <code>Dockerfile</code> is a text file that contains a list of all the commands needed to build a new Docker image. The syntax of <code>Dockerfile</code> is pretty simple and the Docker team tries to keep it intact between Docker engine releases.</p>
                 </p>
             </div>
             <div class="post-footer">
@@ -263,10 +266,17 @@ The &ldquo;core principle&rdquo; of Dockerfile Docker can build images by readin
             </h2>
             <div>
                 <p>
-                TL;DR What is the bare minimum you need to build, test and run my Java application in Docker container?
-The recipe: Create a separate Docker image for each step and optimize the way you are running it.
-Introduction I started working with Java in 1998, and for a long time, it was my main programming language. It was a long love–hate relationship.
-DDuring my work career, I wrote a lot of code in Java.
+                <h2 id="tldr">TL;DR</h2>
+<blockquote>
+<p><em>What is the bare minimum you need to <strong>build</strong>, <strong>test</strong> and <strong>run</strong> my Java application in Docker container?</em></p>
+</blockquote>
+<blockquote>
+<p><strong>The recipe:</strong> Create a separate Docker image for each step and optimize the way you are running it.</p>
+</blockquote>
+<p><img src="https://alexei-led.github.io/img/duke_docker.png" alt="Duke and Container"></p>
+<h2 id="introduction">Introduction</h2>
+<p>I started working with Java in 1998, and for a long time, it was my main programming language. It was a long love–hate relationship.</p>
+<p>DDuring my work career, I wrote a lot of code in Java. Despite that fact, I don’t think Java is usually the right choice for writing microservices running in <a href="https://www.docker.com/">Docker</a> containers.</p>
                 </p>
             </div>
             <div class="post-footer">
@@ -284,8 +294,11 @@ DDuring my work career, I wrote a lot of code in Java.
             </h2>
             <div>
                 <p>
-                In this post, I&rsquo;ve decided to share with you some useful commands and tools, I&rsquo;m frequently using, working with amazing Docker technology. There is no particular order or &ldquo;coolness level&rdquo; for every &ldquo;hack&rdquo;. I will try to present the use case and how does specific command or tool help me with my work.
-Cleaning up Working with Docker for some time, you start to accumulate development junk: unused volumes, networks, exited containers and unused images.
+                <p>In this post, I&rsquo;ve decided to share with you some useful commands and tools, I&rsquo;m frequently using, working with amazing Docker technology.
+There is no particular order or &ldquo;coolness level&rdquo; for every &ldquo;hack&rdquo;. I will try to present the use case and how does specific command or tool help me with my work.</p>
+<p><img src="https://alexei-led.github.io/img/docker_animals.png" alt="Docker Hacks"></p>
+<h2 id="cleaning-up">Cleaning up</h2>
+<p>Working with Docker for some time, you start to accumulate development junk: unused volumes, networks, exited containers and unused images.</p>
                 </p>
             </div>
             <div class="post-footer">
@@ -303,9 +316,14 @@ Cleaning up Working with Docker for some time, you start to accumulate developme
             </h2>
             <div>
                 <p>
-                Disclaimer: all code snippets bellow are working only with Docker 1.13+
-TL;DR Docker 1.13 simplifies deployment of composed application to a swarm (mode) cluster. And you can do it without creating a new dab (Distribution Application Bundle) file, but just using familiar and well-known docker-compose.yml syntax (with some additions) and --compose-file option.
-Swarm cluster Docker Engine 1.12 introduced a new swarm mode for natively managing a cluster of Docker Engines called a swarm.
+                <blockquote>
+<p><strong>Disclaimer:</strong> all code snippets bellow are working only with <strong>Docker 1.13+</strong></p>
+</blockquote>
+<h1 id="tldr">TL;DR</h1>
+<p><strong>Docker 1.13</strong> simplifies deployment of composed application to a <strong>swarm</strong> (mode) cluster. And you can do it without creating a new <code>dab</code> (<em>Distribution Application Bundle</em>) file, but just using familiar and well-known <code>docker-compose.yml</code> syntax (with some additions) and <code>--compose-file</code> option.</p>
+<p><img src="https://alexei-led.github.io/img/compose_swarm.png" alt="Compose to Swarm"></p>
+<h1 id="swarm-cluster">Swarm cluster</h1>
+<p>Docker Engine 1.12 introduced a new <strong>swarm mode</strong> for natively managing a cluster of Docker Engines called a <strong>swarm</strong>. Docker <strong>swarm mode</strong> implements <a href="https://docs.docker.com/engine/swarm/raft/">Raft Consensus Algorithm</a> and does not require using external key value store anymore, such as <a href="https://www.consul.io/">Consul</a> or <a href="https://github.com/coreos/etcd">etcd</a>.</p>
                 </p>
             </div>
             <div class="post-footer">
@@ -323,10 +341,14 @@ Swarm cluster Docker Engine 1.12 introduced a new swarm mode for natively managi
             </h2>
             <div>
                 <p>
-                TL;DR Tip: Consider to define and use .dockerignore file for every Docker image you are building. It can help you to reduce Docker image size, speedup docker build and avoid unintended secret exposure.
-Docker build context The docker build command is used to build a new Docker image. There is one argument you can pass to the build command build context.
-So, what is the Docker build context?
-First, remember, that Docker is a client-server application, it consists from Docker client and Docker server (also known as daemon).
+                <h1 id="tldr">TL;DR</h1>
+<blockquote>
+<p><strong>Tip:</strong> Consider to define and use <code>.dockerignore</code> file for every Docker image you are building. It can help you to reduce Docker image size, speedup <code>docker build</code> and avoid unintended secret exposure.</p>
+</blockquote>
+<p><img src="https://alexei-led.github.io/img/overloaded.jpg" alt="Overloaded container ship"></p>
+<h1 id="docker-build-context">Docker build context</h1>
+<p>The <code>docker build</code> command is used to build a new Docker image. There is one argument you can pass to the <code>build</code> command <strong>build context</strong>.</p>
+<p>So, what is the Docker <strong>build context</strong>?</p>
                 </p>
             </div>
             <div class="post-footer">

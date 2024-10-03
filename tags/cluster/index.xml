@@ -4,7 +4,7 @@
     <title>Cluster on Terra Nullius</title>
     <link>https://alexei-led.github.io/tags/cluster/</link>
     <description>Recent content in Cluster on Terra Nullius</description>
-    <generator>Hugo -- gohugo.io</generator>
+    <generator>Hugo</generator>
     <language>en-us</language>
     <copyright>This work is licensed under a Creative Commons Attribution 4.0 International License</copyright>
     <lastBuildDate>Sun, 18 Dec 2016 14:00:00 +0200</lastBuildDate>
@@ -14,7 +14,7 @@
       <link>https://alexei-led.github.io/post/composev3_swarm/</link>
       <pubDate>Sun, 18 Dec 2016 14:00:00 +0200</pubDate>
       <guid>https://alexei-led.github.io/post/composev3_swarm/</guid>
-      <description>Disclaimer: all code snippets bellow are working only with Docker 1.13+&#xA;TL;DR Docker 1.13 simplifies deployment of composed application to a swarm (mode) cluster. And you can do it without creating a new dab (Distribution Application Bundle) file, but just using familiar and well-known docker-compose.yml syntax (with some additions) and --compose-file option.&#xA;Swarm cluster Docker Engine 1.12 introduced a new swarm mode for natively managing a cluster of Docker Engines called a swarm.</description>
+      <description>&lt;blockquote&gt;&#xA;&lt;p&gt;&lt;strong&gt;Disclaimer:&lt;/strong&gt; all code snippets bellow are working only with &lt;strong&gt;Docker 1.13+&lt;/strong&gt;&lt;/p&gt;&#xA;&lt;/blockquote&gt;&#xA;&lt;h1 id=&#34;tldr&#34;&gt;TL;DR&lt;/h1&gt;&#xA;&lt;p&gt;&lt;strong&gt;Docker 1.13&lt;/strong&gt; simplifies deployment of composed application to a &lt;strong&gt;swarm&lt;/strong&gt; (mode) cluster. And you can do it without creating a new &lt;code&gt;dab&lt;/code&gt; (&lt;em&gt;Distribution Application Bundle&lt;/em&gt;) file, but just using familiar and well-known &lt;code&gt;docker-compose.yml&lt;/code&gt; syntax (with some additions) and &lt;code&gt;--compose-file&lt;/code&gt; option.&lt;/p&gt;&#xA;&lt;p&gt;&lt;img src=&#34;https://alexei-led.github.io/img/compose_swarm.png&#34; alt=&#34;Compose to Swarm&#34;&gt;&lt;/p&gt;&#xA;&lt;h1 id=&#34;swarm-cluster&#34;&gt;Swarm cluster&lt;/h1&gt;&#xA;&lt;p&gt;Docker Engine 1.12 introduced a new &lt;strong&gt;swarm mode&lt;/strong&gt; for natively managing a cluster of Docker Engines called a &lt;strong&gt;swarm&lt;/strong&gt;. Docker &lt;strong&gt;swarm mode&lt;/strong&gt; implements &lt;a href=&#34;https://docs.docker.com/engine/swarm/raft/&#34;&gt;Raft Consensus Algorithm&lt;/a&gt; and does not require using external key value store anymore, such as &lt;a href=&#34;https://www.consul.io/&#34;&gt;Consul&lt;/a&gt; or &lt;a href=&#34;https://github.com/coreos/etcd&#34;&gt;etcd&lt;/a&gt;.&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>

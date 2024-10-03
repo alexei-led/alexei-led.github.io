@@ -4,7 +4,7 @@
     <title>1.12 on Terra Nullius</title>
     <link>https://alexei-led.github.io/tags/1.12/</link>
     <description>Recent content in 1.12 on Terra Nullius</description>
-    <generator>Hugo -- gohugo.io</generator>
+    <generator>Hugo</generator>
     <language>en-us</language>
     <copyright>This work is licensed under a Creative Commons Attribution 4.0 International License</copyright>
     <lastBuildDate>Thu, 06 Oct 2016 16:00:00 +0200</lastBuildDate>
@@ -14,7 +14,7 @@
       <link>https://alexei-led.github.io/post/swarm_dind/</link>
       <pubDate>Thu, 06 Oct 2016 16:00:00 +0200</pubDate>
       <guid>https://alexei-led.github.io/post/swarm_dind/</guid>
-      <description>TL;DR Docker-in-Docker dind can help you to run Docker Swarm cluster on your Macbook only with Docker for Mac (v1.12+). No virtualbox, docker-machine, vagrant or other app is required.&#xA;The Beginning One day, I&amp;rsquo;ve decided to try running Docker 1.12 Swarm cluster on my MacBook Pro. Docker team did a great job releasing Docker for Mac, and from that time I forgot all problems I used to have with boot2docker. I really like Docker for Mac: it’s fast, lightweight, tightly integrated with MacOS and significantly simplifies my life when working in changing network environment.</description>
+      <description>&lt;h2 id=&#34;tldr&#34;&gt;TL;DR&lt;/h2&gt;&#xA;&lt;blockquote&gt;&#xA;&lt;p&gt;Docker-in-Docker &lt;a href=&#34;https://hub.docker.com/_/docker/&#34;&gt;dind&lt;/a&gt; can help you to run Docker Swarm cluster on your Macbook only with Docker for Mac (v1.12+). No &lt;code&gt;virtualbox&lt;/code&gt;, &lt;code&gt;docker-machine&lt;/code&gt;, &lt;code&gt;vagrant&lt;/code&gt; or other app is required.&lt;/p&gt;&#xA;&lt;/blockquote&gt;&#xA;&lt;h2 id=&#34;the-beginning&#34;&gt;The Beginning&lt;/h2&gt;&#xA;&lt;p&gt;One day, I&amp;rsquo;ve decided to try running Docker 1.12 Swarm cluster on my MacBook Pro. Docker team did a great job releasing Docker for Mac, and from that time I forgot all problems I used to have with &lt;code&gt;boot2docker&lt;/code&gt;. I really like Docker for Mac: it’s fast, lightweight, tightly integrated with MacOS and significantly simplifies my life when working in changing network environment. The only missing thing is that it&amp;rsquo;s possible to create and work with single Docker daemon running inside &lt;code&gt;xhyve&lt;/code&gt; VM. Shit! I want a cluster.&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>

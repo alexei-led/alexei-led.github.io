@@ -4,7 +4,7 @@
     <title>Integration Test on Terra Nullius</title>
     <link>https://alexei-led.github.io/tags/integration-test/</link>
     <description>Recent content in Integration Test on Terra Nullius</description>
-    <generator>Hugo -- gohugo.io</generator>
+    <generator>Hugo</generator>
     <language>en-us</language>
     <copyright>This work is licensed under a Creative Commons Attribution 4.0 International License</copyright>
     <lastBuildDate>Mon, 07 Mar 2016 16:39:00 +0200</lastBuildDate>
@@ -14,7 +14,7 @@
       <link>https://alexei-led.github.io/post/docker_testing/</link>
       <pubDate>Mon, 07 Mar 2016 16:39:00 +0200</pubDate>
       <guid>https://alexei-led.github.io/post/docker_testing/</guid>
-      <description>Congratulations! You know how to build a Docker image and are able to compose multiple containers into a meaningful application. Hopefully, you&amp;rsquo;ve already created a Continuous Delivery pipeline and know how to push your newly created image into production or testing environment.&#xA;Now, the question is - How do we test our Docker containers?&#xA;There are multiple testing strategies we can apply. In this post, I&amp;rsquo;ll highlight them presenting benefits and drawbacks for each.</description>
+      <description>&lt;p&gt;Congratulations! You know how to build a Docker image and are able to compose multiple containers into a meaningful application. Hopefully, you&amp;rsquo;ve already created a Continuous Delivery pipeline and know how to push your newly created image into production or testing environment.&lt;/p&gt;&#xA;&lt;blockquote&gt;&#xA;&lt;p&gt;Now, the question is - &lt;em&gt;How do we test our Docker containers?&lt;/em&gt;&lt;/p&gt;&#xA;&lt;/blockquote&gt;&#xA;&lt;p&gt;There are multiple testing strategies we can apply. In this post, I&amp;rsquo;ll highlight them presenting benefits and drawbacks for each.&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>

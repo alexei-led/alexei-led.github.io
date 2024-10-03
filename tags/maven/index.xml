@@ -4,7 +4,7 @@
     <title>Maven on Terra Nullius</title>
     <link>https://alexei-led.github.io/tags/maven/</link>
     <description>Recent content in Maven on Terra Nullius</description>
-    <generator>Hugo -- gohugo.io</generator>
+    <generator>Hugo</generator>
     <language>en-us</language>
     <copyright>This work is licensed under a Creative Commons Attribution 4.0 International License</copyright>
     <lastBuildDate>Tue, 07 Mar 2017 18:00:00 +0200</lastBuildDate>
@@ -14,7 +14,7 @@
       <link>https://alexei-led.github.io/post/perfect_docker_java/</link>
       <pubDate>Tue, 07 Mar 2017 18:00:00 +0200</pubDate>
       <guid>https://alexei-led.github.io/post/perfect_docker_java/</guid>
-      <description>TL;DR What is the bare minimum you need to build, test and run my Java application in Docker container?&#xA;The recipe: Create a separate Docker image for each step and optimize the way you are running it.&#xA;Introduction I started working with Java in 1998, and for a long time, it was my main programming language. It was a long love–hate relationship.&#xA;DDuring my work career, I wrote a lot of code in Java.</description>
+      <description>&lt;h2 id=&#34;tldr&#34;&gt;TL;DR&lt;/h2&gt;&#xA;&lt;blockquote&gt;&#xA;&lt;p&gt;&lt;em&gt;What is the bare minimum you need to &lt;strong&gt;build&lt;/strong&gt;, &lt;strong&gt;test&lt;/strong&gt; and &lt;strong&gt;run&lt;/strong&gt; my Java application in Docker container?&lt;/em&gt;&lt;/p&gt;&#xA;&lt;/blockquote&gt;&#xA;&lt;blockquote&gt;&#xA;&lt;p&gt;&lt;strong&gt;The recipe:&lt;/strong&gt; Create a separate Docker image for each step and optimize the way you are running it.&lt;/p&gt;&#xA;&lt;/blockquote&gt;&#xA;&lt;p&gt;&lt;img src=&#34;https://alexei-led.github.io/img/duke_docker.png&#34; alt=&#34;Duke and Container&#34;&gt;&lt;/p&gt;&#xA;&lt;h2 id=&#34;introduction&#34;&gt;Introduction&lt;/h2&gt;&#xA;&lt;p&gt;I started working with Java in 1998, and for a long time, it was my main programming language. It was a long love–hate relationship.&lt;/p&gt;&#xA;&lt;p&gt;DDuring my work career, I wrote a lot of code in Java. Despite that fact, I don’t think Java is usually the right choice for writing microservices running in &lt;a href=&#34;https://www.docker.com/&#34;&gt;Docker&lt;/a&gt; containers.&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>

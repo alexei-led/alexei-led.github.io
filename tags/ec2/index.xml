@@ -4,7 +4,7 @@
     <title>EC2 on Terra Nullius</title>
     <link>https://alexei-led.github.io/tags/ec2/</link>
     <description>Recent content in EC2 on Terra Nullius</description>
-    <generator>Hugo -- gohugo.io</generator>
+    <generator>Hugo</generator>
     <language>en-us</language>
     <copyright>This work is licensed under a Creative Commons Attribution 4.0 International License</copyright>
     <lastBuildDate>Thu, 08 Apr 2021 10:00:00 +0200</lastBuildDate>
@@ -14,7 +14,7 @@
       <link>https://alexei-led.github.io/post/spotinfo/</link>
       <pubDate>Thu, 08 Apr 2021 10:00:00 +0200</pubDate>
       <guid>https://alexei-led.github.io/post/spotinfo/</guid>
-      <description>TL;DR The spotinfo is a command-line tool you can use for exploring AWS Spot instances.&#xA;Introduction Using Amazon EC2 Spot instances is an excellent way to reduce EC2 on-demand instance cost, up to 90%. Whenever you have a workload that can survive VM interruption or be suspended and resumed later on without impacting business use cases, choosing the Spot pricing model is a no-brainer choice.&#xA;The lower your interruption rate, the longer your Spot instances are likely to run.</description>
+      <description>&lt;h2 id=&#34;tldr&#34;&gt;TL;DR&lt;/h2&gt;&#xA;&lt;p&gt;The &lt;code&gt;spotinfo&lt;/code&gt; is a command-line tool you can use for exploring AWS Spot instances.&lt;/p&gt;&#xA;&lt;h2 id=&#34;introduction&#34;&gt;Introduction&lt;/h2&gt;&#xA;&lt;p&gt;Using &lt;a href=&#34;https://aws.amazon.com/ec2/spot/&#34;&gt;Amazon EC2 Spot&lt;/a&gt; instances is an excellent way to reduce EC2 on-demand instance cost, up to 90%. Whenever you have a workload that can survive VM interruption or be suspended and resumed later on without impacting business use cases, choosing the Spot pricing model is a no-brainer choice.&lt;/p&gt;&#xA;&lt;p&gt;The lower your interruption rate, the longer your Spot instances are likely to run.&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>

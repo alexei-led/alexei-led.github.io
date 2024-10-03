@@ -4,7 +4,7 @@
     <title>EKS on Terra Nullius</title>
     <link>https://alexei-led.github.io/tags/eks/</link>
     <description>Recent content in EKS on Terra Nullius</description>
-    <generator>Hugo -- gohugo.io</generator>
+    <generator>Hugo</generator>
     <language>en-us</language>
     <copyright>This work is licensed under a Creative Commons Attribution 4.0 International License</copyright>
     <lastBuildDate>Sun, 26 Apr 2020 10:00:00 +0200</lastBuildDate>
@@ -14,21 +14,21 @@
       <link>https://alexei-led.github.io/post/kube_secrets-init/</link>
       <pubDate>Sun, 26 Apr 2020 10:00:00 +0200</pubDate>
       <guid>https://alexei-led.github.io/post/kube_secrets-init/</guid>
-      <description>Introduction Secrets are essential for operation of many production systems. Unintended secrets exposure is one of the top risks that should be properly addressed. Developers should do their best to protect application secrets.&#xA;The problem becomes even harder, once company moves to a microservice architecture and multiple services require an access to different secrets in order to properly work. And this leads to a new challenges: how to distribute, manage, monitor and rotate application secrets, avoiding unintended exposure?</description>
+      <description>&lt;h2 id=&#34;introduction&#34;&gt;Introduction&lt;/h2&gt;&#xA;&lt;p&gt;Secrets are essential for operation of many production systems. Unintended secrets exposure is one of the top risks that should be properly addressed. Developers should do their best to protect application secrets.&lt;/p&gt;&#xA;&lt;p&gt;The problem becomes even harder, once company moves to a microservice architecture and multiple services require an access to different secrets in order to properly work. And this leads to a new challenges: how to distribute, manage, monitor and rotate application secrets, avoiding unintended exposure?&lt;/p&gt;</description>
     </item>
     <item>
       <title>Kubernetes and Secrets Management in Cloud</title>
       <link>https://alexei-led.github.io/post/secrets-init/</link>
       <pubDate>Mon, 23 Dec 2019 10:00:00 +0200</pubDate>
       <guid>https://alexei-led.github.io/post/secrets-init/</guid>
-      <description>Introduction Secrets are essential for operation of many production systems. Unintended secrets exposure is one of the top risks that should be properly addressed. Developers should do their best to protect application secrets.&#xA;The problem becomes even harder, once company moves to a microservice architecture and multiple services require an access to different secrets in order to properly work. And this leads to a new challenges: how to distribute, manage, monitor and rotate application secrets, avoiding unintended exposure?</description>
+      <description>&lt;h2 id=&#34;introduction&#34;&gt;Introduction&lt;/h2&gt;&#xA;&lt;p&gt;Secrets are essential for operation of many production systems. Unintended secrets exposure is one of the top risks that should be properly addressed. Developers should do their best to protect application secrets.&lt;/p&gt;&#xA;&lt;p&gt;The problem becomes even harder, once company moves to a microservice architecture and multiple services require an access to different secrets in order to properly work. And this leads to a new challenges: how to distribute, manage, monitor and rotate application secrets, avoiding unintended exposure?&lt;/p&gt;</description>
     </item>
     <item>
       <title>EKS GPU Cluster from Zero to Hero</title>
       <link>https://alexei-led.github.io/post/eks_gpu_spot/</link>
       <pubDate>Sat, 20 Jul 2019 10:00:00 +0200</pubDate>
       <guid>https://alexei-led.github.io/post/eks_gpu_spot/</guid>
-      <description>Introduction If you ever tried to run a GPU workload on Kubernetes cluster, you know that this task requires non-trivial configuration and comes with high cost tag (GPU instances are quite expensive).&#xA;This post shows how to run a GPU workload on Kubernetes cluster in cost effective way, using AWS EKS cluster, AWS Auto Scaling, Amazon EC2 Spot Instances and some Kubernetes resources and configurations.&#xA;EKS Cluster Plan First we need to create a Kubernetes cluster that consists from mixed nodes, non-GPU nodes for management and generic Kubernetes workload and more expensive GPU nodes to run GPU intensive tasks, like machine learning, medical analysis, seismic exploration, video transcoding and others.</description>
+      <description>&lt;h2 id=&#34;introduction&#34;&gt;Introduction&lt;/h2&gt;&#xA;&lt;p&gt;If you ever tried to run a GPU workload on Kubernetes cluster, you know that this task requires non-trivial configuration and comes with high cost tag (GPU instances are quite expensive).&lt;/p&gt;&#xA;&lt;p&gt;This post shows how to run a GPU workload on Kubernetes cluster in cost effective way, using &lt;a href=&#34;https://aws.amazon.com/eks/&#34;&gt;AWS EKS&lt;/a&gt; cluster, &lt;a href=&#34;https://aws.amazon.com/autoscaling/&#34;&gt;AWS Auto Scaling&lt;/a&gt;, &lt;a href=&#34;https://aws.amazon.com/ec2/spot/&#34;&gt;Amazon EC2 Spot Instances&lt;/a&gt; and some Kubernetes resources and configurations.&lt;/p&gt;&#xA;&lt;p&gt;&lt;img src=&#34;https://alexei-led.github.io/img/k8s_gpu.png&#34; alt=&#34;Kubernetes with GPU Mixed ASG&#34;&gt;&lt;/p&gt;&#xA;&lt;h2 id=&#34;eks-cluster-plan&#34;&gt;EKS Cluster Plan&lt;/h2&gt;&#xA;&lt;p&gt;First we need to create a Kubernetes cluster that consists from mixed nodes, non-GPU nodes for management and generic Kubernetes workload and more expensive GPU nodes to run GPU intensive tasks, like machine learning, medical analysis, seismic exploration, video transcoding and others.&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>

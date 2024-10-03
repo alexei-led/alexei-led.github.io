@@ -4,7 +4,7 @@
     <title>Continuous Delivery on Terra Nullius</title>
     <link>https://alexei-led.github.io/tags/continuous-delivery/</link>
     <description>Recent content in Continuous Delivery on Terra Nullius</description>
-    <generator>Hugo -- gohugo.io</generator>
+    <generator>Hugo</generator>
     <language>en-us</language>
     <copyright>This work is licensed under a Creative Commons Attribution 4.0 International License</copyright>
     <lastBuildDate>Wed, 11 Oct 2017 18:00:00 +0200</lastBuildDate>
@@ -14,7 +14,7 @@
       <link>https://alexei-led.github.io/post/cd_helm_kubernetes/</link>
       <pubDate>Wed, 11 Oct 2017 18:00:00 +0200</pubDate>
       <guid>https://alexei-led.github.io/post/cd_helm_kubernetes/</guid>
-      <description>Continuous Delivery and Continuous Deployment for Kubernetes microservices THIS IS A DRAFT VERSION OF POST TO COME, PLEASE DO NOT SHARE&#xA;Starting Point Over last years we&amp;rsquo;ve been adopting several concepts for our project, straggling to make them work together.&#xA;The first one is the Microservice Architecture. We did not start it clean and by the book, rather applied it to the already existing project: splitting big services into smaller and breaking excessive coupling.</description>
+      <description>&lt;h1 id=&#34;continuous-delivery-and-continuous-deployment-for-kubernetes-microservices&#34;&gt;Continuous Delivery and Continuous Deployment for Kubernetes microservices&lt;/h1&gt;&#xA;&lt;blockquote&gt;&#xA;&lt;p&gt;THIS IS A DRAFT VERSION OF POST TO COME, PLEASE DO NOT SHARE&lt;/p&gt;&#xA;&lt;/blockquote&gt;&#xA;&lt;h2 id=&#34;starting-point&#34;&gt;Starting Point&lt;/h2&gt;&#xA;&lt;p&gt;Over last years we&amp;rsquo;ve been adopting several concepts for our project, straggling to make them work together.&lt;/p&gt;&#xA;&lt;p&gt;The first one is the &lt;em&gt;Microservice Architecture&lt;/em&gt;. We did not start it clean and by the book, rather applied it to the already existing project: splitting big services into smaller and breaking excessive coupling. The refactoring work is not finished yet. New services, we are building, starts looking more like &amp;ldquo;microservices&amp;rdquo;, while there are still few that, I would call &amp;ldquo;micro-monoliths&amp;rdquo;.&#xA;I have a feeling that this is a typical situation for an already existing project, that tries to adopt this new architecture pattern: &lt;em&gt;you are almost there, but there is always a work to be done&lt;/em&gt;.&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>
