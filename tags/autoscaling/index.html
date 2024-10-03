@@ -29,7 +29,7 @@
     
  
     
-    <link rel="alternate" type="application/rss+xml" href="https://alexei-led.github.io/categories/devops/index.xml" title="Terra Nullius" />
+    <link rel="alternate" type="application/rss+xml" href="https://alexei-led.github.io/tags/autoscaling/index.xml" title="Terra Nullius" />
     
     
 </head>
@@ -122,7 +122,7 @@
         <div id="content" class="content-container">
         
 
-  <h1>Tagged "DevOps"</h1>
+  <h1>Tagged "Autoscaling"</h1>
   
   
     
@@ -142,204 +142,6 @@
             </div>
             <div class="post-footer">
             <time>October 3, 2024</time>
-            </div> 
-        </article>
-    
-  
-    
-    <article>
-            <h2>
-                <a href="https://alexei-led.github.io/post/kubeip_v2/">
-                    KubeIP v2: Assigning Static Public IPs to Kubernetes Nodes Across Cloud Providers
-                </a>
-            </h2>
-            <div>
-                <p>
-                <h2 id="tldr">TL;DR</h2>
-<p>Kubernetes nodes can benefit from having dedicated static public IP addresses in certain scenarios.</p>
-<p><a href="https://github.com/doitintl/kubeip">KubeIP</a>, an open-source utility, fulfills this need by assigning static public IPs to Kubernetes nodes. The latest version, KubeIP v2, extends support from Google Cloud&rsquo;s GKE to Amazon&rsquo;s EKS, with a design that&rsquo;s ready to accommodate other cloud providers. It operates as a DaemonSet, offering improved reliability, configuration flexability and user-friendliness over the previous Kubernetes controller method. KubeIP v2 supports assigning both IPv4 and IPv6 addresses.</p>
-                </p>
-            </div>
-            <div class="post-footer">
-            <time>April 4, 2024</time>
-            </div> 
-        </article>
-    
-  
-    
-    <article>
-            <h2>
-                <a href="https://alexei-led.github.io/post/spotinfo/">
-                    Spotinfo
-                </a>
-            </h2>
-            <div>
-                <p>
-                <h2 id="tldr">TL;DR</h2>
-<p>The <code>spotinfo</code> is a command-line tool you can use for exploring AWS Spot instances.</p>
-<h2 id="introduction">Introduction</h2>
-<p>Using <a href="https://aws.amazon.com/ec2/spot/">Amazon EC2 Spot</a> instances is an excellent way to reduce EC2 on-demand instance cost, up to 90%. Whenever you have a workload that can survive VM interruption or be suspended and resumed later on without impacting business use cases, choosing the Spot pricing model is a no-brainer choice.</p>
-<p>The lower your interruption rate, the longer your Spot instances are likely to run.</p>
-                </p>
-            </div>
-            <div class="post-footer">
-            <time>April 8, 2021</time>
-            </div> 
-        </article>
-    
-  
-    
-    <article>
-            <h2>
-                <a href="https://alexei-led.github.io/post/docker_multi_arch_aws/">
-                    Building Multi-Platform Docker Images for Intel and ARM with AWS CodeBuild
-                </a>
-            </h2>
-            <div>
-                <p>
-                <h2 id="tldr">TL;DR</h2>
-<p>The Docker BuildKit <a href="https://github.com/docker/buildx">buildx CLI plugin</a> simplifies building Docker images for different OS/CPU platforms (e.g. <code>linux/amd64</code>, <code>linux/arm64</code>, <code>linux/arm</code>, <code>windows/amd64</code>)</p>
-<p>So why is it a big deal now? Who needs Docker images for Arm platform anyway. Raspberry Pi geeks?</p>
-<p>A good reason for this is just a one word Graviton2&hellip;</p>
-                </p>
-            </div>
-            <div class="post-footer">
-            <time>September 30, 2020</time>
-            </div> 
-        </article>
-    
-  
-    
-    <article>
-            <h2>
-                <a href="https://alexei-led.github.io/post/kube_secrets-init/">
-                    Kubernetes and Secrets Management in Cloud: Part 2
-                </a>
-            </h2>
-            <div>
-                <p>
-                <h2 id="introduction">Introduction</h2>
-<p>Secrets are essential for operation of many production systems. Unintended secrets exposure is one of the top risks that should be properly addressed. Developers should do their best to protect application secrets.</p>
-<p>The problem becomes even harder, once company moves to a microservice architecture and multiple services require an access to different secrets in order to properly work. And this leads to a new challenges: how to distribute, manage, monitor and rotate application secrets, avoiding unintended exposure?</p>
-                </p>
-            </div>
-            <div class="post-footer">
-            <time>April 26, 2020</time>
-            </div> 
-        </article>
-    
-  
-    
-    <article>
-            <h2>
-                <a href="https://alexei-led.github.io/post/gke_aws_access/">
-                    Securely access AWS from GKE
-                </a>
-            </h2>
-            <div>
-                <p>
-                <h1 id="securely-access-aws-from-gke">Securely Access AWS from GKE</h1>
-<p>It is not a rare case when an application running on Google Kubernetes Engine (GKE) needs to access Amazon Web Services (AWS) APIs. Any application has needs. Maybe it needs to run an analytics query on Amazon Redshift, access data stored in Amazon S3 bucket, convert text to speech with Amazon Polly or use any other AWS service. This multi-cloud scenario is common nowadays, as companies are working with multiple cloud providers.</p>
-                </p>
-            </div>
-            <div class="post-footer">
-            <time>February 12, 2020</time>
-            </div> 
-        </article>
-    
-  
-    
-    <article>
-            <h2>
-                <a href="https://alexei-led.github.io/post/k8s_node_shell/">
-                    Get a Shell to a Kubernetes Node
-                </a>
-            </h2>
-            <div>
-                <p>
-                <p><img src="https://alexei-led.github.io/img/linux_pinguin_terminal.jpg" alt="Linux Shell"></p>
-<p>Throughout the lifecycle of your Kubernetes cluster, you may need to access a cluster worker node. This access could be for maintenance, configuration inspection, log collection, or other troubleshooting operations. More than that, it would be nice, if you could enable this access whenever it&rsquo;s needed and disable when you finish your task.</p>
-<h2 id="ssh-approach">SSH Approach</h2>
-<p>While it&rsquo;s possible to configure Kubernetes nodes with SSH access, this also makes worker nodes more vulnerable. Using SSH requires a network connection between the engineer’s machine and the EC2 instance, something you may want to avoid. Some users set up a jump server (also called bastion host) as a typical pattern to minimize the attack surface from the Internet. But this approach still requires from you to manage access to the bastion servers and protect SSH keys. IMHO, managing supporting SSH infrastructure, is a high price to pay, especially if you just wanted to get a shell access to a worker node or to run some commands.</p>
-                </p>
-            </div>
-            <div class="post-footer">
-            <time>July 27, 2019</time>
-            </div> 
-        </article>
-    
-  
-    
-    <article>
-            <h2>
-                <a href="https://alexei-led.github.io/post/perfect_docker_java/">
-                    Crafting perfect Java Docker build flow
-                </a>
-            </h2>
-            <div>
-                <p>
-                <h2 id="tldr">TL;DR</h2>
-<blockquote>
-<p><em>What is the bare minimum you need to <strong>build</strong>, <strong>test</strong> and <strong>run</strong> my Java application in Docker container?</em></p>
-</blockquote>
-<blockquote>
-<p><strong>The recipe:</strong> Create a separate Docker image for each step and optimize the way you are running it.</p>
-</blockquote>
-<p><img src="https://alexei-led.github.io/img/duke_docker.png" alt="Duke and Container"></p>
-<h2 id="introduction">Introduction</h2>
-<p>I started working with Java in 1998, and for a long time, it was my main programming language. It was a long love–hate relationship.</p>
-<p>DDuring my work career, I wrote a lot of code in Java. Despite that fact, I don’t think Java is usually the right choice for writing microservices running in <a href="https://www.docker.com/">Docker</a> containers.</p>
-                </p>
-            </div>
-            <div class="post-footer">
-            <time>March 7, 2017</time>
-            </div> 
-        </article>
-    
-  
-    
-    <article>
-            <h2>
-                <a href="https://alexei-led.github.io/post/everyday_hacks/">
-                    Everyday hacks for Docker
-                </a>
-            </h2>
-            <div>
-                <p>
-                <p>In this post, I&rsquo;ve decided to share with you some useful commands and tools, I&rsquo;m frequently using, working with amazing Docker technology.
-There is no particular order or &ldquo;coolness level&rdquo; for every &ldquo;hack&rdquo;. I will try to present the use case and how does specific command or tool help me with my work.</p>
-<p><img src="https://alexei-led.github.io/img/docker_animals.png" alt="Docker Hacks"></p>
-<h2 id="cleaning-up">Cleaning up</h2>
-<p>Working with Docker for some time, you start to accumulate development junk: unused volumes, networks, exited containers and unused images.</p>
-                </p>
-            </div>
-            <div class="post-footer">
-            <time>January 2, 2017</time>
-            </div> 
-        </article>
-    
-  
-    
-    <article>
-            <h2>
-                <a href="https://alexei-led.github.io/post/composev3_swarm/">
-                    Deploy Docker Compose (v3) to Swarm (mode) Cluster
-                </a>
-            </h2>
-            <div>
-                <p>
-                <blockquote>
-<p><strong>Disclaimer:</strong> all code snippets bellow are working only with <strong>Docker 1.13+</strong></p>
-</blockquote>
-<h1 id="tldr">TL;DR</h1>
-<p><strong>Docker 1.13</strong> simplifies deployment of composed application to a <strong>swarm</strong> (mode) cluster. And you can do it without creating a new <code>dab</code> (<em>Distribution Application Bundle</em>) file, but just using familiar and well-known <code>docker-compose.yml</code> syntax (with some additions) and <code>--compose-file</code> option.</p>
-<p><img src="https://alexei-led.github.io/img/compose_swarm.png" alt="Compose to Swarm"></p>
-<h1 id="swarm-cluster">Swarm cluster</h1>
-<p>Docker Engine 1.12 introduced a new <strong>swarm mode</strong> for natively managing a cluster of Docker Engines called a <strong>swarm</strong>. Docker <strong>swarm mode</strong> implements <a href="https://docs.docker.com/engine/swarm/raft/">Raft Consensus Algorithm</a> and does not require using external key value store anymore, such as <a href="https://www.consul.io/">Consul</a> or <a href="https://github.com/coreos/etcd">etcd</a>.</p>
-                </p>
-            </div>
-            <div class="post-footer">
-            <time>December 18, 2016</time>
             </div> 
         </article>
     

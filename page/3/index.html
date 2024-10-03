@@ -129,6 +129,36 @@
         
         <article>
             <h2>
+                <a href="https://alexei-led.github.io/post/pumba_docker_chaos_testing/">
+                    Pumba - Chaos Testing for Docker
+                </a>
+            </h2>
+            <div><p><p><strong>Update (27-07-27):</strong> Updated post to latest <code>v0.2.0</code> Pumba version change.</p>
+<h2 id="introduction">Introduction</h2>
+<p>The best defense against unexpected failures is to build resilient services. Testing for resiliency enables the teams to learn where their apps fail before the customer does. By intentionally causing failures as part of resiliency testing, you can enforce your policy for building resilient systems.
+Resilience of the system can be defined as its ability to continue functioning even if some components of the system are failing - <a href="https://en.wikipedia.org/wiki/Ephemerality">ephemerality</a>. Growing popularity of distributed and microservice architecture makes resilience testing critical for applications that now require 24x7x365 operation.
+Resilience testing is an approach where you intentionally inject different types of failures at the infrastructure level (VM, network, containers, and processes) and let the system try to recover from these unexpected failures that can happen in production. Simulating realistic failures at any time is the best way to enforce highly available and resilient systems.</p></p></div>
+            <div class="post-footer">
+            <time>April 16, 2016</time>
+
+            
+            
+                
+                    <a class="tag" href="https://alexei-led.github.io/tags/docker">#Docker</a>
+                
+                    <a class="tag" href="https://alexei-led.github.io/tags/testing">#testing</a>
+                
+                    <a class="tag" href="https://alexei-led.github.io/tags/chaos-testing">#chaos testing</a>
+                
+                    <a class="tag" href="https://alexei-led.github.io/tags/resilience">#resilience</a>
+                
+            
+            </div> 
+           
+        </article>
+        
+        <article>
+            <h2>
                 <a href="https://alexei-led.github.io/post/docker_testing/">
                     Testing Strategies for Docker Containers
                 </a>
@@ -209,25 +239,6 @@
                 
                     <a class="tag" href="https://alexei-led.github.io/tags/fleet">#fleet</a>
                 
-            
-            </div> 
-           
-        </article>
-        
-        <article>
-            <h2>
-                <a href="https://alexei-led.github.io/post/vertical_workload_autoscaler/">
-                    
-                </a>
-            </h2>
-            <div><p><h1 id="scaling-kubernetes-workloads-with-vertical-workload-autoscaler-vwa">Scaling Kubernetes Workloads with Vertical Workload Autoscaler (VWA)</h1>
-<h2 id="introduction">Introduction</h2>
-<p>Vertical scaling is essential in Kubernetes environments where workloads need to adjust their CPU and memory resources dynamically to meet changing demands. While Horizontal Pod Autoscaling (HPA) manages scaling by adjusting the number of pod replicas, certain workloads—particularly those with stateful configurations or strict resource requirements—benefit more from vertical scaling, which optimizes resource allocation within individual pods.</p>
-<p>The <strong>Vertical Pod Autoscaler (VPA)</strong> is a widely used solution for vertical scaling in Kubernetes, providing recommendations and automatic adjustments of pod resources. However, VPA can introduce disruptions, as it typically requires evicting and restarting pods to apply new resource limits. This can lead to service interruptions and instability, particularly in production environments or applications requiring high availability.</p></p></div>
-            <div class="post-footer">
-            <time>January 1, 0001</time>
-
-            
             
             </div> 
            

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Vertical Pod Autoscaler on Terra Nullius</title>
+    <link>https://alexei-led.github.io/tags/vertical-pod-autoscaler/</link>
+    <description>Recent content in Vertical Pod Autoscaler on Terra Nullius</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <copyright>This work is licensed under a Creative Commons Attribution 4.0 International License</copyright>
+    <lastBuildDate>Thu, 03 Oct 2024 10:00:00 +0200</lastBuildDate>
+    <atom:link href="https://alexei-led.github.io/tags/vertical-pod-autoscaler/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Scaling Kubernetes Workloads with Vertical Workload Autoscaler (VWA)</title>
+      <link>https://alexei-led.github.io/post/vertical_workload_autoscaler/</link>
+      <pubDate>Thu, 03 Oct 2024 10:00:00 +0200</pubDate>
+      <guid>https://alexei-led.github.io/post/vertical_workload_autoscaler/</guid>
+      <description>&lt;h1 id=&#34;scaling-kubernetes-workloads-with-vertical-workload-autoscaler-vwa&#34;&gt;Scaling Kubernetes Workloads with Vertical Workload Autoscaler (VWA)&lt;/h1&gt;&#xA;&lt;h2 id=&#34;introduction&#34;&gt;Introduction&lt;/h2&gt;&#xA;&lt;p&gt;Vertical scaling is essential in Kubernetes environments where workloads need to adjust their CPU and memory resources dynamically to meet changing demands. While Horizontal Pod Autoscaling (HPA) manages scaling by adjusting the number of pod replicas, certain workloads—particularly those with stateful configurations or strict resource requirements—benefit more from vertical scaling, which optimizes resource allocation within individual pods.&lt;/p&gt;&#xA;&lt;p&gt;The &lt;strong&gt;Vertical Pod Autoscaler (VPA)&lt;/strong&gt; is a widely used solution for vertical scaling in Kubernetes, providing recommendations and automatic adjustments of pod resources. However, VPA can introduce disruptions, as it typically requires evicting and restarting pods to apply new resource limits. This can lead to service interruptions and instability, particularly in production environments or applications requiring high availability.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

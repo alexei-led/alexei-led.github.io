@@ -128,6 +128,27 @@
     
     <article>
             <h2>
+                <a href="https://alexei-led.github.io/post/vertical_workload_autoscaler/">
+                    Scaling Kubernetes Workloads with Vertical Workload Autoscaler (VWA)
+                </a>
+            </h2>
+            <div>
+                <p>
+                <h1 id="scaling-kubernetes-workloads-with-vertical-workload-autoscaler-vwa">Scaling Kubernetes Workloads with Vertical Workload Autoscaler (VWA)</h1>
+<h2 id="introduction">Introduction</h2>
+<p>Vertical scaling is essential in Kubernetes environments where workloads need to adjust their CPU and memory resources dynamically to meet changing demands. While Horizontal Pod Autoscaling (HPA) manages scaling by adjusting the number of pod replicas, certain workloads—particularly those with stateful configurations or strict resource requirements—benefit more from vertical scaling, which optimizes resource allocation within individual pods.</p>
+<p>The <strong>Vertical Pod Autoscaler (VPA)</strong> is a widely used solution for vertical scaling in Kubernetes, providing recommendations and automatic adjustments of pod resources. However, VPA can introduce disruptions, as it typically requires evicting and restarting pods to apply new resource limits. This can lead to service interruptions and instability, particularly in production environments or applications requiring high availability.</p>
+                </p>
+            </div>
+            <div class="post-footer">
+            <time>October 3, 2024</time>
+            </div> 
+        </article>
+    
+  
+    
+    <article>
+            <h2>
                 <a href="https://alexei-led.github.io/post/kubeip_v2/">
                     KubeIP v2: Assigning Static Public IPs to Kubernetes Nodes Across Cloud Providers
                 </a>

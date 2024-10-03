@@ -7,8 +7,43 @@
     <generator>Hugo</generator>
     <language>en-us</language>
     <copyright>This work is licensed under a Creative Commons Attribution 4.0 International License</copyright>
-    <lastBuildDate>Thu, 04 Apr 2024 10:00:00 +0200</lastBuildDate>
+    <lastBuildDate>Thu, 03 Oct 2024 10:00:00 +0200</lastBuildDate>
     <atom:link href="https://alexei-led.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Autoscaling</title>
+      <link>https://alexei-led.github.io/tags/autoscaling/</link>
+      <pubDate>Thu, 03 Oct 2024 10:00:00 +0200</pubDate>
+      <guid>https://alexei-led.github.io/tags/autoscaling/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Kubernetes</title>
+      <link>https://alexei-led.github.io/tags/kubernetes/</link>
+      <pubDate>Thu, 03 Oct 2024 10:00:00 +0200</pubDate>
+      <guid>https://alexei-led.github.io/tags/kubernetes/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Vertical Pod Autoscaler</title>
+      <link>https://alexei-led.github.io/tags/vertical-pod-autoscaler/</link>
+      <pubDate>Thu, 03 Oct 2024 10:00:00 +0200</pubDate>
+      <guid>https://alexei-led.github.io/tags/vertical-pod-autoscaler/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>VPA</title>
+      <link>https://alexei-led.github.io/tags/vpa/</link>
+      <pubDate>Thu, 03 Oct 2024 10:00:00 +0200</pubDate>
+      <guid>https://alexei-led.github.io/tags/vpa/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>VWA</title>
+      <link>https://alexei-led.github.io/tags/vwa/</link>
+      <pubDate>Thu, 03 Oct 2024 10:00:00 +0200</pubDate>
+      <guid>https://alexei-led.github.io/tags/vwa/</guid>
+      <description></description>
+    </item>
     <item>
       <title>AWS</title>
       <link>https://alexei-led.github.io/tags/aws/</link>
@@ -42,13 +77,6 @@
       <link>https://alexei-led.github.io/tags/kubeip/</link>
       <pubDate>Thu, 04 Apr 2024 10:00:00 +0200</pubDate>
       <guid>https://alexei-led.github.io/tags/kubeip/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Kubernetes</title>
-      <link>https://alexei-led.github.io/tags/kubernetes/</link>
-      <pubDate>Thu, 04 Apr 2024 10:00:00 +0200</pubDate>
-      <guid>https://alexei-led.github.io/tags/kubernetes/</guid>
       <description></description>
     </item>
     <item>

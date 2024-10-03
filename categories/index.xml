@@ -7,8 +7,22 @@
     <generator>Hugo</generator>
     <language>en-us</language>
     <copyright>This work is licensed under a Creative Commons Attribution 4.0 International License</copyright>
-    <lastBuildDate>Thu, 04 Apr 2024 10:00:00 +0200</lastBuildDate>
+    <lastBuildDate>Thu, 03 Oct 2024 10:00:00 +0200</lastBuildDate>
     <atom:link href="https://alexei-led.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>DevOps</title>
+      <link>https://alexei-led.github.io/categories/devops/</link>
+      <pubDate>Thu, 03 Oct 2024 10:00:00 +0200</pubDate>
+      <guid>https://alexei-led.github.io/categories/devops/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Kubernetes</title>
+      <link>https://alexei-led.github.io/categories/kubernetes/</link>
+      <pubDate>Thu, 03 Oct 2024 10:00:00 +0200</pubDate>
+      <guid>https://alexei-led.github.io/categories/kubernetes/</guid>
+      <description></description>
+    </item>
     <item>
       <title>AWS</title>
       <link>https://alexei-led.github.io/categories/aws/</link>
@@ -24,24 +38,10 @@
       <description></description>
     </item>
     <item>
-      <title>DevOps</title>
-      <link>https://alexei-led.github.io/categories/devops/</link>
-      <pubDate>Thu, 04 Apr 2024 10:00:00 +0200</pubDate>
-      <guid>https://alexei-led.github.io/categories/devops/</guid>
-      <description></description>
-    </item>
-    <item>
       <title>GCP</title>
       <link>https://alexei-led.github.io/categories/gcp/</link>
       <pubDate>Thu, 04 Apr 2024 10:00:00 +0200</pubDate>
       <guid>https://alexei-led.github.io/categories/gcp/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Kubernetes</title>
-      <link>https://alexei-led.github.io/categories/kubernetes/</link>
-      <pubDate>Thu, 04 Apr 2024 10:00:00 +0200</pubDate>
-      <guid>https://alexei-led.github.io/categories/kubernetes/</guid>
       <description></description>
     </item>
     <item>

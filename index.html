@@ -129,6 +129,37 @@
         
         <article>
             <h2>
+                <a href="https://alexei-led.github.io/post/vertical_workload_autoscaler/">
+                    Scaling Kubernetes Workloads with Vertical Workload Autoscaler (VWA)
+                </a>
+            </h2>
+            <div><p><h1 id="scaling-kubernetes-workloads-with-vertical-workload-autoscaler-vwa">Scaling Kubernetes Workloads with Vertical Workload Autoscaler (VWA)</h1>
+<h2 id="introduction">Introduction</h2>
+<p>Vertical scaling is essential in Kubernetes environments where workloads need to adjust their CPU and memory resources dynamically to meet changing demands. While Horizontal Pod Autoscaling (HPA) manages scaling by adjusting the number of pod replicas, certain workloads—particularly those with stateful configurations or strict resource requirements—benefit more from vertical scaling, which optimizes resource allocation within individual pods.</p>
+<p>The <strong>Vertical Pod Autoscaler (VPA)</strong> is a widely used solution for vertical scaling in Kubernetes, providing recommendations and automatic adjustments of pod resources. However, VPA can introduce disruptions, as it typically requires evicting and restarting pods to apply new resource limits. This can lead to service interruptions and instability, particularly in production environments or applications requiring high availability.</p></p></div>
+            <div class="post-footer">
+            <time>October 3, 2024</time>
+
+            
+            
+                
+                    <a class="tag" href="https://alexei-led.github.io/tags/kubernetes">#Kubernetes</a>
+                
+                    <a class="tag" href="https://alexei-led.github.io/tags/vpa">#VPA</a>
+                
+                    <a class="tag" href="https://alexei-led.github.io/tags/vwa">#VWA</a>
+                
+                    <a class="tag" href="https://alexei-led.github.io/tags/vertical-pod-autoscaler">#Vertical Pod Autoscaler</a>
+                
+                    <a class="tag" href="https://alexei-led.github.io/tags/autoscaling">#Autoscaling</a>
+                
+            
+            </div> 
+           
+        </article>
+        
+        <article>
+            <h2>
                 <a href="https://alexei-led.github.io/post/kubeip_v2/">
                     KubeIP v2: Assigning Static Public IPs to Kubernetes Nodes Across Cloud Providers
                 </a>
@@ -416,51 +447,6 @@
                     <a class="tag" href="https://alexei-led.github.io/tags/continuous-integration">#Continuous Integration</a>
                 
                     <a class="tag" href="https://alexei-led.github.io/tags/helm">#Helm</a>
-                
-            
-            </div> 
-           
-        </article>
-        
-        <article>
-            <h2>
-                <a href="https://alexei-led.github.io/post/cd_helm_kubernetes/">
-                    Continuous Delivery and Continuous Deployment for Kubernetes microservices
-                </a>
-            </h2>
-            <div><p><h1 id="continuous-delivery-and-continuous-deployment-for-kubernetes-microservices">Continuous Delivery and Continuous Deployment for Kubernetes microservices</h1>
-<blockquote>
-<p>THIS IS A DRAFT VERSION OF POST TO COME, PLEASE DO NOT SHARE</p>
-</blockquote>
-<h2 id="starting-point">Starting Point</h2>
-<p>Over last years we&rsquo;ve been adopting several concepts for our project, straggling to make them work together.</p>
-<p>The first one is the <em>Microservice Architecture</em>. We did not start it clean and by the book, rather applied it to the already existing project: splitting big services into smaller and breaking excessive coupling. The refactoring work is not finished yet. New services, we are building, starts looking more like &ldquo;microservices&rdquo;, while there are still few that, I would call &ldquo;micro-monoliths&rdquo;.
-I have a feeling that this is a typical situation for an already existing project, that tries to adopt this new architecture pattern: <em>you are almost there, but there is always a work to be done</em>.</p></p></div>
-            <div class="post-footer">
-            <time>October 11, 2017</time>
-
-            
-            
-                
-                    <a class="tag" href="https://alexei-led.github.io/tags/kubernetes">#kubernetes</a>
-                
-                    <a class="tag" href="https://alexei-led.github.io/tags/docker">#docker</a>
-                
-                    <a class="tag" href="https://alexei-led.github.io/tags/tutorial">#tutorial</a>
-                
-                    <a class="tag" href="https://alexei-led.github.io/tags/helm">#helm</a>
-                
-                    <a class="tag" href="https://alexei-led.github.io/tags/continuous-delivery">#continuous delivery</a>
-                
-                    <a class="tag" href="https://alexei-led.github.io/tags/continuous-deployment">#continuous deployment</a>
-                
-                    <a class="tag" href="https://alexei-led.github.io/tags/devops">#devops</a>
-                
-                    <a class="tag" href="https://alexei-led.github.io/tags/microservice">#microservice</a>
-                
-                    <a class="tag" href="https://alexei-led.github.io/tags/cd">#cd</a>
-                
-                    <a class="tag" href="https://alexei-led.github.io/tags/ci">#ci</a>
                 
             
             </div> 
