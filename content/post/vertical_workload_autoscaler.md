@@ -106,6 +106,8 @@ The [**Vertical Workload Autoscaler (VWA)**](https://github.com/alexei-led/verti
 
 VWA builds upon the VPA framework, relying on the **VPA Recommender** component to generate resource recommendations essential for effective vertical scaling. While VPA determines the appropriate resource allocations, VWA introduces significant improvements by allowing these recommendations to be applied in a controlled manner, thus respecting the workload’s defined update strategies and disruption budgets. VWA effectively replaces the **VPA Updater** and **VPA Admission Controller,** offering a unified solution for managing vertical scaling in Kubernetes environments.
 
+![VWA Architecture](/img/vwa-architecture.png)
+
 ### Key Features
 
 - **Gradual, Non-Disruptive Scaling**: VWA respects PodDisruptionBudgets (PDB) and existing deployment strategies for **Deployment**, **StatefulSet**, **DaemonSet**, **Jobs**, and **CronJobs** objects. By adhering to these configurations, VWA allows for resource updates to be applied in a controlled manner, reducing potential disturbances and minimizing downtime during the scaling process.
