@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Deploy Docker Compose (v3) to Swarm (mode) Cluster | Terra Nullius</title>
+<meta name="generator" content="Jekyll v3.9.3" />
+<meta property="og:title" content="Deploy Docker Compose (v3) to Swarm (mode) Cluster" />
+<meta name="author" content="Alexei Lednev" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Disclaimer: all code snippets bellow are working only with Docker 1.13+" />
+<meta property="og:description" content="Disclaimer: all code snippets bellow are working only with Docker 1.13+" />
+<link rel="canonical" href="http://localhost:4000/devops/2016/12/18/composev3-swarm.html" />
+<meta property="og:url" content="http://localhost:4000/devops/2016/12/18/composev3-swarm.html" />
+<meta property="og:site_name" content="Terra Nullius" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2016-12-18T14:00:00+02:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Deploy Docker Compose (v3) to Swarm (mode) Cluster" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Alexei Lednev"},"dateModified":"2016-12-18T14:00:00+02:00","datePublished":"2016-12-18T14:00:00+02:00","description":"Disclaimer: all code snippets bellow are working only with Docker 1.13+","headline":"Deploy Docker Compose (v3) to Swarm (mode) Cluster","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/devops/2016/12/18/composev3-swarm.html"},"url":"http://localhost:4000/devops/2016/12/18/composev3-swarm.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Terra Nullius" />
+<!-- Custom head content -->
+
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+
+<!-- Additional custom styles -->
+<style>
+  body {
+    font-family: 'Roboto', sans-serif;
+  }
+  .site-title {
+    font-weight: 700;
+  }
+  .post-content img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+  }
+  pre, code {
+    border-radius: 4px;
+  }
+  .post-tag {
+    display: inline-block;
+    background-color: #f0f0f0;
+    padding: 2px 8px;
+    border-radius: 3px;
+    margin-right: 5px;
+    font-size: 0.8em;
+  }
+</style>
+
+<!-- Favicon -->
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+</head>
+<body><header class="site-header">
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Terra Nullius</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About</a><a class="page-link" href="/">Alexei Lednev&#39;s Blog</a></div>
+      </nav></div>
+</header><main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Deploy Docker Compose (v3) to Swarm (mode) Cluster</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2016-12-18T14:00:00+02:00" itemprop="datePublished">Dec 18, 2016
+      </time></p>
+      
+    
+    <div class="post-tags">
+      <strong>Tags:</strong>
+      
+        <span class="post-tag">docker</span>
+      
+        <span class="post-tag">swarm</span>
+      
+        <span class="post-tag">docker-compose</span>
+      
+        <span class="post-tag">compose</span>
+      
+        <span class="post-tag">devops</span>
+      
+        <span class="post-tag">cluster</span>
+      
+    </div>
+    
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <blockquote>
+<p><strong>Disclaimer:</strong> all code snippets bellow are working only with <strong>Docker 1.13+</strong></p>
+</blockquote>
+<h1 id="tldr">TL;DR</h1>
+<p><strong>Docker 1.13</strong> simplifies deployment of composed application to a <strong>swarm</strong> (mode) cluster. And you can do it without creating a new <code>dab</code> (<em>Distribution Application Bundle</em>) file, but just using familiar and well-known <code>docker-compose.yml</code> syntax (with some additions) and <code>--compose-file</code> option.</p>
+<p><img src="/assets/images/compose_swarm.png" alt="Compose to Swarm" /></p>
+<h1 id="swarm-cluster">Swarm cluster</h1>
+<p>Docker Engine 1.12 introduced a new <strong>swarm mode</strong> for natively managing a cluster of Docker Engines called a <strong>swarm</strong>. Docker <strong>swarm mode</strong> implements <a href="https://docs.docker.com/engine/swarm/raft/">Raft Consensus Algorithm</a> and does not require using external key value store anymore, such as <a href="https://www.consul.io/">Consul</a> or <a href="https://github.com/coreos/etcd">etcd</a>.</p>
+<p>If you want to run a <strong>swarm</strong> cluster on a developer's machine, there are several options.</p>
+<p>The first option and most widely known, is to use a <code>docker-machine</code> tool with some virtual driver (Virtualbox, Parallels or other).</p>
+<p>But, in this post I will use another approach: using <a href="https://hub.docker.com/_/docker/">docker-in-docker</a> Docker image with Docker for Mac, see more details in my <a href="../swarm_dind">Docker Swarm cluster with docker-in-docker on MacOS</a> post.</p>
+<h2 id="docker-registry-mirror">Docker Registry mirror</h2>
+<p>When you deploy a new service on local swarm cluster, I recommend to setup local Docker registry mirror and run all swarm nodes with <code>--registry-mirror</code> option, pointing to local Docker registry. By running a local Docker registry mirror, you can keep most of the redundant image fetch traffic on your local network and speedup service deployment.</p>
+<h3 id="docker-swarm-cluster-bootstrap-script">Docker Swarm cluster bootstrap script</h3>
+<p>I've prepared a shell script to bootstrap 4 nodes swarm cluster with Docker registry mirror and very nice <a href="https://github.com/ManoMarks/docker-swarm-visualizer">swarm visualizer</a> application.</p>
+<p>The script initialize docker engine as a <strong>swarm master</strong>, then starts 3 new docker-in-docker containers and join them to the <strong>swarm</strong> cluster as worker nodes. All worker nodes run with <code>--registry-mirror</code> option.</p>
+&lt;script src="https://gist.github.com/alexei-led/a4d31ee446a0fbcab845b93fe4a9b09d.js?file=create_swarm_cluster.sh"> </script>
+<h2 id="deploy-multi-container-application---the-quotoldquot-way">Deploy multi-container application - the &quot;old&quot; way</h2>
+<p>The Docker <code>compose</code> is a tool (and deployment specification format) for defining and running composed multi-container Docker applications. Before Docker 1.12, you could use <code>docker-compose</code> tool to deploy such applications to a <strong>swarm</strong> cluster. With 1.12 release, it's not possible anymore: <code>docker-compose</code> can deploy your application only on single Docker host.</p>
+<p>In order to deploy it to a <strong>swarm</strong> cluster, you need to create a special deployment specification file (also knows as <em>Distribution Application Bundle</em>) in <code>dab</code> format (see more <a href="https://github.com/docker/docker/blob/master/experimental/docker-stacks-and-bundles.md">here</a>).</p>
+<p>The way to create this file, is to run the <code>docker-compose bundle</code> command. The output of this command is a JSON file, that describes  multi-container composed application with Docker images referenced by <code>@sha256</code> instead of tags. Currently <code>dab</code> file format does not support multiple settings from <code>docker-compose.yml</code> and does not allow to use supported options from <code>docker service create</code> command.</p>
+<p>Such a pity story: the <code>dab</code> bundle format looks promising, but currently is totally useless (at least in Docker 1.12).</p>
+<h2 id="deploy-multi-container-application---the-quotnewquot-way">Deploy multi-container application - the &quot;new&quot; way</h2>
+<p>With Docker 1.13, the &quot;new&quot; way to deploy a multi-container composed application is to use <code>docker-compose.yml</code> again (<em>hurrah!</em>). Kudos to Docker team!</p>
+<p>*<strong>Note</strong>: And you do not need the <code>docker-compose</code> tool, only <code>yaml</code> file in <strong>docker-compose</strong> format (<code>version: &quot;3&quot;</code>)</p>
+<pre><code>$ docker deploy --compose-file docker-compose.yml myapp
+</code></pre>
+<h2 id="docker-compose-v3-codeversion-quot3quotcode">Docker compose v3 (<code>version: &quot;3&quot;</code>)</h2>
+<p><em>So, what's new in docker compose version 3?</em></p>
+<p>First, I suggest you take a deeper look at <a href="https://github.com/aanand/compose-file/blob/master/schema/data/config_schema_v3.0.json">docker-compose schema</a>. It is an extension of well-known <code>docker-compose</code> format.</p>
+<p><strong>Note:</strong> <code>docker-compose</code> tool (<code>ver. 1.9.0</code>) does not support <code>docker-compose.yaml version: &quot;3&quot;</code> yet.</p>
+<p>The most visible change is around <strong>swarm</strong> ***service deployment.
+Now you can specify all options supported by <code>docker service create/update</code> commands:</p>
+<ul>
+<li>number of service replicas (or global service)</li>
+<li>service labels</li>
+<li>hard and soft limits for service (container) CPU and memory</li>
+<li>service restart policy</li>
+<li>service rolling update policy</li>
+<li>deployment placement constraints <a href="https://github.com/docker/docker/blob/master/docs/reference/commandline/service_create.md#specify-service-constraints---constraint">link</a></li>
+</ul>
+<h3 id="docker-compose-v3-example">Docker compose v3 example</h3>
+<p>I've created a &quot;new&quot; compose file (v3) for classic &quot;Cats vs. Dogs&quot; example. This example application contains 5 services with following deployment configurations:</p>
+<ol>
+<li><code>voting-app</code> - a Python webapp which lets you vote between two options; requires <code>redis</code></li>
+<li><code>redis</code> - Redis queue which collects new votes; deployed on <code>swarm manager</code> node</li>
+<li><code>worker</code> .NET worker which consumes votes and stores them in <code>db</code>;</li>
+</ol>
+<ul>
+<li><strong># of replicas:</strong> 2 replicas</li>
+<li><strong>hard limit:</strong> max 25% CPU and 512MB memory</li>
+<li><strong>soft limit:</strong> max 25% CPU and 256MB memory</li>
+<li><strong>placement:</strong> on <code>swarm worker</code> nodes only</li>
+<li><strong>restart policy:</strong> restart on-failure, with 5 seconds delay, up to 3 attempts</li>
+<li><strong>update policy:</strong> one by one, with 10 seconds delay and 0.3 failure rate to tolerate during the update</li>
+</ul>
+<ol start="4">
+<li><code>db</code> - Postgres database backed by a Docker volume; deployed on <code>swarm manager</code> node</li>
+<li><code>result-app</code> Node.js webapp which shows the results of the voting in real time; 2 replicas, deployed on <code>swarm worker</code> nodes</li>
+</ol>
+<p>Run the <code>docker deploy --compose-file docker-compose.yml</code> command to deploy my version of &quot;Cats vs. Dogs&quot; application on a swarm cluster.</p>
+&lt;script src="https://gist.github.com/alexei-led/a4d31ee446a0fbcab845b93fe4a9b09d.js?file=docker-compose.yml"> </script>
+<hr />
+<p>Hope you find this post useful. I look forward to your comments and any questions you have.</p>
+
+  </div><a class="u-url" href="/devops/2016/12/18/composev3-swarm.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="http://localhost:4000/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+        <ul class="contact-list">
+          <li class="p-name">Alexei Lednev</li><li><a class="u-email" href="mailto:alexei.led@gmail.com">alexei.led@gmail.com</a></li></ul>
+      </div>
+
+      <div class="footer-col">
+        <p>Alexei Lednev&#39;s personal blog</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li>
+      <a href="https://github.com/alexei-led" title="GitHub">
+        <svg class="svg-icon grey">
+          <use xlink:href="/assets/minima-social-icons.svg#github"></use>
+        </svg>
+        <span class="username">Github</span>
+      </a>
+    </li></ul></div>
+  </div>
+</footer></body>
+
+</html>

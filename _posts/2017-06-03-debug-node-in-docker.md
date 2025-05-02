@@ -194,7 +194,7 @@ First, we will get IP of `todomvc` Docker container.
 
 ```shell
 $ # get IP of todomvc container
-$ TODOMVC_IP=$(docker inspect -f "{{.NetworkSettings.IPAddress}}" todomvc)
+$ TODOMVC_IP=$(docker inspect -f '\{\{.NetworkSettings.IPAddress\}\}' todomvc)
 ```
 
 Then, configure port forwarding to the "sidecar" `socat` port, we define previously, running on the same network as the `todomvc` container.
@@ -283,7 +283,7 @@ It was a long journey to find the proper solution, but after I found it, the pro
 
 I've recorded a short movie, just to demonstrate all steps and prove that things are working fluently, exactly as I've described in this post.
 
-{{< youtube WYOfNTJmE_4 >}}
+{% include youtube.html id="WYOfNTJmE_4" %}
 
 ---
 

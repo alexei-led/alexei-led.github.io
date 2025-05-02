@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Do not ignore .dockerignore | Terra Nullius</title>
+<meta name="generator" content="Jekyll v3.9.3" />
+<meta property="og:title" content="Do not ignore .dockerignore" />
+<meta name="author" content="Alexei Lednev" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="TL;DR" />
+<meta property="og:description" content="TL;DR" />
+<link rel="canonical" href="http://localhost:4000/development/2016/11/26/donot-ignore-dockerignore.html" />
+<meta property="og:url" content="http://localhost:4000/development/2016/11/26/donot-ignore-dockerignore.html" />
+<meta property="og:site_name" content="Terra Nullius" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2016-11-26T16:00:00+02:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Do not ignore .dockerignore" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Alexei Lednev"},"dateModified":"2016-11-26T16:00:00+02:00","datePublished":"2016-11-26T16:00:00+02:00","description":"TL;DR","headline":"Do not ignore .dockerignore","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/development/2016/11/26/donot-ignore-dockerignore.html"},"url":"http://localhost:4000/development/2016/11/26/donot-ignore-dockerignore.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Terra Nullius" />
+<!-- Custom head content -->
+
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+
+<!-- Additional custom styles -->
+<style>
+  body {
+    font-family: 'Roboto', sans-serif;
+  }
+  .site-title {
+    font-weight: 700;
+  }
+  .post-content img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+  }
+  pre, code {
+    border-radius: 4px;
+  }
+  .post-tag {
+    display: inline-block;
+    background-color: #f0f0f0;
+    padding: 2px 8px;
+    border-radius: 3px;
+    margin-right: 5px;
+    font-size: 0.8em;
+  }
+</style>
+
+<!-- Favicon -->
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+</head>
+<body><header class="site-header">
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Terra Nullius</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About</a><a class="page-link" href="/">Alexei Lednev&#39;s Blog</a></div>
+      </nav></div>
+</header><main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Do not ignore .dockerignore</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2016-11-26T16:00:00+02:00" itemprop="datePublished">Nov 26, 2016
+      </time></p>
+      
+    
+    <div class="post-tags">
+      <strong>Tags:</strong>
+      
+        <span class="post-tag">Docker</span>
+      
+        <span class="post-tag">build</span>
+      
+        <span class="post-tag">dockerignore</span>
+      
+        <span class="post-tag">devops</span>
+      
+    </div>
+    
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <h1 id="tldr">TL;DR</h1>
+<blockquote>
+<p><strong>Tip:</strong> Consider to define and use <code>.dockerignore</code> file for every Docker image you are building. It can help you to reduce Docker image size, speedup <code>docker build</code> and avoid unintended secret exposure.</p>
+</blockquote>
+<p><img src="/assets/images/overloaded.jpg" alt="Overloaded container ship" /></p>
+<h1 id="docker-build-context">Docker build context</h1>
+<p>The <code>docker build</code> command is used to build a new Docker image. There is one argument you can pass to the <code>build</code> command <strong>build context</strong>.</p>
+<p>So, what is the Docker <strong>build context</strong>?</p>
+<p>First, remember, that Docker is a client-server application, it consists from Docker client and Docker server (also known as <em>daemon</em>). The Docker client command line tool talks with Docker server and asks it do things. One of these things is <strong>build</strong>: building a new Docker image. The Docker server can run on the same machine as the client, remote machine or virtual machine, that also can be local, remote or even run on some cloud IaaS.</p>
+<p>Why is that important and how is the Docker <strong>build context</strong> related to this fact?</p>
+<p>In order to create a new Docker image, Docker server needs an access to files, you want to create the Docker image from. So, you need somehow to send these files to the Docker server. These files are the Docker <strong>build context</strong>. The Docker client packs all <strong>build context</strong> files into <code>tar</code> archive and uploads this archive to the Docker server. By default client will take all files (and folders) in current working directory and use them as the <strong>build context</strong>.
+It can also accept already created <code>tar</code> archive or <code>git</code> repository. In a case of <code>git</code> repository, the client will clone it with submodules into a temporary folder and will create a <strong>build context</strong> archive from it.</p>
+<h1 id="impact-on-docker-build">Impact on Docker build</h1>
+<p>The first output line, that you see, running the <code>docker build</code> command is:</p>
+<pre><code>Sending build context to Docker daemon 45.3 MB
+Step 1: FROM ...
+</code></pre>
+<p>This should make things clear. Actually, <strong>every time</strong> you are running the <code>docker build</code> command, the Docker client creates a new <strong>build context</strong> archive and sends it to the Docker server. So, you are always paying this &quot;tax&quot;: the time it takes to create an archive, storage and network traffic and latency time.</p>
+<blockquote>
+<p><strong>Tip:</strong> The <strong>rule of thumb</strong> is not adding files to the <strong>build context</strong>, if you do not need them in your Docker image.</p>
+</blockquote>
+<h1 id="the-strongdockerignorestrong-file">The <strong>.dockerignore</strong> file</h1>
+<p>The <code>.dockerignore</code> file is the tool, that can help you to define the Docker <strong>build context</strong> you really need. Using this file, you can specify <strong>ignore rules</strong> and <strong>exceptions</strong> from these rules for files and folder, that won't be included in the <strong>build context</strong> and thus won't be packed into an archive and uploaded to the Docker server.</p>
+<h1 id="why-should-you-care">Why should you care?</h1>
+<p>Indeed, why should you care? Computers today are fast, networks are also pretty fast (hopefully) and storage is cheap. So, this &quot;tax&quot; may be not that big, right?
+I will try to convince you, that you should care.</p>
+<h2 id="reason-1-docker-image-size">Reason #1: Docker image size</h2>
+<p>The world of software development is shifting lately towards <em>continuous delivery</em>, <em>elastic infrastructure</em> and <em>microservice architecture</em>.</p>
+<p>How is that related?</p>
+<p>Your systems are composed of multiple components (or <em>microservices</em>), each one of them running inside Linux container. There might be tens or hundreds of services and even more service instances. These service instances can be built and deployed independently of each other and this can be done for <strong>every single code commit</strong>. More than that, <em>elastic infrastructure</em> means that new compute nodes can be added or removed from the system and its microservices can move from node to node, to support scale or availability requirements. That means, your Docker images will be frequently built and transferred.</p>
+<p>When you practice continuous delivery and microservice architecture, image size and image build time <strong>do matter</strong>.</p>
+<h2 id="reason-2-unintended-secrets-exposure">Reason #2: Unintended secrets exposure</h2>
+<p>Not controlling your <strong>build context</strong>, can also lead to an unintended exposure of your code, commit history, and secrets (keys and credentials).</p>
+<p>If you copy files into you Docker image with <code>ADD .</code> or <code>COPY .</code> command, you may unintendedly include your source files, whole <code>git</code> history (a <code>.git</code> folder), secret files (like <code>.aws</code>, <code>.env</code>, private keys), cache and other files not only into the Docker <strong>build context</strong>, but also into the final Docker image.</p>
+<p>There are multiple Docker images currently available on DockerHub, that expose application source code, passwords, keys and credentials (for example <a href="http://thehackernews.com/2016/07/vine-source-code.html">Twitter Vine</a>).</p>
+<h2 id="reason-3-the-docker-build---cache-invalidation">Reason #3: The Docker build - cache invalidation</h2>
+<p>A common pattern is to inject an application's entire codebase into an image using an instruction like this:</p>
+<pre><code>COPY . /usr/src/app
+</code></pre>
+<p>In this case, we're copying the <strong>entire</strong> <strong>build context</strong> into the image. It's also important to understand, that every Dockerfile command generates a new layer. So, if any of included file changes in the entire build context, this change will invalidate the build cache for <code>COPY . /opt/myapp</code> layer and a new image layer will be generated on the next build.</p>
+<p>If your working directory contains files that are frequently updated (logs, test results, git history, temporary cache files and similar), you are going to regenerate this layer for every <code>docker build</code> run.</p>
+<h1 id="the-codedockerignorecode-syntax">The <code>.dockerignore</code> syntax</h1>
+<p>The <code>.dockerignore</code> file is similar to <code>gitignore</code> file, used by <code>git</code> tool. similarly to <code>.gitignore</code> file, it allows you to specify a pattern for files and folders that should be ignored by the Docker client when generating a <strong>build context</strong>. While <code>.dockerignore</code> file syntax used to describe <strong>ignore patterns</strong> is similar to <code>.gitignore</code> it's not the same.</p>
+<p>The <code>.dockerignore</code> pattern matching syntax is based on Go <code>filepath.Match()</code> function and includes some additions.</p>
+<p>Here is the complete syntax for the <code>.dockerignore</code>:</p>
+<pre><code>pattern:
+    { term }
+term:
+    '*'         matches any sequence of non-Separator characters
+    '?'         matches any single non-Separator character
+    '[' [ '^' ] { character-range } ']'
+                character class (must be non-empty)
+    c           matches character c (c != '*', '?', '\\', '[')
+    '\\' c      matches character c
+
+character-range:
+    c           matches character c (c != '\\', '-', ']')
+    '\\' c      matches character c
+    lo '-' hi   matches character c for lo &lt;= c &lt;= hi
+
+additions:
+  '**'        matches any number of directories (including zero)
+  '!'         lines starting with ! (exclamation mark) can be used to make exceptions to exclusions
+    '#'         lines starting with this character are ignored: use it for comments
+</code></pre>
+<p><strong>Note:</strong> Using the <code>!</code> character is pretty tricky. The combination of it and patterns before and after line with the <code>!</code> character can be used to create more advanced rules.</p>
+<h2 id="examples">Examples</h2>
+<pre><code># ignore .git and .cache folders
+.git
+.cache
+</code></pre><pre><code># ignore all *.class files in all folders, including build root
+**/*.class
+</code></pre><pre><code># ignore all markdown files (md) beside all README*.md other than README-secret.md
+*.md
+!README*.md
+README-secret.md
+</code></pre>
+<h1 id="next">Next</h1>
+<ul>
+<li>RTFM - <a href="https://docs.docker.com/engine/reference/builder/#/dockerignore-file">https://docs.docker.com/engine/reference/builder/#/dockerignore-file</a></li>
+<li>Use <code>.dockerignore</code> in every project, where you are building Docker images</li>
+</ul>
+<hr />
+<p>Hope you find this post useful. I look forward to your comments and any questions you have.</p>
+
+  </div><a class="u-url" href="/development/2016/11/26/donot-ignore-dockerignore.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="http://localhost:4000/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+        <ul class="contact-list">
+          <li class="p-name">Alexei Lednev</li><li><a class="u-email" href="mailto:alexei.led@gmail.com">alexei.led@gmail.com</a></li></ul>
+      </div>
+
+      <div class="footer-col">
+        <p>Alexei Lednev&#39;s personal blog</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li>
+      <a href="https://github.com/alexei-led" title="GitHub">
+        <svg class="svg-icon grey">
+          <use xlink:href="/assets/minima-social-icons.svg#github"></use>
+        </svg>
+        <span class="username">Github</span>
+      </a>
+    </li></ul></div>
+  </div>
+</footer></body>
+
+</html>

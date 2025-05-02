@@ -197,7 +197,7 @@ sh$ iperf -c server -u
 
 ## Session and slides
 
-{{< youtube 68ZepHa5UVg >}}
+{% include youtube.html id="68ZepHa5UVg" %}
 
 [Slides](https://speakerdeck.com/alexeiled/chaos-testing-for-docker-containers)
 

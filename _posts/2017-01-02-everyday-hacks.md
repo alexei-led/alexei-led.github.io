@@ -68,13 +68,13 @@ $ docker run -it --rm alpine sh
 ### Pretty JSON and jq processing
 ```
 # show whole Docker info
-$ docker info --format "{{json .}}" | jq .
+$ docker info --format '\{\{json .\}\}' | jq .
 
 # show Plugins only
-$ docker info --format "{{json .Plugins}}" | jq .
+$ docker info --format '\{\{json .Plugins\}\}' | jq .
 
 # list IP addresses for all containers connected to 'bridge' network
-$ docker network inspect bridge -f '{{json .Containers}}' | jq '.[] | {cont: .Name, ip: .IPv4Address}'
+$ docker network inspect bridge -f '\{\{json .Containers\}\}' | jq '.[] | {cont: .Name, ip: .IPv4Address}'
 ```
 
 ## Watching containers lifecycle
@@ -85,7 +85,7 @@ The `docker stats` command, even with `--format` option is not useful for this u
 
 ### Display a table with 'ID Image Status' for active containers and refresh it every 2 seconds
 ```
-$ watch -n 2 'docker ps --format "table {{.ID}}\t {{.Image}}\t {{.Status}}"'
+$ watch -n 2 'docker ps --format "table \{\{.ID\}\}\t \{\{.Image\}\}\t \{\{.Status\}\}"'
 ```
 
 ## Enter into host/container Namespace

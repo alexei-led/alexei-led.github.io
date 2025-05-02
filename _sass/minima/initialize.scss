@@ -1,9 +1,0 @@
-@charset "utf-8";
-
-// Import pre-styling-overrides hook and style-partials
-@import
-  "minima/custom-variables", // Override variable defaults
-  "minima/base",             // Defines element resets
-  "minima/layout",           // Defines structure and style based on CSS selectors
-  "minima/custom-styles"     // Hook to override existing styles
-;

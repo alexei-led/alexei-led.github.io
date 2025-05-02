@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Docker Pattern: Deploy and update dockerized application on cluster | Terra Nullius</title>
+<meta name="generator" content="Jekyll v3.9.3" />
+<meta property="og:title" content="Docker Pattern: Deploy and update dockerized application on cluster" />
+<meta name="author" content="Alexei Lednev" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Docker is great technology that simplifies development and deployment of distributed applications." />
+<meta property="og:description" content="Docker is great technology that simplifies development and deployment of distributed applications." />
+<link rel="canonical" href="http://localhost:4000/development/2015/12/30/docker-cd-cluster.html" />
+<meta property="og:url" content="http://localhost:4000/development/2015/12/30/docker-cd-cluster.html" />
+<meta property="og:site_name" content="Terra Nullius" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2015-12-30T11:09:47+02:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Docker Pattern: Deploy and update dockerized application on cluster" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Alexei Lednev"},"dateModified":"2015-12-30T11:09:47+02:00","datePublished":"2015-12-30T11:09:47+02:00","description":"Docker is great technology that simplifies development and deployment of distributed applications.","headline":"Docker Pattern: Deploy and update dockerized application on cluster","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/development/2015/12/30/docker-cd-cluster.html"},"url":"http://localhost:4000/development/2015/12/30/docker-cd-cluster.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Terra Nullius" />
+<!-- Custom head content -->
+
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+
+<!-- Additional custom styles -->
+<style>
+  body {
+    font-family: 'Roboto', sans-serif;
+  }
+  .site-title {
+    font-weight: 700;
+  }
+  .post-content img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+  }
+  pre, code {
+    border-radius: 4px;
+  }
+  .post-tag {
+    display: inline-block;
+    background-color: #f0f0f0;
+    padding: 2px 8px;
+    border-radius: 3px;
+    margin-right: 5px;
+    font-size: 0.8em;
+  }
+</style>
+
+<!-- Favicon -->
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+</head>
+<body><header class="site-header">
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Terra Nullius</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About</a><a class="page-link" href="/">Alexei Lednev&#39;s Blog</a></div>
+      </nav></div>
+</header><main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Docker Pattern: Deploy and update dockerized application on cluster</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2015-12-30T11:09:47+02:00" itemprop="datePublished">Dec 30, 2015
+      </time></p>
+      
+    
+    <div class="post-tags">
+      <strong>Tags:</strong>
+      
+        <span class="post-tag">Docker</span>
+      
+        <span class="post-tag">CoreOS</span>
+      
+        <span class="post-tag">fleet</span>
+      
+    </div>
+    
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p>Docker is great technology that simplifies development and deployment of distributed applications.</p>
+<p>While Docker serves as a core technology, many issues remain to be solved. We find ourselves struggling with some of these issues. For example:</p>
+<ul>
+<li>How to create an elastic Docker cluster?</li>
+<li>How to deploy and connect multiple containers together?</li>
+<li>How to build CI/CD process?</li>
+<li>How to register and discover system services and more?</li>
+</ul>
+<p>For most, there are open source projects, or services available from the community as well as commercially, including from Docker, Inc.</p>
+<p>In this post, I would like to address one such problem:</p>
+<h3 id="how-to-automate-continuous-delivery-for-a-docker-cluster">How to automate Continuous Delivery for a Docker cluster?</h3>
+<p>In our application, every service is packaged as a Docker image. Docker image is our basic deployment unit. In a runtime environment (production, testing and others), we may have multiple containers, created from this image. For each service, we have a separate Git repository and one or more Dockerfile(s). We use this for building, testing, and packaging - will explain our project structure in the next blog post.</p>
+<p>We've setup an automated Continuous Integration(CI) process. We use CircleCI. For every push to some branch for the service in a Git repository, the CI service triggers a new Docker build process and creates a new Docker image for the service. As part of the build process, if everything compiles and all unit and component tests pass, we push a newly created Docker image to our DockerHub repository.</p>
+<p>At the end of CI process, we have a newly tested and ‘kosher’ Docker image in our DockerHub repository. Very nice indeed! However, we are left with several questions:</p>
+<ul>
+<li>How to perform a rolling update of a modified service?</li>
+<li>What is the target environment (i.e. some Docker cluster)?</li>
+<li>How to find the ip of a dynamically created CoreOS host (we use AWS auto-scale groups)?</li>
+<li>How to connect to it in a secure way without the need to expose the SSH keys or cloud credentials (we use AWS for infrastructure)?</li>
+</ul>
+<p>Our application runs on a CoreOS cluster. We have automation scripts that creates the CoreOS cluster on multiple environments: developer machine, AWS, or some VM infrustructure. When we have a new service version (i.e. Docker image), we need to find a way to deploy this service to the cluster. CoreOS uses <strong>fleet</strong> for cluster orchestration. <strong>Fleetctl</strong> is a command line client that can talk with the <strong>fleet</strong> backend and allows you to manage the CoreOS cluster. However, this only works in a local environment (machine or network). For some commands, <strong>fleetctl</strong> uses HTTP API and for others an SSH connection. The HTTP API is not protected so it makes no sense to expose it from your cloud environment. The SSH connection does not work when your architecture assumes there is no direct SSH connection to the cluster. Connecting through some SSH bastion machine, requiring the use of multiple SSH keys, and creating SSH configuration files, are not supported by the <strong>fleetctl</strong> program. I have no desire to store SSH keys or my cloud credentials for my production environment on any CI server due to security concerns.</p>
+<h3 id="so-what-do-we-do">So, what do we do?</h3>
+<p>First, we want to deploy a new service or update some service when there is a new Docker image or image version available. We also want to be selective and pick images created from code in a specific branch or even specific build.</p>
+<p>The basic idea is to create a Docker image that captures the system configuration. This image stores the configuration of all services at a specific point in time and from specific branches. The container created from this image should be run from within the target cluster. Besides captured configuration, we also have the deployment tool (<strong>fleetctl</strong> in our case), plus some code that detects services which need to be updated, deleted, or installed as a new service.</p>
+<p>This idea leads to another question:</p>
+<h3 id="how-do-you-define-and-capture-system-configuration">How do you define and capture system configuration?</h3>
+<p>In CoreOS, every service can be described in <strong>systemd unit</strong> files. This is a plain text file that describes how and when to launch your service. I’m not going to explain how to write such files. There is a lot of info online. What's important in our case, the service systemd unit file contains a <code>docker run</code> command with parameters and image name that needs to be downloaded and executed. We keep the service systemd unit file in the same repository as the service code.</p>
+<p>The image name: usually defined as a <code>repository/image_name:tag</code> string. <strong>Tag</strong> is the most important thing in our solution. As explained above, our CI server automatically builds a new Docker image on every push of the service to the GitHub repository. The CI job also tags the newly created image with 2 tags:</p>
+<ol>
+<li><code>branch</code> tag — taken from GitHub branch that triggered the build (<code>master</code>, <code>develop</code>, <code>feature-*</code> braches in our case)</li>
+<li><code>build_num-branch</code> tag — where we add a running build number prefix, just before branch name
+As a result, in DockerHub, we have images for the latest build in any branch and also for every image we can identify the build job number and the branch it was created from.</li>
+</ol>
+<p>As I said before, we keep service systemd unit file in the same repository as code. This file <strong>does not</strong> contain an image tag, only the repository and image name. See example below:</p>
+<pre><code>ExecStart=/usr/bin/docker run —name myservice -p 3000:3000 myrepo/myservice
+</code></pre>
+<p>Our CI service build job generates a new service <strong>systemd</strong> unit file for every successful build, replacing the above service invocation command with one that also contains a new tag. Using <code>build_num-branch</code> pattern (<code>develop</code> branch in our example), we use two simple utilities for this job: <code>cat</code> and <code>sed</code>. It’s possible to use a more advanced template engine.</p>
+<pre><code>ExecStart=/usr/bin/docker run — name myservice -p 3000:3000 myrepo/myservice:58-develop
+</code></pre>
+<p>As a last step, the CI build job “deploys” this new unit file to the system configuration Git repository.</p>
+<pre><code>git commit -am “Updating myservice tag to ‘58-develop’” myservice.service
+git push origin develop
+</code></pre>
+<p>Another CI job that monitors changes in the system configuration repository will trigger a build and create a new Docker image that captures updated system configuration.</p>
+<p>All we need to do now is to execute this Docker image on the Docker cluster. Something like this:</p>
+<pre><code>docker run -it —-rm=true myrepo/mysysconfig:develop
+</code></pre>
+<p>Our <strong>system configuration</strong> Dockerfile:</p>
+<pre><code>FROM alpine:3.2
+MAINTAINER Alexei Ledenev &lt;alexei.led@gmail.com&gt;
+
+ENV FLEET_VERSION 0.11.5
+
+ENV gaia /home/gaia
+RUN mkdir -p ${gaia}
+
+WORKDIR ${gaia}
+COPY *.service ./
+COPY deploy.sh ./
+RUN chmod +x deploy.sh
+
+# install packages and fleetctl client
+RUN apk update &amp;&amp; \
+ apk add curl openssl bash &amp;&amp; \
+ rm -rf /var/cache/apk/* &amp;&amp; \
+ curl -L “https://github.com/coreos/fleet/releases/download/v${FLEET_VERSION}/fleet-v${FLEET_VERSION}-linux-amd64.tar.gz&quot; | tar xz &amp;&amp; \
+ mv fleet-v${FLEET_VERSION}-linux-amd64/fleetctl /usr/local/bin/ &amp;&amp; \
+ rm -rf fleet-v${FLEET_VERSION}-linux-amd64
+
+CMD [“/bin/bash”, “deploy.sh”]
+</code></pre>
+<p><code>deploy.sh</code> is a shell script for every service check. If it needs to be updated, created, or deleted, it executes the corresponding <strong>fleetctl</strong> command.</p>
+<p>The final step:</p>
+<h3 id="how-do-you-run-this-system-configuration-container">How do you run this “system configuration” container?</h3>
+<p>Currently, in our environment, we do this manually (from SSH shell) for development clusters and use systemd timers for CoreOS clusters on AWS. Systemd timer allows us to define a cron like job at the CoreOS cluster level.</p>
+<p>We have plans to define a WebHook endpoint that will allow us to trigger deployment/update based on a WebHook event from the CI service.</p>
+<p>Hope you find this post useful. I look forward to your comments and any questions you have.</p>
+
+  </div><a class="u-url" href="/development/2015/12/30/docker-cd-cluster.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="http://localhost:4000/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+        <ul class="contact-list">
+          <li class="p-name">Alexei Lednev</li><li><a class="u-email" href="mailto:alexei.led@gmail.com">alexei.led@gmail.com</a></li></ul>
+      </div>
+
+      <div class="footer-col">
+        <p>Alexei Lednev&#39;s personal blog</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li>
+      <a href="https://github.com/alexei-led" title="GitHub">
+        <svg class="svg-icon grey">
+          <use xlink:href="/assets/minima-social-icons.svg#github"></use>
+        </svg>
+        <span class="username">Github</span>
+      </a>
+    </li></ul></div>
+  </div>
+</footer></body>
+
+</html>

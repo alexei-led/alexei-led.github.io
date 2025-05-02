@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Kubernetes 1.33: Resizing Pods Without the Drama (Finally!) 🎉 | Terra Nullius</title>
+<meta name="generator" content="Jekyll v3.9.3" />
+<meta property="og:title" content="Kubernetes 1.33: Resizing Pods Without the Drama (Finally!) 🎉" />
+<meta name="author" content="Alexei Lednev" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Kubernetes 1.33: Resizing Pods Without the Drama (Finally!) 🎉" />
+<meta property="og:description" content="Kubernetes 1.33: Resizing Pods Without the Drama (Finally!) 🎉" />
+<link rel="canonical" href="http://localhost:4000/kubernetes/2025/04/26/pod-resize-in-place.html" />
+<meta property="og:url" content="http://localhost:4000/kubernetes/2025/04/26/pod-resize-in-place.html" />
+<meta property="og:site_name" content="Terra Nullius" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2025-04-26T19:00:00+03:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Kubernetes 1.33: Resizing Pods Without the Drama (Finally!) 🎉" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Alexei Lednev"},"dateModified":"2025-04-26T19:00:00+03:00","datePublished":"2025-04-26T19:00:00+03:00","description":"Kubernetes 1.33: Resizing Pods Without the Drama (Finally!) 🎉","headline":"Kubernetes 1.33: Resizing Pods Without the Drama (Finally!) 🎉","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/kubernetes/2025/04/26/pod-resize-in-place.html"},"url":"http://localhost:4000/kubernetes/2025/04/26/pod-resize-in-place.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Terra Nullius" />
+<!-- Custom head content -->
+
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+
+<!-- Additional custom styles -->
+<style>
+  body {
+    font-family: 'Roboto', sans-serif;
+  }
+  .site-title {
+    font-weight: 700;
+  }
+  .post-content img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+  }
+  pre, code {
+    border-radius: 4px;
+  }
+  .post-tag {
+    display: inline-block;
+    background-color: #f0f0f0;
+    padding: 2px 8px;
+    border-radius: 3px;
+    margin-right: 5px;
+    font-size: 0.8em;
+  }
+</style>
+
+<!-- Favicon -->
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+</head>
+<body><header class="site-header">
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Terra Nullius</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About</a><a class="page-link" href="/">Alexei Lednev&#39;s Blog</a></div>
+      </nav></div>
+</header><main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Kubernetes 1.33: Resizing Pods Without the Drama (Finally!) 🎉</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2025-04-26T19:00:00+03:00" itemprop="datePublished">Apr 26, 2025
+      </time></p>
+      
+    
+    <div class="post-tags">
+      <strong>Tags:</strong>
+      
+        <span class="post-tag">kubernetes</span>
+      
+        <span class="post-tag">vpa</span>
+      
+        <span class="post-tag">devops</span>
+      
+        <span class="post-tag">autoscaling</span>
+      
+    </div>
+    
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <h2 id="kubernetes-133-resizing-pods-without-the-drama-finally-">Kubernetes 1.33: Resizing Pods Without the Drama (Finally!) 🎉</h2>
+<p>Remember that feeling? You meticulously configured your Kubernetes pods, set the CPU and memory just right (or so you thought), only to have your application start gasping for air or hogging resources like it's Black Friday for RAM. In the old days, the only cure was a full pod restart – a disruptive event that often felt like performing open-heart surgery with a butter knife while your SRE team watched through the OR window.</p>
+<p>Well, good news, fellow Kubernetes wranglers! Version 1.33 has landed, and it brings with it a feature that many of us have been dreaming about: <strong><a href="https://kubernetes.io/docs/tasks/configure-pod-container/resize-container-resources/">in-place pod vertical scaling</a></strong>! Yes, you read that right. You can now adjust the CPU and memory of your running pods without the dreaded restart. <em>Cue the confetti cannons and slightly-too-enthusiastic DevOps high-fives!</em></p>
+<p>This is particularly exciting if you, like me, have been pondering the nuances of <a href="https://www.linkedin.com/pulse/vpa-kubernetes-autoscaler-could-doesnt-yet-alexei-ledenev-dkrbf">vertical pod autoscaling</a>. While VPA is fantastic in theory, its current &quot;recreate&quot; mode can be a bit… dramatic. In-place resize offers a more graceful way to adjust resources, potentially paving the way for a smoother VPA experience down the line.</p>
+<hr />
+<h2 id="why-this-feature-is-bigger-than-my-morning-coffee-">Why This Feature is Bigger Than My Morning Coffee ☕</h2>
+<p>For us Kubernetes folks, this feature is a game-changer. Imagine a scenario where your application suddenly experiences a surge in traffic. Previously, you'd either have to over-provision (costly!) or trigger a VPA update that would bounce your pods. Now, you can simply nudge the CPU and memory upwards on the fly, keeping your application happy and your users even happier.</p>
+<p>Think about stateful applications, databases, or even those finicky Java apps that need a little extra juice during startup. In-place resize can minimize downtime and provide a much more seamless scaling experience. Let's break down why:</p>
+<ol>
+<li>
+<p><strong>No More Pod Restart Roulette</strong><br />
+Previously, adjusting resources meant playing Russian roulette with your uptime. The <a href="https://kubernetes.io/docs/concepts/workloads/autoscaling/">Vertical Pod Autoscaler (VPA)</a> would terminate pods like an overzealous bouncer at closing time. Now? We can resize resources smoother than a barista crafting latte art.</p>
+</li>
+<li>
+<p><strong>Cost Optimization Magic</strong><br />
+Over-provisioning &quot;just in case&quot; becomes less necessary. As the <a href="https://sysdig.com/blog/kubernetes-1-33-whats-new/">Sysdig team notes</a>, this enables true pay-as-you-grow cloud economics.</p>
+</li>
+<li>
+<p><strong>Stateful Workload Salvation</strong><br />
+Databases no longer need to choose between performance and availability. It's like changing tires on a moving car – risky, but now possible!</p>
+</li>
+</ol>
+<hr />
+<h2 id="under-the-hood-how-kubernetes-performs-resource-jiu-jitsu-">Under the Hood: How Kubernetes Performs Resource Jiu-Jitsu 🤼</h2>
+<p>Let’s geek out on the technical magic—complete with diagrams even your non-tech PM will adore:</p>
+<pre><code class="language-mermaid">flowchart TD
+    A[You: kubectl patch pod] --&gt; B[&quot;API Server: ‘Hey Kubelet!’&quot;]
+    B --&gt; C{&quot;Kubelet Checks\nNode Capacity&quot;}
+    C --&gt;|Approved| D[CRI Update via containerd/CRI-O]
+    C --&gt;|Denied| E[&quot;PodResizePending &lt;br/&gt; ‘Try again later!’&quot;]
+    D --&gt; F[Live Container Resized!\nNo restart needed]
+    style D fill:#bbf,stroke:#333,stroke-width:2px
+    style F fill:#bfb,stroke:#333,stroke-width:2px
+    style E fill:#fbb,stroke:#333,stroke-width:2px
+</code></pre>
+<h3 id="whats-really-happening">What’s Really Happening</h3>
+<ol>
+<li>
+<p><strong>Mutable Resource Fields</strong><br />
+Thanks to <a href="https://github.com/kubernetes/enhancements/issues/1287">KEP-1287</a>, the <code>resources.requests</code> and <code>resources.limits</code> in your pod spec are now writable on the fly. No more spec immutability debates!</p>
+</li>
+<li>
+<p><strong>Kubelet’s Quick Math Check</strong><br />
+When you submit a patch, the kubelet calculates:</p>
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(Node’s allocatable capacity) 
+– (Sum of all existing container allocations) 
+≥ (Your new request)?
+</code></pre></div></div>
+<p>If <strong>yes</strong>, proceed; if <strong>no</strong>, emit <code>PodResizePending</code>.</p>
+</li>
+<li>
+<p><strong>CRI Handshake</strong><br />
+The kubelet uses the Container Runtime Interface (CRI) to tell containerd or CRI-O, “Hey, give this container more (or less) CPU/memory.” The runtime adjusts cgroups accordingly—no restart, no sweat.</p>
+</li>
+<li>
+<p><strong>Status Updates</strong><br />
+You’ll get two slick new conditions in <code>kubectl describe pod</code>:</p>
+<ul>
+<li><strong>PodResizePending</strong> – “Node’s busy; try again later.”</li>
+<li><strong>PodResizeInProgress</strong> – “I got this—expanding resources now.”</li>
+</ul>
+</li>
+</ol>
+<hr />
+<h2 id="hands-on-break-things-safely-">Hands-On: Break Things (Safely!) 🔧</h2>
+<h3 id="inspect-current-resources">1. Inspect Current Resources</h3>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>kubectl get pod my-hungry-pod <span class="nt">-o</span> yaml | <span class="nb">grep</span> <span class="nt">-A3</span> resources
+</code></pre></div></div>
+<p>See your <code>requests</code> and <code>limits</code> under the container spec.</p>
+<h3 id="basic-in-place-resize">2. Basic In-Place Resize</h3>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Give my-pod a caffeine boost</span>
+kubectl patch pod my-hungry-pod <span class="nt">--subresource</span> resize <span class="nt">--patch</span> <span class="se">\</span>
+<span class="s1">'{"spec":{"containers":[{"name":"your-container-name","resources":{"requests":{"cpu":"500m"},"limits":{"cpu":"1"}}}]}}'</span>
+</code></pre></div></div>
+<p>Watch the kubelet dance—no container restart required!</p>
+<h3 id="advanced-coderesizepolicycode-control">3. Advanced <code>resizePolicy</code> Control</h3>
+<p>Want CPU live-updates but memory restarts? Add a <code>resizePolicy</code> section:</p>
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">apiVersion</span><span class="pi">:</span> <span class="s">v1</span>
+<span class="na">kind</span><span class="pi">:</span> <span class="s">Pod</span>
+<span class="na">metadata</span><span class="pi">:</span>
+  <span class="na">name</span><span class="pi">:</span> <span class="s">resize-jedi</span>
+<span class="na">spec</span><span class="pi">:</span>
+  <span class="na">containers</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">main</span>
+    <span class="na">image</span><span class="pi">:</span> <span class="s">nginx</span>
+    <span class="na">resources</span><span class="pi">:</span>
+      <span class="na">requests</span><span class="pi">:</span>
+        <span class="na">cpu</span><span class="pi">:</span> <span class="s2">"</span><span class="s">100m"</span>
+        <span class="na">memory</span><span class="pi">:</span> <span class="s2">"</span><span class="s">128Mi"</span>
+      <span class="na">limits</span><span class="pi">:</span>
+        <span class="na">cpu</span><span class="pi">:</span> <span class="s2">"</span><span class="s">200m"</span>
+        <span class="na">memory</span><span class="pi">:</span> <span class="s2">"</span><span class="s">256Mi"</span>
+    <span class="na">resizePolicy</span><span class="pi">:</span>
+    <span class="pi">-</span> <span class="na">resourceName</span><span class="pi">:</span> <span class="s">cpu</span>
+      <span class="na">restartPolicy</span><span class="pi">:</span> <span class="s">NotRequired</span>       <span class="c1"># Live CPU tweaks!</span>
+    <span class="pi">-</span> <span class="na">resourceName</span><span class="pi">:</span> <span class="s">memory</span>
+      <span class="na">restartPolicy</span><span class="pi">:</span> <span class="s">RestartContainer</span>  <span class="c1"># Safe memory restarts</span>
+</code></pre></div></div>
+<h3 id="monitor-the-drama">4. Monitor the Drama</h3>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>kubectl describe pod resize-jedi | <span class="nb">grep</span> <span class="nt">-A3</span> PodResize
+</code></pre></div></div>
+<p>Look for:</p>
+<ul>
+<li><strong>PodResizePending</strong>: “We need to talk about resources…”</li>
+<li><strong>PodResizeInProgress</strong>: “Hold tight—expanding now!”</li>
+</ul>
+<p>With this under-the-hood view, you now know exactly how Kubernetes pulls off its resource Jiu-Jitsu. Time to hit the dojo—er, cluster—and start bending pods to your will! 🥋🚀</p>
+<hr />
+<h2 id="the-fine-print-limitations-because-nothings-perfect-">The Fine Print: Limitations (Because Nothing’s Perfect) 📜</h2>
+<p>While this feature is cooler than a penguin in sunglasses, keep these in mind:</p>
+<ol>
+<li>
+<p><strong>QoS Class Is Forever</strong><br />
+Your pod’s original Quality of Service class (<code>Guaranteed</code> / <code>Burstable</code> / <code>BestEffort</code>) sticks like that tattoo you got in college. No upgrades from <code>BestEffort</code> to <code>Guaranteed</code> through resize alone.</p>
+</li>
+<li>
+<p><strong>CPU &amp; Memory Only (For Now)</strong><br />
+Want to hot-swap GPUs or tweak ephemeral storage on the fly? Dream on! Only CPU and memory can be resized in-place today.</p>
+</li>
+<li>
+<p><strong>Memory Shrinkage Requires Courage</strong><br />
+Decreasing memory limits without a container restart is like defusing a bomb—possible in theory, but you’ll want <code>restartPolicy: RestartContainer</code> as your safety net, or chaos ensues.</p>
+</li>
+<li>
+<p><strong>Not for Every Container</strong></p>
+<ul>
+<li><strong>Init &amp; Ephemeral Containers</strong>: Non-restartable init containers and ephemeral containers are off-limits.</li>
+<li><strong>Sidecars Welcome</strong>: Good news if you love your little helpers—sidecar containers can be resized in-place!</li>
+</ul>
+</li>
+<li>
+<p><strong>No Resource Removal</strong><br />
+Once you set a request or limit, you can’t remove it via in-place resizing—only change the values.</p>
+</li>
+<li>
+<p><strong>Windows Users: Hold My Beer</strong><br />
+This party is Linux-only for now (<a href="https://kubernetes.io/docs/tasks/configure-pod-container/resize-container-resources/">Kubernetes docs confirm</a>).</p>
+</li>
+<li>
+<p><strong>Node-Level Exclusions</strong><br />
+Pods managed by static CPU or memory managers (e.g., <code>static</code> CPU manager policy) are excluded.</p>
+</li>
+<li>
+<p><strong>Swap Considerations</strong><br />
+If your pod uses swap, you can’t resize memory in-place unless you’ve set <code>resizePolicy</code> for memory to <code>RestartContainer</code>.</p>
+</li>
+<li>
+<p><strong><code>resizePolicy</code> Is Set in Stone</strong><br />
+Once a pod is created, you can’t change its <code>resizePolicy</code>. Choose wisely—this is the “forever” part of your resource romance.</p>
+</li>
+<li>
+<p><strong>Feature Gate May Be Required</strong><br />
+On some clusters, you’ll need to enable <code>InPlacePodVerticalScaling=true</code> in your apiserver, controller-manager, and scheduler.</p>
+</li>
+<li>
+<p><strong>Downsizing Pitfalls</strong><br />
+Trying to shrink memory below what’s currently in use (even with a <code>restartPolicy</code>) can lead to <code>OOM</code> surprises—beware of under-provisioned chaos.</p>
+</li>
+</ol>
+<p>Keep these caveats in mind, and you’ll avoid the worst of the drama. 🎭✨</p>
+<hr />
+<h2 id="vpa-the-autoscaler-that-emcouldem-with-some-help-">VPA: The Autoscaler That <em>Could</em> (With Some Help) 🤖</h2>
+<p>As I <a href="https://www.linkedin.com/pulse/vpa-kubernetes-autoscaler-could-doesnt-yet-alexei-ledenev-dkrbf">recently lamented on LinkedIn</a>, the Vertical Pod Autoscaler has been the awkward cousin at the scaling family reunion. But there's hope!</p>
+<p><strong>The Future Integration We All Want:</strong></p>
+<pre><code class="language-mermaid">sequenceDiagram
+    participant VPA
+    participant K8s
+    VPA-&gt;&gt;K8s: &quot;Pod 42 needs more CPU!&quot;
+    K8s-&gt;&gt;Pod 42: Attempt in-place resize
+    alt Success
+        Pod 42--&gt;&gt;K8s: &quot;Easy peasy!&quot;
+    else Failure
+        K8s-&gt;&gt;VPA: &quot;Resize failed :(&quot;
+        VPA-&gt;&gt;K8s: &quot;Fine, recreate it then!&quot;
+    end
+</code></pre>
+<p>This hybrid approach (proposed in <a href="https://github.com/kubernetes/enhancements/issues/4951">KEP-4951</a>) would make VPA finally production-ready for stateful workloads. Until then, we'll have to manually play resource Jenga with our pods.</p>
+<h2 id="the-road-ahead-vertical-scalings-next-chapter-">The Road Ahead: Vertical Scaling’s Next Chapter 🚀</h2>
+<p>Kubernetes 1.33’s in-place pod resize is a giant leap toward making vertical scaling as seamless and non-disruptive as horizontal autoscaling—but the story is far from over. As this feature matures, we’re already eyeing a true scaling renaissance:</p>
+<ol>
+<li>
+<p><strong>VPA Integration</strong> (<a href="https://github.com/kubernetes/autoscaler/issues/2534">WIP</a>)<br />
+Imagine a Vertical Pod Autoscaler that first attempts an in-place resize and falls back to recreate only when absolutely necessary—no more surprise pod evictions.</p>
+</li>
+<li>
+<p><strong>Multi-Resource Scaling</strong><br />
+Beyond CPU and memory, future releases may unlock GPUs, ephemeral storage, and more. Picture resizing your ML training pods on the fly, mid‐job!</p>
+</li>
+<li>
+<p><strong>Scheduler Awareness</strong><br />
+Today, a resize doesn’t inform the scheduler—your pod can still be evicted if node resources run low. Upcoming improvements could treat resized pods as first-class citizens, reserving headroom and avoiding unexpected re-scheduling.</p>
+</li>
+</ol>
+<p>Together, these enhancements promise a future where vertical scaling is truly dynamic, efficient, and interruption-free. So, go forth, Kubernetes adventurers—experiment with in-place pod resize in your non-production clusters, share your findings, and help shape the next wave of scaling magic. Just don’t forget to read the fine print and test thoroughly before unleashing in production. Happy scaling! 🚀</p>
+<hr />
+<p><strong>Further Reading:</strong></p>
+<ul>
+<li><a href="https://github.com/kubernetes/enhancements/blob/master/keps/sig-node/1287-in-place-update-pod-resources/README.md">KEP-1287: In-Place Pod Resizing Design</a></li>
+<li><a href="https://kubernetes.io/blog/2025/04/23/kubernetes-v1-33-release/">Official Kubernetes 1.33 Release Notes</a></li>
+<li><a href="https://www.linkedin.com/pulse/vpa-kubernetes-autoscaler-could-doesnt-yet-alexei-ledenev-dkrbf">VPA: The Kubernetes Autoscaler That Could, But Doesn’t - Yet</a></li>
+</ul>
+
+  </div><a class="u-url" href="/kubernetes/2025/04/26/pod-resize-in-place.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="http://localhost:4000/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+        <ul class="contact-list">
+          <li class="p-name">Alexei Lednev</li><li><a class="u-email" href="mailto:alexei.led@gmail.com">alexei.led@gmail.com</a></li></ul>
+      </div>
+
+      <div class="footer-col">
+        <p>Alexei Lednev&#39;s personal blog</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li>
+      <a href="https://github.com/alexei-led" title="GitHub">
+        <svg class="svg-icon grey">
+          <use xlink:href="/assets/minima-social-icons.svg#github"></use>
+        </svg>
+        <span class="username">Github</span>
+      </a>
+    </li></ul></div>
+  </div>
+</footer></body>
+
+</html>

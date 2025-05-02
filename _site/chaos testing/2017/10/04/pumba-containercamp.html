@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Chaos Testing for Docker Containers | Terra Nullius</title>
+<meta name="generator" content="Jekyll v3.9.3" />
+<meta property="og:title" content="Chaos Testing for Docker Containers" />
+<meta name="author" content="Alexei Lednev" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="What follows is the text of my presentation, Chaos Testing for Docker Containers that I gave at ContainerCamp in London this year. I&#39;ve also decided to turn the presentation into an article. I edited the text slightly for readability and added some links for more context. You can find the original video recording and slides at the end of this post." />
+<meta property="og:description" content="What follows is the text of my presentation, Chaos Testing for Docker Containers that I gave at ContainerCamp in London this year. I&#39;ve also decided to turn the presentation into an article. I edited the text slightly for readability and added some links for more context. You can find the original video recording and slides at the end of this post." />
+<link rel="canonical" href="http://localhost:4000/chaos%20testing/2017/10/04/pumba-containercamp.html" />
+<meta property="og:url" content="http://localhost:4000/chaos%20testing/2017/10/04/pumba-containercamp.html" />
+<meta property="og:site_name" content="Terra Nullius" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2017-10-04T19:00:00+03:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Chaos Testing for Docker Containers" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Alexei Lednev"},"dateModified":"2017-10-04T19:00:00+03:00","datePublished":"2017-10-04T19:00:00+03:00","description":"What follows is the text of my presentation, Chaos Testing for Docker Containers that I gave at ContainerCamp in London this year. I&#39;ve also decided to turn the presentation into an article. I edited the text slightly for readability and added some links for more context. You can find the original video recording and slides at the end of this post.","headline":"Chaos Testing for Docker Containers","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/chaos%20testing/2017/10/04/pumba-containercamp.html"},"url":"http://localhost:4000/chaos%20testing/2017/10/04/pumba-containercamp.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Terra Nullius" />
+<!-- Custom head content -->
+
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+
+<!-- Additional custom styles -->
+<style>
+  body {
+    font-family: 'Roboto', sans-serif;
+  }
+  .site-title {
+    font-weight: 700;
+  }
+  .post-content img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+  }
+  pre, code {
+    border-radius: 4px;
+  }
+  .post-tag {
+    display: inline-block;
+    background-color: #f0f0f0;
+    padding: 2px 8px;
+    border-radius: 3px;
+    margin-right: 5px;
+    font-size: 0.8em;
+  }
+</style>
+
+<!-- Favicon -->
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+</head>
+<body><header class="site-header">
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Terra Nullius</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About</a><a class="page-link" href="/">Alexei Lednev&#39;s Blog</a></div>
+      </nav></div>
+</header><main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Chaos Testing for Docker Containers</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2017-10-04T19:00:00+03:00" itemprop="datePublished">Oct 4, 2017
+      </time></p>
+      
+    
+    <div class="post-tags">
+      <strong>Tags:</strong>
+      
+        <span class="post-tag">docker</span>
+      
+        <span class="post-tag">chaos monkey</span>
+      
+        <span class="post-tag">chaos testing</span>
+      
+        <span class="post-tag">chaos</span>
+      
+        <span class="post-tag">testing</span>
+      
+        <span class="post-tag">devops</span>
+      
+        <span class="post-tag">chaos engineering</span>
+      
+        <span class="post-tag">netem</span>
+      
+        <span class="post-tag">network emulation</span>
+      
+    </div>
+    
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p>What follows is the text of my presentation, <em>Chaos Testing for Docker Containers</em> that I gave at <a href="https://2017.container.camp/uk">ContainerCamp</a> in London this year.
+I've also decided to turn the presentation into an article. I edited the text slightly for readability and added some links for more context. You can find the original video recording and slides at the end of this post.</p>
+<p><img src="/assets/images/sink_cargo.jpg" alt="Docker Chaos Testing" /></p>
+<h2 id="intro">Intro</h2>
+<p>Software development is about building software services that support business needs. More complex businesses processes we want to automate and integrate with. the more complex software system we are building. And solution complexity is tend to grown over time and scope.</p>
+<p>The reasons for growing complexity can be different. Some systems just tend to handle too many concerns, or require a lot of integrations with external services and internal legacy systems. These systems are written and rewritten multiple times over several years by different people with different skills, trying to satisfy constantly changing business requirements, using different technologies, following different technology and architecture trends.</p>
+<p>So, my point, is that building software, that unintentionally become more and more complex over time, is easy - we all done in the past it or doing it right now. Building a &quot;good&quot; software architecture for complex systems and preserving it's &quot;good&quot; abilities for some period of time, is really hard.</p>
+<p>When you have too many &quot;moving&quot; parts, integrations, constantly changing requirements, that lead to code changes, security upgrades, hardware modernization, multiple network communication channels and etc, it can become a &quot;Mission Impossible&quot; to avoid unexpected failures.</p>
+<h2 id="stuff-happens">Stuff happens!</h2>
+<p>All systems fail from time to time. And your software system will fail too. Take this as a fact of life. There will always be something that can — and will — go wrong. No matter how hard we try, we can’t build perfect software, nor can the companies we depend on. Even the most stable and respectful services from companies, that practice CI/CD, test driven development (TDD/BDD), have huge QA departments and well defined release procedures, fail.</p>
+<p>Just a few examples from the last year outages:</p>
+<ol>
+<li><strong>BM, January 26</strong>
+<ul>
+<li>IBM's cloud credibility took a hit at the start of the year when a management portal used by customers to access its Bluemix cloud infrastructure went down for several hours. While no underlying infrastructure actually failed, users were frustrated in finding they couldn't manage their applications or add or remove cloud resources powering workloads.</li>
+<li>IBM said the problem was intermittent and stemmed from a botched update to the interface.</li>
+</ul>
+</li>
+<li><strong>GitLab, January 31</strong>
+<ul>
+<li>GitLab's popular online code repository, GibLab.com, suffered an 18-hour service outage that ultimately couldn't be fully remediated.</li>
+<li>The problem resulted when an employee removed a database directory from the wrong database server during maintenance procedures.</li>
+</ul>
+</li>
+<li><strong>AWS, February 28</strong>
+<ul>
+<li><a href="http://www.crn.com/news/cloud/300083958/aws-storage-outage-wreaking-havoc-on-web-services-providers.htm">This was the outage</a> that shook the industry.</li>
+<li>An Amazon Web Services engineer trying to debug an S3 storage system in the provider's Virginia data center accidentally typed a command incorrectly, and much of the Internet – including many enterprise platforms like Slack, Quora and Trello – was down for four hours.</li>
+</ul>
+</li>
+<li><strong>Microsoft Azure, March 16</strong>
+<ul>
+<li>Storage availability issues plagued Microsoft's Azure public cloud for more than eight hours, mostly affecting customers in the Eastern U.S.</li>
+<li>Some users had trouble provisioning new storage or accessing existing resources in the region. A Microsoft engineering team later identified the culprit as a storage cluster that lost power and became unavailable.</li>
+</ul>
+</li>
+</ol>
+<p>Visit <a href="http://outage.report">Outage.Report</a> or <a href="http://downdetector.com">Downdetector</a> to see a constantly updating long list of outages reported by end-users.</p>
+<h2 id="chasing-software-quality">Chasing Software Quality</h2>
+<p>As software engineers, we what to be proud of software systems we are building. We want theses systems to be of high quality, without functional bugs, security holes, providing exceptional performance, resilient to unexpected failures, self-healing, always available and easy to maintain and modernize.</p>
+<p>Every new project starts with &quot;high quality&quot; picture in mind and none wants to create crappy software, but very few of us (or none) are able to achieve and keep intact all good &quot;abilities&quot;. So, what we can do to improve overall system quality? Should we do more testing?</p>
+<p>I tend to say &quot;Yes&quot; - software testing is critical. But just running unit, functional and performance testing is not enough.</p>
+<p>Today, building complex distributed system is much easier with all new amazing technology we have and experience we gathered. Microservice Architecture is a real trend nowadays and miscellaneous container technologies support this architecture. It's much easier to deploy, scale, link, monitor, update and manage distributed systems, composed from multiple &quot;microservices&quot;.
+When we are building distributed systems, we are choosing <strong>P</strong> (<em>Pratition Tolerance</em>) from the <a href="https://en.wikipedia.org/wiki/CAP_theorem">CAP theorem</a> and second to it either <strong>A</strong> (<em>Availability</em> - the most popular choice) or <strong>C</strong> (<em>Consistency</em>). So, we need to find a good approach for testing <strong>AP</strong> or <strong>CP</strong> systems.</p>
+<p>Traditional testing disciplines and tools do not provide a good answer to <em>how does your distributed system behave when unexpected stuff happens in production?</em>.
+Sure, you can learn from previous failures, after the fact, and you should definitely do it. But, learning from past experience should not be the only way to prepare for the future failures.</p>
+<p>Waiting for things to break in production is not an option. But what’s the alternative?</p>
+<h2 id="chaos-engineering">Chaos Engineering</h2>
+<p>The alternative is to break things on purpose. And Chaos Engineering is a particular approach to doing just that. The idea of Chaos Engineering is to <em>embrace the failure!</em>
+Chaos Engineering for distributed software systems was originally popularized by Netflix.</p>
+<p>Chaos Engineering defines an empirical approach to resilience testing of distributed software systems. You are testing a system by conducting <em>chaos experiments</em>.</p>
+<p>Typical <em>chaos experiment</em>:</p>
+<ul>
+<li>define a <em>normal/steady</em> state of the system (e.g. by monitoring a set of system and business metrics)</li>
+<li>pseudo-randomly inject faults (e.g. by terminating VMs, killing containers or changing network behavior)</li>
+<li>try to discover system weaknesses by deviation from expected or steady-state behavior</li>
+</ul>
+<p>The harder it is to disrupt the steady state, the more confidence we have in the behavior of the system.  </p>
+<h2 id="chaos-engineering-tools">Chaos Engineering tools</h2>
+<p>Of cause it's possible to practice Chaos Engineering manually, or relay on automatic system updates, but we, as engineers like to automate boring manual tasks, so there are some nice tools to use.</p>
+<p>Netflix built a some <a href="https://github.com/Netflix/SimianArmy/wiki">useful tools</a> for practicing Chaos Engineering in public cloud (AWS):</p>
+<ul>
+<li>Chaos Monkey - kill EC2, kill processes, burn CPU, fill disk, detach volumes, add network latency, etc</li>
+<li>Chaos Kong - remove whole AWS Regions</li>
+</ul>
+<p>These are very good tools, I encourage you to use them. But when I've started my new container based project (2 years ago), it looks like these tools provided just a <em>wrong</em> granularity for <em>chaos</em> I wanted to create, and I wanted to be able to create the <em>chaos</em> not only in real cluster, but also on single developer machine, to be able to debug and tune my application. So, I've searched Google for <em>Chaos Monkey for Docker</em>, but did not find anything, besides some basic Bash scripts.
+So, I've decided to create my own tool. And since it happens to be quite a useful tool from the very first version, I've shared it with a community as an open source. It's a Chaos <del>Monkey</del> Warthog for Docker - <a href="https://github.com/gaia-adm/pumba">Pumba</a></p>
+<h2 id="pumba---chaos-testing-for-docker">Pumba - Chaos Testing for Docker</h2>
+<p><em>What is Pumba(a)?</em></p>
+<p>Those of us who have kids or was a kid in 90s should remember this character from Disney's animated film <strong>The Lion King</strong>. In Swahili, <strong>pumbaa</strong> means &quot;<em>to be foolish, silly, weak-minded, careless, negligent</em>&quot;. I like the Swahili meaning of this word. It matched perfectly for the tool I wanted to create.</p>
+<h3 id="what-pumba-can-do">What Pumba can do?</h3>
+<p>Pumba disturbs running Docker runtime environment by injecting different failures. Pumba can <code>kill</code>, <code>stop</code>, <code>remove</code> or <code>pause</code> Docker container.
+Pumba can also do a network emulation, simulating different network failures, like: delay, packet loss (using different probability loss models), bandwidth rate limits and more. For network emulation, Pumba uses Linux kernel traffic control <code>tc</code> with <code>netem</code> queueing discipline, read more <a href="http://man7.org/linux/man-pages/man8/tc-netem.8.html">here</a>. If <code>tc</code> is not available within target container, Pumba uses a <em>sidekick</em> container with <code>tc</code> on-board, attaching it to the target container network.</p>
+<p>You can pass list of containers to the Pumba or just write a regular expression to select matching containers. If you will not specify containers, Pumba will try to disturb all running containers. Use <code>--random</code> option, to randomly select only one target container from the provided list. It's also possible to define a repeatable time interval and duration parameters to better control the amount of <em>chaos</em> you want to create.</p>
+<p>Pumba is available as a single binary file for Linux, MacOS and Windows, or as a Docker container.</p>
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Download binary from https://github.com/gaia-adm/pumba/releases</span>
+curl https://github.com/gaia-adm/pumba/releases/download/0.4.6/pumba_linux_amd64 <span class="nt">--output</span> /usr/local/bin/pumba
+<span class="nb">chmod</span> +x /usr/local/bin/pumba <span class="o">&amp;&amp;</span> pumba <span class="nt">--help</span>
+
+<span class="c"># Install with Homebrew (MacOS only)</span>
+brew <span class="nb">install </span>pumba <span class="o">&amp;&amp;</span> pumba <span class="nt">--help</span>
+
+<span class="c"># Use Docker image</span>
+docker run gaiaadm/pumba pumba <span class="nt">--help</span>
+
+</code></pre></div></div>
+<h3 id="pumba-commands-examples">Pumba commands examples</h3>
+<p>First of all, run <code>pumba --help</code> to get help about available commands and options and <code>pumba &lt;command&gt; --help</code> to get help for the specific command and sub-command.</p>
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># pumba help</span>
+pumba <span class="nt">--help</span>
+
+<span class="c"># pumba kill help</span>
+pumba <span class="nb">kill</span> <span class="nt">--help</span>
+
+<span class="c"># pumba netem delay help</span>
+pumba netem delay <span class="nt">--help</span>
+</code></pre></div></div>
+<p>Killing randomly chosen Docker container from  <code>^test</code> regex list.</p>
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># on main pane/screen, run 7 test containers that do nothing</span>
+<span class="k">for </span>i <span class="k">in</span> <span class="o">{</span>0..7<span class="o">}</span><span class="p">;</span> <span class="k">do </span>docker run <span class="nt">-d</span> <span class="nt">--rm</span> <span class="nt">--name</span> <span class="nb">test</span><span class="nv">$i</span> alpine <span class="nb">tail</span> <span class="nt">-f</span> /dev/null<span class="p">;</span> <span class="k">done</span>
+<span class="c"># run an additional container with 'skipme' name</span>
+docker run <span class="nt">-d</span> <span class="nt">--rm</span> <span class="nt">--name</span> skipme alpine <span class="nb">tail</span> <span class="nt">-f</span> /dev/null
+
+<span class="c"># run this command in another pane/screen to see running docker containers</span>
+watch docker ps <span class="nt">-a</span>
+
+<span class="c"># go back to main pane/screen and kill (once in 10s) random 'test' container, ignoring 'skipme'</span>
+pumba <span class="nt">--random</span> <span class="nt">--interval</span> 10s <span class="nb">kill </span>re2:^test
+<span class="c"># press Ctrl-C to stop Pumba at any time</span>
+</code></pre></div></div>
+<p>Adding a <code>3000ms</code> (<code>+-50ms</code>) delay to the <em>engress</em> traffic for the <code>ping</code> container for <code>20</code> seconds, using <em>normal</em> distribution model.</p>
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># run "ping" container on one screen/pane</span>
+docker run <span class="nt">-it</span> <span class="nt">--rm</span> <span class="nt">--name</span> ping alpine ping 8.8.8.8
+
+<span class="c"># on second screen/pane, run pumba netem delay command, disturbing "ping" container; sidekick a "tc" helper container</span>
+pumba netem <span class="nt">--duration</span> 20s <span class="nt">--tc-image</span> gaiadocker/iproute2 delay <span class="nt">--time</span> 3000 jitter 50 <span class="nt">--distribution</span> normal ping
+<span class="c"># pumba will exit after 20s, or stop it with Ctrl-C</span>
+</code></pre></div></div>
+<p>To demonstrate packet loss capability, we will need three screens/panes. I will use <code>iperf</code> network bandwidth measurement <a href="https://iperf.fr">tool</a>.
+On the first pane, run <em>server</em> docker container with <code>iperf</code> on-board and start there a UDP server. On the second pane, start <em>client</em> docker container with <code>iperf</code> and send datagrams to the <em>server</em> container. Then, on the third pane, run <code>pumba netem loss</code> command, adding a packet loss to the <em>client</em> container. Enjoy the chaos.</p>
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># create docker network</span>
+docker network create <span class="nt">-d</span> bridge testnet
+
+<span class="c"># &gt; Server Pane</span>
+<span class="c"># run server container</span>
+docker run <span class="nt">-it</span> <span class="nt">--name</span> server <span class="nt">--network</span> testnet <span class="nt">--rm</span> alpine sh <span class="nt">-c</span> <span class="s2">"apk add --no-cache iperf; sh"</span>
+<span class="c"># shell inside server container: run a UDP Server listening on UDP port 5001</span>
+sh<span class="nv">$ </span>iperf <span class="nt">-s</span> <span class="nt">-u</span> <span class="nt">-i</span> 1
+
+<span class="c"># &gt; Client Pane</span>
+<span class="c"># run client container</span>
+docker run <span class="nt">-it</span> <span class="nt">--name</span> client <span class="nt">--network</span> testnet <span class="nt">--rm</span> alpine sh <span class="nt">-c</span> <span class="s2">"apk add --no-cache iperf; sh"</span>
+<span class="c"># shell inside client container: send datagrams to the server -&gt; see no packet loss</span>
+sh<span class="nv">$ </span>iperf <span class="nt">-c</span> server <span class="nt">-u</span>
+
+<span class="c"># &gt; Server Pane</span>
+<span class="c"># see server receives datagrams without any packet loss</span>
+
+<span class="c"># &gt; Pumba Pane</span>
+<span class="c"># inject 20% packet loss into client container, for 1m</span>
+pumba netem <span class="nt">--duration</span> 1m <span class="nt">--tc-image</span> gaiadocker/iproute2 loss <span class="nt">--percent</span> 20 client
+
+<span class="c"># &gt; Client Pane</span>
+<span class="c"># shell inside client container: send datagrams to the server -&gt; see ~20% packet loss</span>
+sh<span class="nv">$ </span>iperf <span class="nt">-c</span> server <span class="nt">-u</span>
+
+</code></pre></div></div>
+<h2 id="session-and-slides">Session and slides</h2>
+<div class="embed-container">
+  &lt;iframe
+      src="https://www.youtube.com/embed/68ZepHa5UVg"
+      width="700"
+      height="480"
+      frameborder="0"
+      allowfullscreen="">
+  </iframe>
+</div>
+<p><a href="https://speakerdeck.com/alexeiled/chaos-testing-for-docker-containers">Slides</a></p>
+<hr />
+<p>Hope, you find this post useful. I look forward to your comments and any questions you have.</p>
+
+  </div><a class="u-url" href="/chaos%20testing/2017/10/04/pumba-containercamp.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="http://localhost:4000/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+        <ul class="contact-list">
+          <li class="p-name">Alexei Lednev</li><li><a class="u-email" href="mailto:alexei.led@gmail.com">alexei.led@gmail.com</a></li></ul>
+      </div>
+
+      <div class="footer-col">
+        <p>Alexei Lednev&#39;s personal blog</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li>
+      <a href="https://github.com/alexei-led" title="GitHub">
+        <svg class="svg-icon grey">
+          <use xlink:href="/assets/minima-social-icons.svg#github"></use>
+        </svg>
+        <span class="username">Github</span>
+      </a>
+    </li></ul></div>
+  </div>
+</footer></body>
+
+</html>

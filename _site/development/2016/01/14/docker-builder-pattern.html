@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Docker Pattern: The Build Container | Terra Nullius</title>
+<meta name="generator" content="Jekyll v3.9.3" />
+<meta property="og:title" content="Docker Pattern: The Build Container" />
+<meta name="author" content="Alexei Lednev" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Let&#39;s say that you&#39;re developing a microservice in a compiled language or an interpreted language that requires some additional “build” steps to package and lint your application code. This is a useful docker pattern for the &quot;build&quot; container." />
+<meta property="og:description" content="Let&#39;s say that you&#39;re developing a microservice in a compiled language or an interpreted language that requires some additional “build” steps to package and lint your application code. This is a useful docker pattern for the &quot;build&quot; container." />
+<link rel="canonical" href="http://localhost:4000/development/2016/01/14/docker-builder-pattern.html" />
+<meta property="og:url" content="http://localhost:4000/development/2016/01/14/docker-builder-pattern.html" />
+<meta property="og:site_name" content="Terra Nullius" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2016-01-14T16:14:47+02:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Docker Pattern: The Build Container" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Alexei Lednev"},"dateModified":"2016-01-14T16:14:47+02:00","datePublished":"2016-01-14T16:14:47+02:00","description":"Let&#39;s say that you&#39;re developing a microservice in a compiled language or an interpreted language that requires some additional “build” steps to package and lint your application code. This is a useful docker pattern for the &quot;build&quot; container.","headline":"Docker Pattern: The Build Container","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/development/2016/01/14/docker-builder-pattern.html"},"url":"http://localhost:4000/development/2016/01/14/docker-builder-pattern.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Terra Nullius" />
+<!-- Custom head content -->
+
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+
+<!-- Additional custom styles -->
+<style>
+  body {
+    font-family: 'Roboto', sans-serif;
+  }
+  .site-title {
+    font-weight: 700;
+  }
+  .post-content img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+  }
+  pre, code {
+    border-radius: 4px;
+  }
+  .post-tag {
+    display: inline-block;
+    background-color: #f0f0f0;
+    padding: 2px 8px;
+    border-radius: 3px;
+    margin-right: 5px;
+    font-size: 0.8em;
+  }
+</style>
+
+<!-- Favicon -->
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+</head>
+<body><header class="site-header">
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Terra Nullius</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About</a><a class="page-link" href="/">Alexei Lednev&#39;s Blog</a></div>
+      </nav></div>
+</header><main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Docker Pattern: The Build Container</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2016-01-14T16:14:47+02:00" itemprop="datePublished">Jan 14, 2016
+      </time></p>
+      
+    
+    <div class="post-tags">
+      <strong>Tags:</strong>
+      
+        <span class="post-tag">Docker</span>
+      
+        <span class="post-tag">pattern</span>
+      
+        <span class="post-tag">Dockerfile</span>
+      
+    </div>
+    
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p>Let's say that you're developing a microservice in a compiled language or an interpreted language that requires some additional “build” steps to package and lint your application code. This is a useful docker pattern for the &quot;build&quot; container.</p>
+<p>In our project, we're using Docker as our main deployment package: every microservice is delivered as a Docker image. Each microservice also has it’s own code repository (GitHub), and its own CI build job.</p>
+<p>Some of our services are written in Java. Java code requires additional tooling and processes before you get working code. This tooling and all associated packages are depended from and not required when a compiled program is running.</p>
+<p>We have been trying to develop a repeatable process and uniform environment for deploying our services. We believe it’s good to package Java tools and packages into containers too. It allows us to build a Java-based microservice on any machine, including CI, without any specific environment requirements: JDK version, profiling and testing tools, OS, Maven, environment variables, etc.</p>
+<p>For every service, we have two(2) Dockerfiles: one for service runtime and the second packed with tools required to build the service. We usually name these files as <code>Dockerfile</code> and <code>Dockerfile.build</code>. We are using <code>-f, --file=&quot;&quot;</code> flag to specify Dockerfile file name for <code>docker build</code> command.</p>
+<p>Here is our <code>Dockerfile.build</code> file:</p>
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>FROM maven:3.3.3-jdk-8
+
+ENV <span class="nv">GAIA_HOME</span><span class="o">=</span>/usr/local/gaia/
+
+RUN <span class="nb">mkdir</span> <span class="nt">-p</span> <span class="nv">$GAIA_HOME</span>
+WORKDIR <span class="nv">$GAIA_HOME</span>
+
+<span class="c"># speed up maven build, read https://keyholesoftware.com/2015/01/05/caching-for-maven-docker-builds/</span>
+<span class="c"># selectively add the POM file</span>
+ADD pom.xml <span class="nv">$GAIA_HOME</span>
+
+<span class="c"># get all the downloads out of the way</span>
+RUN <span class="o">[</span><span class="s2">"mvn"</span>,<span class="s2">"verify"</span>,<span class="s2">"clean"</span>,<span class="s2">"--fail-never"</span><span class="o">]</span>
+
+<span class="c"># add source</span>
+ADD <span class="nb">.</span> <span class="nv">$GAIA_HOME</span>
+
+<span class="c"># run maven verify</span>
+RUN <span class="o">[</span><span class="s2">"mvn"</span>,<span class="s2">"verify"</span><span class="o">]</span>
+</code></pre></div></div>
+<p>As you can see, it’s a simple file with one little trick to speed up our Maven build.</p>
+<p>Now, we have all the tools required to compile our service. We can run this Docker container on any machine without requiring to have JDK installed. We can run the same Docker container on a developer's laptop and on our CI server.</p>
+<p>This trick greatly simplifies our CI process - we no longer require our CI to support any specific compiler, version, or tool. All we need is the Docker engine. Everything else, we bring ourselves.</p>
+<blockquote>
+<p>BYOT - Bring Your Own Tooling! :-)</p>
+</blockquote>
+<p>In order to compile the service code, we need to build and run the <strong>builder</strong> container.</p>
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker build <span class="nt">-t</span> build-img <span class="nt">-f</span> Dockerfile.build
+docker create <span class="nt">--name</span> build-cont build-img
+</code></pre></div></div>
+<p>Once we’ve built the image and created a new container from this image, we have our service compiled inside the container. The only remaining task is to extract build artifacts from the container. We could use Docker volumes - this is one possible option. Actually, we like that the image we’ve created, contains all the tools and build artifacts inside it. It allows us to get any build artifacts from this image at anytime, just by creating a new container from it.</p>
+<p>To extract our build artifacts, we are using <code>docker cp</code> command. This command copies files from the container to the local file system.</p>
+<p>Here is how we are using this command:</p>
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker <span class="nb">cp </span>build-cont:/usr/local/gaia/target/mgs.war ./target/mgs.war
+</code></pre></div></div>
+<p>As a result, we have a compiled service code, packaged into single WAR file. We get exactly the same WAR file on any machine just by running our <strong>builder</strong> container, or by rebuilding the <strong>builder</strong> container against the same code commit (using Git tag or specific commit ID) on any machine.</p>
+<p>We can now create a Docker image with our service and required runtime, which is usually some version of JRE and servlet container.</p>
+<p>Here is our <code>Dockerfile</code> for the service. It's an image with Jetty JRE8 and our service WAR file.</p>
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>FROM jetty:9.3.0-jre8
+
+RUN <span class="nb">mkdir</span> <span class="nt">-p</span> /home/jetty <span class="o">&amp;&amp;</span> <span class="nb">chown </span>jetty:jetty /home/jetty
+
+COPY ./target/<span class="k">*</span>.war <span class="nv">$JETTY_BASE</span>/webapps/
+</code></pre></div></div>
+<p>By running <code>docker build .</code>, we have a new image with our newly “built” service.</p>
+<h2 id="the-recipe">The Recipe:</h2>
+<ul>
+<li>Have one <code>Dockerfile</code> with all tools and packages required to build your service. Name it <code>Dockerfile.build</code> or give it a name you like.</li>
+<li>Have another <code>Dockerfile</code> with all packages required to run your service.</li>
+<li>Keep both files with your service code.</li>
+<li>Build a new <strong>builder</strong> image, create a container from it and extract build artifacts, using volumes or <code>docker cp</code> command.</li>
+<li>Build the service image.</li>
+<li>That's all folks!</li>
+</ul>
+<h2 id="summary">Summary</h2>
+<p>In our case, Java-based service, the difference between <strong>builder</strong> container and service container is huge. Java JDK is much bigger package than JRE: it also requires all X Window packages installed inside your container. For the runtime, you can have a slim image with your service code, JRE, and some basic Linux packages, or even start from <code>scratch</code>.</p>
+
+  </div><a class="u-url" href="/development/2016/01/14/docker-builder-pattern.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="http://localhost:4000/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+        <ul class="contact-list">
+          <li class="p-name">Alexei Lednev</li><li><a class="u-email" href="mailto:alexei.led@gmail.com">alexei.led@gmail.com</a></li></ul>
+      </div>
+
+      <div class="footer-col">
+        <p>Alexei Lednev&#39;s personal blog</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li>
+      <a href="https://github.com/alexei-led" title="GitHub">
+        <svg class="svg-icon grey">
+          <use xlink:href="/assets/minima-social-icons.svg#github"></use>
+        </svg>
+        <span class="username">Github</span>
+      </a>
+    </li></ul></div>
+  </div>
+</footer></body>
+
+</html>

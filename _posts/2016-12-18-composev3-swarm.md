@@ -42,7 +42,7 @@ I've prepared a shell script to bootstrap 4 nodes swarm cluster with Docker regi
 
 The script initialize docker engine as a **swarm master**, then starts 3 new docker-in-docker containers and join them to the **swarm** cluster as worker nodes. All worker nodes run with `--registry-mirror` option.
 
-{{< gist alexei-led a4d31ee446a0fbcab845b93fe4a9b09d "create_swarm_cluster.sh" >}}
+{% gist alexei-led/a4d31ee446a0fbcab845b93fe4a9b09d create_swarm_cluster.sh %}
 
 ## Deploy multi-container application - the "old" way
 
@@ -100,7 +100,7 @@ I've created a "new" compose file (v3) for classic "Cats vs. Dogs" example. This
 
 Run the `docker deploy --compose-file docker-compose.yml` command to deploy my version of "Cats vs. Dogs" application on a swarm cluster.
 
-{{< gist alexei-led a4d31ee446a0fbcab845b93fe4a9b09d "docker-compose.yml" >}}
+{% gist alexei-led/a4d31ee446a0fbcab845b93fe4a9b09d docker-compose.yml %}
 
 ----------
 

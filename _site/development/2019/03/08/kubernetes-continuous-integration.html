@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Kubernetes Continuous Integration | Terra Nullius</title>
+<meta name="generator" content="Jekyll v3.9.3" />
+<meta property="og:title" content="Kubernetes Continuous Integration" />
+<meta name="author" content="Alexei Lednev" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Kubernetes configuration as Code" />
+<meta property="og:description" content="Kubernetes configuration as Code" />
+<link rel="canonical" href="http://localhost:4000/development/2019/03/08/kubernetes-continuous-integration.html" />
+<meta property="og:url" content="http://localhost:4000/development/2019/03/08/kubernetes-continuous-integration.html" />
+<meta property="og:site_name" content="Terra Nullius" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2019-03-08T10:00:00+02:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Kubernetes Continuous Integration" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Alexei Lednev"},"dateModified":"2019-03-08T10:00:00+02:00","datePublished":"2019-03-08T10:00:00+02:00","description":"Kubernetes configuration as Code","headline":"Kubernetes Continuous Integration","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/development/2019/03/08/kubernetes-continuous-integration.html"},"url":"http://localhost:4000/development/2019/03/08/kubernetes-continuous-integration.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Terra Nullius" />
+<!-- Custom head content -->
+
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+
+<!-- Additional custom styles -->
+<style>
+  body {
+    font-family: 'Roboto', sans-serif;
+  }
+  .site-title {
+    font-weight: 700;
+  }
+  .post-content img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+  }
+  pre, code {
+    border-radius: 4px;
+  }
+  .post-tag {
+    display: inline-block;
+    background-color: #f0f0f0;
+    padding: 2px 8px;
+    border-radius: 3px;
+    margin-right: 5px;
+    font-size: 0.8em;
+  }
+</style>
+
+<!-- Favicon -->
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+</head>
+<body><header class="site-header">
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Terra Nullius</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About</a><a class="page-link" href="/">Alexei Lednev&#39;s Blog</a></div>
+      </nav></div>
+</header><main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Kubernetes Continuous Integration</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2019-03-08T10:00:00+02:00" itemprop="datePublished">Mar 8, 2019
+      </time></p>
+      
+    
+    <div class="post-tags">
+      <strong>Tags:</strong>
+      
+        <span class="post-tag">Kubernetes</span>
+      
+        <span class="post-tag">CI/CD</span>
+      
+        <span class="post-tag">Continuous Integration</span>
+      
+        <span class="post-tag">Helm</span>
+      
+    </div>
+    
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <h1 id="kubernetes-configuration-as-code">Kubernetes configuration as Code</h1>
+<p>Complex Kubernetes application consists from multiple Kubernetes resources, defined in YAML files. Authoring a properly formatted YAML files that are also a valid Kubernetes specification, that should also comply to some policy can be a challenging task.</p>
+<p>These YAML files are your application deployment and configuration code and should be addressed as code.</p>
+<p>As with code, Continuous Integration approach should be applied to a Kubernetes configuration files.</p>
+<h2 id="git-repository">Git Repository</h2>
+<p>Create a separate Git repository that contains Kubernetes configuration files. Define a Continuous Integration pipeline that is triggered automatically for for every change and can validate it without human intervention.</p>
+<h2 id="helm">Helm</h2>
+<p>Helm helps you manage complex Kubernetes applications. Using Helm Charts you define, install, test and upgrade Kubernetes application.</p>
+<p>Here I'm going to focus on using Helm for authoring complex Kubernetes application.</p>
+<p>The same Kubernetes application can be installed in multiple environments: development, testing, staging and production. Helm template helps to separate application structure from environment configuration by keeping environment specific values in external files.</p>
+<h3 id="dependency-management">Dependency Management</h3>
+<p>Helm also helps with dependency management. A typical Kubernetes application can be composed from multiple services developed by other teams and open source community.</p>
+<p>A <code>requirements.yaml</code> file is a YAML file in which developers can declare Helm chart dependencies, along with the location of the chart and the desired version. For example, this requirements file declares two dependencies:</p>
+<p>Where possible, use version ranges instead of pinning to an exact version. The suggested default is to use a patch-level version match:</p>
+<pre><code class="language-txt">version: ~1.2.3
+</code></pre>
+<p>This will match version 1.2.3 and any patches to that release. In other words, ~1.2.3 is equivalent to &gt;= 1.2.3, &lt; 1.3.0</p>
+<h2 id="yaml">YAML</h2>
+<p>YAML is the most convenient way to write Kubernetes configuration files. YAML is easier for humans to read and write than other common data formats like XML or JSON. Still it's recommended to use automatic YAML linters to avoid syntax and formatting errors.</p>
+<p><a href="https://github.com/adrienverge/yamllint">yamlint</a></p>
+<h3 id="helm-chart-validation">Helm Chart Validation</h3>
+<p>Helm has a <code>helm lint</code> command that runs a series of tests to verify that the chart is well-formed. The <code>helm lint</code> also converts YAML to JSON, and this ways is able to detect some YAML errors.</p>
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>helm lint mychart
+
+==&gt; Linting mychart
+[ERROR] templates/deployment.yaml: unable to parse YAML
+    error converting YAML to JSON: yaml: line 53: did not find expected '-' indicator
+</code></pre></div></div>
+<p>There are few issues with <code>helm lint</code>, you should be aware of:
+- no real YAML validation is done: only YAML to JSON conversion errors are detected
+- it shows wrong error line number: no the actual line in a template that contains the detected error</p>
+<p>So, I recommend also to use YAML linter, like <code>yamllint</code> to perform YAML validation.</p>
+<p>First, you need to generate Kubernetes YAML files from a Helm chart. The <code>helm template</code> renders chart templates locally and prints the output to the <code>stdout</code>.</p>
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>helm template <span class="nt">--namespace</span> <span class="nb">test</span> <span class="nt">--values</span> dev-values.yaml
+</code></pre></div></div>
+<p>Pipe <code>helm template</code> and <code>yamllint</code> together to validate rendered YAML files.</p>
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>helm template mychart | yamllint -
+
+stdin
+  41:81     error    line too long <span class="o">(</span>93 <span class="o">&gt;</span> 80 characters<span class="o">)</span>  <span class="o">(</span>line-length<span class="o">)</span>
+  43:1      error    trailing spaces  <span class="o">(</span>trailing-spaces<span class="o">)</span>
+  151:9     error    wrong indentation: expected 10 but found 8  <span class="o">(</span>indentation<span class="o">)</span>
+  245:10    error    syntax error: expected &lt;block end&gt;, but found <span class="s1">'&lt;block sequence start&gt;'</span>
+  293:1     error    too many blank lines <span class="o">(</span>1 <span class="o">&gt;</span> 0<span class="o">)</span>  <span class="o">(</span>empty-lines<span class="o">)</span>
+</code></pre></div></div>
+<p>Now there are multiple ways to inspect these errors:</p>
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># using vim editor</span>
+vim &lt;<span class="o">(</span>helm template mychart<span class="o">)</span>
+
+<span class="c"># using cat command (with line number)</span>
+<span class="nb">cat</span> <span class="nt">-n</span> &lt;<span class="o">(</span>helm template mychart<span class="o">)</span>
+
+<span class="c"># printing error line and few lines around it, replacing spaces with dots</span>
+helm template hermes | <span class="nb">sed</span> <span class="nt">-n</span> 240,250p | <span class="nb">tr</span> <span class="s1">' '</span> <span class="s1">'⋅'</span>
+</code></pre></div></div>
+<h2 id="valid-kubernetes-configuration">Valid Kubernetes Configuration</h2>
+<p>When authoring Kubernetes configuration files, it's important not only check if they are valid YAML files, but if they are valid Kubernetes files.</p>
+<p>It turns out that the Kubernetes supports OpenAPI specification and it's possible to generate Kubernetes JSON schema for every Kubernetes API version.</p>
+<p><a href="https://github.com/garethr">Gareth Rushgrove</a> wrote a <a href="https://www.morethanseven.net/2017/06/26/schemas-for-kubernetes-types/">blog post</a> on this topic and maintains the <a href="https://github.com/garethr/kubernetes-json-schema">garethr/kubernetes-json-schema</a> GitHub repository with most recent Kubernetes and OpenShift JSON schemas for all API versions. What a great contribution to the community!</p>
+<p>Now, with Kubernetes API JSON schema, it's possible to validate any YAML file if it's a valid Kubernetes configuration file.</p>
+<p>The <a href="https://github.com/garethr/kubeval">kubeval</a> tool (also authored by Gareth Rushgrove) is to help.</p>
+<p>Run <code>kubeval</code> piped with <code>helm template</code> command.</p>
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>helm template mychart | kubeval
+</code></pre></div></div>
+<p>The output below sows single detected error in <code>Service</code> definition: invalid annotation. The <code>kubeval</code> could be more specific, by providing <code>Service</code> name, but event AS IS it is a valuable output for detecting Kubernetes configuration errors.</p>
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>The document stdin contains a valid Secret
+The document stdin contains a valid Secret
+The document stdin contains a valid ConfigMap
+The document stdin contains a valid ConfigMap
+The document stdin contains a valid PersistentVolumeClaim
+The document stdin contains an invalid Service
+---&gt; metadata.annotations: Invalid type. Expected: object, given: null
+The document stdin contains a valid Service
+The document stdin contains a valid Deployment
+The document stdin contains a valid Deployment
+The document stdin is empty
+The document stdin is empty
+The document stdin is empty
+The document stdin is empty
+</code></pre></div></div>
+<p><a href="https://github.com/garethr/kubetest">https://github.com/garethr/kubetest</a></p>
+
+  </div><a class="u-url" href="/development/2019/03/08/kubernetes-continuous-integration.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="http://localhost:4000/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+        <ul class="contact-list">
+          <li class="p-name">Alexei Lednev</li><li><a class="u-email" href="mailto:alexei.led@gmail.com">alexei.led@gmail.com</a></li></ul>
+      </div>
+
+      <div class="footer-col">
+        <p>Alexei Lednev&#39;s personal blog</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li>
+      <a href="https://github.com/alexei-led" title="GitHub">
+        <svg class="svg-icon grey">
+          <use xlink:href="/assets/minima-social-icons.svg#github"></use>
+        </svg>
+        <span class="username">Github</span>
+      </a>
+    </li></ul></div>
+  </div>
+</footer></body>
+
+</html>

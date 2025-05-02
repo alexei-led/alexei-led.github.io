@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Debugging remote Node.js application running in a Docker container | Terra Nullius</title>
+<meta name="generator" content="Jekyll v3.9.3" />
+<meta property="og:title" content="Debugging remote Node.js application running in a Docker container" />
+<meta name="author" content="Alexei Lednev" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Teaser" />
+<meta property="og:description" content="Teaser" />
+<link rel="canonical" href="http://localhost:4000/docker/2017/06/03/debug-node-in-docker.html" />
+<meta property="og:url" content="http://localhost:4000/docker/2017/06/03/debug-node-in-docker.html" />
+<meta property="og:site_name" content="Terra Nullius" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2017-06-03T19:00:00+03:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Debugging remote Node.js application running in a Docker container" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Alexei Lednev"},"dateModified":"2017-06-03T19:00:00+03:00","datePublished":"2017-06-03T19:00:00+03:00","description":"Teaser","headline":"Debugging remote Node.js application running in a Docker container","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/docker/2017/06/03/debug-node-in-docker.html"},"url":"http://localhost:4000/docker/2017/06/03/debug-node-in-docker.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Terra Nullius" />
+<!-- Custom head content -->
+
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+
+<!-- Additional custom styles -->
+<style>
+  body {
+    font-family: 'Roboto', sans-serif;
+  }
+  .site-title {
+    font-weight: 700;
+  }
+  .post-content img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+  }
+  pre, code {
+    border-radius: 4px;
+  }
+  .post-tag {
+    display: inline-block;
+    background-color: #f0f0f0;
+    padding: 2px 8px;
+    border-radius: 3px;
+    margin-right: 5px;
+    font-size: 0.8em;
+  }
+</style>
+
+<!-- Favicon -->
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+</head>
+<body><header class="site-header">
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Terra Nullius</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About</a><a class="page-link" href="/">Alexei Lednev&#39;s Blog</a></div>
+      </nav></div>
+</header><main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Debugging remote Node.js application running in a Docker container</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2017-06-03T19:00:00+03:00" itemprop="datePublished">Jun 3, 2017
+      </time></p>
+      
+    
+    <div class="post-tags">
+      <strong>Tags:</strong>
+      
+        <span class="post-tag">docker</span>
+      
+        <span class="post-tag">tutorial</span>
+      
+        <span class="post-tag">devops</span>
+      
+        <span class="post-tag">hacks</span>
+      
+        <span class="post-tag">node</span>
+      
+        <span class="post-tag">node.js</span>
+      
+        <span class="post-tag">debug</span>
+      
+        <span class="post-tag">Dockerfile</span>
+      
+    </div>
+    
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <h2 id="teaser">Teaser</h2>
+<p>Suppose you want to debug a Node.js application already running on a remote machine inside Docker container. And would like to do it without modifying command arguments (enabling <code>debug</code> mode) and opening remote Node.js debugger agent port to the whole world.</p>
+<p><strong>I bet you didn't know that it's possible and also have no idea how to do it.</strong></p>
+<p>I encourage you to continue reading this post if you are eager to learn some new cool stuff.</p>
+<h2 id="the-todomvc-demo-application">The TodoMVC demo application</h2>
+<p>I'm using the <a href="https://github.com/alexei-led/todomvc-express">fork</a> of <strong>TodoMVC</strong> Node.js application (by Gleb Bahmutov) as a demo application for this blog post. Feel free to clone and play with this repository.</p>
+<p>Here is the <code>Dockerfile</code>, I've added, for TodoMVC application. It allows to run TodoMVC application inside a Docker container.</p>
+<div class="language-Dockerfile highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">FROM</span><span class="s"> alpine:3.5</span>
+
+<span class="c"># install node</span>
+<span class="k">RUN </span>apk add <span class="nt">--no-cache</span> nodejs-current tini
+
+<span class="k">RUN </span><span class="nb">mkdir</span> <span class="nt">-p</span> /usr/src/app
+<span class="k">WORKDIR</span><span class="s"> /usr/src/app</span>
+
+<span class="c"># Build time argument to set NODE_ENV ('production'' by default)</span>
+<span class="k">ARG</span><span class="s"> NODE_ENV</span>
+<span class="k">ENV</span><span class="s"> NODE_ENV ${NODE_ENV:-production}</span>
+
+<span class="c"># install npm packages: clean obsolete files</span>
+<span class="k">COPY</span><span class="s"> package.json /usr/src/app/</span>
+<span class="k">RUN </span>npm config <span class="nb">set </span>depth 0 <span class="o">&amp;&amp;</span> <span class="se">\
+</span>    npm <span class="nb">install</span> <span class="o">&amp;&amp;</span> <span class="se">\
+</span>    npm cache clean <span class="o">&amp;&amp;</span> <span class="se">\
+</span>    <span class="nb">rm</span> <span class="nt">-rf</span> /tmp/<span class="k">*</span>
+
+<span class="c"># copy source files</span>
+<span class="k">COPY</span><span class="s"> . /usr/src/app</span>
+
+<span class="k">EXPOSE</span><span class="s"> 3000</span>
+
+<span class="c"># Set tini as entrypoint</span>
+<span class="k">ENTRYPOINT</span><span class="s"> ["/sbin/tini", "--"]</span>
+
+<span class="k">CMD</span><span class="s"> [ "npm", "start" ]</span>
+
+<span class="c"># add VCS labels for code sync and nice reports</span>
+<span class="k">ARG</span><span class="s"> VCS_REF="local"</span>
+<span class="k">LABEL</span><span class="s"> org.label-schema.vcs-ref=$VCS_REF \          </span>
+      org.label-schema.vcs-url="https://github.com/alexei-led/todomvc-express.git"
+</code></pre></div></div>
+<h4 id="building-and-running-todomvc-in-a-docker-container">Building and Running TodoMVC in a Docker container:</h4>
+<p>To build a new Docker image for TodoMVC application, run the <code>docker build</code> command.</p>
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="c"># build Docker image; set VCS_REF to current HEAD commit (short)</span>
+<span class="nv">$ </span>docker build <span class="nt">-t</span> <span class="nb">local</span>/todomvc <span class="nt">--build-arg</span> <span class="nv">VCS_REF</span><span class="o">=</span><span class="sb">`</span>git rev-parse <span class="nt">--short</span> HEAD<span class="sb">`</span> <span class="nb">.</span>
+<span class="nv">$ </span><span class="c"># run TodoMVC in a Docker container</span>
+<span class="nv">$ </span>docker run <span class="nt">-d</span> <span class="nt">-p</span> 3000:3000 <span class="nt">--name</span> todomvc <span class="nb">local</span>/todomvc node src/start.js
+</code></pre></div></div>
+<h2 id="the-plan">The Plan</h2>
+<p><strong>Final Goal</strong> - I would like to be able to attach a Node.js debugger to a Node.js application already up and running inside a Docker container, running on remote host machine in AWS cloud, without modifying the application, container, container configuration or restarting it with additional <code>debug</code> flags. Imagine that the application is running and there is some problem happening right now - I want to connect to it with debugger and start looking at the problem.</p>
+<p>So, I need a plan - a step by step flow that will help me to achieve the final goal.</p>
+<p>Let's start with exploring the inventory. On the server (AWS EC2 VM) machine, I have a Node.js application running inside a Docker container. On the client (my laptop), I have an IDE (Visual Studio Code, in my case), Node.js application code (<code>git pull/clone</code>) and a Node.js debugger.</p>
+<p>So, here is my plan:</p>
+<ol>
+<li>Set already running application to <code>debug</code> mode</li>
+<li>Expose a new Node.js debugger agent port to enable remote debugging in a secure way</li>
+<li>Syncronize client-server code: both should be on the same commit in <code>git</code> tree</li>
+<li>Attach a local Node.js debugger to the Node.js debugger agent port on remote server and do it in a secure way</li>
+<li>And, if everything works, I should be able to perform regular debugging tasks, like setting breakpoints, inspecting variables, pausing execution and others.</li>
+</ol>
+<p><img src="/assets/images/debug_docker_node.png" alt="Debug Node in Docker" /></p>
+<h3 id="step-1-set-already-running-nodejs-application-to-the-codedebugcode-mode">Step 1: set already running Node.js application to the <code>debug</code> mode</h3>
+<blockquote>
+<p>The V8 debugger can be enabled and accessed either by starting Node with the <code>--debug</code> command-line flag or by signaling an existing Node process with <code>SIGUSR1</code>. (Node API documentation)</p>
+</blockquote>
+<p>Cool! So, in order to switch on Node debugger agent, I just need to send the <code>SIGUSR1</code> signal to the Node.js process of TodoMVC application. Remember, it's running inside a Docker container. What command can I use to send process signals to an application running in a Docker container?</p>
+<p>The <code>docker kill</code> - is my choice! This command does not actually &quot;kill&quot; the <code>PID 1</code> process, running in a Docker container, but sends a <a href="https://en.wikipedia.org/wiki/Unix_signal">Unix signal</a> to it (by default it sends <code>SIGKILL</code>).</p>
+<h4 id="setting-todomvc-into-codedebugcode-mode">Setting TodoMVC into <code>debug</code> mode</h4>
+<p>So, all I need to do is to send <code>SIGUSR1</code> to my TodoMVC application running inside <code>todomvc</code> Docker container.</p>
+<p>There are two ways to do this:</p>
+<ol>
+<li>Use <code>docker kill --signal</code> command to send <code>SIGUSR1</code> to <code>PID 1</code> process running inside Docker container, and if it's a &quot;proper&quot; (signal forwarding done right) init application (like <code>tini</code>), than this will work</li>
+<li>Or execute <code>kill -s SIGUSR1</code> inside already running Docker container, sending <code>SIGUSR1</code> signal to the main Node.js process.</li>
+</ol>
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="c"># send SIGUSR1 with docker kill (if using proper init process)</span>
+<span class="nv">$ </span>docker <span class="nb">kill</span> <span class="nt">--signal</span> SIGUSR1 todomvc 
+<span class="nv">$ </span><span class="c"># OR run kill command for node process inside todomvc container</span>
+<span class="nv">$ </span>docker <span class="nb">exec</span> <span class="nt">-it</span> todomvc sh <span class="nt">-c</span> <span class="s1">'kill -s SIGUSR1 $(pidof -s node)'</span>
+</code></pre></div></div>
+<p>Let's verify that Node application is set into <code>debug</code> mode.</p>
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>docker logs todomvc
+
+TodoMVC server listening at http://:::3000
+emitting 2 todos
+server has new 2 todos
+GET / 200 31.439 ms - 3241
+GET /app.css 304 4.907 ms - -
+Starting debugger agent.
+Debugger listening on 127.0.0.1:5858
+</code></pre></div></div>
+<p>As you can see the Node.js debugger agent was started, but it can accept connections only from the <code>localhost</code>, see the last output line: <code>Debugger listening on 127.0.0.1:5858</code></p>
+<h3 id="step-2-expose-node-debug-port">Step 2: expose Node debug port</h3>
+<p>In order to attach a remote Node.js debugger to a Node application, running in the <code>debug</code> mode, I need:</p>
+<ol>
+<li>Allow connection to debugger agent from any (or specific) IP (or IP range)</li>
+<li>Open port of Node.js debugger agent outside of Docker container</li>
+</ol>
+<p>How to do it when an application is already running in a Docker container and a Node.js debugger agent is ready to talk only with a Node.js debugger running on the same machine, plus a Node.js debugger agent port is not accessible from outside of the Docker container?</p>
+<p>Of cause it's possible to start every Node.js Docker container with exposed debugger port and allow connection from any IP (using <code>--debug-port</code> and <code>--debug</code> Node.js flags), but we are not looking for easy ways :).</p>
+<p>It's not a good idea from a security point of view (allowing unprotected access to a Node.js debugger). Also, if I restart an already running application with debug flags, I'm going to loose the current execution context and may not be able to reproduce the problem I wanted to debug.</p>
+<p>I need a better solution!</p>
+<p>Unfortunately, Docker does not allow to expose an additional port of already running Docker container. So, I need somehow connect to a running container network and expose a new port for Node.js debugger agent.</p>
+<p>Also, it is not possible to tell a Node.js debugger agent to accept connections from different IP addresses, when Node.js process was already started.</p>
+<p>Both of above problems can be solved with help of the small Linux utility called <code>socat</code> (SOcket CAT). This is just like the <code>netcat</code> but with security in mind (e.g., it support chrooting) and works over various protocols and through files, pipes, devices, TCP sockets, Unix sockets, a client for SOCKS4, proxy CONNECT, or SSL etc.</p>
+<p>From <code>socat</code> man page:</p>
+<blockquote>
+<p><code>socat</code> is a command line based utility that establishes two bidirectional byte streams and transfers data between them. Because the streams can be constructed from a large set of different types of data sinks and sources (see address types), and because lots of address options may be applied to the streams, <code>socat</code> can be used for many different purposes.</p>
+</blockquote>
+<p>Exactly, what I need!</p>
+<p>So, here is the plan. I will run a new Docker container with the <code>socat</code> utility onboard, and configure Node.js debugger port forwarding for TodoMVC container.</p>
+<p><code>socat.Dockerfile</code>:</p>
+<div class="language-Dockerfile highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">FROM</span><span class="s"> alpine:3.5</span>
+<span class="k">RUN </span>apk add <span class="nt">--no-cache</span> socat
+<span class="k">CMD</span><span class="s"> socat -h</span>
+</code></pre></div></div>
+<h4 id="building-socat-docker-container">Building socat Docker container</h4>
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>docker build <span class="nt">-t</span> <span class="nb">local</span>/socat - &lt; socat.Dockerfile
+</code></pre></div></div>
+<h4 id="allow-connection-to-node-debugger-agent-from-any-ip">Allow connection to Node debugger agent from any IP</h4>
+<p>I need to run a &quot;sidecar&quot; <code>socat</code> container in the same network namespace as the <code>todomvc</code> container and define a port forwarding.</p>
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="c"># define local port forwarding</span>
+<span class="nv">$ </span>docker run <span class="nt">-d</span> <span class="nt">--name</span> socat-nid <span class="nt">--network</span><span class="o">=</span>container:todomvc <span class="nb">local</span>/socat socat TCP-LISTEN:4848,fork TCP:127.0.0.1:5858
+</code></pre></div></div>
+<p>Now any traffic that arrives at <code>4848</code> port will be routed to the Node.js debugger agent listening on <code>127.0.0.1:5858</code>. The <code>4848</code> port can accept traffic from any IP.
+It's possible to use an IP range to restrict connection to the <code>socat</code> listening port, adding <code>range=&lt;ANY IP RANGE&gt;</code> option.</p>
+<h4 id="exposing-nodejs-debugger-port-from-docker-container">Exposing Node.js debugger port from Docker container</h4>
+<p>First, we will get IP of <code>todomvc</code> Docker container.</p>
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="c"># get IP of todomvc container</span>
+<span class="nv">$ TODOMVC_IP</span><span class="o">=</span><span class="si">$(</span>docker inspect <span class="nt">-f</span> <span class="s1">'\{\{.NetworkSettings.IPAddress\}\}'</span> todomvc<span class="si">)</span>
+</code></pre></div></div>
+<p>Then, configure port forwarding to the &quot;sidecar&quot; <code>socat</code> port, we define previously, running on the same network as the <code>todomvc</code> container.</p>
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="c"># run socat container to expose Node.js debugger agent port forwarder</span>
+<span class="nv">$ </span>docker run <span class="nt">-d</span> <span class="nt">-p</span> 5858:5858 <span class="nt">--name</span> socat <span class="nb">local</span>/socat socat TCP-LISTEN:5858,fork TCP:<span class="k">${</span><span class="nv">TODOMVC_IP</span><span class="k">}</span>:4848
+</code></pre></div></div>
+<p>Any traffic that will arrive at the <code>5858</code> port on the Docker host will be forwarded, first, to the <code>4848</code> socat port and then to the Node.js debugger agent running inside the <code>todomvc</code> Docker container.</p>
+<h4 id="exposing-nodejs-debugger-port-for-remote-access">Exposing Node.js debugger port for remote access</h4>
+<p>In most cases, I would like to debug an application running on a remote machine (AWS EC2 instance, for example). I also do not want to expose a Node.js debugger agent port unprotected to the whole world.</p>
+<p>One possible and working solution is to use SSH tunneling to access this port.</p>
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="c"># Open SSH Tunnel to gain access to servers port 5858. Set `SSH_KEY_FILE` to ssh key location or add it to ssh-agent</span>
+<span class="nv">$ </span><span class="c">#</span>
+<span class="nv">$ </span><span class="c"># open an ssh tunnel, send it to the bg, and wait 20 seconds for connections</span>
+<span class="nv">$ </span><span class="c"># once all connections are closed after 20 seconds then close the tunnel</span>
+<span class="nv">$ </span>ssh <span class="nt">-i</span> <span class="k">${</span><span class="nv">SSH_KEY_FILE</span><span class="k">}</span> <span class="nt">-f</span> <span class="nt">-o</span> <span class="nv">ExitOnForwardFailure</span><span class="o">=</span><span class="nb">yes</span> <span class="nt">-L</span> 5858:127.0.0.1:5858 ec2_user@some.ec2.host.com <span class="nb">sleep </span>20
+</code></pre></div></div>
+<p>Now all traffic to the <code>localhost:5858</code> will be tunneled over <code>SSH</code> to the remote Docker host machine and after some <code>socat</code> forwarding to the Node.js debugger agent running inside the <code>todomvc</code> container.</p>
+<h3 id="step-3-synchronizing-on-the-same-code-commit">Step 3: Synchronizing on the same code commit</h3>
+<p>In order to be able to debug a remote application, you need to make sure that you are using the same code in your IDE as one that is running on remote server.</p>
+<p>I will try to automate this step too. Remember the <code>LABEL</code> command, I've used in TodoMVC <code>Dockerfile</code>?</p>
+<p>These labels help me to identify git repository and commit for the application Docker image:</p>
+<ol>
+<li><code>org.label-schema.vcs-ref</code> - contains short SHA for a <code>HEAD</code> commit</li>
+<li><code>org.label-schema.vcs-url</code> - contains an application git repository url (I can use in <code>clone/pull</code>)</li>
+</ol>
+<p>I'm using (Label Schema Convention)[http://label-schema.org/rc1/], since I really like it and find it useful, but you can select any other convention too.</p>
+<p>This approach allows me, for each, properly labeled, Docker image, to identify the application code repository and the commit it was created from.</p>
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="c"># get git repository url form Docker image</span>
+<span class="nv">$ GIT_URL</span><span class="o">=</span><span class="si">$(</span>docker inspect <span class="nb">local</span>/todomvc | jq <span class="nt">-r</span> <span class="s1">'.[].ContainerConfig.Labels."org.label-schema.vcs-url"'</span><span class="si">)</span>
+<span class="nv">$ </span><span class="c"># get git commit from Docker image</span>
+<span class="nv">$ GIT_COMMIT</span><span class="o">=</span><span class="si">$(</span>docker inspect <span class="nb">local</span>/todomvc | jq <span class="nt">-r</span> <span class="s1">'.[].ContainerConfig.Labels."org.label-schema.vcs-ref"'</span><span class="si">)</span>
+<span class="nv">$ </span>
+<span class="nv">$ </span><span class="c"># clone git repository, if needed</span>
+<span class="nv">$ </span>git clone <span class="nv">$GIT_URL</span>
+<span class="nv">$ </span><span class="c"># set HEAD to same commit as server</span>
+<span class="nv">$ </span>git checkout <span class="nv">$GIT_COMMIT</span>
+</code></pre></div></div>
+<p>Now, both my local development environment and remote application are on the same git commit. And I can start to debug my code, finally!</p>
+<h3 id="step-4-attaching-local-nodejs-debugger-to-debugger-agent-port">Step 4: Attaching local Node.js debugger to debugger agent port</h3>
+<p>To start debugging, I need to configure my IDE. In my case, it's <a href="https://code.visualstudio.com/">Visual Studio Code</a> and I need to add a new <code>Launch</code> configuration.</p>
+<p>This launch configuration specifies remote debugger server and port to attach and remote location for application source files, which should be in sync with local files (see the previous step).</p>
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+    </span><span class="err">//</span><span class="w"> </span><span class="err">For</span><span class="w"> </span><span class="err">more</span><span class="w"> </span><span class="err">information</span><span class="w"> </span><span class="err">about</span><span class="w"> </span><span class="err">Node.js</span><span class="w"> </span><span class="err">debug</span><span class="w"> </span><span class="err">attributes</span><span class="p">,</span><span class="w"> </span><span class="err">visit:</span><span class="w"> </span><span class="err">https://go.microsoft.com/fwlink/?linkid=</span><span class="mi">830387</span><span class="w">
+    </span><span class="nl">"version"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.2.0"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"configurations"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+            </span><span class="nl">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"node"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"request"</span><span class="p">:</span><span class="w"> </span><span class="s2">"attach"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Debug Remote Docker"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"address"</span><span class="p">:</span><span class="w"> </span><span class="s2">"127.0.0.1"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"port"</span><span class="p">:</span><span class="w"> </span><span class="mi">5858</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"localRoot"</span><span class="p">:</span><span class="w"> </span><span class="s2">"${workspaceRoot}/"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"remoteRoot"</span><span class="p">:</span><span class="w"> </span><span class="s2">"/usr/src/app/"</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+    </span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+
+</span></code></pre></div></div>
+<h2 id="summary">Summary</h2>
+<p>And finally, I've met my goal: I'm able to attach a Node.js debugger to a Node.js application, that is already up and running in a Docker container on a remote machine.</p>
+<p>It was a long journey to find the proper solution, but after I found it, the process does not look complex at all. Now, once I met a new problem in our environment I can easily attach the Node.js debugger to the running application and start exploring the problem. Nice, isn't it?</p>
+<p>I've recorded a short movie, just to demonstrate all steps and prove that things are working fluently, exactly as I've described in this post.</p>
+<div class="embed-container">
+  &lt;iframe
+      src="https://www.youtube.com/embed/WYOfNTJmE_4"
+      width="700"
+      height="480"
+      frameborder="0"
+      allowfullscreen="">
+  </iframe>
+</div>
+<hr />
+<p>Hope, you find this post useful. I look forward to your comments and any questions you have.</p>
+
+  </div><a class="u-url" href="/docker/2017/06/03/debug-node-in-docker.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="http://localhost:4000/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+        <ul class="contact-list">
+          <li class="p-name">Alexei Lednev</li><li><a class="u-email" href="mailto:alexei.led@gmail.com">alexei.led@gmail.com</a></li></ul>
+      </div>
+
+      <div class="footer-col">
+        <p>Alexei Lednev&#39;s personal blog</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li>
+      <a href="https://github.com/alexei-led" title="GitHub">
+        <svg class="svg-icon grey">
+          <use xlink:href="/assets/minima-social-icons.svg#github"></use>
+        </svg>
+        <span class="username">Github</span>
+      </a>
+    </li></ul></div>
+  </div>
+</footer></body>
+
+</html>
