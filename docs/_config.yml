@@ -3,7 +3,7 @@ title: Terra Nullius
 description: Alexei Lednev's personal blog
 markdown: GFM
 baseurl: ""
-url: "https://alexei-led.github.io/blog"
+url: "https://alexei-led.github.io"
 
 # Minima theme settings
 minima:
