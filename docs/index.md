@@ -1,3 +1,6 @@
+---
+layout: home
+---
 # Alexei's Blog
 
 This is a collection of articles I've written over the years, organized by date.
