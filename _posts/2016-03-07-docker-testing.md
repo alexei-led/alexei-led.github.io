@@ -24,7 +24,7 @@ The CI server compiles the application code and executes tests (unit, service, f
 
 We are getting application portability, however, we are loosing the development and testing portability. We're not able to reproduce exactly the same development and testing environment outside the CI. To create a new test environment we'll need to setup the testing tools (correct versions and plugins), configure runtime and OS settings, and get the same versions of test scripts as well as perhaps, the test data.
 
-![The Naive Testing Strategy](img/naive.png)
+![The Naive Testing Strategy](/assets/images/naive.png)
 
 To resolve these problems leads us to the next one.
 
@@ -77,7 +77,7 @@ CMD [run.sh, "<app arguments>"]
 ```
 [Dockerfile](https://gist.github.com/alexei-led/cbb3d46fcf422a24aacd)
 
-![App & Test Container](img/app_test.png)
+![App & Test Container](/assets/images/app_test.png)
 
 There has to be a better way for in-container testing and there is.
 
@@ -142,7 +142,7 @@ ONTEST CMD [/test.sh, "<test arguments>"]
 ```
 [Dockerfile](https://gist.github.com/alexei-led/4f39cca8a03b1503978a)
 
-![Test Aware Container](img/test_aware.png)
+![Test Aware Container](/assets/images/test_aware.png)
 
 ### Making "Test Aware Container" Real
 
@@ -214,7 +214,7 @@ The **Integration Test Container** is just a regular Docker container. Tt does n
 
 **Integration Test Containers** should run in an operational environment where all microservices are deployed: testing, staging or production. These containers can be deployed exactly as all other services. They use same network layer and thus can access multiple services; using selected service discovery method (usually DNS). Accessing multiple services is required for real integration testing - we need to simulate and validate how our system is working in multiple places. Keeping integration tests inside some application service container not only increases the container footprint but also creates an unneeded dependency between multiple services. We keep all these dependencies at the level of the **Integration Test Container**. Once our tests (and testing tools) are packaged inside the container, we can always rerun the same tests on any environment including the developer machine. You can always go back in time and rerun a specific version of **Integration Test Container**.
 
-![Integration Test Container](img/int_test.png)
+![Integration Test Container](/assets/images/int_test.png)
 
 
 WDYT? Your feedback, particularly on standardizing the `docker-test` command, is greatly appreciated.

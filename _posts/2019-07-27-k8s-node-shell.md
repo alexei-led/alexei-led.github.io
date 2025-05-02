@@ -13,7 +13,7 @@ categories:
   - DevOps
 ---
 
-![Linux Shell](img/linux_pinguin_terminal.jpg)
+![Linux Shell](/assets/images/linux_pinguin_terminal.jpg)
 
 Throughout the lifecycle of your Kubernetes cluster, you may need to access a cluster worker node. This access could be for maintenance, configuration inspection, log collection, or other troubleshooting operations. More than that, it would be nice, if you could enable this access whenever it's needed and disable when you finish your task.
 

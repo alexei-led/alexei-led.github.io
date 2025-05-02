@@ -19,7 +19,7 @@ categories:
 
 **Docker 1.13** simplifies deployment of composed application to a **swarm** (mode) cluster. And you can do it without creating a new `dab` (*Distribution Application Bundle*) file, but just using familiar and well-known `docker-compose.yml` syntax (with some additions) and `--compose-file` option.
 
-![Compose to Swarm](img/compose_swarm.png)
+![Compose to Swarm](/assets/images/compose_swarm.png)
 
 
 # Swarm cluster

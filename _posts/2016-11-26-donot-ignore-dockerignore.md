@@ -15,7 +15,7 @@ categories:
 
 > **Tip:** Consider to define and use `.dockerignore` file for every Docker image you are building. It can help you to reduce Docker image size, speedup `docker build` and avoid unintended secret exposure.
 
-![Overloaded container ship](img/overloaded.jpg)
+![Overloaded container ship](/assets/images/overloaded.jpg)
 
 # Docker build context
 

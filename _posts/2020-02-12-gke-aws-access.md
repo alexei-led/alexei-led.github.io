@@ -86,7 +86,7 @@ The `gtoken-webhook` injects a `gtoken` `initContainer` into a target Pod and an
 
 The AWS SDK will automatically make the corresponding `AssumeRoleWithWebIdentity` calls to AWS STS on your behalf. It will handle in memory caching as well as refreshing credentials as needed.
 
-![GKE-AWS](img/gke-aws.png)
+![GKE-AWS](/assets/images/gke-aws.png)
 
 ## The Configuration Flow Guide
 

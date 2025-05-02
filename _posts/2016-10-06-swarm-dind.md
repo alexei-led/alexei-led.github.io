@@ -84,4 +84,4 @@ docker run -it -d -p 8000:8000 -e HOST=localhost -e PORT=8000 -v /var/run/docker
 
 And you should be able to see something like this (after you deploy some demo app):
 
-![Docker Swarm visualizer: Voting App](img/docker_visualizer.png)
+![Docker Swarm visualizer: Voting App](/assets/images/docker_visualizer.png)

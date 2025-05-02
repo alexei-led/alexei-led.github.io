@@ -19,7 +19,7 @@ categories:
 What follows is the text of my presentation, *Chaos Testing for Docker Containers* that I gave at [ContainerCamp](https://2017.container.camp/uk) in London this year. 
 I've also decided to turn the presentation into an article. I edited the text slightly for readability and added some links for more context. You can find the original video recording and slides at the end of this post.
 
-![Docker Chaos Testing](img/sink_cargo.jpg)
+![Docker Chaos Testing](/assets/images/sink_cargo.jpg)
 
 ## Intro
 

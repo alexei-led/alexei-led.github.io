@@ -19,7 +19,7 @@ categories:
 
 Starting from Docker 17.05+, you can create a single `Dockerfile` that can build multiple helper images with compilers, tools, and tests and use files from above images to produce the **final** Docker image.
 
-![Multi-stage Docker Build](img/multi_stage_build.png)
+![Multi-stage Docker Build](/assets/images/multi_stage_build.png)
 
 ## The "core principle" of Dockerfile
 

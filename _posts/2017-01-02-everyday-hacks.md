@@ -15,7 +15,7 @@ categories:
 In this post, I've decided to share with you some useful commands and tools, I'm frequently using, working with amazing Docker technology.
 There is no particular order or "coolness level" for every "hack". I will try to present the use case and how does specific command or tool help me with my work.
 
-![Docker Hacks](img/docker_animals.png)
+![Docker Hacks](/assets/images/docker_animals.png)
 
 ## Cleaning up
 

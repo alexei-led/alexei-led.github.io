@@ -93,7 +93,7 @@ So, here is my plan:
 4. Attach a local Node.js debugger to the Node.js debugger agent port on remote server and do it in a secure way
 5. And, if everything works, I should be able to perform regular debugging tasks, like setting breakpoints, inspecting variables, pausing execution and others.
 
-![Debug Node in Docker](img/debug_docker_node.png)
+![Debug Node in Docker](/assets/images/debug_docker_node.png)
 
 ### Step 1: set already running Node.js application to the `debug` mode
 

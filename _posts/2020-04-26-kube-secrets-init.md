@@ -34,7 +34,7 @@ The [doitintl/kube-secrets-init](https://github.com/doitintl/kube-secrets-init) 
 
 The `kube-secrets-init` monitors Kubernetes cluster for newly created or updated Pods adding an _initContainer_ with [doitintl/secrets-init](https://hub.docker.com/r/doitintl/secrets-init)) utility to the Pods that are referencing cloud secrets directly (through environment variables) or/and indirectly (through Kubernetes `Secret` and `ConfigMap`).
 
-![Secret Init Webhook](img/k8s-secret-webhook.png)
+![Secret Init Webhook](/assets/images/k8s-secret-webhook.png)
 
 ### Integration with AWS Secrets Manager
 
