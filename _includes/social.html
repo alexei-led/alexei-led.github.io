@@ -1,0 +1,14 @@
+{%- if site.minima.social_links -%}
+<ul class="social-media-list">
+  {%- for social in site.minima.social_links -%}
+    <li>
+      <a href="{{ social.user_url }}" title="{{ social.title | default: social.platform }}">
+        <svg class="svg-icon grey">
+          <use xlink:href="{{ '/assets/minima-social-icons.svg#' | append: social.platform | relative_url }}"></use>
+        </svg>
+        <span class="username">{{ social.platform | capitalize }}</span>
+      </a>
+    </li>
+  {%- endfor -%}
+</ul>
+{%- endif -%}
