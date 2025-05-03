@@ -17,8 +17,6 @@ categories:
   - Docker
 ---
 
-## TL;DR
-
 The Docker BuildKit [buildx CLI plugin](https://github.com/docker/buildx) simplifies building Docker images for different OS/CPU platforms (e.g. `linux/amd64`, `linux/arm64`, `linux/arm`, `windows/amd64`)
 
 So why is it a big deal now? Who needs Docker images for Arm platform anyway. Raspberry Pi geeks?

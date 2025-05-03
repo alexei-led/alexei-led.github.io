@@ -11,8 +11,6 @@ categories:
   - Development
 ---
 
-## TL;DR
-
 > Docker-in-Docker [dind](https://hub.docker.com/_/docker/) can help you to run Docker Swarm cluster on your Macbook only with Docker for Mac (v1.12+). No `virtualbox`, `docker-machine`, `vagrant` or other app is required.
 
 ## The Beginning

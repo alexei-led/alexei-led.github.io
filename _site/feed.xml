@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.3">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2025-05-02T20:05:20+03:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Terra Nullius</title><subtitle>Alexei Lednev&apos;s personal blog</subtitle><author><name>Alexei Lednev</name><email>alexei.led@gmail.com</email></author><entry><title type="html">Kubernetes 1.33: Resizing Pods Without the Drama (Finally!) 🎉</title><link href="http://localhost:4000/kubernetes/2025/04/26/pod-resize-in-place.html" rel="alternate" type="text/html" title="Kubernetes 1.33: Resizing Pods Without the Drama (Finally!) 🎉" /><published>2025-04-26T19:00:00+03:00</published><updated>2025-04-26T19:00:00+03:00</updated><id>http://localhost:4000/kubernetes/2025/04/26/pod-resize-in-place</id><content type="html" xml:base="http://localhost:4000/kubernetes/2025/04/26/pod-resize-in-place.html">&lt;h2 id=&quot;kubernetes-133-resizing-pods-without-the-drama-finally-&quot;&gt;Kubernetes 1.33: Resizing Pods Without the Drama (Finally!) 🎉&lt;/h2&gt;
-&lt;p&gt;Remember that feeling? You meticulously configured your Kubernetes pods, set the CPU and memory just right (or so you thought), only to have your application start gasping for air or hogging resources like it&apos;s Black Friday for RAM. In the old days, the only cure was a full pod restart – a disruptive event that often felt like performing open-heart surgery with a butter knife while your SRE team watched through the OR window.&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.3">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2025-05-03T09:26:39+03:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Terra Nullius</title><subtitle>Alexei Ledenev&apos;s blog</subtitle><author><name>Alexei Lednev</name><email>alexei.led@gmail.com</email></author><entry><title type="html">Kubernetes 1.33: Resizing Pods Without the Drama (Finally!) 🎉</title><link href="http://localhost:4000/kubernetes/2025/04/26/pod-resize-in-place.html" rel="alternate" type="text/html" title="Kubernetes 1.33: Resizing Pods Without the Drama (Finally!) 🎉" /><published>2025-04-26T19:00:00+03:00</published><updated>2025-04-26T19:00:00+03:00</updated><id>http://localhost:4000/kubernetes/2025/04/26/pod-resize-in-place</id><content type="html" xml:base="http://localhost:4000/kubernetes/2025/04/26/pod-resize-in-place.html">&lt;p&gt;Remember that feeling? You meticulously configured your Kubernetes pods, set the CPU and memory just right (or so you thought), only to have your application start gasping for air or hogging resources like it&apos;s Black Friday for RAM. In the old days, the only cure was a full pod restart – a disruptive event that often felt like performing open-heart surgery with a butter knife while your SRE team watched through the OR window.&lt;/p&gt;
 &lt;p&gt;Well, good news, fellow Kubernetes wranglers! Version 1.33 has landed, and it brings with it a feature that many of us have been dreaming about: &lt;strong&gt;&lt;a href=&quot;https://kubernetes.io/docs/tasks/configure-pod-container/resize-container-resources/&quot;&gt;in-place pod vertical scaling&lt;/a&gt;&lt;/strong&gt;! Yes, you read that right. You can now adjust the CPU and memory of your running pods without the dreaded restart. &lt;em&gt;Cue the confetti cannons and slightly-too-enthusiastic DevOps high-fives!&lt;/em&gt;&lt;/p&gt;
 &lt;p&gt;This is particularly exciting if you, like me, have been pondering the nuances of &lt;a href=&quot;https://www.linkedin.com/pulse/vpa-kubernetes-autoscaler-could-doesnt-yet-alexei-ledenev-dkrbf&quot;&gt;vertical pod autoscaling&lt;/a&gt;. While VPA is fantastic in theory, its current &amp;quot;recreate&amp;quot; mode can be a bit… dramatic. In-place resize offers a more graceful way to adjust resources, potentially paving the way for a smoother VPA experience down the line.&lt;/p&gt;
 &lt;hr /&gt;
@@ -198,8 +197,7 @@ Today, a resize doesn’t inform the scheduler—your pod can still be evicted i
 &lt;li&gt;&lt;a href=&quot;https://github.com/kubernetes/enhancements/blob/master/keps/sig-node/1287-in-place-update-pod-resources/README.md&quot;&gt;KEP-1287: In-Place Pod Resizing Design&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&quot;https://kubernetes.io/blog/2025/04/23/kubernetes-v1-33-release/&quot;&gt;Official Kubernetes 1.33 Release Notes&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&quot;https://www.linkedin.com/pulse/vpa-kubernetes-autoscaler-could-doesnt-yet-alexei-ledenev-dkrbf&quot;&gt;VPA: The Kubernetes Autoscaler That Could, But Doesn’t - Yet&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;</content><author><name>Alexei Lednev</name><email>alexei.led@gmail.com</email></author><category term="Kubernetes" /><category term="kubernetes" /><category term="vpa" /><category term="devops" /><category term="autoscaling" /><summary type="html">Kubernetes 1.33: Resizing Pods Without the Drama (Finally!) 🎉</summary></entry><entry><title type="html">EKS GPU Cluster from Zero to Hero</title><link href="http://localhost:4000/development/2019/07/20/eks-gpu-spot.html" rel="alternate" type="text/html" title="EKS GPU Cluster from Zero to Hero" /><published>2019-07-20T11:00:00+03:00</published><updated>2019-07-20T11:00:00+03:00</updated><id>http://localhost:4000/development/2019/07/20/eks-gpu-spot</id><content type="html" xml:base="http://localhost:4000/development/2019/07/20/eks-gpu-spot.html">&lt;h2 id=&quot;introduction&quot;&gt;Introduction&lt;/h2&gt;
-&lt;p&gt;If you ever tried to run a GPU workload on Kubernetes cluster, you know that this task requires non-trivial configuration and comes with high cost tag (GPU instances are quite expensive).&lt;/p&gt;
+&lt;/ul&gt;</content><author><name>Alexei Lednev</name><email>alexei.led@gmail.com</email></author><category term="Kubernetes" /><category term="kubernetes" /><category term="vpa" /><category term="devops" /><category term="autoscaling" /><summary type="html">Remember that feeling? You meticulously configured your Kubernetes pods, set the CPU and memory just right (or so you thought), only to have your application start gasping for air or hogging resources like it&apos;s Black Friday for RAM. In the old days, the only cure was a full pod restart – a disruptive event that often felt like performing open-heart surgery with a butter knife while your SRE team watched through the OR window.</summary></entry><entry><title type="html">EKS GPU Cluster from Zero to Hero</title><link href="http://localhost:4000/development/2019/07/20/eks-gpu-spot.html" rel="alternate" type="text/html" title="EKS GPU Cluster from Zero to Hero" /><published>2019-07-20T11:00:00+03:00</published><updated>2019-07-20T11:00:00+03:00</updated><id>http://localhost:4000/development/2019/07/20/eks-gpu-spot</id><content type="html" xml:base="http://localhost:4000/development/2019/07/20/eks-gpu-spot.html">&lt;p&gt;If you ever tried to run a GPU workload on Kubernetes cluster, you know that this task requires non-trivial configuration and comes with high cost tag (GPU instances are quite expensive).&lt;/p&gt;
 &lt;p&gt;This post shows how to run a GPU workload on Kubernetes cluster in cost effective way, using &lt;a href=&quot;https://aws.amazon.com/eks/&quot;&gt;AWS EKS&lt;/a&gt; cluster, &lt;a href=&quot;https://aws.amazon.com/autoscaling/&quot;&gt;AWS Auto Scaling&lt;/a&gt;, &lt;a href=&quot;https://aws.amazon.com/ec2/spot/&quot;&gt;Amazon EC2 Spot Instances&lt;/a&gt; and some Kubernetes resources and configurations.&lt;/p&gt;
 &lt;p&gt;&lt;img src=&quot;/assets/images/k8s_gpu.png&quot; alt=&quot;Kubernetes with GPU Mixed ASG&quot; /&gt;&lt;/p&gt;
 &lt;h2 id=&quot;eks-cluster-plan&quot;&gt;EKS Cluster Plan&lt;/h2&gt;
@@ -528,8 +526,7 @@ ip-192-168-179-248.us-west-2.compute.internal   aws:///us-west-2c/i-0bc0853ef26c
 &lt;li&gt;&lt;a href=&quot;https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/&quot;&gt;Taints and Tolleratoins&lt;/a&gt; Kubernetes documentation&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h2 id=&quot;disclaimer&quot;&gt;Disclaimer&lt;/h2&gt;
-&lt;p&gt;It does not matter where I work, all my opinions are my own.&lt;/p&gt;</content><author><name>Alexei Lednev</name><email>alexei.led@gmail.com</email></author><category term="Development" /><category term="Kubernetes" /><category term="EKS" /><category term="GPU" /><category term="Spot" /><category term="AWS" /><category term="Machine Learning" /><summary type="html">Introduction</summary></entry><entry><title type="html">Kubernetes Continuous Integration</title><link href="http://localhost:4000/development/2019/03/08/kubernetes-continuous-integration.html" rel="alternate" type="text/html" title="Kubernetes Continuous Integration" /><published>2019-03-08T10:00:00+02:00</published><updated>2019-03-08T10:00:00+02:00</updated><id>http://localhost:4000/development/2019/03/08/kubernetes-continuous-integration</id><content type="html" xml:base="http://localhost:4000/development/2019/03/08/kubernetes-continuous-integration.html">&lt;h1 id=&quot;kubernetes-configuration-as-code&quot;&gt;Kubernetes configuration as Code&lt;/h1&gt;
-&lt;p&gt;Complex Kubernetes application consists from multiple Kubernetes resources, defined in YAML files. Authoring a properly formatted YAML files that are also a valid Kubernetes specification, that should also comply to some policy can be a challenging task.&lt;/p&gt;
+&lt;p&gt;It does not matter where I work, all my opinions are my own.&lt;/p&gt;</content><author><name>Alexei Lednev</name><email>alexei.led@gmail.com</email></author><category term="Development" /><category term="Kubernetes" /><category term="EKS" /><category term="GPU" /><category term="Spot" /><category term="AWS" /><category term="Machine Learning" /><summary type="html">If you ever tried to run a GPU workload on Kubernetes cluster, you know that this task requires non-trivial configuration and comes with high cost tag (GPU instances are quite expensive).</summary></entry><entry><title type="html">Kubernetes Continuous Integration</title><link href="http://localhost:4000/development/2019/03/08/kubernetes-continuous-integration.html" rel="alternate" type="text/html" title="Kubernetes Continuous Integration" /><published>2019-03-08T10:00:00+02:00</published><updated>2019-03-08T10:00:00+02:00</updated><id>http://localhost:4000/development/2019/03/08/kubernetes-continuous-integration</id><content type="html" xml:base="http://localhost:4000/development/2019/03/08/kubernetes-continuous-integration.html">&lt;p&gt;Complex Kubernetes application consists from multiple Kubernetes resources, defined in YAML files. Authoring a properly formatted YAML files that are also a valid Kubernetes specification, that should also comply to some policy can be a challenging task.&lt;/p&gt;
 &lt;p&gt;These YAML files are your application deployment and configuration code and should be addressed as code.&lt;/p&gt;
 &lt;p&gt;As with code, Continuous Integration approach should be applied to a Kubernetes configuration files.&lt;/p&gt;
 &lt;h2 id=&quot;git-repository&quot;&gt;Git Repository&lt;/h2&gt;
@@ -608,7 +605,7 @@ The document stdin is empty
 The document stdin is empty
 The document stdin is empty
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;p&gt;&lt;a href=&quot;https://github.com/garethr/kubetest&quot;&gt;https://github.com/garethr/kubetest&lt;/a&gt;&lt;/p&gt;</content><author><name>Alexei Lednev</name><email>alexei.led@gmail.com</email></author><category term="Development" /><category term="Kubernetes" /><category term="CI/CD" /><category term="Continuous Integration" /><category term="Helm" /><summary type="html">Kubernetes configuration as Code</summary></entry><entry><title type="html">Chaos Testing for Docker Containers</title><link href="http://localhost:4000/chaos%20testing/2017/10/04/pumba-containercamp.html" rel="alternate" type="text/html" title="Chaos Testing for Docker Containers" /><published>2017-10-04T19:00:00+03:00</published><updated>2017-10-04T19:00:00+03:00</updated><id>http://localhost:4000/chaos%20testing/2017/10/04/pumba-containercamp</id><content type="html" xml:base="http://localhost:4000/chaos%20testing/2017/10/04/pumba-containercamp.html">&lt;p&gt;What follows is the text of my presentation, &lt;em&gt;Chaos Testing for Docker Containers&lt;/em&gt; that I gave at &lt;a href=&quot;https://2017.container.camp/uk&quot;&gt;ContainerCamp&lt;/a&gt; in London this year.
+&lt;p&gt;&lt;a href=&quot;https://github.com/garethr/kubetest&quot;&gt;https://github.com/garethr/kubetest&lt;/a&gt;&lt;/p&gt;</content><author><name>Alexei Lednev</name><email>alexei.led@gmail.com</email></author><category term="Development" /><category term="Kubernetes" /><category term="CI/CD" /><category term="Continuous Integration" /><category term="Helm" /><summary type="html">Complex Kubernetes application consists from multiple Kubernetes resources, defined in YAML files. Authoring a properly formatted YAML files that are also a valid Kubernetes specification, that should also comply to some policy can be a challenging task.</summary></entry><entry><title type="html">Chaos Testing for Docker Containers</title><link href="http://localhost:4000/chaos%20testing/2017/10/04/pumba-containercamp.html" rel="alternate" type="text/html" title="Chaos Testing for Docker Containers" /><published>2017-10-04T19:00:00+03:00</published><updated>2017-10-04T19:00:00+03:00</updated><id>http://localhost:4000/chaos%20testing/2017/10/04/pumba-containercamp</id><content type="html" xml:base="http://localhost:4000/chaos%20testing/2017/10/04/pumba-containercamp.html">&lt;p&gt;What follows is the text of my presentation, &lt;em&gt;Chaos Testing for Docker Containers&lt;/em&gt; that I gave at &lt;a href=&quot;https://2017.container.camp/uk&quot;&gt;ContainerCamp&lt;/a&gt; in London this year.
 I&apos;ve also decided to turn the presentation into an article. I edited the text slightly for readability and added some links for more context. You can find the original video recording and slides at the end of this post.&lt;/p&gt;
 &lt;p&gt;&lt;img src=&quot;/assets/images/sink_cargo.jpg&quot; alt=&quot;Docker Chaos Testing&quot; /&gt;&lt;/p&gt;
 &lt;h2 id=&quot;intro&quot;&gt;Intro&lt;/h2&gt;
@@ -756,14 +753,9 @@ sh&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;iperf &lt;span class=&quot;nt&
 
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 &lt;h2 id=&quot;session-and-slides&quot;&gt;Session and slides&lt;/h2&gt;
-&lt;div class=&quot;embed-container&quot;&gt;
-  &amp;lt;iframe
-      src=&quot;https://www.youtube.com/embed/68ZepHa5UVg&quot;
-      width=&quot;700&quot;
-      height=&quot;480&quot;
-      frameborder=&quot;0&quot;
-      allowfullscreen=&quot;&quot;&gt;
-  &lt;/iframe&gt;
+&lt;div class=&quot;video-container&quot;&gt;
+  &amp;lt;iframe src=&quot;https://www.youtube.com/embed/68ZepHa5UVg&quot; 
+    frameborder=&quot;0&quot; allowfullscreen&gt;&lt;/iframe&gt;
 &lt;/div&gt;
 &lt;p&gt;&lt;a href=&quot;https://speakerdeck.com/alexeiled/chaos-testing-for-docker-containers&quot;&gt;Slides&lt;/a&gt;&lt;/p&gt;
 &lt;hr /&gt;
@@ -957,18 +949,12 @@ It&apos;s possible to use an IP range to restrict connection to the &lt;code&gt;
 &lt;p&gt;And finally, I&apos;ve met my goal: I&apos;m able to attach a Node.js debugger to a Node.js application, that is already up and running in a Docker container on a remote machine.&lt;/p&gt;
 &lt;p&gt;It was a long journey to find the proper solution, but after I found it, the process does not look complex at all. Now, once I met a new problem in our environment I can easily attach the Node.js debugger to the running application and start exploring the problem. Nice, isn&apos;t it?&lt;/p&gt;
 &lt;p&gt;I&apos;ve recorded a short movie, just to demonstrate all steps and prove that things are working fluently, exactly as I&apos;ve described in this post.&lt;/p&gt;
-&lt;div class=&quot;embed-container&quot;&gt;
-  &amp;lt;iframe
-      src=&quot;https://www.youtube.com/embed/WYOfNTJmE_4&quot;
-      width=&quot;700&quot;
-      height=&quot;480&quot;
-      frameborder=&quot;0&quot;
-      allowfullscreen=&quot;&quot;&gt;
-  &lt;/iframe&gt;
+&lt;div class=&quot;video-container&quot;&gt;
+  &amp;lt;iframe src=&quot;https://www.youtube.com/embed/WYOfNTJmE_4&quot; 
+    frameborder=&quot;0&quot; allowfullscreen&gt;&lt;/iframe&gt;
 &lt;/div&gt;
 &lt;hr /&gt;
-&lt;p&gt;Hope, you find this post useful. I look forward to your comments and any questions you have.&lt;/p&gt;</content><author><name>Alexei Lednev</name><email>alexei.led@gmail.com</email></author><category term="Docker" /><category term="docker" /><category term="tutorial" /><category term="devops" /><category term="hacks" /><category term="node" /><category term="node.js" /><category term="debug" /><category term="Dockerfile" /><summary type="html">Teaser</summary></entry><entry><title type="html">Create lean Node.js image with Docker multi-stage build</title><link href="http://localhost:4000/docker/2017/04/25/node-docker-multistage.html" rel="alternate" type="text/html" title="Create lean Node.js image with Docker multi-stage build" /><published>2017-04-25T19:00:00+03:00</published><updated>2017-04-25T19:00:00+03:00</updated><id>http://localhost:4000/docker/2017/04/25/node-docker-multistage</id><content type="html" xml:base="http://localhost:4000/docker/2017/04/25/node-docker-multistage.html">&lt;h2 id=&quot;tldr&quot;&gt;TL;DR&lt;/h2&gt;
-&lt;p&gt;Starting from Docker 17.05+, you can create a single &lt;code&gt;Dockerfile&lt;/code&gt; that can build multiple helper images with compilers, tools, and tests and use files from above images to produce the &lt;strong&gt;final&lt;/strong&gt; Docker image.&lt;/p&gt;
+&lt;p&gt;Hope, you find this post useful. I look forward to your comments and any questions you have.&lt;/p&gt;</content><author><name>Alexei Lednev</name><email>alexei.led@gmail.com</email></author><category term="Docker" /><category term="docker" /><category term="tutorial" /><category term="devops" /><category term="hacks" /><category term="node" /><category term="node.js" /><category term="debug" /><category term="Dockerfile" /><summary type="html">Teaser</summary></entry><entry><title type="html">Create lean Node.js image with Docker multi-stage build</title><link href="http://localhost:4000/docker/2017/04/25/node-docker-multistage.html" rel="alternate" type="text/html" title="Create lean Node.js image with Docker multi-stage build" /><published>2017-04-25T19:00:00+03:00</published><updated>2017-04-25T19:00:00+03:00</updated><id>http://localhost:4000/docker/2017/04/25/node-docker-multistage</id><content type="html" xml:base="http://localhost:4000/docker/2017/04/25/node-docker-multistage.html">&lt;p&gt;Starting from Docker 17.05+, you can create a single &lt;code&gt;Dockerfile&lt;/code&gt; that can build multiple helper images with compilers, tools, and tests and use files from above images to produce the &lt;strong&gt;final&lt;/strong&gt; Docker image.&lt;/p&gt;
 &lt;p&gt;&lt;img src=&quot;/assets/images/multi_stage_build.png&quot; alt=&quot;Multi-stage Docker Build&quot; /&gt;&lt;/p&gt;
 &lt;h2 id=&quot;the-quotcore-principlequot-of-dockerfile&quot;&gt;The &amp;quot;core principle&amp;quot; of Dockerfile&lt;/h2&gt;
 &lt;p&gt;Docker can build images by reading the instructions from a &lt;code&gt;Dockerfile&lt;/code&gt;. A &lt;code&gt;Dockerfile&lt;/code&gt; is a text file that contains a list of all the commands needed to build a new Docker image. The syntax of &lt;code&gt;Dockerfile&lt;/code&gt; is pretty simple and the Docker team tries to keep it intact between Docker engine releases.&lt;/p&gt;
@@ -1114,8 +1100,7 @@ $ docker build -t local/chat:multi-stage .
 &lt;h2 id=&quot;summary&quot;&gt;Summary&lt;/h2&gt;
 &lt;p&gt;With Docker &lt;strong&gt;multi-stage&lt;/strong&gt; build feature, it&apos;s possible to implement an advanced Docker image build pipeline using a single &lt;code&gt;Dockerfile&lt;/code&gt;. Kudos to Docker team!&lt;/p&gt;
 &lt;hr /&gt;
-&lt;p&gt;Hope, you find this post useful. I look forward to your comments and any questions you have.&lt;/p&gt;</content><author><name>Alexei Lednev</name><email>alexei.led@gmail.com</email></author><category term="Docker" /><category term="docker" /><category term="tutorial" /><category term="devops" /><category term="hacks" /><category term="node" /><category term="node.js" /><category term="multistage" /><category term="Dockerfile" /><summary type="html">TL;DR</summary></entry><entry><title type="html">Crafting perfect Java Docker build flow</title><link href="http://localhost:4000/devops/2017/03/07/perfect-docker-java.html" rel="alternate" type="text/html" title="Crafting perfect Java Docker build flow" /><published>2017-03-07T18:00:00+02:00</published><updated>2017-03-07T18:00:00+02:00</updated><id>http://localhost:4000/devops/2017/03/07/perfect-docker-java</id><content type="html" xml:base="http://localhost:4000/devops/2017/03/07/perfect-docker-java.html">&lt;h2 id=&quot;tldr&quot;&gt;TL;DR&lt;/h2&gt;
-&lt;blockquote&gt;
+&lt;p&gt;Hope, you find this post useful. I look forward to your comments and any questions you have.&lt;/p&gt;</content><author><name>Alexei Lednev</name><email>alexei.led@gmail.com</email></author><category term="Docker" /><category term="docker" /><category term="tutorial" /><category term="devops" /><category term="hacks" /><category term="node" /><category term="node.js" /><category term="multistage" /><category term="Dockerfile" /><summary type="html">Starting from Docker 17.05+, you can create a single Dockerfile that can build multiple helper images with compilers, tools, and tests and use files from above images to produce the final Docker image.</summary></entry><entry><title type="html">Crafting perfect Java Docker build flow</title><link href="http://localhost:4000/devops/2017/03/07/perfect-docker-java.html" rel="alternate" type="text/html" title="Crafting perfect Java Docker build flow" /><published>2017-03-07T18:00:00+02:00</published><updated>2017-03-07T18:00:00+02:00</updated><id>http://localhost:4000/devops/2017/03/07/perfect-docker-java</id><content type="html" xml:base="http://localhost:4000/devops/2017/03/07/perfect-docker-java.html">&lt;blockquote&gt;
 &lt;p&gt;&lt;em&gt;What is the bare minimum you need to &lt;strong&gt;build&lt;/strong&gt;, &lt;strong&gt;test&lt;/strong&gt; and &lt;strong&gt;run&lt;/strong&gt; my Java application in Docker container?&lt;/em&gt;&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;blockquote&gt;
@@ -1504,123 +1489,122 @@ sbdemo/builder  mvn     2d325a403c5f 5 days ago     263 MB
 &lt;hr /&gt;
 &lt;p&gt;Hope, you find this post useful. I look forward to your comments and any questions you have.&lt;/p&gt;
 &lt;hr /&gt;
-&lt;p&gt;&lt;em&gt;This is a &lt;strong&gt;working draft&lt;/strong&gt; version. The final post version is published at &lt;a href=&quot;https://codefresh.io/blog/java_docker_pipeline/&quot;&gt;Codefresh Blog&lt;/a&gt; on March 22, 2017.&lt;/em&gt;&lt;/p&gt;</content><author><name>Alexei Lednev</name><email>alexei.led@gmail.com</email></author><category term="DevOps" /><category term="docker" /><category term="tutorial" /><category term="devops" /><category term="hacks" /><category term="java" /><category term="maven" /><summary type="html">TL;DR</summary></entry><entry><title type="html">Everyday hacks for Docker</title><link href="http://localhost:4000/devops/2017/01/02/everyday-hacks.html" rel="alternate" type="text/html" title="Everyday hacks for Docker" /><published>2017-01-02T18:00:00+02:00</published><updated>2017-01-02T18:00:00+02:00</updated><id>http://localhost:4000/devops/2017/01/02/everyday-hacks</id><content type="html" xml:base="http://localhost:4000/devops/2017/01/02/everyday-hacks.html">&lt;p&gt;In this post, I&apos;ve decided to share with you some useful commands and tools, I&apos;m frequently using, working with amazing Docker technology.
+&lt;p&gt;&lt;em&gt;This is a &lt;strong&gt;working draft&lt;/strong&gt; version. The final post version is published at &lt;a href=&quot;https://codefresh.io/blog/java_docker_pipeline/&quot;&gt;Codefresh Blog&lt;/a&gt; on March 22, 2017.&lt;/em&gt;&lt;/p&gt;</content><author><name>Alexei Lednev</name><email>alexei.led@gmail.com</email></author><category term="DevOps" /><category term="docker" /><category term="tutorial" /><category term="devops" /><category term="hacks" /><category term="java" /><category term="maven" /><summary type="html">What is the bare minimum you need to build, test and run my Java application in Docker container?</summary></entry><entry><title type="html">Everyday hacks for Docker</title><link href="http://localhost:4000/devops/2017/01/02/everyday-hacks.html" rel="alternate" type="text/html" title="Everyday hacks for Docker" /><published>2017-01-02T18:00:00+02:00</published><updated>2017-01-02T18:00:00+02:00</updated><id>http://localhost:4000/devops/2017/01/02/everyday-hacks</id><content type="html" xml:base="http://localhost:4000/devops/2017/01/02/everyday-hacks.html">&lt;p&gt;In this post, I&apos;ve decided to share with you some useful commands and tools, I&apos;m frequently using, working with amazing Docker technology.
 There is no particular order or &amp;quot;coolness level&amp;quot; for every &amp;quot;hack&amp;quot;. I will try to present the use case and how does specific command or tool help me with my work.&lt;/p&gt;
 &lt;p&gt;&lt;img src=&quot;/assets/images/docker_animals.png&quot; alt=&quot;Docker Hacks&quot; /&gt;&lt;/p&gt;
 &lt;h2 id=&quot;cleaning-up&quot;&gt;Cleaning up&lt;/h2&gt;
 &lt;p&gt;Working with Docker for some time, you start to accumulate development junk: unused volumes, networks, exited containers and unused images.&lt;/p&gt;
 &lt;h3 id=&quot;one-command-to-quotrule-them-allquot&quot;&gt;One command to &amp;quot;rule them all&amp;quot;&lt;/h3&gt;
-&lt;pre&gt;&lt;code&gt;$ docker system  prune
-&lt;/code&gt;&lt;/pre&gt;
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;docker system  prune
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 &lt;p&gt;&lt;code&gt;prune&lt;/code&gt; is a very useful command (works also for &lt;code&gt;volume&lt;/code&gt; and &lt;code&gt;network&lt;/code&gt; sub-commands), but it&apos;s only available for Docker 1.13. So, if you are using older Docker versions, then following commands can help you to replace the &lt;code&gt;prune&lt;/code&gt; command.&lt;/p&gt;
 &lt;h3 id=&quot;remove-dangling-volumes&quot;&gt;Remove dangling volumes&lt;/h3&gt;
 &lt;p&gt;&lt;code&gt;dangling&lt;/code&gt; volumes - volumes not in use by any container. To remove them, combine two commands: first, list volume IDs for &lt;code&gt;dangling&lt;/code&gt; volumes and then remove them.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ docker volume rm $(docker volume ls -q -f &amp;quot;dangling=true&amp;quot;)
-&lt;/code&gt;&lt;/pre&gt;
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;docker volume &lt;span class=&quot;nb&quot;&gt;rm&lt;/span&gt; &lt;span class=&quot;si&quot;&gt;$(&lt;/span&gt;docker volume &lt;span class=&quot;nb&quot;&gt;ls&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-q&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-f&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;dangling=true&quot;&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 &lt;h3 id=&quot;remove-exited-containers&quot;&gt;Remove exited containers&lt;/h3&gt;
 &lt;p&gt;The same principle works here too: first, list containers (only IDs) you want to remove (with filter) and then remove them (consider &lt;code&gt;rm -f&lt;/code&gt; to force remove).&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ docker rm $(docker ps -q -f &amp;quot;status=exited&amp;quot;)
-&lt;/code&gt;&lt;/pre&gt;
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;docker &lt;span class=&quot;nb&quot;&gt;rm&lt;/span&gt; &lt;span class=&quot;si&quot;&gt;$(&lt;/span&gt;docker ps &lt;span class=&quot;nt&quot;&gt;-q&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-f&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;status=exited&quot;&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 &lt;h3 id=&quot;remove-dangling-images&quot;&gt;Remove dangling images&lt;/h3&gt;
 &lt;p&gt;&lt;code&gt;dangling&lt;/code&gt; images are Docker untagged images, that are the leaves of the images tree (not intermediary layers).&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;docker rmi $(docker images -q -f &amp;quot;dangling=true&amp;quot;)
 &lt;/code&gt;&lt;/pre&gt;
 &lt;h3 id=&quot;autoremove-interactive-containers&quot;&gt;Autoremove interactive containers&lt;/h3&gt;
 &lt;p&gt;When you run a new interactive container and want to avoid typing &lt;code&gt;rm&lt;/code&gt; command after it exits, use &lt;code&gt;--rm&lt;/code&gt; option. Then when you exit from created container, it will be automatically destroyed.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ docker run -it --rm alpine sh
-&lt;/code&gt;&lt;/pre&gt;
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;docker run &lt;span class=&quot;nt&quot;&gt;-it&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;--rm&lt;/span&gt; alpine sh
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 &lt;h2 id=&quot;inspect-docker-resources&quot;&gt;Inspect Docker resources&lt;/h2&gt;
 &lt;p&gt;&lt;a href=&quot;https://stedolan.github.io/jq/&quot;&gt;jq&lt;/a&gt; - &lt;code&gt;jq&lt;/code&gt; is a lightweight and flexible command-line &lt;code&gt;JSON&lt;/code&gt; processor. It is like &lt;code&gt;sed&lt;/code&gt; for JSON data - you can use it to slice and filter and map and transform structured data with the same ease that &lt;code&gt;sed&lt;/code&gt;, &lt;code&gt;awk&lt;/code&gt;, &lt;code&gt;grep&lt;/code&gt; and friends let you play with text.&lt;/p&gt;
 &lt;p&gt;&lt;a href=&quot;https://docs.docker.com/engine/reference/commandline/info/&quot;&gt;&lt;code&gt;docker info&lt;/code&gt;&lt;/a&gt; and &lt;a href=&quot;https://docs.docker.com/engine/reference/commandline/inspect/&quot;&gt;&lt;code&gt;docker inspect&lt;/code&gt;&lt;/a&gt; commands can produce output in &lt;code&gt;JSON&lt;/code&gt; format. Combine these commands with &lt;code&gt;jq&lt;/code&gt; processor.&lt;/p&gt;
 &lt;h3 id=&quot;pretty-json-and-jq-processing&quot;&gt;Pretty JSON and jq processing&lt;/h3&gt;
-&lt;pre&gt;&lt;code&gt;# show whole Docker info
-$ docker info --format &apos;\{\{json .\}\}&apos; | jq .
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;# show whole Docker info&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;docker info &lt;span class=&quot;nt&quot;&gt;--format&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&apos;\{\{json .\}\}&apos;&lt;/span&gt; | jq &lt;span class=&quot;nb&quot;&gt;.&lt;/span&gt;
 
-# show Plugins only
-$ docker info --format &apos;\{\{json .Plugins\}\}&apos; | jq .
+&lt;span class=&quot;c&quot;&gt;# show Plugins only&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;docker info &lt;span class=&quot;nt&quot;&gt;--format&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&apos;\{\{json .Plugins\}\}&apos;&lt;/span&gt; | jq &lt;span class=&quot;nb&quot;&gt;.&lt;/span&gt;
 
-# list IP addresses for all containers connected to &apos;bridge&apos; network
-$ docker network inspect bridge -f &apos;\{\{json .Containers\}\}&apos; | jq &apos;.[] | {cont: .Name, ip: .IPv4Address}&apos;
-&lt;/code&gt;&lt;/pre&gt;
+&lt;span class=&quot;c&quot;&gt;# list IP addresses for all containers connected to &apos;bridge&apos; network&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;docker network inspect bridge &lt;span class=&quot;nt&quot;&gt;-f&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&apos;\{\{json .Containers\}\}&apos;&lt;/span&gt; | jq &lt;span class=&quot;s1&quot;&gt;&apos;.[] | {cont: .Name, ip: .IPv4Address}&apos;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 &lt;h2 id=&quot;watching-containers-lifecycle&quot;&gt;Watching containers lifecycle&lt;/h2&gt;
 &lt;p&gt;Sometimes you want to see containers being activated and exited, when you run some docker commands or try different restart policies.
 &lt;a href=&quot;http://man7.org/linux/man-pages/man1/watch.1.html&quot;&gt;&lt;code&gt;watch&lt;/code&gt;&lt;/a&gt; command combined with &lt;a href=&quot;https://docs.docker.com/engine/reference/commandline/ps/&quot;&gt;&lt;code&gt;docker ps&lt;/code&gt;&lt;/a&gt; can be pretty useful here.
 The &lt;code&gt;docker stats&lt;/code&gt; command, even with &lt;code&gt;--format&lt;/code&gt; option is not useful for this use case since it does not allow you to see same info as you can see with &lt;code&gt;docker ps&lt;/code&gt; command.&lt;/p&gt;
 &lt;h3 id=&quot;display-a-table-with-id-image-status-for-active-containers-and-refresh-it-every-2-seconds&quot;&gt;Display a table with &apos;ID Image Status&apos; for active containers and refresh it every 2 seconds&lt;/h3&gt;
-&lt;pre&gt;&lt;code&gt;$ watch -n 2 &apos;docker ps --format &amp;quot;table \{\{.ID\}\}\t \{\{.Image\}\}\t \{\{.Status\}\}&amp;quot;&apos;
-&lt;/code&gt;&lt;/pre&gt;
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;watch &lt;span class=&quot;nt&quot;&gt;-n&lt;/span&gt; 2 &lt;span class=&quot;s1&quot;&gt;&apos;docker ps --format &quot;table \{\{.ID\}\}\t \{\{.Image\}\}\t \{\{.Status\}\}&quot;&apos;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 &lt;h2 id=&quot;enter-into-hostcontainer-namespace&quot;&gt;Enter into host/container Namespace&lt;/h2&gt;
 &lt;p&gt;Sometimes you want to connect to the Docker host. The &lt;code&gt;ssh&lt;/code&gt; command is the default option, but this option can be either not available, due to security settings, firewall rules or not documented (try to find how to &lt;code&gt;ssh&lt;/code&gt; into Docker for Mac VM).&lt;/p&gt;
 &lt;p&gt;&lt;a href=&quot;https://github.com/jpetazzo/nsenter&quot;&gt;&lt;code&gt;nsenter&lt;/code&gt;&lt;/a&gt;, by Jérôme Petazzoni, is a small and very useful tool for above cases. &lt;code&gt;nsenter&lt;/code&gt; allows to &lt;code&gt;enter&lt;/code&gt; into &lt;code&gt;n&lt;/code&gt;ame&lt;code&gt;s&lt;/code&gt;paces. I like to use minimalistic (&lt;code&gt;580 kB&lt;/code&gt;) &lt;a href=&quot;https://hub.docker.com/r/walkerlee/nsenter/&quot;&gt;walkerlee/nsenter&lt;/a&gt; Docker image.&lt;/p&gt;
 &lt;h3 id=&quot;enter-into-docker-host&quot;&gt;Enter into Docker host&lt;/h3&gt;
 &lt;p&gt;Use &lt;code&gt;--pid=host&lt;/code&gt; to enter into Docker host namespaces&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;# get a shell into Docker host
-$ docker run --rm -it --privileged --pid=host walkerlee/nsenter -t 1 -m -u -i -n sh
-&lt;/code&gt;&lt;/pre&gt;
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;# get a shell into Docker host&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;docker run &lt;span class=&quot;nt&quot;&gt;--rm&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-it&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;--privileged&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;--pid&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;host walkerlee/nsenter &lt;span class=&quot;nt&quot;&gt;-t&lt;/span&gt; 1 &lt;span class=&quot;nt&quot;&gt;-m&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-u&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-i&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-n&lt;/span&gt; sh
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 &lt;h3 id=&quot;enter-into-any-container&quot;&gt;Enter into ANY container&lt;/h3&gt;
 &lt;p&gt;It&apos;s also possible to enter into any container with &lt;code&gt;nsenter&lt;/code&gt; and &lt;code&gt;--pid=container:[id OR name]&lt;/code&gt;. But in most cases, it&apos;s better to use standard &lt;a href=&quot;https://docs.docker.com/engine/reference/commandline/exec/&quot;&gt;&lt;code&gt;docker exec&lt;/code&gt;&lt;/a&gt; command. The main difference is that &lt;code&gt;nsenter&lt;/code&gt; doesn&apos;t enter the &lt;em&gt;cgroups&lt;/em&gt;, and therefore evades resource limitations (can be useful for debugging).&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;# get a shell into &apos;redis&apos; container namespace
-$ docker run --rm -it --privileged --pid=container:redis walkerlee/nsenter -t 1 -m -u -i -n sh
-&lt;/code&gt;&lt;/pre&gt;
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;# get a shell into &apos;redis&apos; container namespace&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;docker run &lt;span class=&quot;nt&quot;&gt;--rm&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-it&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;--privileged&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;--pid&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;container:redis walkerlee/nsenter &lt;span class=&quot;nt&quot;&gt;-t&lt;/span&gt; 1 &lt;span class=&quot;nt&quot;&gt;-m&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-u&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-i&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-n&lt;/span&gt; sh
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 &lt;h2 id=&quot;heredoc-docker-container&quot;&gt;Heredoc Docker container&lt;/h2&gt;
 &lt;p&gt;Suppose you want to get some tool as a Docker image, but you do not want to search for a suitable image or to create a new &lt;code&gt;Dockerfile&lt;/code&gt; (no need to keep it for future use, for example). Sometimes storing a Docker image definition in a file looks like an overkill - you need to decide how do you edit, store and share this Dockerfile. Sometimes it&apos;s better just to have a single line command, that you can copy, share, embed into a shell script or create special command &lt;code&gt;alias&lt;/code&gt;.
 So, when you want to create a new ad-hoc container with a single command, try a &lt;a href=&quot;http://www.tldp.org/LDP/abs/html/here-docs.html&quot;&gt;Heredoc&lt;/a&gt; approach.&lt;/p&gt;
 &lt;h3 id=&quot;create-alpine-based-container-with-htop-tool&quot;&gt;Create Alpine based container with &apos;htop&apos; tool&lt;/h3&gt;
-&lt;pre&gt;&lt;code&gt;$ docker build -t htop - &amp;lt;&amp;lt; EOF
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;docker build &lt;span class=&quot;nt&quot;&gt;-t&lt;/span&gt; htop - &lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;EOF&lt;/span&gt;&lt;span class=&quot;sh&quot;&gt;
 FROM alpine
 RUN apk --no-cache add htop
-EOF
-&lt;/code&gt;&lt;/pre&gt;
+&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;EOF
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 &lt;h2 id=&quot;docker-command-completion&quot;&gt;Docker command completion&lt;/h2&gt;
 &lt;p&gt;Docker CLI syntax is very rich and constantly growing: adding new commands and new options. It&apos;s hard to remember every possible command and option, so having a nice command completion for a terminal is a &lt;strong&gt;must have&lt;/strong&gt;.&lt;/p&gt;
 &lt;p&gt;Command completion is a kind of terminal plugin, that lets you auto-complete or auto-suggest what to type in next by hitting &lt;em&gt;tab&lt;/em&gt; key. Docker command completion works both for commands and options. Docker team prepared command completion for &lt;code&gt;docker&lt;/code&gt;, &lt;code&gt;docker-machine&lt;/code&gt; and &lt;code&gt;docker-compose&lt;/code&gt; commands, both for &lt;code&gt;Bash&lt;/code&gt; and &lt;code&gt;Zsh&lt;/code&gt;.&lt;/p&gt;
 &lt;p&gt;If you are using Mac and &lt;a href=&quot;http://brew.sh&quot;&gt;Homebrew&lt;/a&gt;, then installing Docker commands completion is pretty straight forward.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;# Tap homebrew/completion to gain access to these
-$ brew tap homebrew/completions
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;# Tap homebrew/completion to gain access to these&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;brew tap homebrew/completions
 
-# Install completions for docker suite
-$ brew install docker-completion
-$ brew install docker-compose-completion
-$ brew install docker-machine-completion
-&lt;/code&gt;&lt;/pre&gt;
+&lt;span class=&quot;c&quot;&gt;# Install completions for docker suite&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;brew &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;docker-completion
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;brew &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;docker-compose-completion
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;brew &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;docker-machine-completion
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 &lt;p&gt;For non-Mac install read official Docker documentation: &lt;a href=&quot;https://github.com/docker/docker/tree/master/contrib/completion&quot;&gt;docker engine&lt;/a&gt;, &lt;a href=&quot;https://docs.docker.com/compose/completion/&quot;&gt;docker-compose&lt;/a&gt; and &lt;a href=&quot;https://docs.docker.com/machine/completion/&quot;&gt;docker-machine&lt;/a&gt;&lt;/p&gt;
 &lt;h2 id=&quot;start-containers-automatically&quot;&gt;Start containers automatically&lt;/h2&gt;
 &lt;p&gt;When you are running process in Docker container, it may fail due to multiple reasons. Sometimes to fix this failure it&apos;s enough to rerun the failed container. If you are using Docker orchestration engine, like Swarm or Kubernetes, the failed service will be restarted automatically.
 But if you are using plain Docker and want to restart container, based on &lt;em&gt;exit code&lt;/em&gt; of container&apos;s main process or always (regardless the &lt;em&gt;exit code&lt;/em&gt;), Docker 1.12 introduced a very helpful option for &lt;code&gt;docker run&lt;/code&gt; command: &lt;a href=&quot;https://docs.docker.com/engine/reference/run/#restart-policies-restart#restart-policies---restart&quot;&gt;restart&lt;/a&gt;.&lt;/p&gt;
 &lt;h3 id=&quot;restart-always&quot;&gt;Restart always&lt;/h3&gt;
 &lt;p&gt;Restart the &lt;code&gt;redis&lt;/code&gt; container with a restart policy of &lt;strong&gt;always&lt;/strong&gt; so that if the container exits, Docker will restart it.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ docker run --restart=always redis
-&lt;/code&gt;&lt;/pre&gt;
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;docker run &lt;span class=&quot;nt&quot;&gt;--restart&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;always redis
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 &lt;h3 id=&quot;restart-container-on-failure&quot;&gt;Restart container on failure&lt;/h3&gt;
 &lt;p&gt;Restart the &lt;code&gt;redis&lt;/code&gt; container with a restart policy of &lt;strong&gt;on-failure&lt;/strong&gt; and a maximum restart count of &lt;code&gt;10&lt;/code&gt;.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ docker run --restart=on-failure:10 redis
-&lt;/code&gt;&lt;/pre&gt;
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;docker run &lt;span class=&quot;nt&quot;&gt;--restart&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;on-failure:10 redis
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 &lt;h2 id=&quot;network-tricks&quot;&gt;Network tricks&lt;/h2&gt;
 &lt;p&gt;There are cases when you want to create a new container and connect it to already existing network stack. It can be Docker host network or another container&apos;s network. This can be pretty useful for debugging and audition network issues.
 The &lt;code&gt;docker run --network/net&lt;/code&gt; option support this use case.&lt;/p&gt;
 &lt;h3 id=&quot;use-docker-host-network-stack&quot;&gt;Use Docker host network stack&lt;/h3&gt;
-&lt;pre&gt;&lt;code&gt;$ docker run --net=host ...
-&lt;/code&gt;&lt;/pre&gt;
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;docker run &lt;span class=&quot;nt&quot;&gt;--net&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;host ...
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 &lt;p&gt;The new container will attach to same network interfaces as the Docker host.&lt;/p&gt;
 &lt;h3 id=&quot;use-another-containers-network-stack&quot;&gt;Use another container&apos;s network stack&lt;/h3&gt;
-&lt;pre&gt;&lt;code&gt;$ docker run --net=container:&amp;lt;name|id&amp;gt; ...
-&lt;/code&gt;&lt;/pre&gt;
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;docker run &lt;span class=&quot;nt&quot;&gt;--net&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;container:&amp;lt;name|id&amp;gt; ...
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 &lt;p&gt;The new container will attach to same network interfaces as another container. The target container can be specified with &lt;code&gt;id&lt;/code&gt; or &lt;code&gt;name&lt;/code&gt;.&lt;/p&gt;
 &lt;h3 id=&quot;attachable-overlay-network&quot;&gt;Attachable overlay network&lt;/h3&gt;
 &lt;p&gt;Using docker engine running in &lt;strong&gt;swarm mode&lt;/strong&gt;, you can create a multi-host &lt;code&gt;overlay&lt;/code&gt; network on a manager node. When you create a new &lt;em&gt;swarm service&lt;/em&gt;, you can attach it to the previously created &lt;code&gt;overlay&lt;/code&gt; network.&lt;/p&gt;
 &lt;p&gt;Sometimes to inspect network configuration or debug network issues, you want to attach a new Docker container, filled with different network tools, to existing &lt;code&gt;overlay&lt;/code&gt; network and do this with &lt;code&gt;docker run&lt;/code&gt; command and not to create a new &amp;quot;debug service&amp;quot;.&lt;/p&gt;
 &lt;p&gt;Docker 1.13 brings a new option to &lt;code&gt;docker network create&lt;/code&gt; command: &lt;code&gt;attachable&lt;/code&gt;. The &lt;code&gt;attachable&lt;/code&gt; option enables manual container attachment.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;# create an attachable overlay network
-$ docker network create --driver overlay --attachable mynet
-# create net-tools container and attach it to mynet overlay network
-$ docker run -it --rm --net=mynet net-tools sh
-&lt;/code&gt;&lt;/pre&gt;</content><author><name>Alexei Lednev</name><email>alexei.led@gmail.com</email></author><category term="DevOps" /><category term="docker" /><category term="tutorial" /><category term="devops" /><category term="hacks" /><summary type="html">In this post, I&apos;ve decided to share with you some useful commands and tools, I&apos;m frequently using, working with amazing Docker technology. There is no particular order or &amp;quot;coolness level&amp;quot; for every &amp;quot;hack&amp;quot;. I will try to present the use case and how does specific command or tool help me with my work.</summary></entry><entry><title type="html">Deploy Docker Compose (v3) to Swarm (mode) Cluster</title><link href="http://localhost:4000/devops/2016/12/18/composev3-swarm.html" rel="alternate" type="text/html" title="Deploy Docker Compose (v3) to Swarm (mode) Cluster" /><published>2016-12-18T14:00:00+02:00</published><updated>2016-12-18T14:00:00+02:00</updated><id>http://localhost:4000/devops/2016/12/18/composev3-swarm</id><content type="html" xml:base="http://localhost:4000/devops/2016/12/18/composev3-swarm.html">&lt;blockquote&gt;
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;# create an attachable overlay network&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;docker network create &lt;span class=&quot;nt&quot;&gt;--driver&lt;/span&gt; overlay &lt;span class=&quot;nt&quot;&gt;--attachable&lt;/span&gt; mynet
+&lt;span class=&quot;c&quot;&gt;# create net-tools container and attach it to mynet overlay network&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;docker run &lt;span class=&quot;nt&quot;&gt;-it&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;--rm&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;--net&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;mynet net-tools sh
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>Alexei Lednev</name><email>alexei.led@gmail.com</email></author><category term="DevOps" /><category term="docker" /><category term="tutorial" /><category term="devops" /><category term="hacks" /><summary type="html">In this post, I&apos;ve decided to share with you some useful commands and tools, I&apos;m frequently using, working with amazing Docker technology. There is no particular order or &amp;quot;coolness level&amp;quot; for every &amp;quot;hack&amp;quot;. I will try to present the use case and how does specific command or tool help me with my work.</summary></entry><entry><title type="html">Deploy Docker Compose (v3) to Swarm (mode) Cluster</title><link href="http://localhost:4000/devops/2016/12/18/composev3-swarm.html" rel="alternate" type="text/html" title="Deploy Docker Compose (v3) to Swarm (mode) Cluster" /><published>2016-12-18T14:00:00+02:00</published><updated>2016-12-18T14:00:00+02:00</updated><id>http://localhost:4000/devops/2016/12/18/composev3-swarm</id><content type="html" xml:base="http://localhost:4000/devops/2016/12/18/composev3-swarm.html">&lt;blockquote&gt;
 &lt;p&gt;&lt;strong&gt;Disclaimer:&lt;/strong&gt; all code snippets bellow are working only with &lt;strong&gt;Docker 1.13+&lt;/strong&gt;&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;h1 id=&quot;tldr&quot;&gt;TL;DR&lt;/h1&gt;
 &lt;p&gt;&lt;strong&gt;Docker 1.13&lt;/strong&gt; simplifies deployment of composed application to a &lt;strong&gt;swarm&lt;/strong&gt; (mode) cluster. And you can do it without creating a new &lt;code&gt;dab&lt;/code&gt; (&lt;em&gt;Distribution Application Bundle&lt;/em&gt;) file, but just using familiar and well-known &lt;code&gt;docker-compose.yml&lt;/code&gt; syntax (with some additions) and &lt;code&gt;--compose-file&lt;/code&gt; option.&lt;/p&gt;
 &lt;p&gt;&lt;img src=&quot;/assets/images/compose_swarm.png&quot; alt=&quot;Compose to Swarm&quot; /&gt;&lt;/p&gt;
-&lt;h1 id=&quot;swarm-cluster&quot;&gt;Swarm cluster&lt;/h1&gt;
+&lt;h2 id=&quot;swarm-cluster&quot;&gt;Swarm cluster&lt;/h2&gt;
 &lt;p&gt;Docker Engine 1.12 introduced a new &lt;strong&gt;swarm mode&lt;/strong&gt; for natively managing a cluster of Docker Engines called a &lt;strong&gt;swarm&lt;/strong&gt;. Docker &lt;strong&gt;swarm mode&lt;/strong&gt; implements &lt;a href=&quot;https://docs.docker.com/engine/swarm/raft/&quot;&gt;Raft Consensus Algorithm&lt;/a&gt; and does not require using external key value store anymore, such as &lt;a href=&quot;https://www.consul.io/&quot;&gt;Consul&lt;/a&gt; or &lt;a href=&quot;https://github.com/coreos/etcd&quot;&gt;etcd&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;If you want to run a &lt;strong&gt;swarm&lt;/strong&gt; cluster on a developer&apos;s machine, there are several options.&lt;/p&gt;
 &lt;p&gt;The first option and most widely known, is to use a &lt;code&gt;docker-machine&lt;/code&gt; tool with some virtual driver (Virtualbox, Parallels or other).&lt;/p&gt;
@@ -1639,8 +1623,8 @@ $ docker run -it --rm --net=mynet net-tools sh
 &lt;h2 id=&quot;deploy-multi-container-application---the-quotnewquot-way&quot;&gt;Deploy multi-container application - the &amp;quot;new&amp;quot; way&lt;/h2&gt;
 &lt;p&gt;With Docker 1.13, the &amp;quot;new&amp;quot; way to deploy a multi-container composed application is to use &lt;code&gt;docker-compose.yml&lt;/code&gt; again (&lt;em&gt;hurrah!&lt;/em&gt;). Kudos to Docker team!&lt;/p&gt;
 &lt;p&gt;*&lt;strong&gt;Note&lt;/strong&gt;: And you do not need the &lt;code&gt;docker-compose&lt;/code&gt; tool, only &lt;code&gt;yaml&lt;/code&gt; file in &lt;strong&gt;docker-compose&lt;/strong&gt; format (&lt;code&gt;version: &amp;quot;3&amp;quot;&lt;/code&gt;)&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ docker deploy --compose-file docker-compose.yml myapp
-&lt;/code&gt;&lt;/pre&gt;
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;docker deploy &lt;span class=&quot;nt&quot;&gt;--compose-file&lt;/span&gt; docker-compose.yml myapp
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 &lt;h2 id=&quot;docker-compose-v3-codeversion-quot3quotcode&quot;&gt;Docker compose v3 (&lt;code&gt;version: &amp;quot;3&amp;quot;&lt;/code&gt;)&lt;/h2&gt;
 &lt;p&gt;&lt;em&gt;So, what&apos;s new in docker compose version 3?&lt;/em&gt;&lt;/p&gt;
 &lt;p&gt;First, I suggest you take a deeper look at &lt;a href=&quot;https://github.com/aanand/compose-file/blob/master/schema/data/config_schema_v3.0.json&quot;&gt;docker-compose schema&lt;/a&gt;. It is an extension of well-known &lt;code&gt;docker-compose&lt;/code&gt; format.&lt;/p&gt;
@@ -1660,7 +1644,7 @@ Now you can specify all options supported by &lt;code&gt;docker service create/u
 &lt;ol&gt;
 &lt;li&gt;&lt;code&gt;voting-app&lt;/code&gt; - a Python webapp which lets you vote between two options; requires &lt;code&gt;redis&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;redis&lt;/code&gt; - Redis queue which collects new votes; deployed on &lt;code&gt;swarm manager&lt;/code&gt; node&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;worker&lt;/code&gt; .NET worker which consumes votes and stores them in &lt;code&gt;db&lt;/code&gt;;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;worker&lt;/code&gt; .NET worker which consumes votes and stores them in &lt;code&gt;db&lt;/code&gt;:&lt;/li&gt;
 &lt;/ol&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;strong&gt;# of replicas:&lt;/strong&gt; 2 replicas&lt;/li&gt;
@@ -1677,19 +1661,18 @@ Now you can specify all options supported by &lt;code&gt;docker service create/u
 &lt;p&gt;Run the &lt;code&gt;docker deploy --compose-file docker-compose.yml&lt;/code&gt; command to deploy my version of &amp;quot;Cats vs. Dogs&amp;quot; application on a swarm cluster.&lt;/p&gt;
 &amp;lt;script src=&quot;https://gist.github.com/alexei-led/a4d31ee446a0fbcab845b93fe4a9b09d.js?file=docker-compose.yml&quot;&gt; &lt;/script&gt;
 &lt;hr /&gt;
-&lt;p&gt;Hope you find this post useful. I look forward to your comments and any questions you have.&lt;/p&gt;</content><author><name>Alexei Lednev</name><email>alexei.led@gmail.com</email></author><category term="DevOps" /><category term="docker" /><category term="swarm" /><category term="docker-compose" /><category term="compose" /><category term="devops" /><category term="cluster" /><summary type="html">Disclaimer: all code snippets bellow are working only with Docker 1.13+</summary></entry><entry><title type="html">Do not ignore .dockerignore</title><link href="http://localhost:4000/development/2016/11/26/donot-ignore-dockerignore.html" rel="alternate" type="text/html" title="Do not ignore .dockerignore" /><published>2016-11-26T16:00:00+02:00</published><updated>2016-11-26T16:00:00+02:00</updated><id>http://localhost:4000/development/2016/11/26/donot-ignore-dockerignore</id><content type="html" xml:base="http://localhost:4000/development/2016/11/26/donot-ignore-dockerignore.html">&lt;h1 id=&quot;tldr&quot;&gt;TL;DR&lt;/h1&gt;
-&lt;blockquote&gt;
+&lt;p&gt;Hope you find this post useful. I look forward to your comments and any questions you have.&lt;/p&gt;</content><author><name>Alexei Lednev</name><email>alexei.led@gmail.com</email></author><category term="DevOps" /><category term="docker" /><category term="swarm" /><category term="docker-compose" /><category term="compose" /><category term="devops" /><category term="cluster" /><summary type="html">Disclaimer: all code snippets bellow are working only with Docker 1.13+</summary></entry><entry><title type="html">Do not ignore .dockerignore</title><link href="http://localhost:4000/development/2016/11/26/donot-ignore-dockerignore.html" rel="alternate" type="text/html" title="Do not ignore .dockerignore" /><published>2016-11-26T16:00:00+02:00</published><updated>2016-11-26T16:00:00+02:00</updated><id>http://localhost:4000/development/2016/11/26/donot-ignore-dockerignore</id><content type="html" xml:base="http://localhost:4000/development/2016/11/26/donot-ignore-dockerignore.html">&lt;blockquote&gt;
 &lt;p&gt;&lt;strong&gt;Tip:&lt;/strong&gt; Consider to define and use &lt;code&gt;.dockerignore&lt;/code&gt; file for every Docker image you are building. It can help you to reduce Docker image size, speedup &lt;code&gt;docker build&lt;/code&gt; and avoid unintended secret exposure.&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;p&gt;&lt;img src=&quot;/assets/images/overloaded.jpg&quot; alt=&quot;Overloaded container ship&quot; /&gt;&lt;/p&gt;
-&lt;h1 id=&quot;docker-build-context&quot;&gt;Docker build context&lt;/h1&gt;
+&lt;h2 id=&quot;docker-build-context&quot;&gt;Docker build context&lt;/h2&gt;
 &lt;p&gt;The &lt;code&gt;docker build&lt;/code&gt; command is used to build a new Docker image. There is one argument you can pass to the &lt;code&gt;build&lt;/code&gt; command &lt;strong&gt;build context&lt;/strong&gt;.&lt;/p&gt;
 &lt;p&gt;So, what is the Docker &lt;strong&gt;build context&lt;/strong&gt;?&lt;/p&gt;
 &lt;p&gt;First, remember, that Docker is a client-server application, it consists from Docker client and Docker server (also known as &lt;em&gt;daemon&lt;/em&gt;). The Docker client command line tool talks with Docker server and asks it do things. One of these things is &lt;strong&gt;build&lt;/strong&gt;: building a new Docker image. The Docker server can run on the same machine as the client, remote machine or virtual machine, that also can be local, remote or even run on some cloud IaaS.&lt;/p&gt;
 &lt;p&gt;Why is that important and how is the Docker &lt;strong&gt;build context&lt;/strong&gt; related to this fact?&lt;/p&gt;
 &lt;p&gt;In order to create a new Docker image, Docker server needs an access to files, you want to create the Docker image from. So, you need somehow to send these files to the Docker server. These files are the Docker &lt;strong&gt;build context&lt;/strong&gt;. The Docker client packs all &lt;strong&gt;build context&lt;/strong&gt; files into &lt;code&gt;tar&lt;/code&gt; archive and uploads this archive to the Docker server. By default client will take all files (and folders) in current working directory and use them as the &lt;strong&gt;build context&lt;/strong&gt;.
 It can also accept already created &lt;code&gt;tar&lt;/code&gt; archive or &lt;code&gt;git&lt;/code&gt; repository. In a case of &lt;code&gt;git&lt;/code&gt; repository, the client will clone it with submodules into a temporary folder and will create a &lt;strong&gt;build context&lt;/strong&gt; archive from it.&lt;/p&gt;
-&lt;h1 id=&quot;impact-on-docker-build&quot;&gt;Impact on Docker build&lt;/h1&gt;
+&lt;h2 id=&quot;impact-on-docker-build&quot;&gt;Impact on Docker build&lt;/h2&gt;
 &lt;p&gt;The first output line, that you see, running the &lt;code&gt;docker build&lt;/code&gt; command is:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;Sending build context to Docker daemon 45.3 MB
 Step 1: FROM ...
@@ -1698,66 +1681,68 @@ Step 1: FROM ...
 &lt;blockquote&gt;
 &lt;p&gt;&lt;strong&gt;Tip:&lt;/strong&gt; The &lt;strong&gt;rule of thumb&lt;/strong&gt; is not adding files to the &lt;strong&gt;build context&lt;/strong&gt;, if you do not need them in your Docker image.&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;h1 id=&quot;the-strongdockerignorestrong-file&quot;&gt;The &lt;strong&gt;.dockerignore&lt;/strong&gt; file&lt;/h1&gt;
+&lt;h2 id=&quot;the-strongdockerignorestrong-file&quot;&gt;The &lt;strong&gt;.dockerignore&lt;/strong&gt; file&lt;/h2&gt;
 &lt;p&gt;The &lt;code&gt;.dockerignore&lt;/code&gt; file is the tool, that can help you to define the Docker &lt;strong&gt;build context&lt;/strong&gt; you really need. Using this file, you can specify &lt;strong&gt;ignore rules&lt;/strong&gt; and &lt;strong&gt;exceptions&lt;/strong&gt; from these rules for files and folder, that won&apos;t be included in the &lt;strong&gt;build context&lt;/strong&gt; and thus won&apos;t be packed into an archive and uploaded to the Docker server.&lt;/p&gt;
-&lt;h1 id=&quot;why-should-you-care&quot;&gt;Why should you care?&lt;/h1&gt;
+&lt;h2 id=&quot;why-should-you-care&quot;&gt;Why should you care?&lt;/h2&gt;
 &lt;p&gt;Indeed, why should you care? Computers today are fast, networks are also pretty fast (hopefully) and storage is cheap. So, this &amp;quot;tax&amp;quot; may be not that big, right?
 I will try to convince you, that you should care.&lt;/p&gt;
-&lt;h2 id=&quot;reason-1-docker-image-size&quot;&gt;Reason #1: Docker image size&lt;/h2&gt;
+&lt;h3 id=&quot;reason-1-docker-image-size&quot;&gt;Reason #1: Docker image size&lt;/h3&gt;
 &lt;p&gt;The world of software development is shifting lately towards &lt;em&gt;continuous delivery&lt;/em&gt;, &lt;em&gt;elastic infrastructure&lt;/em&gt; and &lt;em&gt;microservice architecture&lt;/em&gt;.&lt;/p&gt;
 &lt;p&gt;How is that related?&lt;/p&gt;
 &lt;p&gt;Your systems are composed of multiple components (or &lt;em&gt;microservices&lt;/em&gt;), each one of them running inside Linux container. There might be tens or hundreds of services and even more service instances. These service instances can be built and deployed independently of each other and this can be done for &lt;strong&gt;every single code commit&lt;/strong&gt;. More than that, &lt;em&gt;elastic infrastructure&lt;/em&gt; means that new compute nodes can be added or removed from the system and its microservices can move from node to node, to support scale or availability requirements. That means, your Docker images will be frequently built and transferred.&lt;/p&gt;
 &lt;p&gt;When you practice continuous delivery and microservice architecture, image size and image build time &lt;strong&gt;do matter&lt;/strong&gt;.&lt;/p&gt;
-&lt;h2 id=&quot;reason-2-unintended-secrets-exposure&quot;&gt;Reason #2: Unintended secrets exposure&lt;/h2&gt;
+&lt;h3 id=&quot;reason-2-unintended-secrets-exposure&quot;&gt;Reason #2: Unintended secrets exposure&lt;/h3&gt;
 &lt;p&gt;Not controlling your &lt;strong&gt;build context&lt;/strong&gt;, can also lead to an unintended exposure of your code, commit history, and secrets (keys and credentials).&lt;/p&gt;
 &lt;p&gt;If you copy files into you Docker image with &lt;code&gt;ADD .&lt;/code&gt; or &lt;code&gt;COPY .&lt;/code&gt; command, you may unintendedly include your source files, whole &lt;code&gt;git&lt;/code&gt; history (a &lt;code&gt;.git&lt;/code&gt; folder), secret files (like &lt;code&gt;.aws&lt;/code&gt;, &lt;code&gt;.env&lt;/code&gt;, private keys), cache and other files not only into the Docker &lt;strong&gt;build context&lt;/strong&gt;, but also into the final Docker image.&lt;/p&gt;
 &lt;p&gt;There are multiple Docker images currently available on DockerHub, that expose application source code, passwords, keys and credentials (for example &lt;a href=&quot;http://thehackernews.com/2016/07/vine-source-code.html&quot;&gt;Twitter Vine&lt;/a&gt;).&lt;/p&gt;
-&lt;h2 id=&quot;reason-3-the-docker-build---cache-invalidation&quot;&gt;Reason #3: The Docker build - cache invalidation&lt;/h2&gt;
+&lt;h3 id=&quot;reason-3-the-docker-build---cache-invalidation&quot;&gt;Reason #3: The Docker build - cache invalidation&lt;/h3&gt;
 &lt;p&gt;A common pattern is to inject an application&apos;s entire codebase into an image using an instruction like this:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;COPY . /usr/src/app
-&lt;/code&gt;&lt;/pre&gt;
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;COPY &lt;span class=&quot;nb&quot;&gt;.&lt;/span&gt; /usr/src/app
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 &lt;p&gt;In this case, we&apos;re copying the &lt;strong&gt;entire&lt;/strong&gt; &lt;strong&gt;build context&lt;/strong&gt; into the image. It&apos;s also important to understand, that every Dockerfile command generates a new layer. So, if any of included file changes in the entire build context, this change will invalidate the build cache for &lt;code&gt;COPY . /opt/myapp&lt;/code&gt; layer and a new image layer will be generated on the next build.&lt;/p&gt;
 &lt;p&gt;If your working directory contains files that are frequently updated (logs, test results, git history, temporary cache files and similar), you are going to regenerate this layer for every &lt;code&gt;docker build&lt;/code&gt; run.&lt;/p&gt;
-&lt;h1 id=&quot;the-codedockerignorecode-syntax&quot;&gt;The &lt;code&gt;.dockerignore&lt;/code&gt; syntax&lt;/h1&gt;
+&lt;h2 id=&quot;the-codedockerignorecode-syntax&quot;&gt;The &lt;code&gt;.dockerignore&lt;/code&gt; syntax&lt;/h2&gt;
 &lt;p&gt;The &lt;code&gt;.dockerignore&lt;/code&gt; file is similar to &lt;code&gt;gitignore&lt;/code&gt; file, used by &lt;code&gt;git&lt;/code&gt; tool. similarly to &lt;code&gt;.gitignore&lt;/code&gt; file, it allows you to specify a pattern for files and folders that should be ignored by the Docker client when generating a &lt;strong&gt;build context&lt;/strong&gt;. While &lt;code&gt;.dockerignore&lt;/code&gt; file syntax used to describe &lt;strong&gt;ignore patterns&lt;/strong&gt; is similar to &lt;code&gt;.gitignore&lt;/code&gt; it&apos;s not the same.&lt;/p&gt;
 &lt;p&gt;The &lt;code&gt;.dockerignore&lt;/code&gt; pattern matching syntax is based on Go &lt;code&gt;filepath.Match()&lt;/code&gt; function and includes some additions.&lt;/p&gt;
 &lt;p&gt;Here is the complete syntax for the &lt;code&gt;.dockerignore&lt;/code&gt;:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;pattern:
-    { term }
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;pattern:
+    &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt; term &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
 term:
-    &apos;*&apos;         matches any sequence of non-Separator characters
-    &apos;?&apos;         matches any single non-Separator character
-    &apos;[&apos; [ &apos;^&apos; ] { character-range } &apos;]&apos;
-                character class (must be non-empty)
-    c           matches character c (c != &apos;*&apos;, &apos;?&apos;, &apos;\\&apos;, &apos;[&apos;)
-    &apos;\\&apos; c      matches character c
+    &lt;span class=&quot;s1&quot;&gt;&apos;*&apos;&lt;/span&gt;         matches any sequence of non-Separator characters
+    &lt;span class=&quot;s1&quot;&gt;&apos;?&apos;&lt;/span&gt;         matches any single non-Separator character
+    &lt;span class=&quot;s1&quot;&gt;&apos;[&apos;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&apos;^&apos;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt; character-range &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&apos;]&apos;&lt;/span&gt;
+                character class &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;must be non-empty&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+    c           matches character c &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;c &lt;span class=&quot;o&quot;&gt;!=&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&apos;*&apos;&lt;/span&gt;, &lt;span class=&quot;s1&quot;&gt;&apos;?&apos;&lt;/span&gt;, &lt;span class=&quot;s1&quot;&gt;&apos;\\&apos;&lt;/span&gt;, &lt;span class=&quot;s1&quot;&gt;&apos;[&apos;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;s1&quot;&gt;&apos;\\&apos;&lt;/span&gt; c      matches character c
 
 character-range:
-    c           matches character c (c != &apos;\\&apos;, &apos;-&apos;, &apos;]&apos;)
-    &apos;\\&apos; c      matches character c
-    lo &apos;-&apos; hi   matches character c for lo &amp;lt;= c &amp;lt;= hi
+    c           matches character c &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;c &lt;span class=&quot;o&quot;&gt;!=&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&apos;\\&apos;&lt;/span&gt;, &lt;span class=&quot;s1&quot;&gt;&apos;-&apos;&lt;/span&gt;, &lt;span class=&quot;s1&quot;&gt;&apos;]&apos;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;s1&quot;&gt;&apos;\\&apos;&lt;/span&gt; c      matches character c
+    lo &lt;span class=&quot;s1&quot;&gt;&apos;-&apos;&lt;/span&gt; hi   matches character c &lt;span class=&quot;k&quot;&gt;for &lt;/span&gt;lo &amp;lt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; c &amp;lt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; hi
 
 additions:
-  &apos;**&apos;        matches any number of directories (including zero)
-  &apos;!&apos;         lines starting with ! (exclamation mark) can be used to make exceptions to exclusions
-    &apos;#&apos;         lines starting with this character are ignored: use it for comments
-&lt;/code&gt;&lt;/pre&gt;
+  &lt;span class=&quot;s1&quot;&gt;&apos;**&apos;&lt;/span&gt;        matches any number of directories &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;including zero&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;s1&quot;&gt;&apos;!&apos;&lt;/span&gt;         lines starting with &lt;span class=&quot;o&quot;&gt;!&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;exclamation mark&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; can be used to make exceptions to exclusions
+    &lt;span class=&quot;s1&quot;&gt;&apos;#&apos;&lt;/span&gt;         lines starting with this character are ignored: use it &lt;span class=&quot;k&quot;&gt;for &lt;/span&gt;comments
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 &lt;p&gt;&lt;strong&gt;Note:&lt;/strong&gt; Using the &lt;code&gt;!&lt;/code&gt; character is pretty tricky. The combination of it and patterns before and after line with the &lt;code&gt;!&lt;/code&gt; character can be used to create more advanced rules.&lt;/p&gt;
-&lt;h2 id=&quot;examples&quot;&gt;Examples&lt;/h2&gt;
-&lt;pre&gt;&lt;code&gt;# ignore .git and .cache folders
+&lt;h3 id=&quot;examples&quot;&gt;Examples&lt;/h3&gt;
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;# ignore .git and .cache folders&lt;/span&gt;
 .git
 .cache
-&lt;/code&gt;&lt;/pre&gt;&lt;pre&gt;&lt;code&gt;# ignore all *.class files in all folders, including build root
-**/*.class
-&lt;/code&gt;&lt;/pre&gt;&lt;pre&gt;&lt;code&gt;# ignore all markdown files (md) beside all README*.md other than README-secret.md
-*.md
-!README*.md
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;# ignore all *.class files in all folders, including build root&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;**&lt;/span&gt;/&lt;span class=&quot;k&quot;&gt;*&lt;/span&gt;.class
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;# ignore all markdown files (md) beside all README*.md other than README-secret.md&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;*&lt;/span&gt;.md
+&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;README&lt;span class=&quot;k&quot;&gt;*&lt;/span&gt;.md
 README-secret.md
-&lt;/code&gt;&lt;/pre&gt;
-&lt;h1 id=&quot;next&quot;&gt;Next&lt;/h1&gt;
-&lt;ul&gt;
-&lt;li&gt;RTFM - &lt;a href=&quot;https://docs.docker.com/engine/reference/builder/#/dockerignore-file&quot;&gt;https://docs.docker.com/engine/reference/builder/#/dockerignore-file&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;Use &lt;code&gt;.dockerignore&lt;/code&gt; in every project, where you are building Docker images&lt;/li&gt;
-&lt;/ul&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;h3 id=&quot;examples-1&quot;&gt;Examples&lt;/h3&gt;
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;# ignore .git and .cache folders&lt;/span&gt;
+.git
+.cache
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 &lt;hr /&gt;
-&lt;p&gt;Hope you find this post useful. I look forward to your comments and any questions you have.&lt;/p&gt;</content><author><name>Alexei Lednev</name><email>alexei.led@gmail.com</email></author><category term="Development" /><category term="Docker" /><category term="build" /><category term="dockerignore" /><category term="devops" /><summary type="html">TL;DR</summary></entry></feed>
+&lt;p&gt;Hope you find this post useful. I look forward to your comments and any questions you have.&lt;/p&gt;</content><author><name>Alexei Lednev</name><email>alexei.led@gmail.com</email></author><category term="Development" /><category term="Docker" /><category term="build" /><category term="dockerignore" /><category term="devops" /><summary type="html">Tip: Consider to define and use .dockerignore file for every Docker image you are building. It can help you to reduce Docker image size, speedup docker build and avoid unintended secret exposure.</summary></entry></feed>

@@ -13,8 +13,6 @@ categories:
   - DevOps
 ---
 
-## TL;DR
-
 > _What is the bare minimum you need to **build**, **test** and **run** my Java application in Docker container?_
 
 > **The recipe:** Create a separate Docker image for each step and optimize the way you are running it.

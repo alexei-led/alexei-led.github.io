@@ -18,8 +18,6 @@ categories:
   - Google Cloud
 ---
 
-# Securely Access AWS from GKE
-
 It is not a rare case when an application running on Google Kubernetes Engine (GKE) needs to access Amazon Web Services (AWS) APIs. Any application has needs. Maybe it needs to run an analytics query on Amazon Redshift, access data stored in Amazon S3 bucket, convert text to speech with Amazon Polly or use any other AWS service. This multi-cloud scenario is common nowadays, as companies are working with multiple cloud providers.
 
 Cross-cloud access introduce a new challenge; how to manage cloud credentials, required to access from one cloud provider, to services running in the other. The naive approach, distributing and saving cloud provider secrets is not the most secure approach; distributing long-term credentials to each service, that needs to access AWS services, is challenging to manage and a potential security risk.

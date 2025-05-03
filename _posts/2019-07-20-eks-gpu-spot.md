@@ -13,8 +13,6 @@ categories:
   - Development
 ---
 
-## Introduction
-
 If you ever tried to run a GPU workload on Kubernetes cluster, you know that this task requires non-trivial configuration and comes with high cost tag (GPU instances are quite expensive).
 
 This post shows how to run a GPU workload on Kubernetes cluster in cost effective way, using [AWS EKS](https://aws.amazon.com/eks/) cluster, [AWS Auto Scaling](https://aws.amazon.com/autoscaling/), [Amazon EC2 Spot Instances](https://aws.amazon.com/ec2/spot/) and some Kubernetes resources and configurations.

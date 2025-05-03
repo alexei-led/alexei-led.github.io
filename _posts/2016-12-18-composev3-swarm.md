@@ -15,14 +15,11 @@ categories:
 
 > **Disclaimer:** all code snippets bellow are working only with **Docker 1.13+**
 
-# TL;DR
-
 **Docker 1.13** simplifies deployment of composed application to a **swarm** (mode) cluster. And you can do it without creating a new `dab` (*Distribution Application Bundle*) file, but just using familiar and well-known `docker-compose.yml` syntax (with some additions) and `--compose-file` option.
 
 ![Compose to Swarm](/assets/images/compose_swarm.png)
 
-
-# Swarm cluster
+## Swarm cluster
 
 Docker Engine 1.12 introduced a new **swarm mode** for natively managing a cluster of Docker Engines called a **swarm**. Docker **swarm mode** implements [Raft Consensus Algorithm](https://docs.docker.com/engine/swarm/raft/) and does not require using external key value store anymore, such as [Consul](https://www.consul.io/) or [etcd](https://github.com/coreos/etcd).
 
@@ -60,7 +57,7 @@ With Docker 1.13, the "new" way to deploy a multi-container composed application
 
 ***Note**: And you do not need the `docker-compose` tool, only `yaml` file in **docker-compose** format (`version: "3"`)
 
-```
+```bash
 $ docker deploy --compose-file docker-compose.yml myapp
 ```
 
@@ -88,13 +85,15 @@ I've created a "new" compose file (v3) for classic "Cats vs. Dogs" example. This
 
 1. `voting-app` - a Python webapp which lets you vote between two options; requires `redis`
 2. `redis` - Redis queue which collects new votes; deployed on `swarm manager` node
-3. `worker` .NET worker which consumes votes and stores them in `db`;
+3. `worker` .NET worker which consumes votes and stores them in `db`:
+
   - **# of replicas:** 2 replicas
   - **hard limit:** max 25% CPU and 512MB memory
   - **soft limit:** max 25% CPU and 256MB memory
   - **placement:** on `swarm worker` nodes only
   - **restart policy:** restart on-failure, with 5 seconds delay, up to 3 attempts
   - **update policy:** one by one, with 10 seconds delay and 0.3 failure rate to tolerate during the update
+
 4. `db` - Postgres database backed by a Docker volume; deployed on `swarm manager` node
 5. `result-app` Node.js webapp which shows the results of the voting in real time; 2 replicas, deployed on `swarm worker` nodes
 

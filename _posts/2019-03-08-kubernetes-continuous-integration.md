@@ -11,8 +11,6 @@ categories:
   - Development
 ---
 
-# Kubernetes configuration as Code
-
 Complex Kubernetes application consists from multiple Kubernetes resources, defined in YAML files. Authoring a properly formatted YAML files that are also a valid Kubernetes specification, that should also comply to some policy can be a challenging task.
 
 These YAML files are your application deployment and configuration code and should be addressed as code.

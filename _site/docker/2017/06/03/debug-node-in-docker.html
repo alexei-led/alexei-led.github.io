@@ -23,55 +23,47 @@
 <link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Terra Nullius" />
 <!-- Custom head content -->
 
-<!-- Fonts -->
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
-
-<!-- Additional custom styles -->
+<!-- Basic styles for images and videos -->
 <style>
-  body {
-    font-family: 'Roboto', sans-serif;
-  }
-  .site-title {
-    font-weight: 700;
-  }
   .post-content img {
     max-width: 100%;
     height: auto;
-    display: block;
-    margin: 0 auto;
   }
-  pre, code {
-    border-radius: 4px;
+  
+  .video-container {
+    position: relative;
+    padding-bottom: 56.25%;
+    padding-top: 30px; 
+    height: 0; 
+    overflow: hidden;
+    margin-bottom: 20px;
   }
-  .post-tag {
-    display: inline-block;
-    background-color: #f0f0f0;
-    padding: 2px 8px;
-    border-radius: 3px;
-    margin-right: 5px;
-    font-size: 0.8em;
+  
+  .video-container iframe,
+  .video-container object,
+  .video-container embed {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
   }
 </style>
-
-<!-- Favicon -->
-<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
 </head>
 <body><header class="site-header">
-  <div class="wrapper"><a class="site-title" rel="author" href="/">Terra Nullius</a><nav class="site-nav">
-        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
-        <label for="nav-trigger">
-          <span class="menu-icon">
-            <svg viewBox="0 0 18 15" width="18px" height="15px">
-              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
-            </svg>
-          </span>
-        </label>
+  <div class="wrapper"><a class="site-title" rel="author" href="/%20/">Terra Nullius</a><nav class="site-nav">
+      <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+      <label for="nav-trigger">
+        <span class="menu-icon">
+          <svg viewBox="0 0 18 15" width="18px" height="15px">
+            <path
+              d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z" />
+          </svg>
+        </span>
+      </label>
 
-        <div class="trigger"><a class="page-link" href="/about/">About</a><a class="page-link" href="/">Alexei Lednev&#39;s Blog</a></div>
-      </nav></div>
+      <div class="trigger"><a class="page-link" href="/about/">About</a><a class="page-link" href="/">Posts</a></div>
+    </nav></div>
 </header><main class="page-content" aria-label="Content">
       <div class="wrapper">
         <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
@@ -297,14 +289,9 @@ It's possible to use an IP range to restrict connection to the <code>socat</code
 <p>And finally, I've met my goal: I'm able to attach a Node.js debugger to a Node.js application, that is already up and running in a Docker container on a remote machine.</p>
 <p>It was a long journey to find the proper solution, but after I found it, the process does not look complex at all. Now, once I met a new problem in our environment I can easily attach the Node.js debugger to the running application and start exploring the problem. Nice, isn't it?</p>
 <p>I've recorded a short movie, just to demonstrate all steps and prove that things are working fluently, exactly as I've described in this post.</p>
-<div class="embed-container">
-  &lt;iframe
-      src="https://www.youtube.com/embed/WYOfNTJmE_4"
-      width="700"
-      height="480"
-      frameborder="0"
-      allowfullscreen="">
-  </iframe>
+<div class="video-container">
+  &lt;iframe src="https://www.youtube.com/embed/WYOfNTJmE_4" 
+    frameborder="0" allowfullscreen></iframe>
 </div>
 <hr />
 <p>Hope, you find this post useful. I look forward to your comments and any questions you have.</p>
@@ -331,7 +318,7 @@ It's possible to use an IP range to restrict connection to the <code>socat</code
       </div>
 
       <div class="footer-col">
-        <p>Alexei Lednev&#39;s personal blog</p>
+        <p>Alexei Ledenev&#39;s blog</p>
       </div>
     </div>
 

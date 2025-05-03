@@ -15,8 +15,6 @@ categories:
   - Docker
 ---
 
-## TL;DR
-
 Starting from Docker 17.05+, you can create a single `Dockerfile` that can build multiple helper images with compilers, tools, and tests and use files from above images to produce the **final** Docker image.
 
 ![Multi-stage Docker Build](/assets/images/multi_stage_build.png)

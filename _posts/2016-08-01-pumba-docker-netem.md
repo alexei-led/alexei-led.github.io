@@ -12,8 +12,6 @@ categories:
   - Development
 ---
 
-## TL;DR
-
 > [Pumba](https://github.com/gaia-adm/pumba) `netem delay` and `netem loss` commands can emulate network *delay* and *packet loss* between Docker containers, even on single host. Give it a try!
 
 ## Introduction

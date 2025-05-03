@@ -22,7 +22,8 @@ There is no particular order or "coolness level" for every "hack". I will try to
 Working with Docker for some time, you start to accumulate development junk: unused volumes, networks, exited containers and unused images.
 
 ### One command to "rule them all"
-```
+
+```bash
 $ docker system  prune
 ```
 
@@ -32,7 +33,7 @@ $ docker system  prune
 
 `dangling` volumes - volumes not in use by any container. To remove them, combine two commands: first, list volume IDs for `dangling` volumes and then remove them.
 
-```
+```bash
 $ docker volume rm $(docker volume ls -q -f "dangling=true")
 ```
 
@@ -40,7 +41,7 @@ $ docker volume rm $(docker volume ls -q -f "dangling=true")
 
 The same principle works here too: first, list containers (only IDs) you want to remove (with filter) and then remove them (consider `rm -f` to force remove).
 
-```
+```bash
 $ docker rm $(docker ps -q -f "status=exited")
 ```
 
@@ -55,7 +56,8 @@ docker rmi $(docker images -q -f "dangling=true")
 ### Autoremove interactive containers
 
 When you run a new interactive container and want to avoid typing `rm` command after it exits, use `--rm` option. Then when you exit from created container, it will be automatically destroyed.
-```
+
+```bash
 $ docker run -it --rm alpine sh
 ```
 
@@ -66,7 +68,8 @@ $ docker run -it --rm alpine sh
 [`docker info`](https://docs.docker.com/engine/reference/commandline/info/) and [`docker inspect`](https://docs.docker.com/engine/reference/commandline/inspect/) commands can produce output in `JSON` format. Combine these commands with `jq` processor.
 
 ### Pretty JSON and jq processing
-```
+
+```bash
 # show whole Docker info
 $ docker info --format '\{\{json .\}\}' | jq .
 
@@ -84,7 +87,8 @@ Sometimes you want to see containers being activated and exited, when you run so
 The `docker stats` command, even with `--format` option is not useful for this use case since it does not allow you to see same info as you can see with `docker ps` command.
 
 ### Display a table with 'ID Image Status' for active containers and refresh it every 2 seconds
-```
+
+```bash
 $ watch -n 2 'docker ps --format "table \{\{.ID\}\}\t \{\{.Image\}\}\t \{\{.Status\}\}"'
 ```
 
@@ -97,15 +101,16 @@ Sometimes you want to connect to the Docker host. The `ssh` command is the defau
 ### Enter into Docker host
 Use `--pid=host` to enter into Docker host namespaces
 
-```
+```bash
 # get a shell into Docker host
 $ docker run --rm -it --privileged --pid=host walkerlee/nsenter -t 1 -m -u -i -n sh
 ```
 
 ### Enter into ANY container
+
 It's also possible to enter into any container with `nsenter` and `--pid=container:[id OR name]`. But in most cases, it's better to use standard [`docker exec`](https://docs.docker.com/engine/reference/commandline/exec/) command. The main difference is that `nsenter` doesn't enter the *cgroups*, and therefore evades resource limitations (can be useful for debugging).
 
-```
+```bash
 # get a shell into 'redis' container namespace
 $ docker run --rm -it --privileged --pid=container:redis walkerlee/nsenter -t 1 -m -u -i -n sh
 ```
@@ -115,9 +120,9 @@ $ docker run --rm -it --privileged --pid=container:redis walkerlee/nsenter -t 1 
 Suppose you want to get some tool as a Docker image, but you do not want to search for a suitable image or to create a new `Dockerfile` (no need to keep it for future use, for example). Sometimes storing a Docker image definition in a file looks like an overkill - you need to decide how do you edit, store and share this Dockerfile. Sometimes it's better just to have a single line command, that you can copy, share, embed into a shell script or create special command `alias`.
 So, when you want to create a new ad-hoc container with a single command, try a [Heredoc](http://www.tldp.org/LDP/abs/html/here-docs.html) approach.
 
-
 ### Create Alpine based container with 'htop' tool
-```
+
+```bash
 $ docker build -t htop - << EOF
 FROM alpine
 RUN apk --no-cache add htop
@@ -132,7 +137,7 @@ Command completion is a kind of terminal plugin, that lets you auto-complete or 
 
 If you are using Mac and [Homebrew](http://brew.sh), then installing Docker commands completion is pretty straight forward.
 
-```
+```bash
 # Tap homebrew/completion to gain access to these
 $ brew tap homebrew/completions
 
@@ -150,14 +155,18 @@ When you are running process in Docker container, it may fail due to multiple re
 But if you are using plain Docker and want to restart container, based on *exit code* of container's main process or always (regardless the *exit code*), Docker 1.12 introduced a very helpful option for `docker run` command: [restart](https://docs.docker.com/engine/reference/run/#restart-policies-restart#restart-policies---restart).
 
 ### Restart always
+
 Restart the `redis` container with a restart policy of **always** so that if the container exits, Docker will restart it.
-```
+
+```bash
 $ docker run --restart=always redis
 ```
 
 ### Restart container on failure
+
 Restart the `redis` container with a restart policy of **on-failure** and a maximum restart count of `10`.
-```
+
+```bash
 $ docker run --restart=on-failure:10 redis
 ```
 
@@ -167,15 +176,19 @@ There are cases when you want to create a new container and connect it to alread
 The `docker run --network/net` option support this use case.
 
 ### Use Docker host network stack
-```
+
+```bash
 $ docker run --net=host ...
 ```
+
 The new container will attach to same network interfaces as the Docker host.
 
 ### Use another container's network stack
-```
+
+```bash
 $ docker run --net=container:<name|id> ...
 ```
+
 The new container will attach to same network interfaces as another container. The target container can be specified with `id` or `name`.
 
 ### Attachable overlay network
@@ -186,7 +199,7 @@ Sometimes to inspect network configuration or debug network issues, you want to 
 
 Docker 1.13 brings a new option to `docker network create` command: `attachable`. The `attachable` option enables manual container attachment.
 
-```
+```bash
 # create an attachable overlay network
 $ docker network create --driver overlay --attachable mynet
 # create net-tools container and attach it to mynet overlay network

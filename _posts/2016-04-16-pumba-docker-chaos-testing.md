@@ -13,8 +13,6 @@ categories:
 
 **Update (27-07-27):** Updated post to latest `v0.2.0` Pumba version change.
 
-## Introduction
-
 The best defense against unexpected failures is to build resilient services. Testing for resiliency enables the teams to learn where their apps fail before the customer does. By intentionally causing failures as part of resiliency testing, you can enforce your policy for building resilient systems.
 Resilience of the system can be defined as its ability to continue functioning even if some components of the system are failing - [ephemerality](https://en.wikipedia.org/wiki/Ephemerality). Growing popularity of distributed and microservice architecture makes resilience testing critical for applications that now require 24x7x365 operation.
 Resilience testing is an approach where you intentionally inject different types of failures at the infrastructure level (VM, network, containers, and processes) and let the system try to recover from these unexpected failures that can happen in production. Simulating realistic failures at any time is the best way to enforce highly available and resilient systems.
