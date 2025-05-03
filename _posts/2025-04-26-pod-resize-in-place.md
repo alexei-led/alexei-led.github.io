@@ -54,7 +54,7 @@ Let's explore some concrete scenarios where this feature truly shines:
 
 ## Under the Hood: How Kubernetes Performs Resource Jiu-Jitsu 🤼
 
-Let's geek out on the technical magic—complete with diagrams even your non-tech PM will adore:
+Let's geek out on the technical magic, complete with diagrams even your non-tech PM will adore:
 
 ```mermaid
 flowchart TD
@@ -175,9 +175,9 @@ kubectl debug node/<node-name> -it --image=busybox -- sh
 # Then navigate to the container's cgroup directory and check limits
 ```
 
-This confirms the cgroups were actually updated on the host—the proof is in the cgroup pudding!
+This confirms the cgroups were actually updated on the host, the proof is in the cgroup pudding!
 
-With this under-the-hood view, you now know exactly how Kubernetes pulls off its resource Jiu-Jitsu. Time to hit the dojo—er, cluster—and start bending pods to your will! 🥋🚀
+With this under-the-hood view, you now know exactly how Kubernetes pulls off its resource Jiu-Jitsu. Time to hit the dojo - er, cluster - and start bending pods to your will! 🥋🚀
 
 ---
 
@@ -217,7 +217,7 @@ While this feature is cooler than a penguin in sunglasses, keep these in mind:
    Want to hot-swap GPUs or tweak ephemeral storage on the fly? Dream on! Only CPU and memory can be resized in-place today.
 
 3. **Memory Shrinkage Requires Caution**
-   Decreasing memory limits without a container restart is like defusing a bomb—possible in theory, but you'll want `restartPolicy: RestartContainer` as your safety net, or chaos ensues. This is particularly important with cgroup v1 systems.
+   Decreasing memory limits without a container restart is like defusing a bomb, possible in theory, but you'll want `restartPolicy: RestartContainer` as your safety net, or chaos ensues. This is particularly important with cgroup v1 systems.
 
 4. **Swap Considerations**
    If your pod uses swap, you can't resize memory in-place unless you've set `resizePolicy` for memory to `RestartContainer`.
@@ -329,7 +329,7 @@ Kubernetes 1.33's in-place pod resize is a giant leap toward making vertical sca
 5. **Enhanced Metrics-based Resizing**
    Imagine resizing based on application-level metrics like request latency or queue depth, not just CPU/memory.
 
-Together, these enhancements promise a future where vertical scaling is truly dynamic, efficient, and interruption-free. So, go forth, Kubernetes adventurers—experiment with in-place pod resize in your non-production clusters, share your findings, and help shape the next wave of scaling magic. Just don't forget to read the fine print and test thoroughly before unleashing in production. Happy scaling! 🚀
+Together, these enhancements promise a future where vertical scaling is truly dynamic, efficient, and interruption-free. So, go forth, Kubernetes adventurers, experiment with in-place pod resize in your non-production clusters, share your findings, and help shape the next wave of scaling magic. Just don't forget to read the fine print and test thoroughly before unleashing in production. Happy scaling! 🚀
 
 ---
 
