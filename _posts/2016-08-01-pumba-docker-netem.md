@@ -3,11 +3,13 @@ layout: post
 title: "Network emulation for Docker containers"
 date: 2016-08-01T20:00:00+02:00
 tags:
-  - Docker
+  - docker
   - testing
-  - chaos testing
+  - chaos-testing
   - netem
   - network
+  - resilience
+  - pumba
 categories:
   - Development
 ---

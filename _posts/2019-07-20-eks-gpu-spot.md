@@ -3,12 +3,13 @@ layout: post
 title: "EKS GPU Cluster from Zero to Hero"
 date: 2019-07-20T10:00:00+02:00
 tags:
-  - Kubernetes
-  - EKS
-  - GPU
-  - Spot
-  - AWS
-  - Machine Learning
+  - kubernetes
+  - eks
+  - gpu
+  - spot
+  - aws
+  - machine-learning
+  - cost-optimization
 categories:
   - Development
 ---

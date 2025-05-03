@@ -4,12 +4,14 @@ title: "Securely access AWS from GKE"
 date: 2020-02-12T10:00:00+02:00
 published: false
 tags:
-  - Kubernetes
-  - GKE
-  - AWS
-  - GCP
-  - IAM
+  - kubernetes
+  - gke
+  - aws
+  - gcp
+  - iam
   - security
+  - multi-cloud
+  - devops
 categories:
   - DevOps
   - Security

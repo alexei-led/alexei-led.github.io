@@ -4,11 +4,12 @@ title: "Get a Shell to a Kubernetes Node"
 date: 2019-07-27T10:00:00+02:00
 published: false
 tags:
-  - Kubernetes
-  - DevOps
-  - root
-  - AWS
-  - SSH
+  - kubernetes
+  - devops
+  - aws
+  - ssh
+  - troubleshooting
+  - security
 categories:
   - DevOps
 ---

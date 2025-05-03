@@ -3,10 +3,12 @@ layout: post
 title: "Pumba - Chaos Testing for Docker"
 date: 2016-04-16T20:00:00+02:00
 tags:
-  - Docker
+  - docker
   - testing
-  - chaos testing
+  - chaos-testing
   - resilience
+  - devops
+  - pumba
 categories:
   - Development
 ---

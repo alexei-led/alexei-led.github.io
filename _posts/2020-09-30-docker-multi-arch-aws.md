@@ -4,13 +4,14 @@ title: "Building Multi-Platform Docker Images for Intel and ARM with AWS CodeBui
 date: 2020-09-30T10:00:00+02:00
 published: false
 tags:
-  - Docker
-  - AWS
-  - CodeBuild
-  - DevOps
-  - CI/CD
-  - ARM
-  - Multi-Arch
+  - docker
+  - aws
+  - codebuild
+  - devops
+  - ci/cd
+  - arm
+  - multi-arch
+  - buildx
 categories:
   - DevOps
   - CI/CD

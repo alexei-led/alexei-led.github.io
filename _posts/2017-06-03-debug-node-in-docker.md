@@ -6,11 +6,11 @@ tags:
   - docker
   - tutorial
   - devops
-  - hacks
   - node
-  - node.js
-  - debug
-  - Dockerfile
+  - nodejs
+  - debugging
+  - dockerfile
+  - development
 categories:
   - Docker
 ---

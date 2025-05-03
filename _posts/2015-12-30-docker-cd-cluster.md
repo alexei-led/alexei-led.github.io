@@ -3,9 +3,11 @@ layout: post
 title: "Docker Pattern: Deploy and update dockerized application on cluster"
 date: 2015-12-30T11:09:47+02:00
 tags:
-  - Docker
-  - CoreOS
+  - docker
+  - coreos
   - fleet
+  - continuous-deployment
+  - container-orchestration
 categories:
   - Development
 ---

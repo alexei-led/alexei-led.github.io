@@ -3,10 +3,12 @@ layout: post
 title: "Do not ignore .dockerignore"
 date: 2016-11-26T16:00:00+02:00
 tags:
-  - Docker
+  - docker
   - build
   - dockerignore
   - devops
+  - best-practices
+  - dockerfile
 categories:
   - Development
 ---

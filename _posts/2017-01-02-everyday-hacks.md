@@ -6,7 +6,9 @@ tags:
   - docker
   - tutorial
   - devops
-  - hacks
+  - tips-and-tricks
+  - best-practices
+  - cli
 categories:
   - DevOps
 ---

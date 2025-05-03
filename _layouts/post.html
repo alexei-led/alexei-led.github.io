@@ -16,10 +16,7 @@ layout: base
       
     {% if page.tags.size > 0 %}
     <div class="post-tags">
-      <strong>Tags:</strong>
-      {% for tag in page.tags %}
-        <span class="post-tag">{{ tag }}</span>
-      {% endfor %}
+      <strong>Tags:</strong> <em>{{ page.tags | join: ", " }}</em>
     </div>
     {% endif %}
   </header>

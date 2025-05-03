@@ -3,10 +3,11 @@ layout: post
 title: "Docker Swarm cluster with docker-in-docker on MacOS"
 date: 2016-10-06T16:00:00+02:00
 tags:
-  - Docker
-  - Swarm
-  - MasOS
-  - 1.12
+  - docker
+  - swarm
+  - macos
+  - docker-in-docker
+  - container-orchestration
 categories:
   - Development
 ---

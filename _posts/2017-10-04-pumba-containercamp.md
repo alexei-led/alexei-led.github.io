@@ -4,14 +4,14 @@ title: "Chaos Testing for Docker Containers"
 date: 2017-10-04T18:00:00+02:00
 tags:
   - docker
-  - chaos monkey
-  - chaos testing
-  - chaos
+  - chaos-monkey
+  - chaos-testing
   - testing
   - devops
-  - chaos engineering
+  - chaos-engineering
   - netem
-  - network emulation
+  - resilience
+  - pumba
 categories:
   - Chaos Testing
 ---

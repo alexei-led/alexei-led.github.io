@@ -6,9 +6,10 @@ tags:
   - docker
   - tutorial
   - devops
-  - hacks
   - java
   - maven
+  - best-practices
+  - ci/cd
 categories:
   - DevOps
 ---

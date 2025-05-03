@@ -6,11 +6,11 @@ tags:
   - docker
   - tutorial
   - devops
-  - hacks
   - node
-  - node.js
+  - nodejs
   - multistage
-  - Dockerfile
+  - dockerfile
+  - best-practices
 categories:
   - Docker
 ---

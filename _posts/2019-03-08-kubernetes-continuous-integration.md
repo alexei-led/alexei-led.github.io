@@ -3,10 +3,12 @@ layout: post
 title: "Kubernetes Continuous Integration"
 date: 2019-03-08T10:00:00+02:00
 tags:
-  - Kubernetes
-  - CI/CD
-  - Continuous Integration
-  - Helm
+  - kubernetes
+  - ci/cd
+  - continuous-integration
+  - helm
+  - yaml
+  - devops
 categories:
   - Development
 ---

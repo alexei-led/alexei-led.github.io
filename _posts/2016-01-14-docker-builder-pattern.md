@@ -3,9 +3,11 @@ layout: post
 title: "Docker Pattern: The Build Container"
 date: 2016-01-14T16:14:47+02:00
 tags:
-  - Docker
+  - docker
   - pattern
-  - Dockerfile
+  - dockerfile
+  - best-practices
+  - ci/cd
 categories:
   - Development
 ---

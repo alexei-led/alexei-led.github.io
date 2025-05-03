@@ -4,12 +4,14 @@ title: "Kubernetes and Secrets Management in Cloud"
 date: 2019-12-23T10:00:00+02:00
 published: false
 tags:
-  - Kubernetes
-  - EKS
-  - GKE
-  - AWS
-  - GCP
-  - Secrets Manager
+  - kubernetes
+  - eks
+  - gke
+  - aws
+  - gcp
+  - secrets-manager
+  - security
+  - devsecops
 categories:
   - Development
   - Security

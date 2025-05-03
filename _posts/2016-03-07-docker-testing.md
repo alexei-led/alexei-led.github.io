@@ -3,10 +3,11 @@ layout: post
 title: "Testing Strategies for Docker Containers"
 date: 2016-03-07T16:39:00+02:00
 tags:
-  - Docker
+  - docker
   - testing
-  - integration test
-  - Dockerfile
+  - integration-testing
+  - dockerfile
+  - best-practices
 categories:
   - Development
 ---
