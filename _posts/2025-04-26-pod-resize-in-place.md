@@ -261,7 +261,7 @@ As I [recently lamented on LinkedIn](https://www.linkedin.com/pulse/vpa-kubernet
 
 **Current Status (K8s 1.33)**: VPA does **not** yet support in-place resizing - it still recreates pods when adjusting resources. This limitation is explicitly noted in the [Kubernetes documentation](https://kubernetes.io/docs/concepts/workloads/autoscaling/): "As of Kubernetes 1.33, VPA does not support resizing pods in-place, but this integration is being worked on."
 
-Active development is happening in [kubernetes/autoscaler Issue #4016](https://github.com/kubernetes/autoscaler/issues/4016) to integrate VPA with in-place resizing capability.
+Active development is happening in [kubernetes/autoscaler PR 7673](https://github.com/kubernetes/autoscaler/pull/7673) to integrate VPA with in-place resizing capability.
 
 **The Future Integration We All Want:**
 
@@ -314,7 +314,7 @@ kubectl patch pod $POD_NAME --subresource resize --patch \
 
 Kubernetes 1.33's in-place pod resize is a giant leap toward making vertical scaling as seamless and non-disruptive as horizontal autoscaling, but the story is far from over. As this feature matures, we're already eyeing a true scaling renaissance:
 
-1. **VPA Integration** ([WIP](https://github.com/kubernetes/autoscaler/issues/2534))
+1. **VPA Integration** ([WIP](https://github.com/kubernetes/autoscaler/pull/7673))
    Imagine a Vertical Pod Autoscaler that first attempts an in-place resize and falls back to recreate only when absolutely necessary, no more surprise pod evictions.
 
 2. **Multi-Resource Scaling**
