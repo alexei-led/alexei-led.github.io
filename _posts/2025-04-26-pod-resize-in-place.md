@@ -106,90 +106,206 @@ It's worth noting that [cgroup v2](https://kubernetes.io/docs/concepts/architect
 
 ## Hands-On: Break Things (Safely!) 🔧
 
-### 1. Inspect Current Resources
+Let's create a simple demo that shows in-place resizing in action, viewable both from the Kubernetes API and from inside the Pod itself. This whole demo runs on GKE with Kubernetes 1.33 (Rapid channel).
+
+### 1. Create a Resource-Monitoring Pod
+
+Start by creating a Pod that continuously monitors its own resource allocations:
 
 ```bash
-kubectl get pod my-hungry-pod -o yaml | grep -A3 resources
-```
-
-See your `requests` and `limits` under the container spec.
-
-### 2. Basic In-Place Resize
-
-```bash
-# Give my-pod a caffeine boost
-kubectl patch pod my-hungry-pod --subresource resize --patch \
-'{"spec":{"containers":[{"name":"your-container-name","resources":{"requests":{"cpu":"500m"},"limits":{"cpu":"1"}}}]}}'
-```
-
-Watch the kubelet dance, no container restart required!
-
-### 3. Advanced `resizePolicy` Control
-
-Want CPU live-updates but memory restarts? Add a `resizePolicy` section:
-
-```yaml
+kubectl apply -f - <<EOF
 apiVersion: v1
 kind: Pod
 metadata:
-  name: resize-jedi
+  name: resize-demo
 spec:
   containers:
-  - name: main
-    image: nginx
-    resources:
-      requests:
-        cpu: "100m"
-        memory: "128Mi"
-      limits:
-        cpu: "200m"
-        memory: "256Mi"
+  - name: resource-watcher
+    image: ubuntu:22.04
+    command:
+    - "/bin/bash"
+    - "-c"
+    - |
+      apt-get update && apt-get install -y procps bc
+      echo "=== Pod Started: $(date) ==="
+
+      # Functions to read container resource limits
+      get_cpu_limit() {
+        if [ -f /sys/fs/cgroup/cpu.max ]; then
+          # cgroup v2
+          local cpu_data=$(cat /sys/fs/cgroup/cpu.max)
+          local quota=$(echo $cpu_data | awk '{print $1}')
+          local period=$(echo $cpu_data | awk '{print $2}')
+
+          if [ "$quota" = "max" ]; then
+            echo "unlimited"
+          else
+            echo "$(echo "scale=3; $quota / $period" | bc) cores"
+          fi
+        else
+          # cgroup v1
+          local quota=$(cat /sys/fs/cgroup/cpu/cpu.cfs_quota_us)
+          local period=$(cat /sys/fs/cgroup/cpu/cpu.cfs_period_us)
+
+          if [ "$quota" = "-1" ]; then
+            echo "unlimited"
+          else
+            echo "$(echo "scale=3; $quota / $period" | bc) cores"
+          fi
+        fi
+      }
+
+      get_memory_limit() {
+        if [ -f /sys/fs/cgroup/memory.max ]; then
+          # cgroup v2
+          local mem=$(cat /sys/fs/cgroup/memory.max)
+          if [ "$mem" = "max" ]; then
+            echo "unlimited"
+          else
+            echo "$((mem / 1048576)) MiB"
+          fi
+        else
+          # cgroup v1
+          local mem=$(cat /sys/fs/cgroup/memory/memory.limit_in_bytes)
+          echo "$((mem / 1048576)) MiB"
+        fi
+      }
+
+      # Print resource info every 5 seconds
+      while true; do
+        echo "---------- Resource Check: $(date) ----------"
+        echo "CPU limit: $(get_cpu_limit)"
+        echo "Memory limit: $(get_memory_limit)"
+        echo "Available memory: $(free -h | grep Mem | awk '{print $7}')"
+        sleep 5
+      done
     resizePolicy:
     - resourceName: cpu
-      restartPolicy: NotRequired       # Live CPU tweaks!
+      restartPolicy: NotRequired
     - resourceName: memory
-      restartPolicy: RestartContainer  # Safe memory restarts
+      restartPolicy: NotRequired
+    resources:
+      requests:
+        memory: "128Mi"
+        cpu: "100m"
+      limits:
+        memory: "128Mi"
+        cpu: "100m"
+EOF
 ```
 
-### 4. Monitor the Drama
+### 2. Explore the Pod's Initial State
+
+Let's look at the Pod's resources from the Kubernetes API perspective:
 
 ```bash
-kubectl describe pod resize-jedi | grep -A3 PodResize
+kubectl describe pod resize-demo | grep -A8 Limits:
 ```
 
-Look for:
+You'll see output like:
 
-- **PodResizePending**: "We need to talk about resources…"
-- **PodResizeInProgress**: "Hold tight, expanding now!"
+```
+    Limits:
+      cpu:     100m
+      memory:  128Mi
+    Requests:
+      cpu:     100m
+      memory:  128Mi
+```
 
-### 5. Verification: Did It Really Work?
-
-After resizing, verify the changes took effect at the runtime level:
+Now, let's see what the Pod itself thinks about its resources:
 
 ```bash
-# For containerd (assuming crictl is available)
-crictl inspect <container-id> | grep -A10 linux.resources
-
-# Checking cgroup limits directly on the node
-kubectl debug node/<node-name> -it --image=busybox -- sh
-# Then navigate to the container's cgroup directory and check limits
+kubectl logs resize-demo --tail=8
 ```
 
-This confirms the cgroups were actually updated on the host, the proof is in the cgroup pudding!
+You should see output including CPU and memory limits from the container's perspective.
 
-With this under-the-hood view, you now know exactly how Kubernetes pulls off its resource Jiu-Jitsu. Time to hit the dojo - er, cluster - and start bending pods to your will! 🥋🚀
+### 3. Resize CPU Seamlessly
+
+Let's double the CPU without any restart:
+
+```bash
+kubectl patch pod resize-demo --subresource resize --patch \
+  '{"spec":{"containers":[{"name":"resource-watcher", "resources":{"requests":{"cpu":"200m"}, "limits":{"cpu":"200m"}}}]}}'
+```
+
+Check the resize status:
+
+```bash
+kubectl get pod resize-demo -o jsonpath='{.status.conditions[?(@.type=="PodResizeInProgress")]}'
+```
+
+*Note:* On GKE with Kubernetes 1.33, you might not see the `PodResizeInProgress` condition reported in the Pod status, even though the resize operation works correctly. Don't worry if `kubectl get pod resize-demo -o jsonpath='{.status.conditions}'` doesn't show resize information - check the actual resources instead.
+
+Once that shows the resize has completed, check the updated resources from the Kubernetes API:
+
+```bash
+kubectl describe pod resize-demo | grep -A8 Limits:
+```
+
+And verify the Pod now sees the new CPU limit:
+
+```bash
+kubectl logs resize-demo --tail=8
+```
+
+Notice how the CPU limit doubled from `100m` to `200m` without the Pod restarting! The Pod's logs will show the cgroup CPU limit changed from approximately `10000/100000` to `20000/100000` (representing 100m to 200m CPU).
+
+### 4. Resize Memory Without Drama
+
+Now, let's double the memory allocation:
+
+```bash
+kubectl patch pod resize-demo --subresource resize --patch \
+  '{"spec":{"containers":[{"name":"resource-watcher", "resources":{"requests":{"memory":"256Mi"}, "limits":{"memory":"256Mi"}}}]}}'
+```
+
+After a moment, verify from the API:
+
+```bash
+kubectl describe pod resize-demo | grep -A8 Limits:
+```
+
+And from inside the Pod:
+
+```bash
+kubectl logs resize-demo --tail=8
+```
+
+You'll see the memory limit changed from 64Mi to 128Mi without any container restart!
+
+### 5. Verify No Container Restarts Occurred
+
+Confirm the container never restarted during our resize operations:
+
+```bash
+kubectl get pod resize-demo -o jsonpath='{.status.containerStatuses[0].restartCount}'
+```
+
+Should output `0` - proving we achieved the impossible dream of resource adjustment without service interruption.
+
+### 6. Cleanup
+
+When you're done experimenting:
+
+```bash
+kubectl delete pod resize-demo
+```
+
+That's it! You've successfully performed in-place resizing of both CPU and memory resources without any Pod restarts. This pattern works great for any containerized application and doesn't require any special configuration beyond setting the appropriate `resizePolicy`.
 
 ---
 
-## Cloud Provider Support: Who's In, Who's Out 🌩️
+## Cloud Provider Support 🌩️
 
 Before you rush to try this in production, let's look at support across major Kubernetes providers:
 
-- **Google Kubernetes Engine (GKE)**: Fully supported in GKE 1.33+ clusters. GKE actually supported this as an alpha feature since version 1.27 by enabling the feature gate ([GKE docs](https://cloud.google.com/kubernetes-engine/docs/concepts/verticalpodautoscaler)).
+- **Google Kubernetes Engine (GKE)**: Available on the Rapid channel in GKE ([GKE docs](https://opensource.googleblog.com/2025/05/kubernetes-1.33-available-on-gke.html)).
 
-- **Amazon EKS**: Currently no direct support as there's no way to activate the required feature gates in EKS ([ScaleOps report](https://scaleops.com/blog/kubernetes-in-place-pod-vertical-scaling/)). You'll need to wait for their 1.33 release or build your own custom cluster.
+- **Amazon EKS**: Kubernetes 1.33 version will be released soon (May 2025).
 
-- **Azure AKS**: Support expected in their 1.33 release, not yet confirmed.
+- **Azure AKS**: Kubernetes 1.33 version is now available for Preview ([AKS Release Notes](https://github.com/azure/aks/releases)).
 
 - **Self-managed clusters**: Fully supported as long as you're running Kubernetes 1.33+ with containerd or CRI-O runtimes.
 
