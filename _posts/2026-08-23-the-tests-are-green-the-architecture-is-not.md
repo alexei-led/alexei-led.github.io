@@ -194,9 +194,38 @@ Archfit uses the model's per-edge balance formula, `max(|strength - distance|, 1
 
 ## Dogfooding, Not a Victory Lap
 
-Archfit checks its own repository in CI. At the time of writing, its scorecard reports **71/100, serviceable**, with high confidence across 441 scored internal cross-boundary edges and no abstained edges.
+Archfit dogfoods its own repository and wires the gate into CI. The first
+self-configuration used 45 mostly package-shaped modules and reported
+**71/100, serviceable**, across 441 scored internal edges.
 
-That is not a shiny `100/100` badge because the code is perfect. It is a snapshot of a real repository with real coupling. The number will change. If the only acceptable dogfood result were perfect, the easiest solution would be a very understanding configuration.
+Then I reviewed the model instead of celebrating the number. I replaced package
+boundaries and catch-all stanzas with 17 capability and domain modules. I also
+stopped calling Archfit's core policy and evaluation model
+"generic, low-volatility" merely because stable labels produce nicer arithmetic.
+
+The corrected score was **40/100, poor**, with high confidence across 400
+scored internal edges, no abstained edges, and seven blocking boundary
+violations. The code did not suddenly get worse. The architecture model got
+more honest.
+
+I then refactored Archfit itself and shipped the result as
+[v1.7.1](https://github.com/alexei-led/archfit/releases/tag/v1.7.1). The refactor
+groups 102 Go packages into 17 capability-oriented modules without pretending
+that a capability is one package. It adds a data-only report contract, keeps the
+pipeline engine on stage views instead of the full configuration model, makes
+baseline persistence depend on the report contract, and computes the scorecard
+once in the CLI composition root before rendering it.
+
+The second dogfood run reports **0 blocking findings**, **68 advisory
+warnings**, **400 scored edges**, and the same **40/100** coupling score. The
+score did not rise because the remaining high-strength coupling inside the
+evaluation core is still real. The important change is that boundary violations
+are gone, the output seam is explicit, and the remaining risks are visible
+instead of hidden by package-shaped modules or a stale baseline.
+
+Dogfooding also found a limitation in Archfit itself: a module currently has one `layer`. A business capability that spans model, core, and adapter packages must be split into technical-layer modules to enforce dependency direction. Domain boundaries and technical layers are related, but they are not the same thing. Archfit should model them separately.
+
+If the only acceptable dogfood result were perfect, the easiest solution would still be a very understanding configuration.
 
 [Agentbundler](https://github.com/alexei-led/agentbundler/blob/master/docs/architecture.md) is another early deployment. Its CI installs pinned analyzers and runs Archfit in strict-tool mode alongside Go tests, race detection, vet, security checks, and other linters.
 
@@ -225,7 +254,8 @@ A small application with no deliberate boundaries probably needs good tests and 
 
 ## Try It Without Trusting It
 
-On macOS, Homebrew installs the released binary without requiring a Go SDK. These commands match Archfit v1.7:
+On macOS, Homebrew installs the released binary without requiring a Go SDK.
+These commands match Archfit v1.7.1:
 
 ```bash
 brew install alexei-led/tap/archfit
