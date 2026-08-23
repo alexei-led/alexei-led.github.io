@@ -2,7 +2,7 @@ theme: minima
 title: Terra Nullius
 description: Alexei Ledenev's blog
 author:
-  name: Alexei Lednev
+  name: Alexei Ledenev
   email: alexei.led@gmail.com
 markdown: GFM
 baseurl: ""
