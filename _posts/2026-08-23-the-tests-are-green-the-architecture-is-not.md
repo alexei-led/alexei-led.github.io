@@ -113,6 +113,8 @@ flowchart LR
 
 The same rule now runs during local repair and in CI. Language adapters collect facts; an LLM-free decision layer checks them against fixed configuration. Given the same configuration and analyzer evidence, it returns the same verdict. Optional AI summaries and configuration drafting stay outside the gate. That repeatability covers the decision layer, not the whole toolchain: reproducible CI also requires pinned analyzer versions.
 
+While improving Pumba's internal modularity, a real run made this distinction concrete. [Pumba](https://github.com/alexei-led/pumba) is a Go chaos-engineering tool with a deliberate `.archfit.yaml`; four fail gates passed with full applicable-file coverage and no import cycles. The same run raised 12 Balanced Coupling advisories, including `cmd/commands.go` → `pkg/chaos`: score 2, model coupling into a high-volatility module. Because `cmd` is the composition root, that edge may be intentional. Gates block declared violations; advisories start a review.
+
 Missing evidence remains visible. An absent optional analyzer produces a coverage gap and leaves affected metrics `n/a`; teams can make that absence blocking. Unknown is not silently converted into success.
 
 ## What Is Different Here?
