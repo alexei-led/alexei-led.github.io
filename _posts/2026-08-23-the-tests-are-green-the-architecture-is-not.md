@@ -52,11 +52,11 @@ The number of changed lines is no longer scarce. My ability to understand every 
 
 I did not start by deciding that the world needed another CLI.
 
-I wrote project-level [`CLAUDE.md`](https://code.claude.com/docs/en/memory) and [`AGENTS.md`](https://learn.chatgpt.com/docs/agent-configuration/agents-md) files. I described the architecture, important boundaries, coding rules, build commands, and tests. I created focused skills for architecture review. I placed instructions closer to subprojects so an agent would see the relevant rules instead of reading one enormous constitution at the repository root.
+I wrote project-level instruction files. I described the architecture, important boundaries, coding rules, build commands, and tests. I created focused skills for architecture review. I placed instructions closer to subprojects so an agent would see the relevant rules instead of reading one enormous constitution at the repository root.
 
 This helps. I still do it.
 
-Anthropic's documentation says each Claude Code session starts with a fresh context window and loads `CLAUDE.md` as project context. OpenAI's `AGENTS.md` mechanism similarly builds a hierarchy of project guidance for Codex. Both improve context, but they remain guidance to a probabilistic agent.
+Modern coding agents load project guidance into their context, often from files at the repository root or closer to the code they are changing. This improves context, but it remains guidance to a probabilistic agent.
 
 Instructions can explain why a boundary exists. They cannot guarantee that the current task, context, and model will respect it. A Markdown file can ask politely. It cannot fail CI.
 
@@ -83,14 +83,10 @@ modules:
   pricing:
     paths: [src/pricing/**]
     public: [src/pricing/api/**]
-    subdomain: core
-    owner: pricing-team
   billing:
     paths: [src/billing/**]
     public: [src/billing/api/**]
     internal: [src/billing/persistence/**]
-    subdomain: supporting
-    owner: billing-team
 
 rules:
   - id: contexts_via_contract
@@ -113,39 +109,29 @@ flowchart LR
 
 The same rule now runs during local repair and in CI. Language adapters collect facts; an LLM-free decision layer checks them against fixed configuration. Given the same configuration and analyzer evidence, it returns the same verdict. Optional AI summaries and configuration drafting stay outside the gate. That repeatability covers the decision layer, not the whole toolchain: reproducible CI also requires pinned analyzer versions.
 
-While improving Pumba's internal modularity, a real run made this distinction concrete. [Pumba](https://github.com/alexei-led/pumba) is a Go chaos-engineering tool with a deliberate `.archfit.yaml`; four fail gates passed with full applicable-file coverage and no import cycles. The same run raised 12 Balanced Coupling advisories, including `cmd/commands.go` → `pkg/chaos`: score 2, model coupling into a high-volatility module. Because `cmd` is the composition root, that edge may be intentional. Gates block declared violations; advisories start a review.
-
 Missing evidence remains visible. An absent optional analyzer produces a coverage gap and leaves affected metrics `n/a`; teams can make that absence blocking. Unknown is not silently converted into success.
 
 ## What Is Different Here?
 
-I looked for an existing solution before writing Archfit. I found many useful parts.
+I looked for an existing solution before writing Archfit. I found useful parts, but not the combination I wanted.
 
-Project instructions explain intent to agents. Language-specific tools such as ArchUnit, dependency-cruiser, and Import Linter enforce precise rules inside one ecosystem. Architecture-as-code tools such as [FINOS CALM](https://calm.finos.org/) and Structurizr model systems and validate those models. Semantic AI reviews can find misplaced responsibilities and coupling that has no obvious import edge.
+Project instructions explain intent. Language-native tools enforce precise rules inside one ecosystem. Architecture models describe systems. Semantic reviews can judge responsibilities that import graphs cannot see. Each layer answers a different question: what the team intends, what the code actually does, and what CI should reject. Keeping those questions separate avoids asking a language tool to judge business meaning or an agent to enforce its own instructions.
 
-These approaches solve different problems. They can also complement one another.
+Archfit is a structural sensor: it compares declared module boundaries with repository evidence and turns selected violations into CI decisions. Its job is narrower than an automated architect: combine declared intent, dependency evidence, baseline-aware gates, coverage gaps, and machine-readable repair tasks.
 
-The combination I wanted was narrower: one CI loop joining declared repository boundaries, multi-language dependency evidence, baseline-aware gates, explicit coverage gaps, and machine-readable repair tasks. DDD and Balanced Coupling metadata add meaning to those structural facts.
+The boundary is deliberate. A language-native analyzer supplies dependency facts; architecture configuration declares which facts matter; CI decides what happens when a known boundary is crossed. The tool does not need to understand every business rule to catch a forbidden import. Narrow checks are easier to review and trust.
 
-Archfit can consume facts from language-native tools and compare source dependencies with declared repository intent. Architecture models and semantic reviews remain separate: the former describe the system; the latter can judge responsibilities that no import graph can see.
+Archfit does not replace architecture models or semantic reviews. Models describe systems; reviews judge responsibilities that no import graph can see. As Böckeler's [maintainability-sensor experiment](https://martinfowler.com/articles/sensors-for-coding-agents.html) shows, raw dependency data cannot decide whether responsibilities are conceptually correct.
 
-This distinction matters. Böckeler's maintainability-sensor experiment reaches the same limit: raw coupling and dependency data are not enough to decide whether responsibilities are conceptually correct.
+Human judgment changes the intent. The LLM-free decision layer makes the chosen intent fail CI when code drifts.
 
-Archfit enforces structural invariants that a team has already chosen. Human judgment changes the intent; the LLM-free decision layer keeps that intent from being ignored five pull requests later.
-
-## Faster Generation Needs Faster Feedback
+## Faster Change Needs Faster Feedback
 
 Architecture erosion predates AI. A 2022 [systematic mapping study](https://arxiv.org/abs/2112.10934) reviewed 73 studies and found technical and non-technical causes. Erosion appears as structural violations, lower software quality, and harder evolution. Agents changed the rate, not the problem.
 
-The official [2025 DORA report announcement](https://cloud.google.com/blog/products/ai-machine-learning/announcing-the-2025-dora-report) describes AI as an amplifier. DORA observed a positive relationship between AI adoption and delivery throughput, but a negative relationship with delivery stability. Teams with loosely coupled architectures and fast feedback loops benefited more than teams constrained by tightly coupled systems and slow processes. These are survey relationships, not proof that an LLM caused a particular outage. The direction is still useful: faster change exposes weak control systems.
+The official [2025 DORA report announcement](https://cloud.google.com/blog/products/ai-machine-learning/announcing-the-2025-dora-report) describes AI as an amplifier. DORA observed a positive relationship between AI adoption and delivery throughput, but a negative relationship with delivery stability. The practical implication is that teams with loosely coupled architectures and fast feedback loops may have more room to benefit from faster change. These are survey relationships, not proof that an LLM caused a particular outage. The direction is still useful: faster change exposes weak control systems.
 
-Birgitta Böckeler's [maintainability sensors for coding agents](https://martinfowler.com/articles/sensors-for-coding-agents.html) explores deterministic dependency rules and other sensors that let agents correct their own work. The important word is *sensor*: a guide tells the agent what we want; a sensor reports what happened.
-
-This continues the [architectural fitness-function](https://www.thoughtworks.com/en-us/insights/books/building-evolutionaryarchitectures-second-edition) idea developed by Neal Ford, Rebecca Parsons, Patrick Kua, and Pramod Sadalage. Important architectural properties should be checked continuously, not remembered during occasional reviews.
-
-Vlad Khononov makes a related point in his posts about the [golden age of modularity](https://www.linkedin.com/pulse/golden-age-modularity-vlad-khononov-swjbf) and [context engineering for coding agents](https://www.linkedin.com/posts/vladikk_software-architecture-superstream-optimizing-activity-7465382571103903744-pOOe). Good modular design narrows the context required for a task. Counting dependencies tells us how many dependencies exist, but not whether the design is sound. One relationship that leaks the wrong knowledge can be worse than many dependencies through stable contracts.
-
-There is also early academic work. In the April 2026 preprint [*Architecture Without Architects: How AI Coding Agents Shape Software Architecture*](https://arxiv.org/abs/2604.04990v1), Phongsakon Mark Konrad, Tim Lukas Adam, Riccardo Terrenzi, and Serkan Ayvaz identify mechanisms by which agents make implicit architectural choices. Their demonstration shows prompt wording producing different structures for the same task. The authors are clear that the demonstration is illustrative and several proposed patterns still need empirical validation. It is a useful framing, not a settled law of software engineering.
+Böckeler's sensor framing continues the [architectural fitness-function](https://www.thoughtworks.com/en-us/insights/books/building-evolutionaryarchitectures-second-edition) idea: important architectural properties should be checked continuously, not remembered during occasional reviews. A guide tells the agent what we want; a sensor reports what happened.
 
 The common thread is not "AI writes bad code." Coding agents make design decisions inside local task contexts. Architecture is a system-level property maintained over time.
 
@@ -154,6 +140,8 @@ The common thread is not "AI writes bad code." Coding agents make design decisio
 A well-designed module hides decisions that another module does not need to know.
 
 That helps humans. It also helps agents. If `pricing` has a coherent model and a small public contract, an agent changing a pricing rule needs less repository context. If every module shares database tables, framework types, and one universal `Customer` object, the agent must understand half the system before making a safe change. It usually will not, and to be fair, neither will I on Friday afternoon.
+
+Khononov's context-engineering argument is the practical consequence: modularity reduces the context needed to make a safe change. The boundary is useful even before it becomes a deployable service.
 
 This is where strategic Domain-Driven Design matters:
 
@@ -178,7 +166,7 @@ Archfit is based on Vlad Khononov's [Balanced Coupling](https://coupling.dev/) m
 
 Strong coupling at low distance can be healthy cohesion. Weak coupling at high distance can be a good contract. The expensive case is strong coupling across distant, independently changing components—especially in a volatile core domain.
 
-Khononov's Chapter 10 formula treats the dimensions as ordinal categories, not physical measurements. Contract and intrusive coupling anchor strength at 1 and 10; distance runs from 2 for the same module to 9 for separate deploy units; volatility uses published anchors of 1, 3, and 10. Archfit maps repository evidence onto those categories and adds a documented midpoint of 6 for `medium` volatility.
+**How to read the mapping:** Khononov's Chapter 10 formula treats the dimensions as ordinal categories, not physical measurements. Contract and intrusive coupling anchor strength at 1 and 10; distance runs from 2 for the same module to 9 for separate deploy units; volatility uses published anchors of 1, 3, and 10. Archfit maps repository evidence onto those categories and adds a documented midpoint of 6 for `medium` volatility.
 
 For each edge it applies `max(|strength - distance|, 10 - volatility) + 1`, producing a balance from 1 (critical) to 10 (well balanced). Strong coupling can be healthy when distance is low; it becomes expensive when distant components must co-evolve, especially when the dependency is volatile. The score is a review heuristic based on declared and observed evidence, not an objective architecture grade. Its value is the explanation of what crosses the boundary and why that relationship may be risky.
 
@@ -204,18 +192,6 @@ Archfit is most useful when a repository has deliberate module boundaries, frequ
 
 A small application with no deliberate boundaries probably needs good tests and one language-native dependency rule before it needs Archfit. Architecture governance cannot enforce intent that nobody has defined. Adding YAML does not count as defining it.
 
-## Try It Without Trusting It
-
-Archfit is open source under Apache-2.0 at [github.com/alexei-led/archfit](https://github.com/alexei-led/archfit). The project [quick start](https://github.com/alexei-led/archfit/blob/main/docs/guide/quick-start.md) covers installation and initial configuration; the [CI guide](https://github.com/alexei-led/archfit/blob/main/docs/guide/ci.md) covers baselines, exit codes, and safe JSON handling.
-
-The short version is: generate a draft configuration, review the discovered modules and policy, establish a baseline, and run the gate in CI. Discovery can find structure; it cannot infer business strategy or team ownership reliably.
-
-I want counterexamples: systems the configuration cannot represent, false confidence, better evidence for strength, distance, and volatility, and runtime or organizational signals that static code misses. If another tool handles part of this better, or the Balanced Coupling mapping breaks on a real repository, bring the example.
-
-Coding agents can produce more changes than humans can inspect line by line. Make important intent explicit, violations observable, and architectural change deliberate.
-
-The tests should stay green. The architecture should get a check of its own.
-
 ---
 
 ## Further Reading
@@ -226,3 +202,15 @@ The tests should stay green. The architecture should get a check of its own.
 - Birgitta Böckeler, [Maintainability sensors for coding agents](https://martinfowler.com/articles/sensors-for-coding-agents.html)
 - DORA, [2025 State of AI-Assisted Software Development announcement](https://cloud.google.com/blog/products/ai-machine-learning/announcing-the-2025-dora-report)
 - Ruiyin Li, Peng Liang, Mohamed Soliman, and Paris Avgeriou, [*Understanding Software Architecture Erosion*](https://arxiv.org/abs/2112.10934)
+
+## Try It Without Trusting It
+
+Archfit is open source under Apache-2.0 at [github.com/alexei-led/archfit](https://github.com/alexei-led/archfit). The project [quick start](https://github.com/alexei-led/archfit/blob/main/docs/guide/quick-start.md) covers installation and initial configuration; the [CI guide](https://github.com/alexei-led/archfit/blob/main/docs/guide/ci.md) covers baselines, exit codes, and safe JSON handling.
+
+The short version is: generate a draft configuration, review the discovered modules and policy, establish a baseline, and run the gate in CI. Discovery can find structure; it cannot infer business strategy or team ownership reliably.
+
+I want counterexamples: false confidence, missing runtime signals, or real repositories where the mapping breaks. If another tool handles part of this better, bring the example.
+
+Coding agents can produce more changes than humans can inspect line by line. Make important intent explicit, violations observable, and architectural change deliberate.
+
+The tests should stay green. The architecture should get a check of its own.
